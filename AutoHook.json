@@ -1,0 +1,12 @@
+{
+  "Author": "Det",
+  "Name": "Auto Hook",
+  "Punchline": "Auto Hook",
+  "Description": "Hooks for you",
+  "InternalName": "AutoHook",
+  "DalamudApiLevel": 5,
+  "Tags": [
+    "fishing"
+  ],
+  "RepoUrl": "https://github.com/InitialDet/AutoHook"
+}
