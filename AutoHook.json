@@ -4,7 +4,7 @@
   "Punchline": "Auto Hook",
   "Description": "Hooks for you",
   "InternalName": "AutoHook",
-  "DalamudApiLevel": 5,
+  "DalamudApiLevel": 6,
   "Tags": [
     "fishing"
   ],

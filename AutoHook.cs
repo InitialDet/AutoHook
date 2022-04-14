@@ -24,17 +24,13 @@ namespace AutoHook {
     public sealed class AutoHook : IDalamudPlugin {
         public string Name => "AutoHook";
 
-        [PluginService]
-        [RequiredVersion("1.0")]
-        private DalamudPluginInterface PluginInterface { get; set; }
+        [PluginService] [RequiredVersion("1.0")] private DalamudPluginInterface PluginInterface { get; set; }
         [PluginService] [RequiredVersion("1.0")] public static SigScanner SigScanner { get; private set; } = null!;
         [PluginService] [RequiredVersion("1.0")] public static ChatGui Chat { get; private set; } = null!;
-
         [PluginService] [RequiredVersion("1.0")] public static ClientState ClientState { get; private set; } = null!;
+        [PluginService] [RequiredVersion("1.0")] public static DataManager GameData { get; private set; } = null!;
 
         public CommandManager _commandManager;
-
-        [PluginService] [RequiredVersion("1.0")] public static DataManager GameData { get; private set; } = null!;
 
         private static Lumina.Excel.ExcelSheet<Action> actionSheet;
 

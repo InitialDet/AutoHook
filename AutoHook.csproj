@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors></Authors>
     <Company></Company>
-    <Version>1.0.1.0</Version>
+    <Version>1.0.1.1</Version>
     <Description>Auto hooks for you</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/InitialDet/AutoHook</PackageProjectUrl>
@@ -19,6 +19,7 @@
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>..\DalamudPlugins</OutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,7 +38,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DalamudPackager" Version="2.1.5" />
+    <PackageReference Include="DalamudPackager" Version="2.1.6" />
     <PackageReference Include="System.Windows.Extensions" Version="6.0.0" />
     <Reference Include="FFXIVClientStructs">
       <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
