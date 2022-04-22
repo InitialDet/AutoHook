@@ -32,7 +32,7 @@ namespace AutoHook {
 
         public CommandManager _commandManager;
 
-        private static Lumina.Excel.ExcelSheet<Action> actionSheet;
+        private static Lumina.Excel.ExcelSheet<Action> actionSheet = null!;
 
         [PluginService]
         private GameNetwork Network { get; set; }
@@ -76,7 +76,7 @@ namespace AutoHook {
                     return;
                 }
 
-                if (!region.Lists.TryGetValue("ServerZoneIpcType", out List<OpcodeList> serverZoneIpcTypes)) {
+                if (!region.Lists.TryGetValue("ServerZoneIpcType", out var serverZoneIpcTypes)) {
                     PluginLog.Warning("No ServerZoneIpcType in opcode list");
                     return;
                 }
@@ -174,13 +174,13 @@ namespace AutoHook {
     }
 
     public class OpcodeRegion {
-        public string Version { get; set; }
-        public string Region { get; set; }
-        public Dictionary<string, List<OpcodeList>> Lists { get; set; }
+        public string Version { get; set; } = null!;
+        public string Region { get; set; } = null!;
+        public Dictionary<string, List<OpcodeList>> Lists { get; set; } = null!;
     }
 
     public class OpcodeList {
-        public string Name { get; set; }
-        public ushort Opcode { get; set; }
+        public string Name { get; set; } = null!;
+        public ushort Opcode { get; set; } 
     }
 }

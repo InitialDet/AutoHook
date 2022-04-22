@@ -8,9 +8,6 @@
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/InitialDet/AutoHook</PackageProjectUrl>
 		<Configurations>Release</Configurations>
-	</PropertyGroup>
-
-	<PropertyGroup>
 		<TargetFramework>net5.0-windows</TargetFramework>
 		<Platforms>x64</Platforms>
 		<Nullable>enable</Nullable>
@@ -19,6 +16,11 @@
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -27,17 +29,13 @@
 		</Content>
 	</ItemGroup>
 
-
-	<PropertyGroup>
-		<DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
 		<DebugType>none</DebugType>
 		<DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="DalamudPackager" Version="2.1.7" />
 		<Reference Include="FFXIVClientStructs">
 			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
 			<Private>false</Private>
@@ -67,10 +65,4 @@
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
-
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="cd $(ProjectDir)$(OutDir)&#xD;&#xA;if $(ConfigurationName) == Release (&#xD;&#xA;  powershell -Command &quot;New-Item -ItemType Directory -Force -Path '..\DalamudPlugins\plugins\(ProjectName)'; $a=Get-Item '$(TargetDir)$(ProjectName).dll';$jsonTemplate=Get-Content '$(ProjectDir)$(ProjectName).json' | ConvertFrom-Json; $jsonTemplate.AssemblyVersion=$a.VersionInfo.FileVersion;($jsonTemplate | ConvertTo-Json) | Out-File '..\DalamudPlugins\plugins\$(ProjectName)\$(ProjectName).json' -Encoding utf8;Compress-Archive -Path '$(TargetPath)','..\DalamudPlugins\plugins\$(ProjectName)\$(ProjectName).json' -DestinationPath '..\DalamudPlugins\plugins\$(ProjectName)\latest.zip' -Force&quot;&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;" />
-	</Target>
-
 </Project>
