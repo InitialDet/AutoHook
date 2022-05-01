@@ -8,19 +8,19 @@ using Dalamud.Logging;
 namespace AutoHook
 {
     // I got this from the GatherBuddy repo
-    public class CommandManager
+    public class CustomCommandManager
     {
         private readonly ProcessChatBox _processChatBox;
 
         private readonly IntPtr _uiModulePtr;
 
-        public CommandManager(SeAddressBase baseUiObject, GetUiModule getUiModule, ProcessChatBox processChatBox)
+        public CustomCommandManager(SeAddressBase baseUiObject, GetUiModule getUiModule, ProcessChatBox processChatBox)
         {
             _processChatBox = processChatBox;
             _uiModulePtr = getUiModule.Invoke(Marshal.ReadIntPtr(baseUiObject.Address));
         }
 
-        public CommandManager(SigScanner sigScanner)
+        public CustomCommandManager(SigScanner sigScanner)
             : this(new BaseUiObject(sigScanner), new GetUiModule(sigScanner),
                 new ProcessChatBox(sigScanner))
         { }

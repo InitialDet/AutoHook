@@ -1,67 +1,84 @@
-﻿using Dalamud.Data;
+﻿using Dalamud.Game.Command;
 using Dalamud.Game.Network;
-using Dalamud.Interface.Colors;
-using Dalamud.IoC;
-using Dalamud.Game;
 using Dalamud.Logging;
 using Dalamud.Plugin;
-using ImGuiNET;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Dalamud.Game.Gui;
-using Lumina.Excel.GeneratedSheets;
-using System.Threading;
-using System.Linq;
 using Action = Lumina.Excel.GeneratedSheets.Action;
-using Dalamud.Game.ClientState;
 
 namespace AutoHook {
     // Based on the FishNotify plugin
-    public sealed class AutoHook : IDalamudPlugin {
+    public class AutoHook : IDalamudPlugin {
         public string Name => "AutoHook";
 
-        [PluginService] [RequiredVersion("1.0")] private DalamudPluginInterface PluginInterface { get; set; }
-        [PluginService] [RequiredVersion("1.0")] public static SigScanner SigScanner { get; private set; } = null!;
-        [PluginService] [RequiredVersion("1.0")] public static ChatGui Chat { get; private set; } = null!;
-        [PluginService] [RequiredVersion("1.0")] public static ClientState ClientState { get; private set; } = null!;
-        [PluginService] [RequiredVersion("1.0")] public static DataManager GameData { get; private set; } = null!;
+        private const string CmdAHCfg = "/ahcfg";
+        private const string CmdAHOn  = "/ahon";
+        private const string CmdAHOff = "/ahoff";
 
-        public CommandManager _commandManager;
+        public CustomCommandManager _commandManager;
 
         private static Lumina.Excel.ExcelSheet<Action> actionSheet = null!;
 
-        [PluginService]
-        private GameNetwork Network { get; set; }
-        private bool settingsVisible;
         private int expectedOpCode = -1;
 
-        uint idHook = 296;   //Action
-        uint idPrecision = 4179;  //Action
-        uint idPowerful = 4103;  //Action
-        uint idPatienceBuff = 850; //Status
+        private static PluginUI PluginUI = null!;
 
-        public AutoHook() {
-            _commandManager = new CommandManager(SigScanner);
-            Network!.NetworkMessage += OnNetworkMessage;
-            PluginInterface!.UiBuilder.Draw += OnDrawUI;
-            PluginInterface!.UiBuilder.OpenConfigUi += OnOpenConfigUi;
+        const uint idHook = 296;         //Action
+        const uint idPrecision = 4179;   //Action
+        const uint idPowerful = 4103;    //Action
+        const uint idPatienceBuff = 850; //Status
+
+        public AutoHook(DalamudPluginInterface pluginInterface) {
+            Service.Initialize(pluginInterface);
+            _commandManager = new CustomCommandManager(Service.SigScanner);
+
+            Service.Network.NetworkMessage += OnNetworkMessage;
+            Service.PluginInterface!.UiBuilder.Draw += Service.WindowSystem.Draw;
+            Service.PluginInterface!.UiBuilder.OpenConfigUi += OnOpenConfigUi;
+            Service.Configuration = Configuration.Load();
+
+            PluginUI = new PluginUI();
 
             var client = new HttpClient();
             client.GetStringAsync("https://raw.githubusercontent.com/karashiiro/FFXIVOpcodes/master/opcodes.min.json")
                 .ContinueWith(ExtractOpCode);
 
-            actionSheet = GameData.GetExcelSheet<Lumina.Excel.GeneratedSheets.Action>()!;
+            actionSheet = Service.GameData.GetExcelSheet<Action>()!;
+
+            Service.Commands.AddHandler(CmdAHOff, new CommandInfo(OnCommand) {
+                HelpMessage = "Disables AutoHook"
+            });
+
+            Service.Commands.AddHandler(CmdAHOn, new CommandInfo(OnCommand) {
+                HelpMessage = "Enables AutoHook"
+            });
+
+            Service.Commands.AddHandler(CmdAHCfg, new CommandInfo(OnCommand) {
+                HelpMessage = "Opens Config Window"
+            });   
+        }
+
+        private void OnCommand(string command, string args) {
+            PluginLog.Debug(command);
+            if (command.Trim().Equals(CmdAHCfg))
+                OnOpenConfigUi();
+            if (command.Trim().Equals(CmdAHOn))
+                Service.Configuration.General.AutoHookEnabled = true;
+            if (command.Trim().Equals(CmdAHOff))
+                Service.Configuration.General.AutoHookEnabled = false;
         }
 
         public void Dispose() {
-            Network.NetworkMessage -= OnNetworkMessage;
-            PluginInterface!.UiBuilder.Draw -= OnDrawUI;
-            PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
+            Service.Configuration.Save();
+            Service.Network.NetworkMessage -= OnNetworkMessage;
+            Service.PluginInterface!.UiBuilder.Draw -= Service.WindowSystem.Draw;
+            Service.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
         }
+
         private void ExtractOpCode(Task<string> task) {
             try {
                 var regions = JsonConvert.DeserializeObject<List<OpcodeRegion>>(task.Result);
@@ -95,6 +112,9 @@ namespace AutoHook {
         }
 
         private void OnNetworkMessage(IntPtr dataPtr, ushort opCode, uint sourceActorId, uint targetActorId, NetworkMessageDirection direction) {
+            if (!Service.Configuration.General.AutoHookEnabled)
+                return;
+
             if (direction != NetworkMessageDirection.ZoneDown || opCode != expectedOpCode)
                 return;
 
@@ -129,14 +149,13 @@ namespace AutoHook {
                     hookFish(3);
                     break;
             }
-
         }
 
         private async void hookFish(int tug) {
             var hookName = actionSheet.GetRow(idHook)?.Name; // Default hook type = Hook
 
-            if (ClientState.LocalPlayer?.StatusList != null) {// Check if player has Patience active
-                foreach (var buff in ClientState.LocalPlayer.StatusList) {
+            if (Service.ClientState.LocalPlayer?.StatusList != null) {// Check if player has Patience active
+                foreach (var buff in Service.ClientState.LocalPlayer.StatusList) {
                     if (buff.StatusId == idPatienceBuff) {
                         if (tug == 1) {
                             hookName = actionSheet.GetRow(idPrecision)?.Name;
@@ -155,22 +174,7 @@ namespace AutoHook {
             await Task.Delay(1500);
             _commandManager.Execute($"/ac \"{hookName}\"");
         }
-
-        private void OnDrawUI() {
-            if (!settingsVisible)
-                return;
-
-            if (ImGui.Begin("AutoHook", ref settingsVisible, ImGuiWindowFlags.AlwaysAutoResize)) {
-                if (expectedOpCode > -1)
-                    ImGui.TextColored(ImGuiColors.HealerGreen, $"Status: OK, opcode = {expectedOpCode:X}");
-                else
-                    ImGui.TextColored(ImGuiColors.DalamudRed, "Status: No opcode :(");
-            }
-            ImGui.End();
-        }
-        private void OnOpenConfigUi() {
-            settingsVisible = !settingsVisible;
-        }
+        private void OnOpenConfigUi() => PluginUI.Toggle();
     }
 
     public class OpcodeRegion {
@@ -181,6 +185,6 @@ namespace AutoHook {
 
     public class OpcodeList {
         public string Name { get; set; } = null!;
-        public ushort Opcode { get; set; } 
+        public ushort Opcode { get; set; }
     }
 }

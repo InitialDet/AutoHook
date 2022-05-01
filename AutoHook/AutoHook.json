@@ -16,5 +16,5 @@
   "ApplicableVersion": "any",
   "DalamudApiLevel": 6,
   "LoadPriority": 0,
-  "Changelog": ""
+  "Changelog": "Add new option and Chat Commands to disable AutoHook"
 }
