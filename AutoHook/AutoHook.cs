@@ -66,10 +66,16 @@ namespace AutoHook {
             PluginLog.Debug(command);
             if (command.Trim().Equals(CmdAHCfg))
                 OnOpenConfigUi();
-            if (command.Trim().Equals(CmdAHOn))
+
+            if (command.Trim().Equals(CmdAHOn)) {
+                Service.Chat.Print("AutoHook Enabled");
                 Service.Configuration.General.AutoHookEnabled = true;
-            if (command.Trim().Equals(CmdAHOff))
+            }
+
+            if (command.Trim().Equals(CmdAHOff)) {
+                Service.Chat.Print("AutoHook Disabled");
                 Service.Configuration.General.AutoHookEnabled = false;
+            }
         }
 
         public void Dispose() {
@@ -77,6 +83,9 @@ namespace AutoHook {
             Service.Network.NetworkMessage -= OnNetworkMessage;
             Service.PluginInterface!.UiBuilder.Draw -= Service.WindowSystem.Draw;
             Service.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
+            Service.Commands.RemoveHandler(CmdAHCfg);
+            Service.Commands.RemoveHandler(CmdAHOn);
+            Service.Commands.RemoveHandler(CmdAHOff);
         }
 
         private void ExtractOpCode(Task<string> task) {
