@@ -14,7 +14,6 @@ namespace AutoHook.SeFunctions
         public SeFunctionBase(SigScanner sigScanner, int offset)
         {
             Address = sigScanner.Module.BaseAddress + offset;
-            PluginLog.Debug($"{GetType().Name} address 0x{Address.ToInt64():X16}, baseOffset 0x{offset:X16}.");
         }
 
         public SeFunctionBase(SigScanner sigScanner, string signature, int offset = 0)
@@ -23,7 +22,6 @@ namespace AutoHook.SeFunctions
             if (Address != IntPtr.Zero)
                 Address += offset;
             var baseOffset = (ulong)Address.ToInt64() - (ulong)sigScanner.Module.BaseAddress.ToInt64();
-            PluginLog.Debug($"{GetType().Name} address 0x{Address.ToInt64():X16}, baseOffset 0x{baseOffset:X16}.");
         }
 
         public T? Delegate()
@@ -64,7 +62,6 @@ namespace AutoHook.SeFunctions
             {
                 var hook = new Hook<T>(Address, detour);
                 hook.Enable();
-                PluginLog.Debug($"Hooked onto {GetType().Name} at address 0x{Address.ToInt64():X16}.");
                 return hook;
             }
 

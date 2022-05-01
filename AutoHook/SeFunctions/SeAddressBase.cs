@@ -14,7 +14,6 @@ namespace AutoHook.SeFunctions
             if (Address != IntPtr.Zero)
                 Address += offset;
             var baseOffset = (ulong)Address.ToInt64() - (ulong)sigScanner.Module.BaseAddress.ToInt64();
-            PluginLog.Debug($"{GetType().Name} address 0x{Address.ToInt64():X16}, baseOffset 0x{baseOffset:X16}.");
         }
     }
 }
