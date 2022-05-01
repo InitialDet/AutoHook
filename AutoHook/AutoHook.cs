@@ -79,6 +79,7 @@ namespace AutoHook {
         }
 
         public void Dispose() {
+            PluginUI.Dispose();
             Service.Configuration.Save();
             Service.Network.NetworkMessage -= OnNetworkMessage;
             Service.PluginInterface!.UiBuilder.Draw -= Service.WindowSystem.Draw;
