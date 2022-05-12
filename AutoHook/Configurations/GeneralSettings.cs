@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace AutoHook.Configurations {
     public class GeneralSettings {
-        public bool AutoHookEnabled = true;
-
+        public bool AutoHookEnabled = true;       
+        public bool SmallTugEnabled = true;
+        public bool MediumTugEnabled = true;
+        public bool BigTugEnabled = true;
     }
 }

@@ -146,17 +146,20 @@ namespace AutoHook {
             switch (param5) {
                 case 0x124:
                     // light tug (!)
-                    hookFish(1);
+                    if (Service.Configuration.General.SmallTugEnabled)
+                        hookFish(1);
                     break;
 
                 case 0x125:
                     // medium tug (!!)
-                    hookFish(2);
+                    if (Service.Configuration.General.MediumTugEnabled)
+                        hookFish(2);
                     break;
 
                 case 0x126:
                     // heavy tug (!!!)
-                    hookFish(3);
+                    if (Service.Configuration.General.BigTugEnabled)
+                        hookFish(3);
                     break;
             }
         }
