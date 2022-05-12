@@ -24,6 +24,9 @@ namespace AutoHook {
                 return;
 
             Utils.Draw.Checkbox("Enable AutoHook", ref Service.Configuration.General.AutoHookEnabled, "Enables AutoHook");
+            Utils.Draw.Checkbox("Hook !", ref Service.Configuration.General.SmallTugEnabled, "AutoHook small tug");
+            Utils.Draw.Checkbox("Hook !!", ref Service.Configuration.General.MediumTugEnabled, "AutoHook medium tug");
+            Utils.Draw.Checkbox("Hook !!!", ref Service.Configuration.General.BigTugEnabled, "AutoHook big tug");
 
             ImGui.Indent(28.0f * ImGuiHelpers.GlobalScale);
 
