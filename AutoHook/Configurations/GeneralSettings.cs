@@ -4,7 +4,6 @@ namespace AutoHook.Configurations
 {
     public class HookSettings
     {
-
         public bool Enabled = true;
 
         public string BaitName = "Default";
@@ -14,6 +13,7 @@ namespace AutoHook.Configurations
         public bool HookLendary = true;
 
         public double MaxTimeDelay = 0;
+        public double MinTimeDelay = 0;
 
         public HookSettings(string bait)
         {

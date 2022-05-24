@@ -141,7 +141,7 @@ public class HookingManager : IDisposable
     {
         CurrentBait = new string(LastCatch);
         UpdateCurrentSetting();
-        
+
         Reset();
         Timer.Start();
         timeOut = false;
@@ -181,6 +181,15 @@ public class HookingManager : IDisposable
 
         UpdateCurrentSetting();
         if (CurrentSetting == null) return false;
+
+        double timeElapsed = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
+        double minTime = Math.Truncate(CurrentSetting.MinTimeDelay * 100) / 100;
+
+        if (minTime > 0 && timeElapsed < minTime)
+        {
+            PluginLog.Debug($"Not enough time to hook. {timeElapsed} < {minTime}");
+            return false;
+        }
 
         bool p = GetPatienceBuff();
 
@@ -237,8 +246,6 @@ public class HookingManager : IDisposable
         {
             Timer.Stop();
 
-            var secondText = (Timer.ElapsedMilliseconds / 1000.0).ToString("00.0");
-
             HookFish(Service.TugType?.Bite ?? BiteType.Unknown);
 
             Step |= CatchSteps.FishBit;
@@ -285,6 +292,11 @@ public class HookingManager : IDisposable
 
     private void OnFrameworkUpdate(Framework _)
     {
+        if (!Service.Configuration.AutoHookEnabled)
+        {
+            return;
+        }
+
         var state = Service.EventFramework.FishingState;
 
         if (CurrentSetting == null)
@@ -293,8 +305,10 @@ public class HookingManager : IDisposable
         // im not smart enough to make it more effiecient
         if (!timeOut && state == FishingState.Waiting2)
         {
-            double maxTime = CurrentSetting.MaxTimeDelay;
-            double time = Timer.ElapsedMilliseconds / 1000.0;
+
+            double maxTime = Math.Truncate(CurrentSetting.MaxTimeDelay * 100) / 100;
+            double time =  Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
+        
             if (maxTime > 0 && time > maxTime)
             {
                 timeOut = true;

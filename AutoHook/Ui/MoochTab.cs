@@ -31,6 +31,7 @@ namespace AutoHook
                     ImGui.Indent();
 
                     DrawEnabledButtonCustomBait(bait);
+                    DrawInputDoubleMinTime(bait);
                     DrawInputDoubleMaxTime(bait);
                     DrawHookCheckboxes(bait);
                     DrawInputTextName(bait);

@@ -28,6 +28,7 @@ namespace AutoHook
             ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Mooch Config is found.");
 
             ImGui.Indent();
+            DrawInputDoubleMinTime(Service.Configuration.DefaultMoochSettings);
             DrawInputDoubleMaxTime(Service.Configuration.DefaultMoochSettings);
             DrawHookCheckboxes(Service.Configuration.DefaultMoochSettings);
             ImGui.Unindent();
@@ -42,6 +43,7 @@ namespace AutoHook
             ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Bait Config is found.");
 
             ImGui.Indent();
+            DrawInputDoubleMinTime(Service.Configuration.DefaultCastSettings);
             DrawInputDoubleMaxTime(Service.Configuration.DefaultCastSettings);
             DrawHookCheckboxes(Service.Configuration.DefaultCastSettings);
             ImGui.Unindent();

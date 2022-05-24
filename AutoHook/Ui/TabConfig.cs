@@ -64,7 +64,7 @@ namespace AutoHook.Ui
         public void DrawInputDoubleMaxTime(HookSettings cfg)
         {
             ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
-            if (ImGui.InputDouble("Max. delay before hooking", ref cfg.MaxTimeDelay, .1, 1, "%.1f%"))
+            if (ImGui.InputDouble("Max. Wait", ref cfg.MaxTimeDelay, .1, 1, "%.1f%"))
             {
                 switch (cfg.MaxTimeDelay)
                 {
@@ -81,8 +81,20 @@ namespace AutoHook.Ui
                 }
             }
             ImGui.SameLine();
-            ImGuiComponents.HelpMarker("Min. time: 2s (because of animation lock)\n\nSet Zero (0) to disable");
+            ImGuiComponents.HelpMarker("Hook will be used after the defined amount of time has passed\nMin. time: 2s (because of animation lock)\n\nSet Zero (0) to disable, and dont make this lower than the Min. Wait");
         }
+
+        public void DrawInputDoubleMinTime(HookSettings cfg)
+        {
+            ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
+            if (ImGui.InputDouble("Min. Wait", ref cfg.MinTimeDelay, .1, 1, "%.1f%"))
+            {
+               
+            }
+            ImGui.SameLine();
+            ImGuiComponents.HelpMarker("Hook will NOT be used until the minimum time has passed.\n\nEx: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked\n\nSet Zero (0) to disable");
+        }
+
 
         public void DrawEnabledButtonCustomBait(HookSettings cfg)
         {
