@@ -49,7 +49,7 @@ public class HookingManager : IDisposable
 
     private bool timeOut = false;
 
-    public HookSettings GeneralSetting;
+
     public HookSettings? CurrentSetting;
     private List<HookSettings> HookSettings;
 
@@ -67,8 +67,6 @@ public class HookingManager : IDisposable
         PrecisionHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idPrecision)?.Name);
         PowerfulHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idPowerful)?.Name);
 
-        GeneralSetting = Service.Configuration.DefaultMoochSettings;
-        CurrentSetting = GeneralSetting;
         HookSettings = Service.Configuration.CustomBaitMooch;
         CurrentBait = GetCurrentBait();
     }
@@ -135,6 +133,7 @@ public class HookingManager : IDisposable
         Reset();
         timeOut = false;
         Timer.Start();
+        Step = CatchSteps.BeganFishing;
     }
 
     private void OnBeganMooch()
@@ -147,7 +146,7 @@ public class HookingManager : IDisposable
         timeOut = false;
 
         LastCatch = null;
-        Step = CatchSteps.BeganFishing | CatchSteps.Mooch;
+        Step = CatchSteps.Mooch;
     }
 
     private void HookFish(BiteType bite)
