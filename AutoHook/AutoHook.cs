@@ -51,7 +51,6 @@ namespace AutoHook
 
             FishHooker = new HookingManager();
             FishHooker.Enable();
-            OnOpenConfigUi();
         }
 
         private void OnCommand(string command, string args)
