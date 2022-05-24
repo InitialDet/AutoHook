@@ -1,14 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AutoHook.Configurations {
-    public class GeneralSettings {
-        public bool AutoHookEnabled = true;       
-        public bool SmallTugEnabled = true;
-        public bool MediumTugEnabled = true;
-        public bool BigTugEnabled = true;
+namespace AutoHook.Configurations
+{
+    public class HookSettings
+    {
+
+        public bool Enabled = true;
+
+        public string BaitName = "Default";
+
+        public bool HookWeak = true;
+        public bool HookStrong = true;
+        public bool HookLendary = true;
+
+        public double MaxTimeDelay = 0;
+
+        public HookSettings(string bait)
+        {
+            BaitName = bait;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is HookSettings settings &&
+                   BaitName == settings.BaitName;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(BaitName + "a");
+        }
     }
 }
