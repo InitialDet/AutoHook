@@ -34,6 +34,7 @@ namespace AutoHook
                     DrawInputDoubleMinTime(bait);
                     DrawInputDoubleMaxTime(bait);
                     DrawHookCheckboxes(bait);
+                    DrawCheckBoxDoubleTripleHook(bait);
                     DrawInputTextName(bait);
 
                     ImGui.SameLine();

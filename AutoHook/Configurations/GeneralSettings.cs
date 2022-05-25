@@ -15,6 +15,10 @@ namespace AutoHook.Configurations
         public double MaxTimeDelay = 0;
         public double MinTimeDelay = 0;
 
+        public bool UseDoubleHook = false;
+        public bool UseTripleHook = false;
+        public bool UseTripleDoubleHookPacience = false;
+
         public HookSettings(string bait)
         {
             BaitName = bait;

@@ -37,13 +37,19 @@ internal enum CatchSteps
 // all credits to Otter (goat discord) for his gatherbuddy plugin 
 public class HookingManager : IDisposable
 {
-    const uint idHook = 296;         //Action
+    const uint idNormalHook = 296;         //Action
+    const uint idDoubleHook = 269;         //Action
+    const uint idTripleHook = 27523;         //Action
+
     const uint idPrecision = 4179;   //Action
     const uint idPowerful = 4103;    //Action
     const uint idPatienceBuff = 850; //Status
     const uint idInefficientHook = 850; //Status764
 
     public string NormalHook { get; set; }
+    public string DoubleHook { get; set; }
+    public string TripleHook { get; set; }
+
     public string PrecisionHook { get; set; }
     public string PowerfulHook { get; set; }
 
@@ -63,7 +69,10 @@ public class HookingManager : IDisposable
 
     public HookingManager()
     {
-        NormalHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idHook)?.Name);
+        NormalHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idNormalHook)?.Name);
+        DoubleHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idDoubleHook)?.Name);
+        TripleHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idTripleHook)?.Name);
+
         PrecisionHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idPrecision)?.Name);
         PowerfulHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idPowerful)?.Name);
 
@@ -190,7 +199,30 @@ public class HookingManager : IDisposable
             return false;
         }
 
-        bool p = GetPatienceBuff();
+        PluginLog.Debug($"Current GP: {GetCurrentGP()}");
+
+        bool hasPatience = GetPatienceBuff();
+
+        // Cheking if we should use double/triple hook
+        if ((CurrentSetting.UseDoubleHook || CurrentSetting.UseTripleHook))
+        {
+            // Do nothing if patience is up and the user choose not to use hook it
+            if (hasPatience && !CurrentSetting.UseTripleDoubleHookPacience)
+                PluginLog.Debug($"Patience buff detected. Not using double/triple hook");
+            else
+            {
+                if (CurrentSetting.UseDoubleHook && GetCurrentGP() > 400)
+                {
+                    hookName = DoubleHook;
+                    return true;
+                }
+                else if (CurrentSetting.UseTripleHook && GetCurrentGP() > 700)
+                {
+                    hookName = TripleHook;
+                    return true;
+                }
+            }
+        }
 
         bool hookWeak = CurrentSetting.HookWeak;
         bool hookStrong = CurrentSetting.HookStrong;
@@ -199,18 +231,42 @@ public class HookingManager : IDisposable
         switch (tug)
         {
             case BiteType.Weak:
-                if (p) hookName = PrecisionHook;
+                if (hasPatience) hookName = PrecisionHook;
                 return CurrentSetting.HookWeak;
             case BiteType.Strong:
-                if (p) hookName = PowerfulHook;
+                if (hasPatience) hookName = PowerfulHook;
                 return CurrentSetting.HookStrong;
             case BiteType.Legendary:
-                if (p) hookName = PowerfulHook;
+                if (hasPatience) hookName = PowerfulHook;
                 return CurrentSetting.HookLendary;
             default:
                 return true;
         }
     }
+
+    private bool GetPatienceBuff()
+    {
+        if (Service.ClientState.LocalPlayer?.StatusList == null)
+            return false;
+
+        foreach (var buff in Service.ClientState.LocalPlayer.StatusList)
+        {
+            if (buff.StatusId == idPatienceBuff)
+                return true;
+        }
+
+        return false;
+    }
+
+    private uint GetCurrentGP()
+    {
+        if (Service.ClientState.LocalPlayer?.CurrentGp == null)
+            return 0;
+
+        return Service.ClientState.LocalPlayer.CurrentGp;
+    }
+
+
 
     // The current config is updates two times: When we began fishing (to get the config based on the mooch/bait) and when we hooked the fish (in case the user updated their configs).
     private void UpdateCurrentSetting()
@@ -269,20 +325,6 @@ public class HookingManager : IDisposable
         Step = CatchSteps.None;
     }
 
-    public bool GetPatienceBuff()
-    {
-        if (Service.ClientState.LocalPlayer?.StatusList == null)
-            return false;
-
-        foreach (var buff in Service.ClientState.LocalPlayer.StatusList)
-        {
-            if (buff.StatusId == idPatienceBuff)
-                return true;
-        }
-
-        return false;
-    }
-
     private void OnCatch(string fishName, uint fishId)
     {
         LastCatch = fishName;
@@ -306,8 +348,8 @@ public class HookingManager : IDisposable
         {
 
             double maxTime = Math.Truncate(CurrentSetting.MaxTimeDelay * 100) / 100;
-            double time =  Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
-        
+            double time = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
+
             if (maxTime > 0 && time > maxTime)
             {
                 timeOut = true;

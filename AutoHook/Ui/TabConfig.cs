@@ -89,7 +89,7 @@ namespace AutoHook.Ui
             ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
             if (ImGui.InputDouble("Min. Wait", ref cfg.MinTimeDelay, .1, 1, "%.1f%"))
             {
-               
+
             }
             ImGui.SameLine();
             ImGuiComponents.HelpMarker("Hook will NOT be used until the minimum time has passed.\n\nEx: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked\n\nSet Zero (0) to disable");
@@ -101,5 +101,36 @@ namespace AutoHook.Ui
             ImGui.Checkbox("Enabled ->", ref cfg.Enabled);
             ImGuiComponents.HelpMarker("Important!!!\n\nIf disabled, the fish will NOT be hooked.\nTo use the default behavior (General Tab), please delete this configuration.");
         }
+
+        public void DrawCheckBoxDoubleTripleHook(HookSettings cfg)
+        {
+            if (ImGui.TreeNode("Double/Triple Hook"))
+            {
+                
+                if (ImGui.Checkbox("Use Double Hook (If gp > 400)", ref cfg.UseDoubleHook))
+                {
+                    if (cfg.UseDoubleHook) cfg.UseTripleHook = false;
+                    Service.Configuration.Save();
+                }
+                if (ImGui.Checkbox("Use Triple Hook (If gp > 700)", ref cfg.UseTripleHook))
+                {
+                    if (cfg.UseTripleHook) cfg.UseDoubleHook = false;
+                    Service.Configuration.Save();
+                }
+
+                if (cfg.UseTripleHook || cfg.UseDoubleHook) {
+                    ImGui.Indent();
+                    
+    
+                    ImGui.Checkbox("Also use when Patience is active (not recommended)", ref cfg.UseTripleDoubleHookPacience);
+                    ImGuiComponents.HelpMarker("Important!!!\n\nIf disabled, Precision/Powerful hook will be used instead when Patience is up.");
+                    ImGui.Unindent();
+                }
+                
+                ImGui.TreePop();
+            }
+            
+        }
+
     }
 }
