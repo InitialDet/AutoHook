@@ -137,25 +137,24 @@ public class HookingManager : IDisposable
     private void OnBeganFishing()
     {
         CurrentBait = GetCurrentBait();
-        UpdateCurrentSetting();
+       
 
         Reset();
         timeOut = false;
         Timer.Start();
         Step = CatchSteps.BeganFishing;
+        UpdateCurrentSetting();
     }
 
     private void OnBeganMooch()
     {
         CurrentBait = new string(LastCatch);
-        UpdateCurrentSetting();
-
         Reset();
         Timer.Start();
         timeOut = false;
-
         LastCatch = null;
         Step = CatchSteps.Mooch;
+        UpdateCurrentSetting();
     }
 
     private void HookFish(BiteType bite)
@@ -249,8 +248,6 @@ public class HookingManager : IDisposable
 
         return Service.ClientState.LocalPlayer.CurrentGp;
     }
-
-
 
     // The current config is updates two times: When we began fishing (to get the config based on the mooch/bait) and when we hooked the fish (in case the user updated their configs).
     private void UpdateCurrentSetting()
