@@ -184,10 +184,10 @@ public class HookingManager : IDisposable
 
     public bool GetHook(BiteType tug, out string hookName)
     {
-
-        hookName = NormalHook;
-
+        hookName = "";
+        
         UpdateCurrentSetting();
+
         if (CurrentSetting == null) return false;
 
         double timeElapsed = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
@@ -203,41 +203,25 @@ public class HookingManager : IDisposable
 
         bool hasPatience = GetPatienceBuff();
 
-        // Cheking if we should use double/triple hook
-        if ((CurrentSetting.UseDoubleHook || CurrentSetting.UseTripleHook))
-        {
-            // Do nothing if patience is up and the user choose not to use hook it
-            if (hasPatience && !CurrentSetting.UseTripleDoubleHookPacience)
-                PluginLog.Debug($"Patience buff detected. Not using double/triple hook");
-            else
-            {
-                if (CurrentSetting.UseDoubleHook && GetCurrentGP() > 400)
-                {
-                    hookName = DoubleHook;
-                    return true;
-                }
-                else if (CurrentSetting.UseTripleHook && GetCurrentGP() > 700)
-                {
-                    hookName = TripleHook;
-                    return true;
-                }
-            }
-        }
+        if (CurrentSetting.UseDoubleHook && GetCurrentGP() > 400)
+            hookName = DoubleHook;
+        else if (CurrentSetting.UseTripleHook && GetCurrentGP() > 700)
+            hookName = TripleHook;
+        else
+            hookName = NormalHook;
 
-        bool hookWeak = CurrentSetting.HookWeak;
-        bool hookStrong = CurrentSetting.HookStrong;
-        bool hookLendary = CurrentSetting.HookLendary;
+        bool dHookPatience = CurrentSetting.UseTripleDoubleHookPacience;
 
         switch (tug)
         {
             case BiteType.Weak:
-                if (hasPatience) hookName = PrecisionHook;
+                if (hasPatience && !dHookPatience) hookName = PrecisionHook;
                 return CurrentSetting.HookWeak;
             case BiteType.Strong:
-                if (hasPatience) hookName = PowerfulHook;
+                if (hasPatience && !dHookPatience) hookName = PowerfulHook;
                 return CurrentSetting.HookStrong;
             case BiteType.Legendary:
-                if (hasPatience) hookName = PowerfulHook;
+                if (hasPatience && !dHookPatience) hookName = PowerfulHook;
                 return CurrentSetting.HookLendary;
             default:
                 return true;
