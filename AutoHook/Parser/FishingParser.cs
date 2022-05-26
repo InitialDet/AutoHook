@@ -78,6 +78,8 @@ public partial class FishingParser : IDisposable
 
     private void OnCatchUpdate(IntPtr module, uint fishId, bool large, ushort size, byte amount, byte level, byte unk7, byte unk8, byte unk9, byte unk10, byte unk11, byte unk12)
     {
+        _catchHook!.Original(module, fishId, large, size, amount, level, unk7, unk8, unk9, unk10, unk11, unk12);
+        
         string fishName = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(fishId)?.Name);
         CaughtFish?.Invoke(fishName, fishId);
     }

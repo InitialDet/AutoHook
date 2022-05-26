@@ -198,8 +198,6 @@ public class HookingManager : IDisposable
             return false;
         }
 
-        PluginLog.Debug($"Current GP: {GetCurrentGP()}");
-
         bool hasPatience = GetPatienceBuff();
 
         if (CurrentSetting.UseDoubleHook && GetCurrentGP() > 400)
