@@ -145,7 +145,7 @@ public class HookingManager : IDisposable
         if (hook == HookType.None)
             return;
 
-        ActionManager.Instance()->UseAction(ActionType.Spell, (uint)hook);
+        CastAction((uint)hook);
     }
 
     private bool CheckValidMinTime(double minTime)
@@ -242,25 +242,18 @@ public class HookingManager : IDisposable
     private unsafe bool ActionAvailable(uint id)
     {
         // status 0 == available to cast? not sure but it seems to be
+        // Also make sure its the skill is not on cooldown (maily for mooch2)
         return ActionManager.Instance()->GetActionStatus(ActionType.Spell, id) == 0 && !ActionManager.Instance()->IsRecastTimerActive(ActionType.Spell, id);
-    }
-
-    private unsafe void testa() {
-        var a = ActionManager.Instance()->IsRecastTimerActive(ActionType.Spell, IDs.idMooch2);
-
-        PluginLog.Debug($"IsRecastTimerActive {a}");
     }
 
     private void OnFrameworkUpdate(Framework _)
     {
-        //
+        var state = Service.EventFramework.FishingState;
 
-        if (!Service.Configuration.AutoHookEnabled)
+        if (!Service.Configuration.AutoHookEnabled || state == FishingState.None)
         {
             return;
         }
-
-        var state = Service.EventFramework.FishingState;
 
         if (state == FishingState.PoleReady && (Step == CatchSteps.FishCaught || Step == CatchSteps.TimeOut))
         {
