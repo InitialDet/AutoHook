@@ -3,61 +3,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AutoHook.Configurations;
-using AutoHook.SeFunctions;
 using AutoHook.Utils;
 using Dalamud.Game;
 using Dalamud.Logging;
 using GatherBuddy.Parser;
-using Action = Lumina.Excel.GeneratedSheets.Action;
 using Item = Lumina.Excel.GeneratedSheets.Item;
+using FFXIVClientStructs.FFXIV.Client.Game;
+using AutoHook.Enums;
+using AutoHook.Data;
 
 namespace AutoHook.FishTimer;
-
-public enum BiteType : byte
-{
-    Unknown = 0,
-    Weak = 36,
-    Strong = 37,
-    Legendary = 38,
-    None = 255,
-}
-
-[Flags]
-internal enum CatchSteps
-{
-    None = 0x00,
-    BeganFishing = 0x01,
-    IdentifiedSpot = 0x02,
-    FishBit = 0x04,
-    FishCaught = 0x08,
-    Mooch = 0x10,
-    FishReeled = 0x20,
-}
 
 // all credits to Otter (goat discord) for his gatherbuddy plugin 
 public class HookingManager : IDisposable
 {
-    const uint idNormalHook = 296;         //Action
-    const uint idDoubleHook = 269;         //Action
-    const uint idTripleHook = 27523;         //Action
-
-    const uint idPrecision = 4179;   //Action
-    const uint idPowerful = 4103;    //Action
-    const uint idPatienceBuff = 850; //Status
-    const uint idInefficientHook = 850; //Status764
-
-    public string NormalHook { get; set; }
-    public string DoubleHook { get; set; }
-    public string TripleHook { get; set; }
-
-    public string PrecisionHook { get; set; }
-    public string PowerfulHook { get; set; }
-
-    private bool timeOut = false;
-
-
-    public HookSettings? CurrentSetting;
-    private List<HookSettings> HookSettings;
+    public HookConfig? CurrentSetting;
+    private List<HookConfig> HookSettings = Service.Configuration.CustomBait;
 
     public readonly FishingParser Parser = new();
     internal CatchSteps Step = 0;
@@ -69,14 +30,6 @@ public class HookingManager : IDisposable
 
     public HookingManager()
     {
-        NormalHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idNormalHook)?.Name);
-        DoubleHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idDoubleHook)?.Name);
-        TripleHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idTripleHook)?.Name);
-
-        PrecisionHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idPrecision)?.Name);
-        PowerfulHook = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Action>()!.GetRow(idPowerful)?.Name);
-
-        HookSettings = Service.Configuration.CustomBaitMooch;
         CurrentBait = GetCurrentBait();
     }
 
@@ -102,22 +55,9 @@ public class HookingManager : IDisposable
 
     public static string GetCurrentBait()
     {
-        try
-        {
-            var baitId = Service.CurrentBait.Current;
-            string baitName = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(baitId)?.Name);
-            return baitName;
-        }
-        catch (Exception e)
-        {
-            PluginLog.Error(e, "Failed to get current bait");
-            return "-";
-        }
-    }
-
-    private void Reset()
-    {
-        Timer.Reset();
+        var baitId = Service.CurrentBait.Current;
+        string baitName = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(baitId)?.Name);
+        return baitName;
     }
 
     private void SubscribeToParser()
@@ -137,10 +77,7 @@ public class HookingManager : IDisposable
     private void OnBeganFishing()
     {
         CurrentBait = GetCurrentBait();
-       
-
-        Reset();
-        timeOut = false;
+        Timer.Reset();
         Timer.Start();
         Step = CatchSteps.BeganFishing;
         UpdateCurrentSetting();
@@ -149,102 +86,11 @@ public class HookingManager : IDisposable
     private void OnBeganMooch()
     {
         CurrentBait = new string(LastCatch);
-        Reset();
+        Timer.Reset();
         Timer.Start();
-        timeOut = false;
         LastCatch = null;
-        Step = CatchSteps.Mooch;
+        Step = CatchSteps.BeganMooching;
         UpdateCurrentSetting();
-    }
-
-    private void HookFish(BiteType bite)
-    {
-        try
-        {
-            if (CurrentSetting == null)
-                return;
-
-            if (GetHook(bite, out string hookName))
-            {
-                if (hookName == null || hookName.Trim().Length == 0)
-                    return;
-
-                PluginLog.Debug($"Hooking fish with {hookName}.");
-                Service.CommandManager.Execute($"/ac \"{hookName}\"");
-            }
-            else
-                PluginLog.Debug("No hook available.");
-        }
-        catch (Exception e)
-        {
-            PluginLog.Error(e.ToString());
-        }
-    }
-
-    public bool GetHook(BiteType tug, out string hookName)
-    {
-        hookName = "";
-        
-        UpdateCurrentSetting();
-
-        if (CurrentSetting == null) return false;
-
-        double timeElapsed = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
-        double minTime = Math.Truncate(CurrentSetting.MinTimeDelay * 100) / 100;
-
-        if (minTime > 0 && timeElapsed < minTime)
-        {
-            PluginLog.Debug($"Not enough time to hook. {timeElapsed} < {minTime}");
-            return false;
-        }
-
-        bool hasPatience = GetPatienceBuff();
-
-        if (CurrentSetting.UseDoubleHook && GetCurrentGP() > 400)
-            hookName = DoubleHook;
-        else if (CurrentSetting.UseTripleHook && GetCurrentGP() > 700)
-            hookName = TripleHook;
-        else
-            hookName = NormalHook;
-
-        bool dHookPatience = CurrentSetting.UseTripleDoubleHookPacience;
-
-        switch (tug)
-        {
-            case BiteType.Weak:
-                if (hasPatience && !dHookPatience) hookName = PrecisionHook;
-                return CurrentSetting.HookWeak;
-            case BiteType.Strong:
-                if (hasPatience && !dHookPatience) hookName = PowerfulHook;
-                return CurrentSetting.HookStrong;
-            case BiteType.Legendary:
-                if (hasPatience && !dHookPatience) hookName = PowerfulHook;
-                return CurrentSetting.HookLendary;
-            default:
-                return true;
-        }
-    }
-
-    private bool GetPatienceBuff()
-    {
-        if (Service.ClientState.LocalPlayer?.StatusList == null)
-            return false;
-
-        foreach (var buff in Service.ClientState.LocalPlayer.StatusList)
-        {
-            if (buff.StatusId == idPatienceBuff)
-                return true;
-        }
-
-        return false;
-    }
-
-    private uint GetCurrentGP()
-    {
-        if (Service.ClientState.LocalPlayer?.CurrentGp == null)
-            return 0;
-
-        return Service.ClientState.LocalPlayer.CurrentGp;
     }
 
     // The current config is updates two times: When we began fishing (to get the config based on the mooch/bait) and when we hooked the fish (in case the user updated their configs).
@@ -254,15 +100,15 @@ public class HookingManager : IDisposable
 
         if (CurrentSetting == null)
         {
-            HookSettings defaultSettings;
+            HookConfig defaultConfig;
 
-            if (Step.HasFlag(CatchSteps.Mooch))
-                defaultSettings = Service.Configuration.DefaultMoochSettings;
+            if (Step == CatchSteps.BeganMooching)
+                defaultConfig = Service.Configuration.DefaultMoochConfig;
             else
-                defaultSettings = Service.Configuration.DefaultCastSettings;
+                defaultConfig = Service.Configuration.DefaultCastConfig;
 
-            if (defaultSettings.Enabled)
-                CurrentSetting = defaultSettings;
+            if (defaultConfig.Enabled)
+                CurrentSetting = defaultConfig;
         }
 
         else if (!CurrentSetting.Enabled)
@@ -276,18 +122,42 @@ public class HookingManager : IDisposable
 
     private void OnBite()
     {
-        try
-        {
-            Timer.Stop();
+        Step = CatchSteps.FishBit;
+        Timer.Stop();
 
-            HookFish(Service.TugType?.Bite ?? BiteType.Unknown);
+        HookFish(Service.TugType?.Bite ?? BiteType.Unknown);
+    }
 
-            Step |= CatchSteps.FishBit;
+    private unsafe void HookFish(BiteType bite)
+    {
+        UpdateCurrentSetting();
+        if (CurrentSetting == null)
+            return;
+
+        // Check if the minimum time has passed
+        if (!CheckValidMinTime(Math.Truncate(CurrentSetting.MinTimeDelay * 100) / 100)) {
+            Step = CatchSteps.TimeOut;
+            return;
         }
-        catch (Exception e)
+
+        HookType hook = CurrentSetting.GetHook(bite);
+
+        if (hook == HookType.None)
+            return;
+
+        ActionManager.Instance()->UseAction(ActionType.Spell, (uint)hook);
+    }
+
+    private bool CheckValidMinTime(double minTime)
+    {
+        double timeElapsed = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
+        if (minTime > 0 && timeElapsed < minTime)
         {
-            PluginLog.Error(e.ToString());
+            PluginLog.Debug($"Not enough time to hook. {timeElapsed} < {minTime}");
+            return false;
         }
+
+        return true;
     }
 
     private void OnFishingStop()
@@ -298,20 +168,93 @@ public class HookingManager : IDisposable
             return;
         }
 
-        if (!Step.HasFlag(CatchSteps.BeganFishing))
-            return;
-
-        Step = CatchSteps.None;
+        //Step = CatchSteps.None;
     }
 
     private void OnCatch(string fishName, uint fishId)
     {
         LastCatch = fishName;
         CurrentBait = GetCurrentBait();
+
+        Step = CatchSteps.FishCaught;
+    }
+
+    // jesus christ if someone can figure out a better way to do this, please elp me i'm tired of this i hate programming im goin to morb
+    private unsafe void AutoCastMooch()
+    {
+        if (ActionAvailable(IDs.idCast))
+        {
+            // First, check if theres a specific config for the fish that was just hooked
+            var HasMoochConfig = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+            if (HasMoochConfig != null)
+            { // 
+                if (HasMoochConfig.GetUseAutoMooch())
+                {
+                    if (ActionAvailable(IDs.idMooch))
+                    {
+                        CastAction(IDs.idMooch);
+                        Step = CatchSteps.BeganMooching;
+                    }
+                    else if (ActionAvailable(IDs.idMooch2) && HasMoochConfig.GetUseAutoMooch2())
+                    {
+                        CastAction(IDs.idMooch2);
+                        Step = CatchSteps.BeganMooching;
+                    }
+                    
+                } 
+                else if (Service.Configuration.UseAutoCast)
+                {
+                    CastAction(IDs.idCast);
+                    Step = CatchSteps.BeganFishing;
+                }
+                return; // if we have a config for the fish, we dont need to check the rest of the configs
+            }
+
+            // This is the behavior for when the config is default or a bait (not a fish)
+            if (CurrentSetting == null)
+                return;
+
+            if (ActionAvailable(IDs.idMooch) && CurrentSetting.GetUseAutoMooch())
+            {
+                PluginLog.Debug("Ready To Mooch");
+                CastAction(IDs.idMooch);
+                Step = CatchSteps.BeganMooching;
+            }
+            else if (ActionAvailable(IDs.idMooch2) && CurrentSetting.GetUseAutoMooch2())
+            {
+                PluginLog.Debug("Ready To Mooch 2");
+                CastAction(IDs.idMooch2);
+                Step = CatchSteps.BeganMooching;
+            }
+            else if (Service.Configuration.UseAutoCast)
+            {
+                PluginLog.Debug("Ready To Cast");
+                CastAction(IDs.idCast);
+                Step = CatchSteps.BeganFishing;
+            }
+        }
+    }
+
+    private unsafe void CastAction(uint id)
+    {
+        ActionManager.Instance()->UseAction(ActionType.Spell, id);
+    }
+    private unsafe bool ActionAvailable(uint id)
+    {
+        // status 0 == available to cast? not sure but it seems to be
+        return ActionManager.Instance()->GetActionStatus(ActionType.Spell, id) == 0 && !ActionManager.Instance()->IsRecastTimerActive(ActionType.Spell, id);
+    }
+
+    private unsafe void testa() {
+        var a = ActionManager.Instance()->IsRecastTimerActive(ActionType.Spell, IDs.idMooch2);
+
+        PluginLog.Debug($"IsRecastTimerActive {a}");
     }
 
     private void OnFrameworkUpdate(Framework _)
     {
+        //
+
         if (!Service.Configuration.AutoHookEnabled)
         {
             return;
@@ -319,22 +262,18 @@ public class HookingManager : IDisposable
 
         var state = Service.EventFramework.FishingState;
 
+        if (state == FishingState.PoleReady && (Step == CatchSteps.FishCaught || Step == CatchSteps.TimeOut))
+        {
+            AutoCastMooch();
+        }
+
         if (CurrentSetting == null)
             return;
 
-        // im not smart enough to make it more effiecient
-        if (!timeOut && state == FishingState.Waiting2)
+    
+        if (state == FishingState.Waiting2)
         {
-
-            double maxTime = Math.Truncate(CurrentSetting.MaxTimeDelay * 100) / 100;
-            double time = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
-
-            if (maxTime > 0 && time > maxTime)
-            {
-                timeOut = true;
-                PluginLog.Debug("Time out. Hooking fish.");
-                OnBite();
-            }
+            CheckTimeout(CurrentSetting.MaxTimeDelay);  
         }
 
         if (LastState == state)
@@ -345,15 +284,27 @@ public class HookingManager : IDisposable
         switch (state)
         {
             case FishingState.Bite:
-                if (!timeOut) OnBite();
+                if (Step != CatchSteps.FishBit) OnBite();
                 break;
             case FishingState.Reeling:
-                Step |= CatchSteps.FishReeled;
+                Step = CatchSteps.FishReeled;
                 break;
-            case FishingState.PoleReady:
             case FishingState.Quit:
                 OnFishingStop();
                 break;
+        }
+    }
+
+    private void CheckTimeout(double maxTimeDelay)
+    {
+        double maxTime = Math.Truncate(maxTimeDelay * 100) / 100;
+        double currentTime = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
+
+        if (maxTime > 0 && currentTime > maxTime && Step != CatchSteps.TimeOut)
+        {
+            PluginLog.Debug("Time out. Hooking fish.");
+            CastAction(IDs.idNormalHook);
+            Step = CatchSteps.TimeOut;
         }
     }
 }

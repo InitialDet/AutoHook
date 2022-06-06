@@ -1,8 +1,9 @@
 using System;
-using AutoHook.FishTimer;
+using AutoHook.Enums;
 using Dalamud.Game;
 
-namespace AutoHook.SeFunctions {
+namespace AutoHook.SeFunctions
+{
 
     public sealed class SeTugType : SeAddressBase {
         public SeTugType(SigScanner sigScanner)

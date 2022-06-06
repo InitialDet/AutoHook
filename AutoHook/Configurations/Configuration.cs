@@ -1,4 +1,5 @@
-﻿using AutoHook.Configurations;
+﻿
+using AutoHook.Configurations;
 using Dalamud.Configuration;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,14 @@ namespace AutoHook
         public bool AutoHookEnabled = true;
         public bool GenericMoochEnabled = true;
 
-        public HookSettings DefaultCastSettings = new("Default Cast");
-        public HookSettings DefaultMoochSettings = new("Default Mooch");
-        public List<HookSettings> CustomBaitMooch = new();
+        public bool UseAutoCast = false;
+        public bool UseAutoMooch = false;
+        public bool UseAutoMooch2 = false;
+
+        public HookConfig DefaultCastConfig = new("DefaultCast");
+        public HookConfig DefaultMoochConfig = new("DefaultMooch");
+        public List<HookConfig> CustomBait = new();
+
 
         public void Save()
         {

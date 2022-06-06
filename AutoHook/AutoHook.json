@@ -16,5 +16,5 @@
   "ApplicableVersion": "any",
   "DalamudApiLevel": 6,
   "LoadPriority": 0,
-  "Changelog": "Plugin completly rewritten, it now includes individual mooch/bait configuration and more."
+  "Changelog": "Added Auto Cast/Mooch and selectable Patience Hooksets."
 }

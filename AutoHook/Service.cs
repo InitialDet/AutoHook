@@ -11,30 +11,30 @@ using AutoHook.SeFunctions;
 using SeFunctions;
 using Dalamud;
 
-namespace AutoHook
+namespace AutoHook;
+
+public class Service
 {
-    public class Service
-    {
-        public static void Initialize(DalamudPluginInterface pluginInterface)
-            => pluginInterface.Create<Service>();
+    public static void Initialize(DalamudPluginInterface pluginInterface)
+        => pluginInterface.Create<Service>();
 
-        public const string PluginName = "AutoHook";
+    public const string PluginName = "AutoHook";
 
-        [PluginService][RequiredVersion("1.0")] public static DalamudPluginInterface PluginInterface { get; set; } = null!;
-        [PluginService][RequiredVersion("1.0")] public static SigScanner SigScanner { get; private set; } = null!;
-        [PluginService][RequiredVersion("1.0")] public static ChatGui Chat { get; private set; } = null!;
-        [PluginService][RequiredVersion("1.0")] public static ClientState ClientState { get; private set; } = null!;
-        [PluginService][RequiredVersion("1.0")] public static DataManager DataManager { get; private set; } = null!;
-        [PluginService][RequiredVersion("1.0")] public static GameNetwork Network { get; private set; } = null!;
-        [PluginService][RequiredVersion("1.0")] public static CommandManager Commands { get; private set; } = null!;
-        [PluginService][RequiredVersion("1.0")] public static Framework Framework { get; private set; } = null!;
+    [PluginService][RequiredVersion("1.0")] public static DalamudPluginInterface PluginInterface { get; set; } = null!;
+    [PluginService][RequiredVersion("1.0")] public static SigScanner SigScanner { get; private set; } = null!;
+    [PluginService][RequiredVersion("1.0")] public static ChatGui Chat { get; private set; } = null!;
+    [PluginService][RequiredVersion("1.0")] public static ClientState ClientState { get; private set; } = null!;
+    [PluginService][RequiredVersion("1.0")] public static DataManager DataManager { get; private set; } = null!;
+    [PluginService][RequiredVersion("1.0")] public static GameNetwork Network { get; private set; } = null!;
+    [PluginService][RequiredVersion("1.0")] public static CommandManager Commands { get; private set; } = null!;
+    [PluginService][RequiredVersion("1.0")] public static Framework Framework { get; private set; } = null!;
 
-        public static EventFramework EventFramework { get; set; } = null!;
-        public static CurrentBait CurrentBait { get; set; } = null!;
-        public static CustomCommandManager CommandManager { get; set; } = null!;
-        public static Configuration Configuration { get; set; } = null!;
-        public static WindowSystem WindowSystem { get; } = new WindowSystem(PluginName);
-        public static SeTugType TugType { get; set; } = null!;
-        public static ClientLanguage Language { get; set; } = ClientLanguage.English;
-    }
+    public static EventFramework EventFramework { get; set; } = null!;
+    public static CurrentBait CurrentBait { get; set; } = null!;
+    public static CustomCommandManager CommandManager { get; set; } = null!;
+    public static Configuration Configuration { get; set; } = null!;
+    public static WindowSystem WindowSystem { get; } = new WindowSystem(PluginName);
+    public static SeTugType TugType { get; set; } = null!;
+    public static ClientLanguage Language { get; set; } = ClientLanguage.English;
+
 }
