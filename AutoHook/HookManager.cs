@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,13 +10,43 @@ using GatherBuddy.Parser;
 using Item = Lumina.Excel.GeneratedSheets.Item;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using AutoHook.Enums;
-using AutoHook.Data;
 
 namespace AutoHook.FishTimer;
 
-// all credits to Otter (goat discord) for his gatherbuddy plugin 
-public class HookingManager : IDisposable
-{
+    // all credits to Otter (goat discord) for his gatherbuddy plugin 
+    public class HookingManager : IDisposable
+    {
+    
+        public const uint
+        Cast = 289,
+        Mooch = 297,
+        Mooch2 = 268,
+        Hook = 296,
+        DoubleHook = 269,
+        TripleHook = 27523,
+        PrecisionHookset = 4179,
+        Patience = 4102,
+        PowerfulHookset = 4103,
+        Chum = 4104,
+        Patience2 = 4106,
+        ThaliaksFavor = 26804,
+        MakeshiftBait = 26805;
+        
+        public static class Buffs
+        {
+            public const ushort
+                FishersIntuition = 568,
+                AnglersFortune= 850,
+                AnglersArt = 2778;
+
+        }
+        
+        public static class Debuffs
+        {
+            public const ushort
+                InefficientHooking = 764;
+        }
+    
     public HookConfig? CurrentSetting;
     private List<HookConfig> HookSettings = Service.Configuration.CustomBait;
 
@@ -186,32 +216,32 @@ public class HookingManager : IDisposable
     // jesus christ if someone can figure out a better way to do this, please elp me i'm tired of this i hate programming im goin to morb
     private unsafe void AutoCastMooch()
     {
-        if (ActionAvailable(IDs.idCast))
+        if (ActionAvailable(Cast))
         {
             // First, check if theres a specific config for the fish that was just hooked
             var HasMoochConfig = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
             if (HasMoochConfig != null)
-            { 
-                if (ActionAvailable(IDs.idMooch) && HasMoochConfig.GetUseAutoMooch())
-                    CastAction(IDs.idMooch);
-                else if (ActionAvailable(IDs.idMooch2) && HasMoochConfig.GetUseAutoMooch2())
-                    CastAction(IDs.idMooch2);
+            {
+                if (ActionAvailable(Mooch) && HasMoochConfig.GetUseAutoMooch())
+                    CastAction(Mooch);
+                else if (ActionAvailable(Mooch2) && HasMoochConfig.GetUseAutoMooch2())
+                    CastAction(Mooch2);
                 else if (Service.Configuration.UseAutoCast)
-                    CastAction(IDs.idCast);
+                    CastAction(Cast);
                 return; // if we have a config for the fish, we dont need to check the rest of the configs
             }
 
             // This is the behavior for when the config is default or a bait (not a fish)
-            if (ActionAvailable(IDs.idMooch) && CurrentSetting != null && CurrentSetting.GetUseAutoMooch())
-                CastAction(IDs.idMooch);
-            else if (ActionAvailable(IDs.idMooch2) && CurrentSetting != null && CurrentSetting.GetUseAutoMooch2())
-                CastAction(IDs.idMooch2);
-            else if (ActionAvailable(IDs.idMooch) && Service.Configuration.UseAutoMooch)
-                CastAction(IDs.idMooch);
-            else if (ActionAvailable(IDs.idMooch2) && Service.Configuration.UseAutoMooch2)
-                CastAction(IDs.idMooch2);
+            if (ActionAvailable(Mooch) && CurrentSetting != null && CurrentSetting.GetUseAutoMooch())
+                CastAction(Mooch);
+            else if (ActionAvailable(Mooch2) && CurrentSetting != null && CurrentSetting.GetUseAutoMooch2())
+                CastAction(Mooch2);
+            else if (ActionAvailable(Mooch) && Service.Configuration.UseAutoMooch)
+                CastAction(Mooch);
+            else if (ActionAvailable(Mooch2) && Service.Configuration.UseAutoMooch2)
+                CastAction(Mooch2);
             else if (Service.Configuration.UseAutoCast)
-                CastAction(IDs.idCast);
+                CastAction(Cast);
 
         }
     }
@@ -298,7 +328,7 @@ public class HookingManager : IDisposable
         if (maxTime > 0 && currentTime > maxTime && Step != CatchSteps.TimeOut)
         {
             PluginLog.Debug("Time out. Hooking fish.");
-            CastAction(IDs.idNormalHook);
+            CastAction(Hook);
         }
     }
 }
