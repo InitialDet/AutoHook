@@ -190,7 +190,10 @@ abstract class TabConfig : IDisposable
             ImGui.TextWrapped("- If this is a Bait, all fish caught by this bait will be mooched");
             ImGui.TextWrapped("- If this is a Fish/Mooch (Ex: Harbor Herring), it'll be mooched when caught");
             ImGui.TextWrapped("If this option is disabled, it will NOT be mooched even if Auto Mooch is also enabled in the general tab");
-            ImGui.Checkbox("Auto Mooch", ref cfg.UseAutoMooch);
+            if (ImGui.Checkbox("Auto Mooch", ref cfg.UseAutoMooch)) {
+                if (!cfg.UseAutoMooch)
+                    cfg.UseAutoMooch2 = false;
+            }
 
             if (cfg.UseAutoMooch)
             {

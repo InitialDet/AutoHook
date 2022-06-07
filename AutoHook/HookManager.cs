@@ -145,7 +145,7 @@ public class HookingManager : IDisposable
 
         if (hook == HookType.None)
         {
-            Step = CatchSteps.TimeOut
+            Step = CatchSteps.TimeOut;
             return;
         }
         
@@ -191,26 +191,13 @@ public class HookingManager : IDisposable
             // First, check if theres a specific config for the fish that was just hooked
             var HasMoochConfig = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
             if (HasMoochConfig != null)
-            { // 
-                if (HasMoochConfig.GetUseAutoMooch())
-                {
-                    if (ActionAvailable(IDs.idMooch))
-                    {
-                        CastAction(IDs.idMooch);
-                        Step = CatchSteps.BeganMooching;
-                    }
-                    else if (ActionAvailable(IDs.idMooch2) && HasMoochConfig.GetUseAutoMooch2())
-                    {
-                        CastAction(IDs.idMooch2);
-                        Step = CatchSteps.BeganMooching;
-                    }
-
-                }
+            { 
+                if (ActionAvailable(IDs.idMooch) && HasMoochConfig.GetUseAutoMooch())
+                    CastAction(IDs.idMooch);
+                else if (ActionAvailable(IDs.idMooch2) && HasMoochConfig.GetUseAutoMooch2())
+                    CastAction(IDs.idMooch2);
                 else if (Service.Configuration.UseAutoCast)
-                {
                     CastAction(IDs.idCast);
-                    Step = CatchSteps.BeganFishing;
-                }
                 return; // if we have a config for the fish, we dont need to check the rest of the configs
             }
 
