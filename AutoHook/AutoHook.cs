@@ -50,7 +50,6 @@ public class AutoHook : IDalamudPlugin
 
         FishHooker = new HookingManager();
         FishHooker.Enable();
-        OnOpenConfigUi();
     }
 
     private void OnCommand(string command, string args)

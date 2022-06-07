@@ -135,7 +135,8 @@ public class HookingManager : IDisposable
             return;
 
         // Check if the minimum time has passed
-        if (!CheckValidMinTime(Math.Truncate(CurrentSetting.MinTimeDelay * 100) / 100)) {
+        if (!CheckValidMinTime(Math.Truncate(CurrentSetting.MinTimeDelay * 100) / 100))
+        {
             Step = CatchSteps.TimeOut;
             return;
         }
@@ -200,8 +201,8 @@ public class HookingManager : IDisposable
                         CastAction(IDs.idMooch2);
                         Step = CatchSteps.BeganMooching;
                     }
-                    
-                } 
+
+                }
                 else if (Service.Configuration.UseAutoCast)
                 {
                     CastAction(IDs.idCast);
@@ -211,34 +212,26 @@ public class HookingManager : IDisposable
             }
 
             // This is the behavior for when the config is default or a bait (not a fish)
-            if (CurrentSetting == null)
-                return;
-
-            if (ActionAvailable(IDs.idMooch) && CurrentSetting.GetUseAutoMooch())
-            {
-                PluginLog.Debug("Ready To Mooch");
+            if (ActionAvailable(IDs.idMooch) && CurrentSetting != null && CurrentSetting.GetUseAutoMooch())
                 CastAction(IDs.idMooch);
-                Step = CatchSteps.BeganMooching;
-            }
-            else if (ActionAvailable(IDs.idMooch2) && CurrentSetting.GetUseAutoMooch2())
-            {
-                PluginLog.Debug("Ready To Mooch 2");
+            else if (ActionAvailable(IDs.idMooch2) && CurrentSetting != null && CurrentSetting.GetUseAutoMooch2())
                 CastAction(IDs.idMooch2);
-                Step = CatchSteps.BeganMooching;
-            }
+            else if (ActionAvailable(IDs.idMooch) && Service.Configuration.UseAutoMooch)
+                CastAction(IDs.idMooch);
+            else if (ActionAvailable(IDs.idMooch2) && Service.Configuration.UseAutoMooch2)
+                CastAction(IDs.idMooch2);
             else if (Service.Configuration.UseAutoCast)
-            {
-                PluginLog.Debug("Ready To Cast");
                 CastAction(IDs.idCast);
-                Step = CatchSteps.BeganFishing;
-            }
+
         }
     }
 
     private unsafe void CastAction(uint id)
     {
+        Step = CatchSteps.FishReeled;
         ActionManager.Instance()->UseAction(ActionType.Spell, id);
     }
+
     private unsafe bool ActionAvailable(uint id)
     {
         // status 0 == available to cast? not sure but it seems to be
@@ -255,18 +248,16 @@ public class HookingManager : IDisposable
             return;
         }
 
-        if (state == FishingState.PoleReady && (Step == CatchSteps.FishCaught || Step == CatchSteps.TimeOut))
+        if (state == FishingState.PoleReady && (Step == CatchSteps.FishCaught || Step == CatchSteps.FishReeled))
         {
             AutoCastMooch();
         }
 
-        if (CurrentSetting == null)
-            return;
+        CheckState();
 
-    
         if (state == FishingState.Waiting2)
         {
-            CheckTimeout(CurrentSetting.MaxTimeDelay);  
+            CheckTimeout();
         }
 
         if (LastState == state)
@@ -276,28 +267,48 @@ public class HookingManager : IDisposable
 
         switch (state)
         {
-            case FishingState.Bite:
-                if (Step != CatchSteps.FishBit) OnBite();
-                break;
             case FishingState.Reeling:
                 Step = CatchSteps.FishReeled;
                 break;
+            case FishingState.PullPoleIn:
+                //Step = CatchSteps.FishReeled;
+                break;
+            case FishingState.Bite:
+                if (Step != CatchSteps.FishBit) OnBite();
+                break;
+
             case FishingState.Quit:
                 OnFishingStop();
                 break;
         }
     }
 
-    private void CheckTimeout(double maxTimeDelay)
+    private static double debugValueLast = 1000;
+    internal Stopwatch Timerrr = new();
+    private void CheckState()
     {
-        double maxTime = Math.Truncate(maxTimeDelay * 100) / 100;
+        if (!Timerrr.IsRunning)
+            Timerrr.Start();
+
+        if (Timerrr.ElapsedMilliseconds > debugValueLast + 500)
+        {
+            debugValueLast = Timerrr.ElapsedMilliseconds;
+            PluginLog.Debug($"Fishing State: {Service.EventFramework.FishingState}, Step: {Step}");
+        }
+    }
+
+    private void CheckTimeout()
+    {
+        if (CurrentSetting == null)
+            return;
+
+        double maxTime = Math.Truncate(CurrentSetting.MaxTimeDelay * 100) / 100;
         double currentTime = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
 
         if (maxTime > 0 && currentTime > maxTime && Step != CatchSteps.TimeOut)
         {
             PluginLog.Debug("Time out. Hooking fish.");
             CastAction(IDs.idNormalHook);
-            Step = CatchSteps.TimeOut;
         }
     }
 }
