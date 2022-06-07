@@ -248,7 +248,7 @@ public class HookingManager : IDisposable
             return;
         }
 
-        if (state == FishingState.PoleReady && (Step == CatchSteps.FishCaught || Step == CatchSteps.FishReeled))
+        if (state == FishingState.PoleReady && (Step == CatchSteps.FishCaught || Step == CatchSteps.FishReeled || Step == CatchSteps.TimeOut))
         {
             AutoCastMooch();
         }
