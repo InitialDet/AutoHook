@@ -253,7 +253,7 @@ public class HookingManager : IDisposable
             AutoCastMooch();
         }
 
-        CheckState();
+        //CheckState();
 
         if (state == FishingState.Waiting2)
         {
