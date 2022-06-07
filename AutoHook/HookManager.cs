@@ -144,8 +144,11 @@ public class HookingManager : IDisposable
         HookType hook = CurrentSetting.GetHook(bite);
 
         if (hook == HookType.None)
+        {
+            Step = CatchSteps.TimeOut
             return;
-
+        }
+        
         CastAction((uint)hook);
     }
 
