@@ -43,9 +43,9 @@ public class PluginUI : Window, IDisposable
         if (!IsOpen)
             return;
 
-        Utils.Draw.Checkbox("Enable AutoHook", ref Service.Configuration.AutoHookEnabled, "Enables AutoHook");
+        Utils.Draw.Checkbox("Enable AutoHook", ref Service.Configuration.AutoHookEnabled, "Enables/Disables the plugin for you");
 
-        ImGui.Indent(28.0f * ImGuiHelpers.GlobalScale);
+        ImGui.Indent();
 
         if (Service.Configuration.AutoHookEnabled)
         {
@@ -55,8 +55,7 @@ public class PluginUI : Window, IDisposable
         {
             ImGui.TextColored(ImGuiColors.DalamudRed, "AutoHook Disabled");
         }
-        ImGui.Indent(-25.0f * ImGuiHelpers.GlobalScale);
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10, 8));
+        ImGui.Unindent();
         ImGui.Spacing();
 
         DrawTabs();
