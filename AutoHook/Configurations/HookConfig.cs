@@ -112,9 +112,9 @@ public class HookConfig
     public bool GetUseAutoMooch2()
     {
         if (BaitName == "DefaultCast" || BaitName == "DefaultMooch")
-            return Service.Configuration.UseAutoMooch;
+            return Service.Configuration.UseAutoMooch2;
         else
-            return UseAutoMooch;
+            return UseAutoMooch2;
     }
 
     public override bool Equals(object? obj)
