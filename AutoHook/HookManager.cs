@@ -21,7 +21,7 @@ public class HookingManager : IDisposable
     private List<HookConfig> HookSettings = Service.Configuration.CustomBait;
 
     public readonly FishingParser Parser = new();
-    internal CatchSteps Step = 0;
+    internal CatchSteps LastStep = 0;
     internal FishingState LastState = FishingState.None;
     internal Stopwatch Timer = new();
 
@@ -79,7 +79,7 @@ public class HookingManager : IDisposable
         CurrentBait = GetCurrentBait();
         Timer.Reset();
         Timer.Start();
-        Step = CatchSteps.BeganFishing;
+        LastStep = CatchSteps.BeganFishing;
         UpdateCurrentSetting();
     }
 
@@ -89,7 +89,7 @@ public class HookingManager : IDisposable
         Timer.Reset();
         Timer.Start();
         LastCatch = null;
-        Step = CatchSteps.BeganMooching;
+        LastStep = CatchSteps.BeganMooching;
         UpdateCurrentSetting();
     }
 
@@ -102,7 +102,7 @@ public class HookingManager : IDisposable
         {
             HookConfig defaultConfig;
 
-            if (Step == CatchSteps.BeganMooching)
+            if (LastStep == CatchSteps.BeganMooching)
                 defaultConfig = Service.Configuration.DefaultMoochConfig;
             else
                 defaultConfig = Service.Configuration.DefaultCastConfig;
@@ -122,7 +122,7 @@ public class HookingManager : IDisposable
 
     private void OnBite()
     {
-        Step = CatchSteps.FishBit;
+        LastStep = CatchSteps.FishBit;
         Timer.Stop();
 
         HookFish(Service.TugType?.Bite ?? BiteType.Unknown);
@@ -136,19 +136,13 @@ public class HookingManager : IDisposable
 
         // Check if the minimum time has passed
         if (!CheckValidMinTime(Math.Truncate(CurrentSetting.MinTimeDelay * 100) / 100))
-        {
-            Step = CatchSteps.TimeOut;
             return;
-        }
 
         HookType hook = CurrentSetting.GetHook(bite);
 
         if (hook == HookType.None)
-        {
-            Step = CatchSteps.TimeOut;
             return;
-        }
-        
+
         CastAction((uint)hook);
     }
 
@@ -158,6 +152,7 @@ public class HookingManager : IDisposable
         if (minTime > 0 && timeElapsed < minTime)
         {
             PluginLog.Debug($"Not enough time to hook. {timeElapsed} < {minTime}");
+            LastStep = CatchSteps.TimeOut;
             return false;
         }
 
@@ -180,7 +175,7 @@ public class HookingManager : IDisposable
         LastCatch = fishName;
         CurrentBait = GetCurrentBait();
 
-        Step = CatchSteps.FishCaught;
+        LastStep = CatchSteps.FishCaught;
     }
 
     // jesus christ if someone can figure out a better way to do this, please elp me i'm tired of this i hate programming im goin to morb
@@ -191,7 +186,7 @@ public class HookingManager : IDisposable
             // First, check if theres a specific config for the fish that was just hooked
             var HasMoochConfig = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
             if (HasMoochConfig != null)
-            { 
+            {
                 if (ActionAvailable(IDs.idMooch) && HasMoochConfig.GetUseAutoMooch())
                     CastAction(IDs.idMooch);
                 else if (ActionAvailable(IDs.idMooch2) && HasMoochConfig.GetUseAutoMooch2())
@@ -233,21 +228,16 @@ public class HookingManager : IDisposable
         var state = Service.EventFramework.FishingState;
 
         if (!Service.Configuration.AutoHookEnabled || state == FishingState.None)
-        {
             return;
-        }
 
-        if (state == FishingState.PoleReady && (Step == CatchSteps.FishCaught || Step == CatchSteps.FishReeled || Step == CatchSteps.TimeOut))
-        {
+        // FishBit in this case means that the fish was hooked, but it escaped. I might need to find a way to check if the fish was caught or not.
+        if (state == FishingState.PoleReady && (LastStep == CatchSteps.FishBit || LastStep == CatchSteps.FishCaught || LastStep == CatchSteps.TimeOut))
             AutoCastMooch();
-        }
 
         //CheckState();
 
         if (state == FishingState.Waiting2)
-        {
             CheckTimeout();
-        }
 
         if (LastState == state)
             return;
@@ -256,16 +246,12 @@ public class HookingManager : IDisposable
 
         switch (state)
         {
-            case FishingState.Reeling:
-                Step = CatchSteps.FishReeled;
-                break;
-            case FishingState.PullPoleIn:
-                //Step = CatchSteps.FishReeled;
+            case FishingState.PullPoleIn: // If a hook is manually used before a bite, dont use auto cast
+                if (LastStep == CatchSteps.BeganFishing || LastStep == CatchSteps.BeganFishing) LastStep = CatchSteps.None;
                 break;
             case FishingState.Bite:
-                if (Step != CatchSteps.FishBit) OnBite();
+                if (LastStep != CatchSteps.FishBit) OnBite();
                 break;
-
             case FishingState.Quit:
                 OnFishingStop();
                 break;
@@ -282,7 +268,7 @@ public class HookingManager : IDisposable
         if (Timerrr.ElapsedMilliseconds > debugValueLast + 500)
         {
             debugValueLast = Timerrr.ElapsedMilliseconds;
-            PluginLog.Debug($"Fishing State: {Service.EventFramework.FishingState}, Step: {Step}");
+            PluginLog.Debug($"Fishing State: {Service.EventFramework.FishingState}, LastStep: {LastStep}");
         }
     }
 
@@ -294,11 +280,11 @@ public class HookingManager : IDisposable
         double maxTime = Math.Truncate(CurrentSetting.MaxTimeDelay * 100) / 100;
         double currentTime = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
 
-        if (maxTime > 0 && currentTime > maxTime && Step != CatchSteps.TimeOut)
+        if (maxTime > 0 && currentTime > maxTime && LastStep != CatchSteps.TimeOut)
         {
             PluginLog.Debug("Time out. Hooking fish.");
+            LastStep = CatchSteps.TimeOut;
             CastAction(IDs.idNormalHook);
-            Step = CatchSteps.TimeOut;
         }
     }
 }
