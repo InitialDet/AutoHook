@@ -218,7 +218,6 @@ public class HookingManager : IDisposable
 
     private unsafe void CastAction(uint id)
     {
-        Step = CatchSteps.FishReeled;
         ActionManager.Instance()->UseAction(ActionType.Spell, id);
     }
 
@@ -299,6 +298,7 @@ public class HookingManager : IDisposable
         {
             PluginLog.Debug("Time out. Hooking fish.");
             CastAction(IDs.idNormalHook);
+            Step = CatchSteps.TimeOut;
         }
     }
 }
