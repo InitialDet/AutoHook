@@ -43,8 +43,8 @@ public class HookConfig
 
         if (hook != HookType.None)
             return hook;
-
-        if (!HasPatience())
+        
+        if (!HasPatience() || (HasPatience() && GetCurrentGP() < 50))
             return HookType.Normal;
 
         return GetPatienceHook(bite);
