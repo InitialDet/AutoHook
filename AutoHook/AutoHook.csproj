@@ -2,10 +2,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Authors>Det</Authors>
-		<Version>2.1.0.8</Version>
+		<Version>2.1.1.0</Version>
 		<Description>Auto hooks for you</Description>
 		<PackageProjectUrl>https://github.com/InitialDet/AutoHook</PackageProjectUrl>
-		<Configurations>Release</Configurations>
+		<Configurations>Release;Debug</Configurations>
 		<TargetFramework>net5.0-windows</TargetFramework>
 		<Platforms>x64</Platforms>
 		<Nullable>enable</Nullable>
@@ -30,6 +30,11 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
 		<DebugType>none</DebugType>
 		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+	  <DebugType>none</DebugType>
+	  <DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
 
 	<ItemGroup>

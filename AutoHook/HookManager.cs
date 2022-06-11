@@ -17,13 +17,15 @@ namespace AutoHook.FishTimer;
 // all credits to Otter (goat discord) for his gatherbuddy plugin 
 public class HookingManager : IDisposable
 {
-    public HookConfig? CurrentSetting;
-    private List<HookConfig> HookSettings = Service.Configuration.CustomBait;
+    private HookConfig? CurrentSetting;
+    private List<HookConfig> HookSettings = cfg.CustomBait;
 
-    public readonly FishingParser Parser = new();
-    internal CatchSteps LastStep = 0;
-    internal FishingState LastState = FishingState.None;
-    internal Stopwatch Timer = new();
+    private static Configuration cfg = Service.Configuration;
+
+    private readonly FishingParser Parser = new();
+    private CatchSteps LastStep = 0;
+    private FishingState LastState = FishingState.None;
+    private Stopwatch Timer = new();
 
     public static string? LastCatch = null;
     public static string? CurrentBait = null;
@@ -103,9 +105,9 @@ public class HookingManager : IDisposable
             HookConfig defaultConfig;
 
             if (LastStep == CatchSteps.BeganMooching)
-                defaultConfig = Service.Configuration.DefaultMoochConfig;
+                defaultConfig = cfg.DefaultMoochConfig;
             else
-                defaultConfig = Service.Configuration.DefaultCastConfig;
+                defaultConfig = cfg.DefaultCastConfig;
 
             if (defaultConfig.Enabled)
                 CurrentSetting = defaultConfig;
@@ -135,7 +137,7 @@ public class HookingManager : IDisposable
             return;
 
         // Check if the minimum time has passed
-        if (!CheckValidMinTime(Math.Truncate(CurrentSetting.MinTimeDelay * 100) / 100))
+        if (!CheckMinTimeLimit())
             return;
 
         HookType hook = CurrentSetting.GetHook(bite);
@@ -143,11 +145,26 @@ public class HookingManager : IDisposable
         if (hook == HookType.None)
             return;
 
-        CastAction((uint)hook);
+        if (PlayerResources.ActionAvailable((uint)hook)) // Check if Powerful/Precision is available
+            PlayerResources.CastAction((uint)hook);
+        else // If not, use normal hook
+            PlayerResources.CastAction((uint)HookType.Normal);
     }
 
-    private bool CheckValidMinTime(double minTime)
+    private void OnCatch(string fishName, uint fishId)
     {
+        LastCatch = fishName;
+        CurrentBait = GetCurrentBait();
+
+        LastStep = CatchSteps.FishCaught;
+    }
+
+    private bool CheckMinTimeLimit()
+    {
+        if (CurrentSetting == null)
+            return true;
+
+        double minTime = Math.Truncate(CurrentSetting.MinTimeDelay * 100) / 100;
         double timeElapsed = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
         if (minTime > 0 && timeElapsed < minTime)
         {
@@ -159,6 +176,22 @@ public class HookingManager : IDisposable
         return true;
     }
 
+    private void CheckMaxTimeLimit()
+    {
+        if (CurrentSetting == null)
+            return;
+
+        double maxTime = Math.Truncate(CurrentSetting.MaxTimeDelay * 100) / 100;
+        double currentTime = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
+
+        if (maxTime > 0 && currentTime > maxTime && LastStep != CatchSteps.TimeOut)
+        {
+            PluginLog.Verbose("Timeout. Hooking fish.");
+            LastStep = CatchSteps.TimeOut;
+            PlayerResources.CastAction(IDs.Actions.Hook);
+        }
+    }
+
     private void OnFishingStop()
     {
         if (Timer.IsRunning)
@@ -166,78 +199,41 @@ public class HookingManager : IDisposable
             Timer.Stop();
             return;
         }
-
-        //Step = CatchSteps.None;
     }
 
-    private void OnCatch(string fishName, uint fishId)
+    private void UseAutoCasts()
     {
-        LastCatch = fishName;
-        CurrentBait = GetCurrentBait();
+        uint action = 0;
 
-        LastStep = CatchSteps.FishCaught;
-    }
+        HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+        
+        if (CustomMoochCfg != null)
+            action = cfg.AutoCastsCfg.GetNextAutoCast(CustomMoochCfg);
+        else
+            action = cfg.AutoCastsCfg.GetNextAutoCast(CurrentSetting);
 
-    // jesus christ if someone can figure out a better way to do this, please elp me i'm tired of this i hate programming im goin to morb
-    private unsafe void AutoCastMooch()
-    {
-        if (ActionAvailable(IDs.idCast))
-        {
-            // First, check if theres a specific config for the fish that was just hooked
-            var HasMoochConfig = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
-            if (HasMoochConfig != null)
-            {
-                if (ActionAvailable(IDs.idMooch) && HasMoochConfig.GetUseAutoMooch())
-                    CastAction(IDs.idMooch);
-                else if (ActionAvailable(IDs.idMooch2) && HasMoochConfig.GetUseAutoMooch2())
-                    CastAction(IDs.idMooch2);
-                else if (Service.Configuration.UseAutoCast)
-                    CastAction(IDs.idCast);
-                return; // if we have a config for the fish, we dont need to check the rest of the configs
-            }
-
-            // This is the behavior for when the config is default or a bait (not a fish)
-            if (ActionAvailable(IDs.idMooch) && CurrentSetting != null && CurrentSetting.GetUseAutoMooch())
-                CastAction(IDs.idMooch);
-            else if (ActionAvailable(IDs.idMooch2) && CurrentSetting != null && CurrentSetting.GetUseAutoMooch2())
-                CastAction(IDs.idMooch2);
-            else if (ActionAvailable(IDs.idMooch) && Service.Configuration.UseAutoMooch)
-                CastAction(IDs.idMooch);
-            else if (ActionAvailable(IDs.idMooch2) && Service.Configuration.UseAutoMooch2)
-                CastAction(IDs.idMooch2);
-            else if (Service.Configuration.UseAutoCast)
-                CastAction(IDs.idCast);
-
-        }
-    }
-
-    private unsafe void CastAction(uint id)
-    {
-        ActionManager.Instance()->UseAction(ActionType.Spell, id);
-    }
-
-    private unsafe bool ActionAvailable(uint id)
-    {
-        // status 0 == available to cast? not sure but it seems to be
-        // Also make sure its the skill is not on cooldown (maily for mooch2)
-        return ActionManager.Instance()->GetActionStatus(ActionType.Spell, id) == 0 && !ActionManager.Instance()->IsRecastTimerActive(ActionType.Spell, id);
+        if (action != 0) {
+            PlayerResources.CastActionDelayed(action, 800);
+        }     
     }
 
     private void OnFrameworkUpdate(Framework _)
     {
         var state = Service.EventFramework.FishingState;
 
-        if (!Service.Configuration.AutoHookEnabled || state == FishingState.None)
+        if (!cfg.PluginEnabled || state == FishingState.None)
             return;
 
         // FishBit in this case means that the fish was hooked, but it escaped. I might need to find a way to check if the fish was caught or not.
         if (state == FishingState.PoleReady && (LastStep == CatchSteps.FishBit || LastStep == CatchSteps.FishCaught || LastStep == CatchSteps.TimeOut))
-            AutoCastMooch();
+        {
+            UseAutoCasts();
+        }
 
         //CheckState();
 
         if (state == FishingState.Waiting2)
-            CheckTimeout();
+            CheckMaxTimeLimit();
 
         if (LastState == state)
             return;
@@ -259,7 +255,7 @@ public class HookingManager : IDisposable
     }
 
     private static double debugValueLast = 1000;
-    internal Stopwatch Timerrr = new();
+    private Stopwatch Timerrr = new();
     private void CheckState()
     {
         if (!Timerrr.IsRunning)
@@ -269,22 +265,6 @@ public class HookingManager : IDisposable
         {
             debugValueLast = Timerrr.ElapsedMilliseconds;
             PluginLog.Debug($"Fishing State: {Service.EventFramework.FishingState}, LastStep: {LastStep}");
-        }
-    }
-
-    private void CheckTimeout()
-    {
-        if (CurrentSetting == null)
-            return;
-
-        double maxTime = Math.Truncate(CurrentSetting.MaxTimeDelay * 100) / 100;
-        double currentTime = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
-
-        if (maxTime > 0 && currentTime > maxTime && LastStep != CatchSteps.TimeOut)
-        {
-            PluginLog.Debug("Time out. Hooking fish.");
-            LastStep = CatchSteps.TimeOut;
-            CastAction(IDs.idNormalHook);
         }
     }
 }

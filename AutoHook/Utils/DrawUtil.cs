@@ -1,11 +1,11 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace AutoHook.Utils;
-    internal static class Draw
+
+public static class DrawUtil
 {
     public static void NumericDisplay(string label, int value)
     {
@@ -28,30 +28,39 @@ namespace AutoHook.Utils;
         ImGui.TextColored(color, $"{value}");
     }
 
-    public static void EditNumberField(string label, ref int refValue)
+    public static bool EditNumberField(string label, ref int refValue, string helpText = "")
     {
-        EditNumberField(label, 30, ref refValue);
+        return EditNumberField(label, 30, ref refValue, helpText);
     }
 
-    public static void EditNumberField(string label, float fieldWidth, ref int refValue)
+    public static bool EditNumberField(string label, float fieldWidth, ref int refValue, string helpText = "")
     {
         ImGui.Text(label);
 
         ImGui.SameLine();
 
         ImGui.PushItemWidth(fieldWidth * ImGuiHelpers.GlobalScale);
-        ImGui.InputInt($"##{label}", ref refValue, 0, 0);
+        var clicked = ImGui.InputInt($"##{label}###", ref refValue, 0, 0);
         ImGui.PopItemWidth();
-    }
-
-    public static void Checkbox(string label, ref bool refValue, string helpText = "")
-    {
-        ImGui.Checkbox($"{label}", ref refValue);
 
         if (helpText != string.Empty)
         {
             ImGuiComponents.HelpMarker(helpText);
         }
+
+        return clicked;
+    }
+
+    public static bool Checkbox(string label, ref bool refValue, string helpText = "")
+    {
+        var clicked = ImGui.Checkbox($"{label}", ref refValue);
+
+        if (helpText != string.Empty)
+        {
+            ImGuiComponents.HelpMarker(helpText);
+        }
+
+        return clicked;
     }
 
     public static void CompleteIncomplete(bool complete)

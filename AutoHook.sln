@@ -7,9 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoHook", "AutoHook\AutoHo
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B00DE705-685B-4CAD-AEC1-37BA94BD537D}.Debug|x64.ActiveCfg = Debug|x64
+		{B00DE705-685B-4CAD-AEC1-37BA94BD537D}.Debug|x64.Build.0 = Debug|x64
 		{B00DE705-685B-4CAD-AEC1-37BA94BD537D}.Release|x64.ActiveCfg = Release|x64
 		{B00DE705-685B-4CAD-AEC1-37BA94BD537D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection

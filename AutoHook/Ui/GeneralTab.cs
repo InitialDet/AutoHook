@@ -11,23 +11,9 @@ internal class GeneralTab : TabConfig
     public override void DrawHeader()
     {
         ImGui.Text("General settings");
-        ImGui.TextWrapped("The new Auto Cast/Mooch is a experimental feature and can be a little confusing at first. I'll be trying to find a more simple and intuitive solution later\nPlease report any issues you encounter.");
-        ImGui.Text("Discord: Det#8574");
-
-        ImGui.Checkbox("Global Auto Cast", ref Service.Configuration.UseAutoCast);
-        ImGuiComponents.HelpMarker("Cast will be used after a fish is hooked");
-        if(ImGui.Checkbox("Global Auto Mooch", ref Service.Configuration.UseAutoMooch)) {
-            if (!Service.Configuration.UseAutoMooch)
-                Service.Configuration.UseAutoMooch2 = false;
-        }
-        ImGuiComponents.HelpMarker("All fish will be mooched if available. This option have priority over Auto Cast\nIf you want to Auto Mooch only a especific fish and ignore others, disable this option and add the fish you want in the bait/mooch tab");
-
-        if (Service.Configuration.UseAutoMooch)
-        {
-            ImGui.Indent();
-            ImGui.Checkbox("Use Mooch II", ref Service.Configuration.UseAutoMooch2);
-            ImGui.Unindent();
-        }
+        ImGui.Separator();
+        ImGui.TextWrapped("Please report any issues you encounter.");
+        ImGui.Text("Discord: Det#8574");    
     }
 
     public override void Draw()

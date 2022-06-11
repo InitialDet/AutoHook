@@ -4,7 +4,6 @@ using AutoHook.Configurations;
 using AutoHook.Enums;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
-using Dalamud.Logging;
 using ImGuiNET;
 
 namespace AutoHook.Ui;

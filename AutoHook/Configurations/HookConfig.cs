@@ -1,6 +1,8 @@
 using System;
 using AutoHook.Data;
 using AutoHook.Enums;
+using AutoHook.Utils;
+
 namespace AutoHook.Configurations;
 
 public class HookConfig
@@ -43,9 +45,6 @@ public class HookConfig
 
         if (hook != HookType.None)
             return hook;
-        
-        if (!HasPatience() || (HasPatience() && GetCurrentGP() < 50))
-            return HookType.Normal;
 
         return GetPatienceHook(bite);
     }
@@ -68,54 +67,16 @@ public class HookConfig
     {
         HookType hook = HookType.None;
 
-        if (HasPatience() && !UseDHTHPacience)
+        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPacience)
             return hook;
 
-        if (UseDoubleHook && GetCurrentGP() > 400)
+        if (UseDoubleHook && PlayerResources.GetCurrentGP() > 400)
             hook = HookType.Double;
-        else if (UseTripleHook && GetCurrentGP() > 700)
+        else if (UseTripleHook && PlayerResources.GetCurrentGP() > 700)
             hook = HookType.Triple;
 
         return hook;
-    }
-
-    private bool HasPatience()
-    {
-        if (Service.ClientState.LocalPlayer?.StatusList == null)
-            return false;
-
-        foreach (var buff in Service.ClientState.LocalPlayer.StatusList)
-        {
-            if (buff.StatusId == IDs.idPatienceBuff)
-                return true;
-        }
-
-        return false;
-    }
-
-    private uint GetCurrentGP()
-    {
-        if (Service.ClientState.LocalPlayer?.CurrentGp == null)
-            return 0;
-
-        return Service.ClientState.LocalPlayer.CurrentGp;
-    }
-
-    public bool GetUseAutoMooch()
-    {
-        if (BaitName == "DefaultCast" || BaitName == "DefaultMooch")
-            return Service.Configuration.UseAutoMooch;
-        else
-            return UseAutoMooch;
-    }
-
-    public bool GetUseAutoMooch2()
-    {
-        if (BaitName == "DefaultCast" || BaitName == "DefaultMooch")
-            return Service.Configuration.UseAutoMooch2;
-        else
-            return UseAutoMooch2;
-    }
+    } 
 
     public override bool Equals(object? obj)
     {

@@ -15,7 +15,8 @@ public class PluginUI : Window, IDisposable
     private readonly List<TabConfig> tabs = new()
         {
             new GeneralTab(),
-            new MoochTab()
+            new MoochTab(),
+            new AutoCastsTab()
         };
 
     public PluginUI() : base($"{Service.PluginName} Settings")
@@ -43,17 +44,17 @@ public class PluginUI : Window, IDisposable
         if (!IsOpen)
             return;
 
-        Utils.Draw.Checkbox("Enable AutoHook", ref Service.Configuration.AutoHookEnabled, "Enables/Disables the plugin for you");
+        Utils.DrawUtil.Checkbox("Enable AutoHook", ref Service.Configuration.PluginEnabled, "Enables/Disables the plugin for you");
 
         ImGui.Indent();
 
-        if (Service.Configuration.AutoHookEnabled)
+        if (Service.Configuration.PluginEnabled)
         {
-            ImGui.TextColored(ImGuiColors.HealerGreen, "AutoHook Enabled");
+            ImGui.TextColored(ImGuiColors.HealerGreen, "Plugin Enabled");
         }
         else
         {
-            ImGui.TextColored(ImGuiColors.DalamudRed, "AutoHook Disabled");
+            ImGui.TextColored(ImGuiColors.DalamudRed, "Plugin Disabled");
         }
         ImGui.Unindent();
         ImGui.Spacing();

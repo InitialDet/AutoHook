@@ -26,9 +26,9 @@ class MoochTab : TabConfig
             {
                 ImGui.Indent();
                 DrawEnabledButtonCustomBait(bait);
-                DrawInputTextName(bait);
                 ImGui.SameLine();
                 DrawDeleteBaitButton(bait);
+                DrawInputTextName(bait);
                 DrawInputDoubleMinTime(bait);
                 DrawInputDoubleMaxTime(bait);
                 DrawHookCheckboxes(bait);

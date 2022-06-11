@@ -10,6 +10,7 @@ using Dalamud.Game.Command;
 using AutoHook.SeFunctions;
 using SeFunctions;
 using Dalamud;
+using AutoHook.Configurations;
 
 namespace AutoHook;
 

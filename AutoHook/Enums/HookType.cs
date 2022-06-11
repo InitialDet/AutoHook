@@ -5,9 +5,9 @@ namespace AutoHook.Enums;
 public enum HookType : uint
 {
     None = 0,
-    Normal = IDs.idNormalHook,
-    Precision = IDs.idPrecision,
-    Powerful = IDs.idPowerful,
-    Double = IDs.idDoubleHook,
-    Triple = IDs.idTripleHook,
+    Normal = IDs.Actions.Hook,
+    Precision = IDs.Actions.PrecisionHS,
+    Powerful = IDs.Actions.PowerfulHS,
+    Double = IDs.Actions.DoubleHook,
+    Triple = IDs.Actions.TripleHook,
 }

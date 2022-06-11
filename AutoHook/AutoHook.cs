@@ -1,4 +1,5 @@
-﻿using AutoHook.FishTimer;
+﻿using AutoHook.Configurations;
+using AutoHook.FishTimer;
 using AutoHook.SeFunctions;
 using Dalamud.Game.Command;
 using Dalamud.Logging;
@@ -14,7 +15,7 @@ public class AutoHook : IDalamudPlugin
     private const string CmdAHCfg = "/ahcfg";
     private const string CmdAHOn = "/ahon";
     private const string CmdAHOff = "/ahoff";
-
+    
     private static PluginUI PluginUI = null!;
 
     public HookingManager FishHooker;
@@ -50,6 +51,10 @@ public class AutoHook : IDalamudPlugin
 
         FishHooker = new HookingManager();
         FishHooker.Enable();
+
+        #if (DEBUG)
+            OnOpenConfigUi();
+        #endif
     }
 
     private void OnCommand(string command, string args)
@@ -61,13 +66,13 @@ public class AutoHook : IDalamudPlugin
         if (command.Trim().Equals(CmdAHOn))
         {
             Service.Chat.Print("AutoHook Enabled");
-            Service.Configuration.AutoHookEnabled = true;
+            Service.Configuration.PluginEnabled = true;
         }
 
         if (command.Trim().Equals(CmdAHOff))
         {
             Service.Chat.Print("AutoHook Disabled");
-            Service.Configuration.AutoHookEnabled = false;
+            Service.Configuration.PluginEnabled = false;
         }
     }
 
