@@ -12,6 +12,7 @@ public class AutoCastsConfig
     public bool EnableMooch2 = false;
 
     public bool EnablePatience = false;
+    public bool EnableMakeshiftPatience = false;
     public uint SelectedPatienceID = IDs.Actions.Patience2; // Default to Patience2
 
     public bool EnableThaliaksFavor = false;
@@ -22,6 +23,8 @@ public class AutoCastsConfig
 
     public bool EnablePrizeCatch = false;
 
+    public bool EnableChum = false;
+    public bool EnableFishEyes = false;
 
     public uint GetNextAutoCast(HookConfig? hookConfig)
     {
@@ -31,11 +34,17 @@ public class AutoCastsConfig
         if (!PlayerResources.ActionAvailable(IDs.Actions.Cast))
             return 0;
 
-        if (UseThaliaksFavor()) 
+        if (UseThaliaksFavor())
             return IDs.Actions.ThaliaksFavor;
 
         if (UseMakeshiftBait())
             return IDs.Actions.MakeshiftBait;
+
+        if (UsesChum())
+            return IDs.Actions.Chum;
+
+        if (UsesFishEyes())
+            return IDs.Actions.FishEyes;
 
         bool useAutoMooch = false;
         bool useAutoMooch2 = false;
@@ -70,14 +79,22 @@ public class AutoCastsConfig
 
         return 0;
     }
-    
+
     private bool UsePatience()
     {
         if (EnablePatience)
         {
             if (!PlayerResources.HasStatus(IDs.Status.AnglersFortune))
             {
-                if (PlayerResources.ActionAvailable(SelectedPatienceID)){
+
+                if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
+                    return false;
+
+                if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !EnableMakeshiftPatience)
+                    return false;
+
+                if (PlayerResources.ActionAvailable(SelectedPatienceID))
+                {
                     if (SelectedPatienceID == IDs.Actions.Patience)
                         return PlayerResources.GetCurrentGP() >= (200 + 20);
                     if (SelectedPatienceID == IDs.Actions.Patience2)
@@ -90,23 +107,40 @@ public class AutoCastsConfig
     }
 
     private uint ThaliaksFavorRecover = 150; // This might change in the future.
+
     private bool UseThaliaksFavor()
     {
+        if (!EnableThaliaksFavor)
+            return false;
         bool available = PlayerResources.ActionAvailable(IDs.Actions.ThaliaksFavor);
+        bool hasStacks = PlayerResources.HasAnglersArtStacks(ThaliaksFavorStacks);
         bool notOvercaped = (PlayerResources.GetCurrentGP() + ThaliaksFavorRecover) < PlayerResources.GetMaxGP();
 
-        return EnableThaliaksFavor && available && notOvercaped; // dont use if its going to overcap gp
+        return available && hasStacks && notOvercaped; // dont use if its going to overcap gp
     }
 
     private bool UseMakeshiftBait()
     {
-        return EnableMakeshiftBait &&
-               PlayerResources.HasAnglersArtStacks(MakeshiftBaitStacks) && // Check if we have enough stacks 
-               PlayerResources.ActionAvailable(IDs.Actions.MakeshiftBait); // Check if its off cooldown
-              
+        if (!EnableMakeshiftBait)
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait))
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
+            return false;
+
+        
+        bool available = PlayerResources.ActionAvailable(IDs.Actions.MakeshiftBait);
+        bool hasStacks = PlayerResources.HasAnglersArtStacks(MakeshiftBaitStacks);
+
+        return hasStacks && available;
     }
 
-    private bool IsMoochAvailable() 
+    private bool IsMoochAvailable()
     {
         return PlayerResources.ActionAvailable(IDs.Actions.Mooch) || PlayerResources.ActionAvailable(IDs.Actions.Mooch2);
     }
@@ -114,5 +148,15 @@ public class AutoCastsConfig
     private bool UsePrizeCatch()
     {
         return EnablePrizeCatch && PlayerResources.ActionAvailable(IDs.Actions.PrizeCatch);
+    }
+
+    private bool UsesFishEyes()
+    {
+        return EnableFishEyes && PlayerResources.ActionAvailable(IDs.Actions.FishEyes);
+    }
+
+    private bool UsesChum()
+    {
+        return EnableChum && PlayerResources.ActionAvailable(IDs.Actions.Chum);
     }
 }

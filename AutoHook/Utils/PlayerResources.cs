@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using AutoHook.Data;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace AutoHook.Utils;
@@ -42,7 +43,7 @@ public static class PlayerResources
 
         foreach (var buff in Service.ClientState.LocalPlayer.StatusList)
         {
-            if (buff.StatusId == IDs.Status.AnglersFortune)
+            if (buff.StatusId == IDs.Status.AnglersArt)
                 return buff.StackCount >= amount;
         }
 

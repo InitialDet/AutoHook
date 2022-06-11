@@ -28,9 +28,11 @@ internal class AutoCastsTab : TabConfig
             DrawAutoCast();
             DrawAutoMooch();
             DrawPatience();
-            DrawThaliaksFavor();
             DrawMakeShiftBait();
+            DrawThaliaksFavor();
             DrawPrizeCatch();
+            DrawChum();
+            DrawFishEyes();
         }
     }
 
@@ -76,7 +78,6 @@ internal class AutoCastsTab : TabConfig
     {
         if (DrawUtil.Checkbox("Use Patience I/II", ref cfg.EnablePatience, "Patience I/II will be used when your current GP is equal (or higher) to the action cost +20 (Ex: 220 for I, 580 for II), this helps to avoid not having GP for the hooksets"))
         { }
-        { }
 
         if (cfg.EnablePatience)
         {
@@ -88,6 +89,9 @@ internal class AutoCastsTab : TabConfig
 
     private void DrawExtraOptionsPatience()
     {
+
+        if (DrawUtil.Checkbox("Use when Makeshift Bait is active", ref cfg.EnableMakeshiftPatience))
+        { }
         if (ImGui.RadioButton("Patience I###1", cfg.SelectedPatienceID == IDs.Actions.Patience))
         {
             cfg.SelectedPatienceID = IDs.Actions.Patience;
@@ -130,7 +134,9 @@ internal class AutoCastsTab : TabConfig
     {
         ImGui.PushID("MakeShiftBait");
         if (DrawUtil.Checkbox("Use Makeshift Bait", ref cfg.EnableMakeshiftBait, "This might conflict with Auto Thaliak's Favor"))
-        {}
+        {
+
+        }
 
         if (cfg.EnableMakeshiftBait)
         {
@@ -143,10 +149,10 @@ internal class AutoCastsTab : TabConfig
 
     private void DrawExtraOptionsMakeShiftBait()
     {
-        if (Utils.DrawUtil.EditNumberField("When Stacks =", ref cfg.MakeshiftBaitStacks))
+        if (Utils.DrawUtil.EditNumberField($"When Stacks = ", ref cfg.MakeshiftBaitStacks))
         {
-            if (cfg.MakeshiftBaitStacks < 3)
-                cfg.MakeshiftBaitStacks = 3;
+            if (cfg.MakeshiftBaitStacks < 5)
+                cfg.MakeshiftBaitStacks = 5;
 
             if (cfg.MakeshiftBaitStacks > 10)
                 cfg.MakeshiftBaitStacks = 10;
@@ -155,7 +161,19 @@ internal class AutoCastsTab : TabConfig
 
     private void DrawPrizeCatch()
     {
-        if (DrawUtil.Checkbox("Use Prize Catch", ref cfg.EnablePrizeCatch))
+        if (DrawUtil.Checkbox("Use Prize Catch", ref cfg.EnablePrizeCatch, "Patience and Makeshift Bait will not be used when Prize Catch active"))
+        { }
+    }
+
+    private void DrawChum()
+    {
+        if (DrawUtil.Checkbox("Use Chum", ref cfg.EnableChum, "Cancels Current Mooch"))
+        { }
+    }
+    
+    private void DrawFishEyes()
+    {
+        if (DrawUtil.Checkbox("Use Fish Eyes", ref cfg.EnableFishEyes, "Cancels Current Mooch"))
         { }
     }
 }

@@ -5,7 +5,6 @@ namespace AutoHook.Data
         public static class Actions
         {
             public const uint
-            None = 0,
             Cast = 289,
             Mooch = 297,
             Mooch2 = 268,
@@ -21,14 +20,24 @@ namespace AutoHook.Data
             DoubleHook = 269,
             TripleHook = 27523,
             PrecisionHS = 4179,
-            PowerfulHS = 4103;
+            PowerfulHS = 4103,
+
+            FishEyes = 4105,
+            Chum = 4104,
+
+            None = 0;
         }
 
         public static class Status
         {
             public const uint
-            AnglersFortune = 850;
-           
+            AnglersFortune = 850,
+            
+            AnglersArt = 2778,
+            MakeshiftBait = 2779,
+            PrizeCatch = 2780,
+            
+            None = 0;   
         }
     }
 }
