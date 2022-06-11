@@ -16,5 +16,5 @@
   "ApplicableVersion": "any",
   "DalamudApiLevel": 6,
   "LoadPriority": 0,
-  "Changelog": "Added Auto Cast/Mooch and selectable Patience Hooksets."
+  "Changelog": "Added more muto cast options"
 }
