@@ -3,18 +3,19 @@
   "Name": "Auto Hook",
   "Punchline": "Makes fishing less (or more) boring",
   "Description": "It hooks the fish for you, can you believe it?",
-  "IconUrl": "",
+  "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
   "ImageUrls": [
     ""
   ],
   "RepoUrl": "https://github.com/InitialDet/AutoHook",
   "CategoryTags": [
-    "Gathering"
+    "Gathering",
+    "Fishing"
   ],
   "InternalName": "AutoHook",
   "AssemblyVersion": "",
   "ApplicableVersion": "any",
   "DalamudApiLevel": 6,
   "LoadPriority": 0,
-  "Changelog": "Added more muto cast options"
+  "Changelog": "Added more Auto Casts options"
 }
