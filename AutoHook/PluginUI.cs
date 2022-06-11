@@ -6,6 +6,7 @@ using Dalamud.Interface.Colors;
 using System.Collections.Generic;
 using AutoHook.Ui;
 using System.Numerics;
+using System.Diagnostics;
 
 namespace AutoHook;
 
@@ -45,7 +46,7 @@ public class PluginUI : Window, IDisposable
             return;
 
         Utils.DrawUtil.Checkbox("Enable AutoHook", ref Service.Configuration.PluginEnabled, "Enables/Disables the plugin for you");
-
+        ShowKofi();
         ImGui.Indent();
 
         if (Service.Configuration.PluginEnabled)
@@ -90,5 +91,26 @@ public class PluginUI : Window, IDisposable
     public override void OnClose()
     {
         Service.Configuration.Save();
+    }
+
+    public static void ShowKofi()
+    {
+        string buttonText = "Support on Ko-fi";
+        ImGui.SameLine();
+        ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
+        ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
+        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
+
+        if (ImGui.Button(buttonText))
+        {
+            OpenBrowser("https://ko-fi.com/initialdet");
+        }
+
+        ImGui.PopStyleColor(3);
+    }
+
+    public static void OpenBrowser(string url)
+    {
+        Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
     }
 }
