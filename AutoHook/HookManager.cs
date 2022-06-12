@@ -124,6 +124,7 @@ public class HookingManager : IDisposable
 
     private void OnBite()
     {
+        UpdateCurrentSetting();
         LastStep = CatchSteps.FishBit;
         Timer.Stop();
 
@@ -131,8 +132,7 @@ public class HookingManager : IDisposable
     }
 
     private unsafe void HookFish(BiteType bite)
-    {
-        UpdateCurrentSetting();
+    { 
         if (CurrentSetting == null)
             return;
 
