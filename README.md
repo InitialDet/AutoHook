@@ -4,4 +4,4 @@ A low quality plugin to use Hooks automatically when fishing. Expect bugs, im ba
 ```
 https://raw.githubusercontent.com/InitialDet/MyDalamudPlugins/main/pluginmaster.json
 ```
-https://github.com/InitialDet/MyDalamudPlugins 
+https://github.com/InitialDet/MyDalamudPlugins
