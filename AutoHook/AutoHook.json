@@ -13,7 +13,6 @@
     "Fishing"
   ],
   "InternalName": "AutoHook",
-  "AssemblyVersion": "",
   "ApplicableVersion": "any",
   "DalamudApiLevel": 6,
   "LoadPriority": 0,
