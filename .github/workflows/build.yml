@@ -1,60 +1,83 @@
 name: Build
-
 # Put your personal access token in a repository secret named PAT for cross-repository access
-
-on: 
+on:
   workflow_dispatch:
   push:
-    branches:
-    - main
+    branches: [main]
+
+  pull_request:
+    branches: [main]
 
 env:
-  PLUGIN_NAME: AutoHook
-  PERSONAL_PLUGIN_REPO: InitialDet/MyDalamudPlugins
+  PLUGIN_REPO: InitialDet/MyDalamudPlugins
+  PROJECT_NAME: AutoHook
 
 jobs:
   build:
     runs-on: windows-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        submodules: recursive
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.0.2
-    - name: Download Dalamud
-      run: |
-        # Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/stg/latest.zip -OutFile latest.zip
-        Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile latest.zip
-        Expand-Archive -Force latest.zip "$env:AppData\XIVLauncher\addon\Hooks\dev\"   
-    - name: Build
-      run: |
-        dotnet restore -r win ${{ env.PLUGIN_NAME }}.sln
-        dotnet build --configuration Release
-      env: 
-        DOTNET_CLI_TELEMETRY_OPTOUT: true
-    - uses: actions/upload-artifact@v2
-      with:
-        name: PluginRepoZip
-        path: ${{env.PLUGIN_NAME}}/bin/Release/${{env.PLUGIN_NAME}}
-        if-no-files-found: error
 
-  deploy:
-    needs: build
-    if: "contains(toJSON(github.event.commits.*.message), '[PUSH]')"
-    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        repository: ${{ env.PERSONAL_PLUGIN_REPO }}
-        token: ${{ secrets.PAT }}
-    - uses: actions/download-artifact@v2
-      with:
-        name: PluginRepoZip
-        path: plugins/${{ env.PLUGIN_NAME }}
-    - uses: EndBug/add-and-commit@v7
-      with:
-        add: --all
-        author_name: GitHub Action
-        author_email: github-actions[bot]@users.noreply.github.com
-        message: Update ${{ env.PLUGIN_NAME }}
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.3
+
+      - name: Download Dalamud
+        run: |
+          Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/net5/latest.zip -OutFile latest.zip
+          Expand-Archive -Force latest.zip "$env:AppData\XIVLauncher\addon\Hooks\dev\"
+      - name: Build
+        run: |
+          dotnet restore -r win ${{ env.PROJECT_NAME }}.sln
+          dotnet build --configuration Release
+        env:
+          DOTNET_CLI_TELEMETRY_OUTPUT: true
+          
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          name: ${{env.PROJECT_NAME}}
+          path: ${{env.PROJECT_NAME}}/bin/Release/${{env.PROJECT_NAME}}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: windows-latest
+    if: "contains(toJSON(github.event.commits.*.message), '[PUSH]') && github.event_name == 'push'"
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2.2.0
+        with:
+          fetch-depth: 0
+
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        id: download
+        with:
+          name: ${{env.PROJECT_NAME}}
+
+      - name: Get version
+        id: version
+        uses: notiz-dev/github-action-json-property@release
+        with: 
+            path: '${{env.PROJECT_NAME}}.json'
+            prop_path: 'AssemblyVersion'   
+      - run: echo ${{steps.version.outputs.prop}} 
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ env.PROJECT_NAME }} ${{steps.version.outputs.prop}}
+          tag_name: ${{steps.version.outputs.prop}} 
+          body: ${{ github.events.commits[0].message }}
+          files: ${{ steps.download.outputs.download-path }}\latest.zip
+
+      - name: Trigger plugin repo update
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{env.PLUGIN_REPO}}
+          event-type: new-release    
