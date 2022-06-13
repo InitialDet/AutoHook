@@ -3,18 +3,11 @@
   "Name": "Auto Hook",
   "Punchline": "Makes fishing less (or more) boring",
   "Description": "It hooks the fish for you, can you believe it?",
-  "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
-  "ImageUrls": [
-    ""
-  ],
-  "RepoUrl": "https://github.com/InitialDet/AutoHook",
-  "CategoryTags": [
-    "Gathering",
-    "Fishing"
-  ],
   "InternalName": "AutoHook",
+  "RepoUrl": "https://github.com/InitialDet/AutoHook",
   "ApplicableVersion": "any",
+  "Tags": ["Gathering","Fishing"],
   "DalamudApiLevel": 6,
-  "LoadPriority": 0,
+  "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
   "Changelog": "Added Chum and Fish Eyes for Auto Casts, New icon By Vec7rex"
 }
