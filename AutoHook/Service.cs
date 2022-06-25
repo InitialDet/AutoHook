@@ -11,6 +11,7 @@ using AutoHook.SeFunctions;
 using SeFunctions;
 using Dalamud;
 using AutoHook.Configurations;
+using AutoHook.Utils;
 
 namespace AutoHook;
 
@@ -19,6 +20,7 @@ public class Service
     public static void Initialize(DalamudPluginInterface pluginInterface)
         => pluginInterface.Create<Service>();
 
+    
     public const string PluginName = "AutoHook";
 
     [PluginService][RequiredVersion("1.0")] public static DalamudPluginInterface PluginInterface { get; set; } = null!;

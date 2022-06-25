@@ -12,21 +12,31 @@ public class HookConfig
     public string BaitName = "Default";
 
     public bool HookWeakEnabled = true;
-    public HookType WeakTugHook { get; set; } = HookType.Precision;
+    public bool HookWeakIntuitionEnabled = true;
+    public HookType HookTypeWeak = HookType.Precision;
+    public HookType HookTypeWeakIntuition = HookType.Precision;
 
-    public bool HookStrongkEnabled = true;
-    public HookType StrongTugHook { get; set; } = HookType.Powerful;
+    public bool HookStrongEnabled = true;
+    public bool HookStrongIntuitionEnabled = true;
+    public HookType HookTypeStrong = HookType.Powerful;
+    public HookType HookTypeStrongIntuition = HookType.Powerful;
 
-    public bool HookLendarykEnabled = true;
-    public HookType LegendaryTugHook { get; set; } = HookType.Powerful;
+    public bool HookLegendaryEnabled = true;
+    public bool HookLegendaryIntuitionEnabled = true;
+    public HookType HookTypeLegendary = HookType.Powerful;
+    public HookType HookTypeLegendaryIntuition = HookType.Powerful;
 
-    // todo: add a checkbox to enable/disable autocast
+    public bool UseCustomIntuitionHook = false;
+
     public bool UseAutoMooch = true;
     public bool UseAutoMooch2 = false;
+    
+    public bool UseSurfaceSlap = false;
+    public bool UseIdenticalCast = false;
 
     public bool UseDoubleHook = false;
     public bool UseTripleHook = false;
-    public bool UseDHTHPacience = false;
+    public bool UseDHTHPatience = false;
 
     public double MaxTimeDelay = 0;
     public double MinTimeDelay = 0;
@@ -38,7 +48,14 @@ public class HookConfig
 
     public HookType GetHook(BiteType bite)
     {
-        if (!CheckHookEnabled(bite))
+        bool hasIntuition = PlayerResources.HasStatus(IDs.Status.FishersIntuition);
+
+        if (hasIntuition && UseCustomIntuitionHook)
+        {
+            if (!CheckHookIntuitionEnabled(bite))
+                return HookType.None;
+        }
+        else if (!CheckHookEnabled(bite))
             return HookType.None;
 
         var hook = GetDoubleTripleHook(bite);
@@ -46,20 +63,38 @@ public class HookConfig
         if (hook != HookType.None)
             return hook;
 
-        return GetPatienceHook(bite);
+        if (hasIntuition)
+            return GetIntuitionHook(bite);
+        else
+            return GetPatienceHook(bite);
     }
 
     public bool CheckHookEnabled(BiteType bite) =>
         bite == BiteType.Weak ? HookWeakEnabled :
-        bite == BiteType.Strong ? HookStrongkEnabled :
-        bite == BiteType.Legendary ? HookLendarykEnabled :
+        bite == BiteType.Strong ? HookStrongEnabled :
+        bite == BiteType.Legendary ? HookLegendaryEnabled :
         false;
+
+    public bool CheckHookIntuitionEnabled(BiteType bite) =>
+        bite == BiteType.Weak ? HookWeakIntuitionEnabled :
+        bite == BiteType.Strong ? HookStrongIntuitionEnabled :
+        bite == BiteType.Legendary ? HookLegendaryIntuitionEnabled :
+        false;
+
 
     private HookType GetPatienceHook(BiteType bite) => bite switch
     {
-        BiteType.Weak => WeakTugHook,
-        BiteType.Strong => StrongTugHook,
-        BiteType.Legendary => LegendaryTugHook,
+        BiteType.Weak => HookTypeWeak,
+        BiteType.Strong => HookTypeStrong,
+        BiteType.Legendary => HookTypeLegendary,
+        _ => HookType.None,
+    };
+
+    private HookType GetIntuitionHook(BiteType bite) => bite switch
+    {
+        BiteType.Weak => HookTypeWeakIntuition,
+        BiteType.Strong => HookTypeStrongIntuition,
+        BiteType.Legendary => HookTypeLegendaryIntuition,
         _ => HookType.None,
     };
 
@@ -67,16 +102,16 @@ public class HookConfig
     {
         HookType hook = HookType.None;
 
-        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPacience)
+        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPatience)
             return hook;
 
-        if (UseDoubleHook && PlayerResources.GetCurrentGP() > 400)
+        if (UseDoubleHook && PlayerResources.GetCurrentGP() >= 400)
             hook = HookType.Double;
-        else if (UseTripleHook && PlayerResources.GetCurrentGP() > 700)
+        else if (UseTripleHook && PlayerResources.GetCurrentGP() >= 700)
             hook = HookType.Triple;
 
         return hook;
-    } 
+    }
 
     public override bool Equals(object? obj)
     {

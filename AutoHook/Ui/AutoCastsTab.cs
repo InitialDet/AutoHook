@@ -33,15 +33,15 @@ internal class AutoCastsTab : TabConfig
             DrawPrizeCatch();
             DrawChum();
             DrawFishEyes();
+            //DrawSurfaceSlapIdenticalCast();
+            DrawCordials();
         }
     }
 
     private void DrawAutoCast()
     {
-        if (DrawUtil.Checkbox("Global Auto Cast Line", ref cfg.EnableAutoCast, "Cast (FSH Action) will be used after a fish bite"))
-        {
-            // gort was here
-        }
+        if (DrawUtil.Checkbox("Global Auto Cast Line", ref cfg.EnableAutoCast, "Cast (FSH Action) will be used after a fish bite\n\nIMPORTANT!!!\nIf you have this option enabled and you don't have a Custom Auto Mooch or the Global Auto Mooch option enabled, the line will be casted normally and you'll lose your mooch oportunity (If available)."))
+        {}
 
         if (cfg.EnableAutoCast)
         {
@@ -170,10 +170,29 @@ internal class AutoCastsTab : TabConfig
         if (DrawUtil.Checkbox("Use Chum", ref cfg.EnableChum, "Cancels Current Mooch"))
         { }
     }
-    
+
     private void DrawFishEyes()
     {
         if (DrawUtil.Checkbox("Use Fish Eyes", ref cfg.EnableFishEyes, "Cancels Current Mooch"))
+        { }
+    }
+
+    private void DrawSurfaceSlapIdenticalCast()
+    {
+        if (DrawUtil.Checkbox("Use Surface Slap", ref cfg.EnableSurfaceSlap, "Overrides Identical Cast"))
+        {
+            cfg.EnableIdenticalCast = false;
+        }
+
+        if (DrawUtil.Checkbox("Use Identical Cast", ref cfg.EnableIdenticalCast, "Overrides Surface Slap"))
+        {
+            cfg.EnableSurfaceSlap = false;
+        }
+    }
+
+    private void DrawCordials()
+    {
+        if (DrawUtil.Checkbox("Use Cordials", ref cfg.EnableCordial, "Must have Hi-Cordials or Cordials in your inventory. Cordials will be ignored if you have Hi-Cordials available"))
         { }
     }
 }

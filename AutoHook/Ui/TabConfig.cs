@@ -2,6 +2,7 @@ using System;
 using System.Numerics;
 using AutoHook.Configurations;
 using AutoHook.Enums;
+using AutoHook.Utils;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
@@ -25,7 +26,6 @@ abstract class TabConfig : IDisposable
 
     public void DrawDeleteBaitButton(HookConfig cfg)
     {
-
         ImGui.PushFont(UiBuilder.IconFont);
         if (ImGui.Button($"{FontAwesomeIcon.Trash.ToIconChar()}", new Vector2(ImGui.GetFrameHeight(), 0)) && ImGui.GetIO().KeyShift)
         {
@@ -40,9 +40,35 @@ abstract class TabConfig : IDisposable
 
     public void DrawHookCheckboxes(HookConfig cfg)
     {
-        ImGui.Checkbox(StrHookWeak, ref cfg.HookWeakEnabled);
-        ImGui.Checkbox(StrHookStrong, ref cfg.HookStrongkEnabled);
-        ImGui.Checkbox(StrHookLegendary, ref cfg.HookLendarykEnabled);
+        DrawSelectTugs(StrHookWeak, ref cfg.HookWeakEnabled, ref cfg.HookTypeWeak);
+        DrawSelectTugs(StrHookStrong, ref cfg.HookStrongEnabled, ref cfg.HookTypeStrong);
+        DrawSelectTugs(StrHookLegendary, ref cfg.HookLegendaryEnabled, ref cfg.HookTypeLegendary);
+    }
+
+    public void DrawSelectTugs(string hook, ref bool enabled, ref HookType type)
+    {
+        ImGui.PushID(hook);
+        ImGui.Checkbox(hook, ref enabled);
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip("\"Hook\" will be used if Patience is not up");
+
+        if (enabled)
+        {
+            ImGui.Indent();
+            if (ImGui.RadioButton($"Precision Hookset", type == HookType.Precision))
+            {
+                type = HookType.Precision;
+                Service.Configuration.Save();
+            }
+
+            if (ImGui.RadioButton($"Powerful Hookset", type == HookType.Powerful))
+            {
+                type = HookType.Powerful;
+                Service.Configuration.Save();
+            }
+            ImGui.Unindent();
+            ImGui.PopID();
+        }
     }
 
     public void DrawInputTextName(HookConfig cfg)
@@ -102,7 +128,12 @@ abstract class TabConfig : IDisposable
 
     public void DrawCheckBoxDoubleTripleHook(HookConfig cfg)
     {
-        if (ImGui.TreeNode("Double/Triple Hook###DHTH"))
+
+        if (ImGui.Button("Double/Triple Hook Settings###DHTH"))
+        {
+            ImGui.OpenPopup("Double/Triple SettingsHook###DHTH");
+        }
+        if (ImGui.BeginPopup("Double/Triple SettingsHook###DHTH"))
         {
 
             if (ImGui.Checkbox("Use Double Hook (If gp > 400)", ref cfg.UseDoubleHook))
@@ -121,75 +152,110 @@ abstract class TabConfig : IDisposable
                 ImGui.Indent();
 
 
-                ImGui.Checkbox("Also use when Patience is active (not recommended)", ref cfg.UseDHTHPacience);
+                ImGui.Checkbox("Also use when Patience is active (not recommended)", ref cfg.UseDHTHPatience);
                 ImGuiComponents.HelpMarker("Important!!!\n\nIf disabled, Precision/Powerful hook will be used instead when Patience is up.");
                 ImGui.Unindent();
             }
 
-            ImGui.TreePop();
+            ImGui.EndPopup();
         }
 
     }
-
-    public void DrawPatienceConfig(HookConfig cfg)
-    {
-        if (ImGui.TreeNode("Patience Settings###PatienceSettings"))
+    
+    /*
+        public void DrawPatienceConfig(HookConfig cfg)
         {
-            ImGui.Text("Weak Hook");
-            ImGui.Indent();
-            if (ImGui.RadioButton("Precision Hookset###1", cfg.WeakTugHook == HookType.Precision))
+
+            if (ImGui.Button("Patience Settings###PatienceSettings"))
             {
-                cfg.WeakTugHook = HookType.Precision;
-                Service.Configuration.Save();
+                ImGui.OpenPopup("Patience Settings###PatienceSettings");
             }
 
-            if (ImGui.RadioButton("Powerful Hookset###2", cfg.WeakTugHook == HookType.Powerful))
+            if (ImGui.BeginPopup("Patience Settings###PatienceSettings"))
             {
-                cfg.WeakTugHook = HookType.Powerful;
-                Service.Configuration.Save();
-            }
-            ImGui.Unindent();
+                ImGui.Text("Weak Hook");
+                ImGui.Indent();
+                if (ImGui.RadioButton("Precision Hookset###1", cfg.HookTypeWeak == HookType.Precision))
+                {
+                    cfg.HookTypeWeak = HookType.Precision;
+                    Service.Configuration.Save();
+                }
 
-            ImGui.Text("Strong Hook");
-            ImGui.Indent();
-            if (ImGui.RadioButton("Precision Hookset###3", cfg.StrongTugHook == HookType.Precision))
-            {
-                cfg.StrongTugHook = HookType.Precision;
-                Service.Configuration.Save();
-            }
-            if (ImGui.RadioButton("Powerful Hookset###4", cfg.StrongTugHook == HookType.Powerful))
-            {
-                cfg.StrongTugHook = HookType.Powerful;
-                Service.Configuration.Save();
-            }
-            ImGui.Unindent();
+                if (ImGui.RadioButton("Powerful Hookset###2", cfg.HookTypeWeak == HookType.Powerful))
+                {
+                    cfg.HookTypeWeak = HookType.Powerful;
+                    Service.Configuration.Save();
+                }
+                ImGui.Unindent();
 
-            ImGui.Text("Lendary Hook");
-            ImGui.Indent();
-            if (ImGui.RadioButton("Precision Hookset###5", cfg.LegendaryTugHook == HookType.Precision))
-            {
-                cfg.LegendaryTugHook = HookType.Precision;
-                Service.Configuration.Save();
-            }
-            if (ImGui.RadioButton("Powerful Hookset###6", cfg.LegendaryTugHook == HookType.Powerful))
-            {
-                cfg.LegendaryTugHook = HookType.Powerful;
-                Service.Configuration.Save();
-            }
-            ImGui.Unindent();
+                ImGui.Text("Strong Hook");
+                ImGui.Indent();
+                if (ImGui.RadioButton("Precision Hookset###3", cfg.HookTypeStrong == HookType.Precision))
+                {
+                    cfg.HookTypeStrong = HookType.Precision;
+                    Service.Configuration.Save();
+                }
+                if (ImGui.RadioButton("Powerful Hookset###4", cfg.HookTypeStrong == HookType.Powerful))
+                {
+                    cfg.HookTypeStrong = HookType.Powerful;
+                    Service.Configuration.Save();
+                }
+                ImGui.Unindent();
 
-            ImGui.TreePop();
+                ImGui.Text("Lendary Hook");
+                ImGui.Indent();
+                if (ImGui.RadioButton("Precision Hookset###5", cfg.HookTypeLegendary == HookType.Precision))
+                {
+                    cfg.HookTypeLegendary = HookType.Precision;
+                    Service.Configuration.Save();
+                }
+                if (ImGui.RadioButton("Powerful Hookset###6", cfg.HookTypeLegendary == HookType.Powerful))
+                {
+                    cfg.HookTypeLegendary = HookType.Powerful;
+                    Service.Configuration.Save();
+                }
+                ImGui.Unindent();
+
+                ImGui.EndPopup();
+            }
+        }
+    */
+    
+    public void DrawFishersIntuitionConfig(HookConfig cfg)
+    {
+        if (ImGui.Button("Fisher's Intuition Settings###FishersIntuition"))
+        {
+            ImGui.OpenPopup("fisher_intuition_settings");
+        }
+
+        if (ImGui.BeginPopup("fisher_intuition_settings"))
+        {
+            Utils.DrawUtil.Checkbox("Enable", ref cfg.UseCustomIntuitionHook, "Enable Custom Hooks when Fisher's Intuition is detected");
+            ImGui.Separator();
+
+            DrawSelectTugs(StrHookWeak, ref cfg.HookWeakIntuitionEnabled, ref cfg.HookTypeWeakIntuition);
+            DrawSelectTugs(StrHookStrong, ref cfg.HookStrongIntuitionEnabled, ref cfg.HookTypeStrongIntuition);
+            DrawSelectTugs(StrHookLegendary, ref cfg.HookLegendaryIntuitionEnabled, ref cfg.HookTypeLegendaryIntuition);
+
+            ImGui.EndPopup();
         }
     }
 
     public void DrawAutoMooch(HookConfig cfg)
     {
-        if (ImGui.TreeNode("Auto Mooch##mooch"))
+
+        if (ImGui.Button("Auto Mooch"))
         {
-            ImGui.TextWrapped("- If this is a Bait, all fish caught by this bait will be mooched");
-            ImGui.TextWrapped("- If this is a Fish/Mooch (Ex: Harbor Herring), it'll be mooched when caught");
-            ImGui.TextWrapped("If this option is disabled, it will NOT be mooched even if Auto Mooch is also enabled in the general tab");
-            if (ImGui.Checkbox("Auto Mooch", ref cfg.UseAutoMooch)) {
+            ImGui.OpenPopup("auto_mooch");
+        }
+
+        if (ImGui.BeginPopup("auto_mooch"))
+        {
+            ImGui.Text("- If this is a Bait, all fish caught by this bait will be mooched");
+            ImGui.Text("- If this is a Fish/Mooch (Ex: Harbor Herring), it'll be mooched when caught");
+            ImGui.Text("If this option is disabled, it will NOT be mooched even if Auto Mooch is also enabled in the general tab");
+            if (Utils.DrawUtil.Checkbox("Auto Mooch", ref cfg.UseAutoMooch, "This option takes priority over the Auto Cast Line"))
+            {
                 if (!cfg.UseAutoMooch)
                     cfg.UseAutoMooch2 = false;
             }
@@ -200,7 +266,32 @@ abstract class TabConfig : IDisposable
                 ImGui.Checkbox("Use Mooch II", ref cfg.UseAutoMooch2);
                 ImGui.Unindent();
             }
-            ImGui.TreePop();
+            ImGui.EndPopup();
+        }
+    }
+
+    public void DrawSurfaceSlapIdenticalCast(HookConfig cfg)
+    {
+
+        if (ImGui.Button("Surface Slap & Identical Cast"))
+        {
+            ImGui.OpenPopup("surface_slap_identical_cast");
+        }
+
+        if (ImGui.BeginPopup("surface_slap_identical_cast"))
+        {
+            ImGui.Text("Surface Slap");
+            if (DrawUtil.Checkbox("Use Surface Slap", ref cfg.UseSurfaceSlap, "Overrides Identical Cast"))
+            {
+                cfg.UseIdenticalCast = false;
+            }
+
+            if (DrawUtil.Checkbox("Use Identical Cast", ref cfg.UseIdenticalCast, "Overrides Surface Slap"))
+            {
+                cfg.UseSurfaceSlap = false;
+            }
+
+            ImGui.EndPopup();
         }
     }
 }

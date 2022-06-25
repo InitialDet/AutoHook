@@ -1,3 +1,4 @@
+using AutoHook.Utils;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
@@ -13,7 +14,7 @@ internal class GeneralTab : TabConfig
         ImGui.Text("General settings");
         ImGui.Separator();
         ImGui.TextWrapped("Please report any issues you encounter.");
-        ImGui.Text("Discord: Det#8574");    
+        ImGui.Text("Discord: Det#8574");
     }
 
     public override void Draw()
@@ -26,38 +27,47 @@ internal class GeneralTab : TabConfig
     public void DrawDefaultCast()
     {
         ImGui.PushID($"{TabName}-DefaultCast");
-        ImGui.Checkbox("Use Default Cast", ref Service.Configuration.DefaultCastConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Bait Config is found.");
+        if (ImGui.CollapsingHeader("Default Cast Line Setting"))
+        {
+            ImGui.Checkbox("Use Default Cast", ref Service.Configuration.DefaultCastConfig.Enabled);
+            ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Bait Config is found.");
 
-        ImGui.Indent();
-        
-        DrawInputDoubleMinTime(Service.Configuration.DefaultCastConfig);
-        DrawInputDoubleMaxTime(Service.Configuration.DefaultCastConfig);
-        DrawHookCheckboxes(Service.Configuration.DefaultCastConfig);
-        DrawCheckBoxDoubleTripleHook(Service.Configuration.DefaultCastConfig);
-        DrawPatienceConfig(Service.Configuration.DefaultCastConfig);
+            ImGui.Indent();
 
-        ImGui.Unindent();
+            DrawInputDoubleMinTime(Service.Configuration.DefaultCastConfig);
+            DrawInputDoubleMaxTime(Service.Configuration.DefaultCastConfig);
+            DrawHookCheckboxes(Service.Configuration.DefaultCastConfig);
+            DrawFishersIntuitionConfig(Service.Configuration.DefaultCastConfig);
+            DrawCheckBoxDoubleTripleHook(Service.Configuration.DefaultCastConfig);
+            //DrawPatienceConfig(Service.Configuration.DefaultCastConfig);
 
+            ImGui.Unindent();
+
+            ImGui.EndTabBar();
+        }
         ImGui.PopID();
     }
 
     public void DrawDefaultMooch()
     {
         ImGui.PushID($"{TabName}-DefaultMooch");
-        ImGui.Checkbox("Use Default Mooch", ref Service.Configuration.DefaultMoochConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Mooch Config is found.");
+        if (ImGui.CollapsingHeader("Default Mooch Setting"))
+        {
+            ImGui.Checkbox("Use Default Mooch", ref Service.Configuration.DefaultMoochConfig.Enabled);
+            ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Mooch Config is found.");
 
-        ImGui.Indent();
-        
-        DrawInputDoubleMinTime(Service.Configuration.DefaultMoochConfig);
-        DrawInputDoubleMaxTime(Service.Configuration.DefaultMoochConfig);
-        DrawHookCheckboxes(Service.Configuration.DefaultMoochConfig);
-        DrawCheckBoxDoubleTripleHook(Service.Configuration.DefaultMoochConfig);
-        DrawPatienceConfig(Service.Configuration.DefaultMoochConfig);
-    
-        ImGui.Unindent();
+            ImGui.Indent();
 
+            DrawInputDoubleMinTime(Service.Configuration.DefaultMoochConfig);
+            DrawInputDoubleMaxTime(Service.Configuration.DefaultMoochConfig);
+            DrawHookCheckboxes(Service.Configuration.DefaultMoochConfig);
+            DrawFishersIntuitionConfig(Service.Configuration.DefaultMoochConfig);
+            DrawCheckBoxDoubleTripleHook(Service.Configuration.DefaultMoochConfig);
+            //DrawPatienceConfig(Service.Configuration.DefaultMoochConfig);
+
+            ImGui.Unindent();
+
+        }
         ImGui.PopID();
     }
 }

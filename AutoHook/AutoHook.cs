@@ -1,13 +1,14 @@
 ﻿using AutoHook.Configurations;
 using AutoHook.FishTimer;
 using AutoHook.SeFunctions;
+using AutoHook.Utils;
 using Dalamud.Game.Command;
 using Dalamud.Logging;
 using Dalamud.Plugin;
 using SeFunctions;
 
 namespace AutoHook;
-// Based on the FishNotify plugin
+
 public class AutoHook : IDalamudPlugin
 {
     public string Name => "AutoHook";
@@ -23,7 +24,6 @@ public class AutoHook : IDalamudPlugin
     public AutoHook(DalamudPluginInterface pluginInterface)
     {
         Service.Initialize(pluginInterface);
-        Service.CommandManager = new CustomCommandManager(Service.SigScanner);
         Service.EventFramework = new EventFramework(Service.SigScanner);
         Service.CurrentBait = new CurrentBait(Service.SigScanner);
         Service.TugType = new SeTugType(Service.SigScanner);
@@ -31,6 +31,8 @@ public class AutoHook : IDalamudPlugin
         Service.PluginInterface!.UiBuilder.OpenConfigUi += OnOpenConfigUi;
         Service.Configuration = Configuration.Load();
         Service.Language = Service.ClientState.ClientLanguage;
+
+        PlayerResources.Initialize();
 
         PluginUI = new PluginUI();
 
@@ -59,7 +61,6 @@ public class AutoHook : IDalamudPlugin
 
     private void OnCommand(string command, string args)
     {
-        PluginLog.Debug(command);
         if (command.Trim().Equals(CmdAHCfg))
             OnOpenConfigUi();
 

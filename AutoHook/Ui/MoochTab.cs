@@ -14,38 +14,6 @@ class MoochTab : TabConfig
     public MoochTab()
     { }
 
-    public override void Draw()
-    {
-        ImGui.BeginGroup();
-
-        for (int idx = 0; idx < Service.Configuration.CustomBait.Count; idx++)
-        {
-            var bait = Service.Configuration.CustomBait[idx];
-            ImGui.PushID($"id###{idx}");
-            if (ImGui.CollapsingHeader($"{bait.BaitName}###{idx}"))
-            {
-                ImGui.Indent();
-                DrawEnabledButtonCustomBait(bait);
-                ImGui.SameLine();
-                DrawDeleteBaitButton(bait);
-                DrawInputTextName(bait);
-                DrawInputDoubleMinTime(bait);
-                DrawInputDoubleMaxTime(bait);
-                DrawHookCheckboxes(bait);
-                ImGui.Separator();
-                DrawCheckBoxDoubleTripleHook(bait);
-                ImGui.Separator();
-                DrawPatienceConfig(bait);
-                ImGui.Separator();
-                DrawAutoMooch(bait);
-
-                ImGui.Unindent();
-
-            }
-            ImGui.PopID();
-        }
-        ImGui.EndGroup();
-    }
 
     public override void DrawHeader()
     {
@@ -74,19 +42,51 @@ class MoochTab : TabConfig
             Service.Configuration.Save();
         }
 
-        /*ImGui.SameLine();
-        if (ImGui.Button("Reset"))
-        {
-            foreach (HookSettings mooch in Settings.CustomBaitMooch)
-            {
-                Settings.CustomBaitMooch.Remove(mooch);
-            }
-            Settings.CustomBaitMooch.Add(new HookSettings("Generic"));
-            Settings.Save();
-        }*/
-
         ImGui.Text($"Current bait/mooch:");
         ImGui.SameLine();
         ImGui.TextColored(ImGuiColors.HealerGreen, HookingManager.CurrentBait ?? "-");
     }
+
+    public override void Draw()
+    {
+        ImGui.BeginGroup();
+
+        for (int idx = 0; idx < Service.Configuration.CustomBait.Count; idx++)
+        {
+            var bait = Service.Configuration.CustomBait[idx];
+            ImGui.PushID($"id###{idx}");
+            if (ImGui.CollapsingHeader($"{bait.BaitName}###{idx}"))
+            {
+                DrawEnabledButtonCustomBait(bait);
+                ImGui.Indent();
+                ImGui.SameLine();
+                DrawDeleteBaitButton(bait);
+                DrawInputTextName(bait);
+                DrawInputDoubleMinTime(bait);
+                DrawInputDoubleMaxTime(bait);
+                DrawHookCheckboxes(bait);
+                ImGui.Spacing();
+                ImGui.Separator();
+                ImGui.Spacing();
+                DrawFishersIntuitionConfig(bait);
+                ImGui.Spacing();
+                DrawCheckBoxDoubleTripleHook(bait);
+                ImGui.Spacing();
+                DrawSurfaceSlapIdenticalCast(bait);
+                ImGui.Spacing();
+                DrawAutoMooch(bait);
+                //DrawPatienceConfig(bait);
+                //ImGui.Separator();
+
+                ImGui.Unindent();
+                
+            }
+            ImGui.Spacing();
+            ImGui.Separator();
+            ImGui.Spacing();
+            ImGui.PopID();
+        }
+        ImGui.EndGroup();
+    }
+
 }

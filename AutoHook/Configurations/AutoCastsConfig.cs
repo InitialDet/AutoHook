@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using AutoHook.Data;
 using AutoHook.Utils;
 using Dalamud.Logging;
+using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace AutoHook.Configurations;
 
@@ -26,25 +28,65 @@ public class AutoCastsConfig
     public bool EnableChum = false;
     public bool EnableFishEyes = false;
 
-    public uint GetNextAutoCast(HookConfig? hookConfig)
-    {
+    public bool EnableIdenticalCast = false;
+    public bool EnableSurfaceSlap = false;
+
+    public bool EnableCordial = false;
+
+
+
+    HookConfig? hookConfig = null;
+
+    public AutoCast? GetNextAutoCast(HookConfig? hookConfig)
+    {   
+
         if (!EnableAll)
-            return 0;
+            return null;
+
+        this.hookConfig = hookConfig;
 
         if (!PlayerResources.ActionAvailable(IDs.Actions.Cast))
-            return 0;
+            return null;
 
         if (UseThaliaksFavor())
-            return IDs.Actions.ThaliaksFavor;
+            return new(IDs.Actions.ThaliaksFavor, ActionType.Spell);
 
         if (UseMakeshiftBait())
-            return IDs.Actions.MakeshiftBait;
+            return new(IDs.Actions.MakeshiftBait, ActionType.Spell);
 
         if (UsesChum())
-            return IDs.Actions.Chum;
+            return new(IDs.Actions.Chum, ActionType.Spell);
 
         if (UsesFishEyes())
-            return IDs.Actions.FishEyes;
+            return new(IDs.Actions.FishEyes, ActionType.Spell);
+
+        if (UsesIdenticalCast())
+            return new(IDs.Actions.IdenticalCast, ActionType.Spell);
+
+        if (UsesSurfaceSlap())
+            return new(IDs.Actions.SurfaceSlap, ActionType.Spell);
+
+        if (UsePrizeCatch())
+            return new(IDs.Actions.PrizeCatch, ActionType.Spell);
+
+        if (UsePatience()) // This cant be used if a mooch is available or it'll cancel it
+            return new(SelectedPatienceID, ActionType.Spell);
+
+        if (UsesCordials(out uint idCordial))
+            return new(idCordial, ActionType.Item);
+
+        if (UseMooch(out uint idMooch))
+            return new(idMooch, ActionType.Spell);
+
+        if (EnableAutoCast)
+            return new(IDs.Actions.Cast, ActionType.Spell);
+
+        return null;
+    }
+
+    private bool UseMooch(out uint id)
+    {
+        id = 0;
 
         bool useAutoMooch = false;
         bool useAutoMooch2 = false;
@@ -62,22 +104,17 @@ public class AutoCastsConfig
 
         if (useAutoMooch)
         {
-            if (PlayerResources.ActionAvailable(IDs.Actions.Mooch))
-                return IDs.Actions.Mooch;
-            else if (useAutoMooch2 && PlayerResources.ActionAvailable(IDs.Actions.Mooch2))
-                return IDs.Actions.Mooch2;
+            if (PlayerResources.ActionAvailable(IDs.Actions.Mooch)) {
+                id = IDs.Actions.Mooch;
+                return true;
+            }
+            else if (useAutoMooch2 && PlayerResources.ActionAvailable(IDs.Actions.Mooch2)) {
+                id = IDs.Actions.Mooch2;
+                return true;
+            }   
         }
 
-        if (UsePrizeCatch())
-            return IDs.Actions.PrizeCatch;
-
-        if (UsePatience()) // This cant be used if a mooch is available or it'll cancel it
-            return SelectedPatienceID;
-
-        if (EnableAutoCast)
-            return IDs.Actions.Cast;
-
-        return 0;
+        return false;
     }
 
     private bool UsePatience()
@@ -86,6 +123,11 @@ public class AutoCastsConfig
         {
             if (!PlayerResources.HasStatus(IDs.Status.AnglersFortune))
             {
+                // Dont use Patience if mooch is available
+                if (IsMoochAvailable())
+                {
+                    return false;
+                }
 
                 if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
                     return false;
@@ -133,7 +175,7 @@ public class AutoCastsConfig
         if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
             return false;
 
-        
+
         bool available = PlayerResources.ActionAvailable(IDs.Actions.MakeshiftBait);
         bool hasStacks = PlayerResources.HasAnglersArtStacks(MakeshiftBaitStacks);
 
@@ -147,7 +189,19 @@ public class AutoCastsConfig
 
     private bool UsePrizeCatch()
     {
-        return EnablePrizeCatch && PlayerResources.ActionAvailable(IDs.Actions.PrizeCatch);
+        if (!EnablePrizeCatch)
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait))
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
+            return false;
+
+        return PlayerResources.ActionAvailable(IDs.Actions.PrizeCatch);
     }
 
     private bool UsesFishEyes()
@@ -158,5 +212,74 @@ public class AutoCastsConfig
     private bool UsesChum()
     {
         return EnableChum && PlayerResources.ActionAvailable(IDs.Actions.Chum);
+    }
+
+    private bool UsesIdenticalCast()
+    {
+        bool useIdenticalCast = false;
+
+        if (hookConfig == null || hookConfig?.BaitName == "DefaultCast" || hookConfig?.BaitName == "DefaultMooch")
+        {
+            useIdenticalCast = EnableSurfaceSlap;
+        }
+        else
+        {
+            useIdenticalCast = hookConfig?.UseIdenticalCast ?? false;
+        }
+
+        return useIdenticalCast && PlayerResources.ActionAvailable(IDs.Actions.IdenticalCast);
+    }
+
+    private bool UsesSurfaceSlap()
+    {
+        bool useSurfaceSlap = false;
+
+        if (hookConfig == null || hookConfig?.BaitName == "DefaultCast" || hookConfig?.BaitName == "DefaultMooch")
+        {
+            useSurfaceSlap = EnableSurfaceSlap;
+        }
+        else
+        {
+            useSurfaceSlap = hookConfig?.UseSurfaceSlap ?? false;
+        }
+
+        return useSurfaceSlap && PlayerResources.ActionAvailable(IDs.Actions.SurfaceSlap);
+    }
+
+    private int cordialAmount = 350;
+    private int hiCordialAmount = 400;
+    private bool UsesCordials(out uint itemID)
+    {
+        itemID = 0;
+
+        if (!EnableCordial)
+            return false;
+
+        bool notOvercaped = false;
+
+        if (PlayerResources.HaveItemInInventory(IDs.Item.HiCordial))
+        {
+            itemID = IDs.Item.HiCordial;
+            notOvercaped = (PlayerResources.GetCurrentGP() + hiCordialAmount) < PlayerResources.GetMaxGP();
+        }
+        else if (PlayerResources.HaveItemInInventory(IDs.Item.Cordial))
+        {
+            itemID = IDs.Item.Cordial;
+            notOvercaped = (PlayerResources.GetCurrentGP() + cordialAmount) < PlayerResources.GetMaxGP();
+        }
+
+        return (itemID != 0) && notOvercaped && PlayerResources.ActionAvailable(itemID, ActionType.Item);
+    }
+}
+
+public class AutoCast
+{
+    public uint Id { get; set; } = 0;
+    public ActionType ActionType { get; set; } = ActionType.None;
+
+    public AutoCast(uint id, ActionType actionType)
+    {
+        this.Id = id;
+        this.ActionType = actionType;
     }
 }

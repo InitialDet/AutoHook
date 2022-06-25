@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AutoHook.Configurations;
@@ -8,9 +7,9 @@ using Dalamud.Game;
 using Dalamud.Logging;
 using GatherBuddy.Parser;
 using Item = Lumina.Excel.GeneratedSheets.Item;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using AutoHook.Enums;
 using AutoHook.Data;
+using System.Collections.Generic;
 
 namespace AutoHook.FishTimer;
 
@@ -199,21 +198,23 @@ public class HookingManager : IDisposable
             Timer.Stop();
             return;
         }
+
+        CurrentBait = "-";
     }
 
     private void UseAutoCasts()
     {
-        uint action = 0;
+        AutoCast? cast = null;
 
         HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
         
         if (CustomMoochCfg != null)
-            action = cfg.AutoCastsCfg.GetNextAutoCast(CustomMoochCfg);
+            cast = cfg.AutoCastsCfg.GetNextAutoCast(CustomMoochCfg);
         else
-            action = cfg.AutoCastsCfg.GetNextAutoCast(CurrentSetting);
+            cast = cfg.AutoCastsCfg.GetNextAutoCast(CurrentSetting);
 
-        if (action != 0) {
-            PlayerResources.CastActionDelayed(action, 800);
+        if (cast != null) {
+            PlayerResources.CastActionDelayed(cast.Id, cast.ActionType);
         }     
     }
 

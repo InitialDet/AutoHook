@@ -9,5 +9,5 @@
   "Tags": ["Gathering","Fishing"],
   "DalamudApiLevel": 6,
   "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
-  "Changelog": "Added Chum and Fish Eyes for Auto Casts, New icon By Vec7rex"
+  "Changelog": "*NEW*\n- Added a new hooking configuration when under the effect of Fisher's Intuitions\n- Added Auto Use Cordials\n- Added Auto Surface Slap/Identical Cast (Custom config only)\n\n*Adjustments*\n- Added variable delay between casts\n- Some UI tweaks"
 }
