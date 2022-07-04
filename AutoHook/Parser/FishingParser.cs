@@ -9,7 +9,7 @@ using AutoHook.SeFunctions;
 using AutoHook.Utils;
 using Item = Lumina.Excel.GeneratedSheets.Item;
 
-namespace GatherBuddy.Parser;
+namespace Parser;
 
 public partial class FishingParser : IDisposable
 {

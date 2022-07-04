@@ -5,7 +5,7 @@ using AutoHook.Configurations;
 using AutoHook.Utils;
 using Dalamud.Game;
 using Dalamud.Logging;
-using GatherBuddy.Parser;
+using Parser;
 using Item = Lumina.Excel.GeneratedSheets.Item;
 using AutoHook.Enums;
 using AutoHook.Data;
@@ -75,25 +75,6 @@ public class HookingManager : IDisposable
         Parser.BeganMooching -= OnBeganMooch;
     }
 
-    private void OnBeganFishing()
-    {
-        CurrentBait = GetCurrentBait();
-        Timer.Reset();
-        Timer.Start();
-        LastStep = CatchSteps.BeganFishing;
-        UpdateCurrentSetting();
-    }
-
-    private void OnBeganMooch()
-    {
-        CurrentBait = new string(LastCatch);
-        Timer.Reset();
-        Timer.Start();
-        LastCatch = null;
-        LastStep = CatchSteps.BeganMooching;
-        UpdateCurrentSetting();
-    }
-
     // The current config is updates two times: When we began fishing (to get the config based on the mooch/bait) and when we hooked the fish (in case the user updated their configs).
     private void UpdateCurrentSetting()
     {
@@ -121,6 +102,25 @@ public class HookingManager : IDisposable
             PluginLog.Debug($"Config found. Hooking with {CurrentSetting.BaitName} Config");
     }
 
+    private void OnBeganFishing()
+    {
+        CurrentBait = GetCurrentBait();
+        Timer.Reset();
+        Timer.Start();
+        LastStep = CatchSteps.BeganFishing;
+        UpdateCurrentSetting();
+    }
+
+    private void OnBeganMooch()
+    {
+        CurrentBait = new string(LastCatch);
+        Timer.Reset();
+        Timer.Start();
+        LastCatch = null;
+        LastStep = CatchSteps.BeganMooching;
+        UpdateCurrentSetting();
+    }
+
     private void OnBite()
     {
         UpdateCurrentSetting();
@@ -130,8 +130,83 @@ public class HookingManager : IDisposable
         HookFish(Service.TugType?.Bite ?? BiteType.Unknown);
     }
 
+    private void OnCatch(string fishName, uint fishId)
+    {
+        LastCatch = fishName;
+        CurrentBait = GetCurrentBait();
+
+        LastStep = CatchSteps.FishCaught;
+
+        // Check if should stop
+        if (CurrentSetting != null && CurrentSetting.StopAfterCaught) {
+            int total = FishCounter.Add(CurrentSetting.BaitName);
+
+            PluginLog.Debug($"{CurrentSetting.BaitName} caught. Total: {total} out of {CurrentSetting.StopAfterCaught}");
+
+            if (total >= CurrentSetting.StopAfterCaughtLimit) {
+                LastStep = CatchSteps.Quitting;
+            }
+        }
+    }
+
+    private void OnFishingStop()
+    {
+
+        if (Timer.IsRunning)
+        {
+            Timer.Stop();
+    
+        }
+
+        CurrentBait = "-";
+        FishCounter.Reset();
+    }
+
+    private void OnFrameworkUpdate(Framework _)
+    {
+        var state = Service.EventFramework.FishingState;
+
+        if (!cfg.PluginEnabled || state == FishingState.None)
+            return;
+
+
+        if (state != FishingState.Quit && LastStep == CatchSteps.Quitting) {
+            PlayerResources.CastActionDelayed(IDs.Actions.Quit);
+            state = FishingState.Quit;
+        }
+
+        // FishBit in this case means that the fish was hooked, but it escaped. I might need to find a way to check if the fish was caught or not.
+        if (LastStep != CatchSteps.Quitting && state == FishingState.PoleReady && (LastStep == CatchSteps.FishBit || LastStep == CatchSteps.FishCaught || LastStep == CatchSteps.TimeOut))
+        {
+            UseAutoCasts();
+        }
+
+        //CheckState();
+
+        if (state == FishingState.Waiting2)
+            CheckMaxTimeLimit();
+
+        if (LastState == state)
+            return;
+
+        LastState = state;
+
+        switch (state)
+        {
+            case FishingState.PullPoleIn: // If a hook is manually used before a bite, dont use auto cast
+                if (LastStep == CatchSteps.BeganFishing || LastStep == CatchSteps.BeganFishing) LastStep = CatchSteps.None;
+                break;
+            case FishingState.Bite:
+                if (LastStep != CatchSteps.FishBit) OnBite();
+                break;
+            case FishingState.Quit:
+                OnFishingStop();
+                break;
+        }
+    }
+
     private unsafe void HookFish(BiteType bite)
-    { 
+    {
         if (CurrentSetting == null)
             return;
 
@@ -150,12 +225,25 @@ public class HookingManager : IDisposable
             PlayerResources.CastAction((uint)HookType.Normal);
     }
 
-    private void OnCatch(string fishName, uint fishId)
+    private void UseAutoCasts()
     {
-        LastCatch = fishName;
-        CurrentBait = GetCurrentBait();
+        AutoCast? cast = null;
 
-        LastStep = CatchSteps.FishCaught;
+        HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+
+        if (CustomMoochCfg != null)
+            cast = cfg.AutoCastsCfg.GetNextAutoCast(CustomMoochCfg);
+        else
+            cast = cfg.AutoCastsCfg.GetNextAutoCast(CurrentSetting);
+
+        if (cast != null)
+        {
+            PlayerResources.CastActionDelayed(cast.Id, cast.ActionType);
+        }
+    }
+
+    private void QuitFishing() {
+        PlayerResources.CastActionDelayed(IDs.Actions.Quit);
     }
 
     private bool CheckMinTimeLimit()
@@ -191,71 +279,7 @@ public class HookingManager : IDisposable
         }
     }
 
-    private void OnFishingStop()
-    {
-        if (Timer.IsRunning)
-        {
-            Timer.Stop();
-            return;
-        }
-
-        CurrentBait = "-";
-    }
-
-    private void UseAutoCasts()
-    {
-        AutoCast? cast = null;
-
-        HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
-        
-        if (CustomMoochCfg != null)
-            cast = cfg.AutoCastsCfg.GetNextAutoCast(CustomMoochCfg);
-        else
-            cast = cfg.AutoCastsCfg.GetNextAutoCast(CurrentSetting);
-
-        if (cast != null) {
-            PlayerResources.CastActionDelayed(cast.Id, cast.ActionType);
-        }     
-    }
-
-    private void OnFrameworkUpdate(Framework _)
-    {
-        var state = Service.EventFramework.FishingState;
-
-        if (!cfg.PluginEnabled || state == FishingState.None)
-            return;
-
-        // FishBit in this case means that the fish was hooked, but it escaped. I might need to find a way to check if the fish was caught or not.
-        if (state == FishingState.PoleReady && (LastStep == CatchSteps.FishBit || LastStep == CatchSteps.FishCaught || LastStep == CatchSteps.TimeOut))
-        {
-            UseAutoCasts();
-        }
-
-        //CheckState();
-
-        if (state == FishingState.Waiting2)
-            CheckMaxTimeLimit();
-
-        if (LastState == state)
-            return;
-
-        LastState = state;
-
-        switch (state)
-        {
-            case FishingState.PullPoleIn: // If a hook is manually used before a bite, dont use auto cast
-                if (LastStep == CatchSteps.BeganFishing || LastStep == CatchSteps.BeganFishing) LastStep = CatchSteps.None;
-                break;
-            case FishingState.Bite:
-                if (LastStep != CatchSteps.FishBit) OnBite();
-                break;
-            case FishingState.Quit:
-                OnFishingStop();
-                break;
-        }
-    }
-
-    private static double debugValueLast = 1000;
+    private static double debugValueLast = 3000;
     private Stopwatch Timerrr = new();
     private void CheckState()
     {
@@ -265,7 +289,31 @@ public class HookingManager : IDisposable
         if (Timerrr.ElapsedMilliseconds > debugValueLast + 500)
         {
             debugValueLast = Timerrr.ElapsedMilliseconds;
-            PluginLog.Debug($"Fishing State: {Service.EventFramework.FishingState}, LastStep: {LastStep}");
+            //PluginLog.Debug($"Fishing State: {Service.EventFramework.FishingState}, LastStep: {LastStep}");
+            //PluginLog.Debug($"{PlayerResources.HaveItemInInventory(IDs.Item.Cordial)}");
+        }
+    }
+
+    private static class FishCounter {
+        static Dictionary<string, int> fishCount = new();
+
+        public static int Add(string fishName) {
+            if (!fishCount.ContainsKey(fishName))
+                fishCount.Add(fishName, 0);
+            fishCount[fishName]++;
+
+            return GetCount(fishName);
+        }
+
+        public static int GetCount(string fishName) {
+            if (!fishCount.ContainsKey(fishName))
+                return 0;
+            return fishCount[fishName];
+        }
+
+        public static void Reset() {
+
+            fishCount = new();
         }
     }
 }

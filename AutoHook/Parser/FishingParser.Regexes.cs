@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using Dalamud;
 
-namespace GatherBuddy.Parser;
+namespace Parser;
 
 public partial class FishingParser
 {

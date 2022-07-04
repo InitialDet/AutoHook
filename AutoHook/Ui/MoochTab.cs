@@ -66,8 +66,8 @@ class MoochTab : TabConfig
                 DrawInputDoubleMaxTime(bait);
                 DrawHookCheckboxes(bait);
                 ImGui.Spacing();
-                ImGui.Separator();
-                ImGui.Spacing();
+
+                /*
                 DrawFishersIntuitionConfig(bait);
                 ImGui.Spacing();
                 DrawCheckBoxDoubleTripleHook(bait);
@@ -77,9 +77,35 @@ class MoochTab : TabConfig
                 DrawAutoMooch(bait);
                 //DrawPatienceConfig(bait);
                 //ImGui.Separator();
+                */
+
+                ImGuiTableFlags flags = ImGuiTableFlags.SizingFixedFit | /*ImGuiTableFlags.Resizable |*/ ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.NoHostExtendX | ImGuiTableFlags.ContextMenuInBody;
+
+                if (ImGui.BeginTable("table2", 2, flags))
+                {
+
+                    // Collumn 1
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    DrawFishersIntuitionConfig(bait);
+                    ImGui.TableNextColumn();
+                    DrawCheckBoxDoubleTripleHook(bait);
+
+                    // Collumn 2
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    DrawSurfaceSlapIdenticalCast(bait);
+                    ImGui.TableNextColumn();
+                    DrawAutoMooch(bait);
+
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    DrawStopAfter(bait);
+
+                    ImGui.EndTable();
+                }
 
                 ImGui.Unindent();
-                
             }
             ImGui.Spacing();
             ImGui.Separator();
@@ -88,5 +114,4 @@ class MoochTab : TabConfig
         }
         ImGui.EndGroup();
     }
-
 }

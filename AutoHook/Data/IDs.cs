@@ -6,6 +6,8 @@ namespace AutoHook.Data
         {
             public const uint
             Cast = 289,
+            Quit = 299,
+
             Mooch = 297,
             Mooch2 = 268,
 
@@ -49,6 +51,8 @@ namespace AutoHook.Data
         {
             public const uint
             Cordial = 6141,
+            HQCordial = 1006141,
+
             HiCordial = 12669,
 
             None = 0;

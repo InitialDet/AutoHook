@@ -41,6 +41,9 @@ public class HookConfig
     public double MaxTimeDelay = 0;
     public double MinTimeDelay = 0;
 
+    public bool StopAfterCaught = false;
+    public int StopAfterCaughtLimit = 1;
+
     public HookConfig(string bait)
     {
         BaitName = bait;

@@ -1,4 +1,6 @@
+using AutoHook.Data;
 using AutoHook.Utils;
+using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
@@ -9,14 +11,15 @@ internal class GeneralTab : TabConfig
     public override bool Enabled => true;
     public override string TabName => "General";
 
+
     public override void DrawHeader()
     {
         ImGui.Text("General settings");
         ImGui.Separator();
         ImGui.TextWrapped("Please report any issues you encounter.");
         ImGui.Text("Discord: Det#8574");
-    }
 
+    }
     public override void Draw()
     {
         DrawDefaultCast();

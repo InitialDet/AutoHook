@@ -31,14 +31,14 @@ public class AutoCastsConfig
     public bool EnableIdenticalCast = false;
     public bool EnableSurfaceSlap = false;
 
-    public bool EnableCordial = false;
-
+    public bool EnableCordials = false;
+    public bool EnableCordialFirst = false;
 
 
     HookConfig? hookConfig = null;
 
     public AutoCast? GetNextAutoCast(HookConfig? hookConfig)
-    {   
+    {
 
         if (!EnableAll)
             return null;
@@ -104,14 +104,16 @@ public class AutoCastsConfig
 
         if (useAutoMooch)
         {
-            if (PlayerResources.ActionAvailable(IDs.Actions.Mooch)) {
+            if (PlayerResources.ActionAvailable(IDs.Actions.Mooch))
+            {
                 id = IDs.Actions.Mooch;
                 return true;
             }
-            else if (useAutoMooch2 && PlayerResources.ActionAvailable(IDs.Actions.Mooch2)) {
+            else if (useAutoMooch2 && PlayerResources.ActionAvailable(IDs.Actions.Mooch2))
+            {
                 id = IDs.Actions.Mooch2;
                 return true;
-            }   
+            }
         }
 
         return false;
@@ -246,29 +248,55 @@ public class AutoCastsConfig
         return useSurfaceSlap && PlayerResources.ActionAvailable(IDs.Actions.SurfaceSlap);
     }
 
-    private int cordialAmount = 350;
-    private int hiCordialAmount = 400;
+
+    IDictionary<uint, int> cordialCost = new Dictionary<uint, int>()
+            {
+                {IDs.Item.Cordial,300},
+                {IDs.Item.HQCordial, 350},
+                {IDs.Item.HiCordial,400},
+                {0,0}
+            };
     private bool UsesCordials(out uint itemID)
     {
         itemID = 0;
 
-        if (!EnableCordial)
+        if (!EnableCordials)
             return false;
 
-        bool notOvercaped = false;
+        bool useCordial = false;
+        bool useHQCordial = false;
+        bool useHICordial = false;
 
         if (PlayerResources.HaveItemInInventory(IDs.Item.HiCordial))
-        {
-            itemID = IDs.Item.HiCordial;
-            notOvercaped = (PlayerResources.GetCurrentGP() + hiCordialAmount) < PlayerResources.GetMaxGP();
+            useHICordial = true;
+
+        if (PlayerResources.HaveItemInInventory(IDs.Item.Cordial, true))
+            useHQCordial = true;
+
+        if (PlayerResources.HaveItemInInventory(IDs.Item.Cordial))
+            useCordial = true;
+
+        if (EnableCordialFirst) {
+            if (useHQCordial)
+                itemID = IDs.Item.HQCordial;
+            else if (useCordial)
+                itemID = IDs.Item.Cordial;
+            else if (useHICordial)
+                itemID = IDs.Item.HiCordial;
         }
-        else if (PlayerResources.HaveItemInInventory(IDs.Item.Cordial))
+        else
         {
-            itemID = IDs.Item.Cordial;
-            notOvercaped = (PlayerResources.GetCurrentGP() + cordialAmount) < PlayerResources.GetMaxGP();
+            if (useHICordial)
+                itemID = IDs.Item.HiCordial;
+            else if (useHQCordial)
+                itemID = IDs.Item.HQCordial;
+            else if (useCordial)
+                itemID = IDs.Item.Cordial;
         }
 
-        return (itemID != 0) && notOvercaped && PlayerResources.ActionAvailable(itemID, ActionType.Item);
+        bool notOvercaped = (PlayerResources.GetCurrentGP() + cordialCost[itemID]) < PlayerResources.GetMaxGP();
+
+        return (itemID != 0) && notOvercaped && PlayerResources.IsPotOffCooldown();
     }
 }
 

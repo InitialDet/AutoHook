@@ -4,6 +4,7 @@ using AutoHook.Configurations;
 using AutoHook.Enums;
 using AutoHook.Utils;
 using Dalamud.Interface;
+using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
@@ -115,7 +116,18 @@ abstract class TabConfig : IDisposable
         if (ImGui.InputDouble("Min. Wait", ref cfg.MinTimeDelay, .1, 1, "%.1f%"))
         {
 
+            switch (cfg.MinTimeDelay)
+            {
+             
+                case <= 0:
+                    cfg.MinTimeDelay = 0;
+                    break;
+                case > 99:
+                    cfg.MinTimeDelay = 99;
+                    break;
+            }
         }
+        
         ImGui.SameLine();
         ImGuiComponents.HelpMarker("Hook will NOT be used until the minimum time has passed.\n\nEx: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked\n\nSet Zero (0) to disable");
     }
@@ -136,6 +148,8 @@ abstract class TabConfig : IDisposable
         if (ImGui.BeginPopup("Double/Triple SettingsHook###DHTH"))
         {
 
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "Double/Triple Hook Settings");
+            ImGui.Spacing();
             if (ImGui.Checkbox("Use Double Hook (If gp > 400)", ref cfg.UseDoubleHook))
             {
                 if (cfg.UseDoubleHook) cfg.UseTripleHook = false;
@@ -229,7 +243,9 @@ abstract class TabConfig : IDisposable
         }
 
         if (ImGui.BeginPopup("fisher_intuition_settings"))
-        {
+        {   
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "Fisher's Intuition Settings");
+            ImGui.Spacing();
             Utils.DrawUtil.Checkbox("Enable", ref cfg.UseCustomIntuitionHook, "Enable Custom Hooks when Fisher's Intuition is detected");
             ImGui.Separator();
 
@@ -251,6 +267,8 @@ abstract class TabConfig : IDisposable
 
         if (ImGui.BeginPopup("auto_mooch"))
         {
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "Auto Mooch");
+            ImGui.Spacing();
             ImGui.Text("- If this is a Bait, all fish caught by this bait will be mooched");
             ImGui.Text("- If this is a Fish/Mooch (Ex: Harbor Herring), it'll be mooched when caught");
             ImGui.Text("If this option is disabled, it will NOT be mooched even if Auto Mooch is also enabled in the general tab");
@@ -280,7 +298,8 @@ abstract class TabConfig : IDisposable
 
         if (ImGui.BeginPopup("surface_slap_identical_cast"))
         {
-            ImGui.Text("Surface Slap");
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "Surface Slap & Identical Cast");
+            ImGui.Spacing();
             if (DrawUtil.Checkbox("Use Surface Slap", ref cfg.UseSurfaceSlap, "Overrides Identical Cast"))
             {
                 cfg.UseIdenticalCast = false;
@@ -289,6 +308,39 @@ abstract class TabConfig : IDisposable
             if (DrawUtil.Checkbox("Use Identical Cast", ref cfg.UseIdenticalCast, "Overrides Surface Slap"))
             {
                 cfg.UseSurfaceSlap = false;
+            }
+
+            ImGui.EndPopup();
+        }
+    }
+
+    public void DrawStopAfter(HookConfig cfg)
+    {
+
+        if (ImGui.Button("Stop fishing after..."))
+        {
+            ImGui.OpenPopup(str_id: "stop_after");
+        }
+
+        if (ImGui.BeginPopupContextWindow("stop_after"))
+        {
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "Stop fishing");
+            ImGui.Spacing();
+            if (DrawUtil.Checkbox("After being caught...", ref cfg.StopAfterCaught, "- If this config is a bait: Stops fishing after X amount of fish is caught\n- If this config is a fish: Stops fishing after it being caught X amount of times"))
+            {
+
+            }
+
+            if (cfg.StopAfterCaught) {
+                ImGui.Indent();
+                ImGui.SetNextItemWidth(90 * ImGuiHelpers.GlobalScale);
+                if (ImGui.InputInt("Time(s)", ref cfg.StopAfterCaughtLimit))
+                {
+                    if(cfg.StopAfterCaughtLimit < 1)
+                        cfg.StopAfterCaughtLimit = 1;
+                }
+                
+                ImGui.Unindent();
             }
 
             ImGui.EndPopup();

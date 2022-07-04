@@ -9,5 +9,6 @@ internal enum CatchSteps
     Hooking,
     FishCaught,
     FishReeled,
-    TimeOut
+    TimeOut,
+    Quitting
 }

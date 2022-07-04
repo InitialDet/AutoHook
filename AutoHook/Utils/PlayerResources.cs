@@ -68,8 +68,13 @@ public class PlayerResources
 
     // status 0 == available to cast? not sure but it seems to be
     // Also make sure its the skill is not on cooldown (maily for mooch2)
-    public static unsafe bool ActionAvailable(uint id, ActionType actionType = ActionType.Spell)
-        => _actionManager->GetActionStatus(actionType, id) == 0 && !ActionManager.Instance()->IsRecastTimerActive(ActionType.Spell, id);
+    public static unsafe bool ActionAvailable(uint id, ActionType actionType = ActionType.Spell) {
+
+        if (actionType == ActionType.Item)
+            return true;
+        return _actionManager->GetActionStatus(actionType, id) == 0 && !ActionManager.Instance()->IsRecastTimerActive(ActionType.Spell, id);
+    }
+        
 
     public static unsafe uint ActionStatus(uint id, ActionType actionType = ActionType.Spell)
        => _actionManager->GetActionStatus(actionType, id);
@@ -92,17 +97,17 @@ public class PlayerResources
         }
     }
 
-    public static unsafe float PotionCooldown()
+    public static unsafe bool IsPotOffCooldown()
     {
         // note: potions have recast group 58; however, for some reason periodically GetRecastGroup for them returns -1...
         var recast = _actionManager->GetRecastGroupDetail(58);
-        return recast->Total - recast->Elapsed;
+        return recast->Total - recast->Elapsed == 0;
     }
 
-    public static unsafe bool HaveItemInInventory(uint id)
+    public static unsafe bool HaveItemInInventory(uint id, bool isHQ = false)
     {
-
-        return FFXIVClientStructs.FFXIV.Client.Game.InventoryManager.Instance()->GetInventoryItemCount(id % 1000000, id >= 1000000, false, false) > 0;
+        
+        return FFXIVClientStructs.FFXIV.Client.Game.InventoryManager.Instance()->GetInventoryItemCount(id, isHQ) > 0;
     }
 
     static bool isCasting = false;
@@ -119,16 +124,15 @@ public class PlayerResources
         isCasting = true;
 
         await Task.Delay(delay);
-        if (ActionAvailable(id, actionType))
+
+        if (actionType == ActionType.Spell)
         {
-            if (actionType == ActionType.Spell)
-            {
+            if (ActionAvailable(id, actionType))
                 CastAction(id, actionType);
-            }
-            else if (actionType == ActionType.Item)
-            {
-                UseItem(id);
-            }
+        }
+        else if (actionType == ActionType.Item)
+        {
+            UseItem(id);
         }
 
         isCasting = false;

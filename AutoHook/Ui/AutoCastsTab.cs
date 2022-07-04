@@ -192,7 +192,20 @@ internal class AutoCastsTab : TabConfig
 
     private void DrawCordials()
     {
-        if (DrawUtil.Checkbox("Use Cordials", ref cfg.EnableCordial, "Must have Hi-Cordials or Cordials in your inventory. Cordials will be ignored if you have Hi-Cordials available"))
+        if (DrawUtil.Checkbox("Use Cordials (Hi-Cordial First)", ref cfg.EnableCordials, "If theres no Hi-Cordials, Cordials will be used instead"))
+        { }
+
+        if (cfg.EnableCordials)
+        {
+            ImGui.Indent();
+            DrawExtraOptionsCordials();
+            ImGui.Unindent();
+        }
+    }
+
+    private void DrawExtraOptionsCordials()
+    {
+        if (DrawUtil.Checkbox("Change Priority: Cordial > HI-Cordials", ref cfg.EnableCordialFirst, "If theres no Cordials, Hi-Cordials will be used instead"))
         { }
     }
 }

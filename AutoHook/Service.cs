@@ -20,7 +20,6 @@ public class Service
     public static void Initialize(DalamudPluginInterface pluginInterface)
         => pluginInterface.Create<Service>();
 
-    
     public const string PluginName = "AutoHook";
 
     [PluginService][RequiredVersion("1.0")] public static DalamudPluginInterface PluginInterface { get; set; } = null!;
@@ -34,10 +33,8 @@ public class Service
 
     public static EventFramework EventFramework { get; set; } = null!;
     public static CurrentBait CurrentBait { get; set; } = null!;
-    public static CustomCommandManager CommandManager { get; set; } = null!;
     public static Configuration Configuration { get; set; } = null!;
     public static WindowSystem WindowSystem { get; } = new WindowSystem(PluginName);
     public static SeTugType TugType { get; set; } = null!;
     public static ClientLanguage Language { get; set; } = ClientLanguage.English;
-
 }
