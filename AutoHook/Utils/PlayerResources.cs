@@ -20,7 +20,7 @@ public class PlayerResources
 
     public static void Initialize()
     {
-        SignatureHelper.Initialise(new PlayerResources()); 
+        SignatureHelper.Initialise(new PlayerResources());
     }
 
     public static bool HasStatus(uint statusID)
@@ -68,19 +68,23 @@ public class PlayerResources
 
     // status 0 == available to cast? not sure but it seems to be
     // Also make sure its the skill is not on cooldown (maily for mooch2)
-    public static unsafe bool ActionAvailable(uint id, ActionType actionType = ActionType.Spell) {
+    public static unsafe bool ActionAvailable(uint id, ActionType actionType = ActionType.Spell)
+    {
 
         if (actionType == ActionType.Item)
             return true;
         return _actionManager->GetActionStatus(actionType, id) == 0 && !ActionManager.Instance()->IsRecastTimerActive(ActionType.Spell, id);
     }
-        
+
 
     public static unsafe uint ActionStatus(uint id, ActionType actionType = ActionType.Spell)
        => _actionManager->GetActionStatus(actionType, id);
 
     public static unsafe bool CastAction(uint id, ActionType actionType = ActionType.Spell)
         => _actionManager->UseAction(actionType, id);
+
+    public static unsafe int GetRecastGroups(uint id, ActionType actionType = ActionType.Spell)
+   => _actionManager->GetRecastGroup((int)actionType, id);
 
     public static unsafe void UseItem(uint id)
     {
@@ -97,16 +101,23 @@ public class PlayerResources
         }
     }
 
+    // RecastGroup 68 = Cordial pots
     public static unsafe bool IsPotOffCooldown()
     {
-        // note: potions have recast group 58; however, for some reason periodically GetRecastGroup for them returns -1...
-        var recast = _actionManager->GetRecastGroupDetail(58);
+
+        var recast = _actionManager->GetRecastGroupDetail(68);
         return recast->Total - recast->Elapsed == 0;
+    }
+
+    public static unsafe float GetPotCooldown()
+    {
+        var recast = _actionManager->GetRecastGroupDetail(68);
+        return recast->Total - recast->Elapsed;
     }
 
     public static unsafe bool HaveItemInInventory(uint id, bool isHQ = false)
     {
-        
+
         return FFXIVClientStructs.FFXIV.Client.Game.InventoryManager.Instance()->GetInventoryItemCount(id, isHQ) > 0;
     }
 

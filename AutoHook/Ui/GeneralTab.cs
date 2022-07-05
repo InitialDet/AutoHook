@@ -1,7 +1,10 @@
+using System.Diagnostics;
 using AutoHook.Data;
 using AutoHook.Utils;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
+using Dalamud.Logging;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -15,10 +18,25 @@ internal class GeneralTab : TabConfig
     public override void DrawHeader()
     {
         ImGui.Text("General settings");
+        
         ImGui.Separator();
-        ImGui.TextWrapped("Please report any issues you encounter.");
-        ImGui.Text("Discord: Det#8574");
+        ImGui.Spacing();
+        if (ImGui.Button("Please report any issue you encounter."))
+        {
+            Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/issues", UseShellExecute = true });
+        }
+        ImGui.Spacing();
 
+
+#if DEBUG
+
+        if (ImGui.Button("Testing"))
+        {
+            PluginLog.Debug($"Pot CD = {PlayerResources.GetPotCooldown()}, is it out of cd? {PlayerResources.IsPotOffCooldown()}");
+            PluginLog.Debug($"RecastGorup: {PlayerResources.GetRecastGroups(6141, ActionType.Item)}");
+
+        }
+#endif
     }
     public override void Draw()
     {
