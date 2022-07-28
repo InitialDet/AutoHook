@@ -1,5 +1,5 @@
 # AutoHook
-AutoHook is a plugin that assists you while fishing
+AutoHook is a FFXIV plugin that assists you while fishing
 
 ## Installation
 ```
