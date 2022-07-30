@@ -20,14 +20,11 @@ internal class AutoCastsTab : TabConfig
         if (DrawUtil.Checkbox("Enable Auto Casts", ref cfg.EnableAll, "You can uncheck this to not use any actions below"))
         { }
 
-
         if (cfg.EnableAll) {
             ImGui.SameLine();
-            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref cfg.DontCancelMooch, "If mooch is available, actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
+            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref cfg.DontCancelMooch, "If mooch is available & Auto Mooch is enabled, actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
             { }
         }
-
-
     }
 
     public override void Draw()

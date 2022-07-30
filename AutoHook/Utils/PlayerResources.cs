@@ -130,7 +130,7 @@ public class PlayerResources
         }
 
         if (delay <= 0)
-            delay = new Random().Next(800, 1000);
+            delay = new Random().Next(600, 700);
 
         isCasting = true;
 

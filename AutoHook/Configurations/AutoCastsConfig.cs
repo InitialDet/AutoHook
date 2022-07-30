@@ -37,15 +37,18 @@ public class AutoCastsConfig
     public bool EnableCordialFirst = false;
 
 
-    HookConfig? hookConfig = null;
+    private HookConfig? hookConfig = null;
+    private bool IsMoochAvailable = false;
 
     public AutoCast? GetNextAutoCast(HookConfig? hookConfig)
     {
-
+    
         if (!EnableAll)
             return null;
 
         this.hookConfig = hookConfig;
+
+        IsMoochAvailable = UseMooch(out uint idMooch);
 
         if (!PlayerResources.ActionAvailable(IDs.Actions.Cast))
             return null;
@@ -77,7 +80,7 @@ public class AutoCastsConfig
         if (UsesCordials(out uint idCordial))
             return new(idCordial, ActionType.Item);
 
-        if (UseMooch(out uint idMooch))
+        if (IsMoochAvailable)
             return new(idMooch, ActionType.Spell);
 
         if (EnableAutoCast)
@@ -128,7 +131,7 @@ public class AutoCastsConfig
             if (!PlayerResources.HasStatus(IDs.Status.AnglersFortune))
             {
                 // Dont use Patience if mooch is available
-                if (IsMoochAvailable())
+                if (IsMoochAvailable)
                 {
                     return false;
                 }
@@ -186,17 +189,12 @@ public class AutoCastsConfig
         return hasStacks && available;
     }
 
-    private bool IsMoochAvailable()
-    {
-        return PlayerResources.ActionAvailable(IDs.Actions.Mooch) || PlayerResources.ActionAvailable(IDs.Actions.Mooch2);
-    }
-
     private bool UsePrizeCatch()
     {
         if (!EnablePrizeCatch)
             return false;
 
-        if (IsMoochAvailable() && DontCancelMooch)
+        if (IsMoochAvailable && DontCancelMooch)
             return false;
 
         if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait))
@@ -213,7 +211,7 @@ public class AutoCastsConfig
 
     private bool UsesFishEyes()
     {
-        if (IsMoochAvailable() && DontCancelMooch)
+        if (IsMoochAvailable && DontCancelMooch)
             return false;
 
         return EnableFishEyes && PlayerResources.ActionAvailable(IDs.Actions.FishEyes);
@@ -221,7 +219,7 @@ public class AutoCastsConfig
 
     private bool UsesChum()
     {
-        if (IsMoochAvailable() && DontCancelMooch)
+        if (IsMoochAvailable && DontCancelMooch)
             return false;
 
         return EnableChum && PlayerResources.ActionAvailable(IDs.Actions.Chum);
