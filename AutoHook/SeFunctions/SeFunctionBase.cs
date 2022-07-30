@@ -60,7 +60,7 @@ namespace AutoHook.SeFunctions
         {
             if (Address != IntPtr.Zero)
             {
-                var hook = new Hook<T>(Address, detour);
+                var hook = Hook<T>.FromAddress(Address, detour);
                 hook.Enable();
                 return hook;
             }

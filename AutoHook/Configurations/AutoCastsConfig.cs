@@ -13,6 +13,8 @@ public class AutoCastsConfig
     public bool EnableMooch = false;
     public bool EnableMooch2 = false;
 
+    public bool DontCancelMooch = true;
+
     public bool EnablePatience = false;
     public bool EnableMakeshiftPatience = false;
     public uint SelectedPatienceID = IDs.Actions.Patience2; // Default to Patience2
@@ -194,6 +196,9 @@ public class AutoCastsConfig
         if (!EnablePrizeCatch)
             return false;
 
+        if (IsMoochAvailable() && DontCancelMooch)
+            return false;
+
         if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait))
             return false;
 
@@ -208,11 +213,17 @@ public class AutoCastsConfig
 
     private bool UsesFishEyes()
     {
+        if (IsMoochAvailable() && DontCancelMooch)
+            return false;
+
         return EnableFishEyes && PlayerResources.ActionAvailable(IDs.Actions.FishEyes);
     }
 
     private bool UsesChum()
     {
+        if (IsMoochAvailable() && DontCancelMooch)
+            return false;
+
         return EnableChum && PlayerResources.ActionAvailable(IDs.Actions.Chum);
     }
 

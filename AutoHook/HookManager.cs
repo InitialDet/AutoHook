@@ -13,7 +13,6 @@ using System.Collections.Generic;
 
 namespace AutoHook.FishTimer;
 
-// all credits to Otter (goat discord) for his gatherbuddy plugin 
 public class HookingManager : IDisposable
 {
     private HookConfig? CurrentSetting;
@@ -136,14 +135,29 @@ public class HookingManager : IDisposable
         CurrentBait = GetCurrentBait();
 
         LastStep = CatchSteps.FishCaught;
+        
 
-        // Check if should stop
+        // Check if should stop with the current bait/mooch
         if (CurrentSetting != null && CurrentSetting.StopAfterCaught) {
             int total = FishCounter.Add(CurrentSetting.BaitName);
 
-            PluginLog.Debug($"{CurrentSetting.BaitName} caught. Total: {total} out of {CurrentSetting.StopAfterCaught}");
+            PluginLog.Debug($"{CurrentSetting.BaitName} caught. Total: {total} out of {CurrentSetting.StopAfterCaughtLimit}");
 
             if (total >= CurrentSetting.StopAfterCaughtLimit) {
+                LastStep = CatchSteps.Quitting;
+            }
+        }
+
+        // Check if should stop with another bait/mooch
+        HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+        if (CustomMoochCfg != null && CustomMoochCfg.StopAfterCaught)
+        {
+            int total = FishCounter.Add(CustomMoochCfg.BaitName);
+
+            PluginLog.Debug($"{CustomMoochCfg.BaitName} caught. Total: {total} out of {CustomMoochCfg.StopAfterCaughtLimit}");
+
+            if (total >= CustomMoochCfg.StopAfterCaughtLimit)
+            {
                 LastStep = CatchSteps.Quitting;
             }
         }
@@ -151,7 +165,7 @@ public class HookingManager : IDisposable
 
     private void OnFishingStop()
     {
-
+        LastStep = CatchSteps.None;
         if (Timer.IsRunning)
         {
             Timer.Stop();
@@ -289,8 +303,7 @@ public class HookingManager : IDisposable
         if (Timerrr.ElapsedMilliseconds > debugValueLast + 500)
         {
             debugValueLast = Timerrr.ElapsedMilliseconds;
-            //PluginLog.Debug($"Fishing State: {Service.EventFramework.FishingState}, LastStep: {LastStep}");
-            //PluginLog.Debug($"{PlayerResources.HaveItemInInventory(IDs.Item.Cordial)}");
+            PluginLog.Debug($"Fishing State: {Service.EventFramework.FishingState}, LastStep: {LastStep}");
         }
     }
 

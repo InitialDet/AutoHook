@@ -19,6 +19,15 @@ internal class AutoCastsTab : TabConfig
         // Disable all casts
         if (DrawUtil.Checkbox("Enable Auto Casts", ref cfg.EnableAll, "You can uncheck this to not use any actions below"))
         { }
+
+
+        if (cfg.EnableAll) {
+            ImGui.SameLine();
+            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref cfg.DontCancelMooch, "If mooch is available, actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
+            { }
+        }
+
+
     }
 
     public override void Draw()
@@ -161,7 +170,7 @@ internal class AutoCastsTab : TabConfig
 
     private void DrawPrizeCatch()
     {
-        if (DrawUtil.Checkbox("Use Prize Catch", ref cfg.EnablePrizeCatch, "Patience and Makeshift Bait will not be used when Prize Catch active"))
+        if (DrawUtil.Checkbox("Use Prize Catch", ref cfg.EnablePrizeCatch, "Cancels Current Mooch. Patience and Makeshift Bait will not be used when Prize Catch active"))
         { }
     }
 
