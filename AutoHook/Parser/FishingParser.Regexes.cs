@@ -22,6 +22,7 @@ public partial class FishingParser
                 ClientLanguage.German => German.Value,
                 ClientLanguage.French => French.Value,
                 ClientLanguage.Japanese => Japanese.Value,
+                ClientLanguage.ChineseSimplified => ChineseSimplified.Value,
                 _ => throw new InvalidEnumArgumentException(),
             };
         }
@@ -59,6 +60,14 @@ public partial class FishingParser
             AreaDiscovered = new Regex(@"釣り手帳に新しい釣り場「(?<FishingSpot>.+)」の情報を記録した！", RegexOptions.Compiled),
             Mooch = new Regex(@"は釣り上げた.+を慎重に投げ込み、泳がせ釣りを試みた。", RegexOptions.Compiled),
             Undiscovered = "未知の釣り場",
+        });
+
+        private static readonly Lazy<Regexes> ChineseSimplified = new(() => new Regexes
+        {
+            Cast = new Regex(@"在(?<FishingSpot>.+)甩出了鱼线开始钓鱼", RegexOptions.Compiled),
+            AreaDiscovered = new Regex(@"将新钓场(?<FishingSpot>.+)记录到了钓鱼笔记中！", RegexOptions.Compiled),
+            Mooch = new Regex(@"开始利用上钩的.+尝试以小钓大。", RegexOptions.Compiled),
+            Undiscovered = "未知钓场",
         });
         // @formatter:on
     }
