@@ -8,6 +8,7 @@ using Dalamud.Hooking;
 using AutoHook.SeFunctions;
 using AutoHook.Utils;
 using Item = Lumina.Excel.GeneratedSheets.Item;
+using AutoHook.Data;
 
 namespace Parser;
 
@@ -25,28 +26,34 @@ public partial class FishingParser : IDisposable
     private readonly Regexes _regexes = Regexes.FromLanguage(Service.Language);
 
     private readonly Hook<UpdateCatchDelegate>? _catchHook;
+    private readonly Hook<UseActionDelegate>? _hookHook;
 
-    public FishingParser()
+    public unsafe FishingParser()
     {
         _catchHook = new UpdateFishCatch(Service.SigScanner).CreateHook(OnCatchUpdate);
+        var hookPtr = (IntPtr)ActionManager.fpUseAction;
+        _hookHook = Hook<UseActionDelegate>.FromAddress(hookPtr, OnUseAction);
     }
 
     public void Enable()
     {
+        _hookHook?.Enable();
         _catchHook?.Enable();
-        Service.Chat.ChatMessage += OnMessageDelegate;
+        //Service.Chat.ChatMessage += OnMessageDelegate;
     }
 
     public void Disable()
     {
+        _hookHook?.Disable();
         _catchHook?.Disable();
-        Service.Chat.ChatMessage -= OnMessageDelegate;
+        //Service.Chat.ChatMessage -= OnMessageDelegate;
     }
 
     public void Dispose()
     {
         Disable();
         _catchHook?.Dispose();
+        _hookHook?.Dispose();
     }
 
     private void OnMessageDelegate(XivChatType type, uint senderId, ref SeString sender, ref SeString message, ref bool isHandled)
@@ -76,13 +83,28 @@ public partial class FishingParser : IDisposable
         }
     }
 
+    private bool OnUseAction(IntPtr manager, ActionType actionType, uint actionId, GameObjectID targetId, uint a4, uint a5, uint a6, IntPtr a7)
+    {
+        if (actionType == ActionType.Spell)
+            switch (actionId)
+            {
+                case IDs.Actions.Cast:
+                    BeganFishing?.Invoke();
+                    break;
+                case IDs.Actions.Mooch:
+                case IDs.Actions.Mooch2:
+                    BeganMooching?.Invoke();
+                    break;
+            }
+
+        return _hookHook!.Original(manager, actionType, actionId, targetId, a4, a5, a6, a7);
+    }
+
     private void OnCatchUpdate(IntPtr module, uint fishId, bool large, ushort size, byte amount, byte level, byte unk7, byte unk8, byte unk9, byte unk10, byte unk11, byte unk12)
     {
         _catchHook!.Original(module, fishId, large, size, amount, level, unk7, unk8, unk9, unk10, unk11, unk12);
-        
+
         string fishName = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(fishId)?.Name);
         CaughtFish?.Invoke(fishName, fishId);
     }
-
-
 }

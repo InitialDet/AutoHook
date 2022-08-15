@@ -9,5 +9,5 @@
   "Tags": ["Gathering","Fishing"],
   "DalamudApiLevel": 6,
   "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
-  "Changelog": "- Added an option to not cancel current mooch when using Auto Casts\n- Fixed an issue with \"Stop Fishing After\""
+  "Changelog": "- Trying to add support for CN server"
 }

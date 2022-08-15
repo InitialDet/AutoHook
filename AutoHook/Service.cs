@@ -1,4 +1,4 @@
-﻿using Dalamud.Game;
+using Dalamud.Game;
 using Dalamud.IoC;
 using Dalamud.Data;
 using Dalamud.Plugin;
@@ -36,5 +36,5 @@ public class Service
     public static Configuration Configuration { get; set; } = null!;
     public static WindowSystem WindowSystem { get; } = new WindowSystem(PluginName);
     public static SeTugType TugType { get; set; } = null!;
-    public static ClientLanguage Language { get; set; } = ClientLanguage.English;
+    public static ClientLanguage Language { get; set; }
 }
