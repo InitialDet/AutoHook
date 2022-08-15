@@ -9,5 +9,5 @@
   "Tags": ["Gathering","Fishing"],
   "DalamudApiLevel": 6,
   "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
-  "Changelog": "- Trying to add support for CN server"
+  "Changelog": "- Trying to add support for CN server \n- Fixing problems with collectable fish"
 }

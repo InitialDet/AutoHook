@@ -104,6 +104,12 @@ public partial class FishingParser : IDisposable
     {
         _catchHook!.Original(module, fishId, large, size, amount, level, unk7, unk8, unk9, unk10, unk11, unk12);
 
+        // Check against collectibles.
+        if (fishId > 500000)
+        {
+            fishId -= 500000;
+        }
+        
         string fishName = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(fishId)?.Name);
         CaughtFish?.Invoke(fishName, fishId);
     }
