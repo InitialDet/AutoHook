@@ -77,6 +77,8 @@ public class HookingManager : IDisposable
     // The current config is updates two times: When we began fishing (to get the config based on the mooch/bait) and when we hooked the fish (in case the user updated their configs).
     private void UpdateCurrentSetting()
     {
+        ResetAFKTimer();
+
         if (CurrentSetting == null)
             CurrentSetting = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(CurrentBait));
 
@@ -300,6 +302,15 @@ public class HookingManager : IDisposable
             LastStep = CatchSteps.TimeOut;
             PlayerResources.CastAction(IDs.Actions.Hook);
         }
+    }
+
+    public static void ResetAFKTimer()
+    {
+        if (!InputUtil.TryFindGameWindow(out var windowHandle)) return;
+
+        // Virtual key for Right Winkey. Can't be used by FFXIV normally, and in tests did not seem to cause any
+        // unusual interference.
+        InputUtil.SendKeycode(windowHandle, 0x5C);
     }
 
     private static double debugValueLast = 3000;
