@@ -77,7 +77,8 @@ public class HookingManager : IDisposable
     // The current config is updates two times: When we began fishing (to get the config based on the mooch/bait) and when we hooked the fish (in case the user updated their configs).
     private void UpdateCurrentSetting()
     {
-        CurrentSetting = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(CurrentBait));
+        if (CurrentSetting == null)
+            CurrentSetting = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(CurrentBait));
 
         if (CurrentSetting == null)
         {
@@ -136,7 +137,6 @@ public class HookingManager : IDisposable
 
         LastStep = CatchSteps.FishCaught;
         
-
         // Check if should stop with the current bait/mooch
         if (CurrentSetting != null && CurrentSetting.StopAfterCaught) {
             int total = FishCounter.Add(CurrentSetting.BaitName);
@@ -183,7 +183,6 @@ public class HookingManager : IDisposable
         if (!cfg.PluginEnabled || state == FishingState.None)
             return;
 
-
         if (state != FishingState.Quit && LastStep == CatchSteps.Quitting) {
             PlayerResources.CastActionDelayed(IDs.Actions.Quit);
             state = FishingState.Quit;
@@ -196,7 +195,6 @@ public class HookingManager : IDisposable
         }
 
         //CheckState();
-
         if (state == FishingState.Waiting2)
             CheckMaxTimeLimit();
 
@@ -228,9 +226,20 @@ public class HookingManager : IDisposable
         if (!CheckMinTimeLimit())
             return;
 
-        HookType hook = CurrentSetting.GetHook(bite);
+        HookType? hook = null;
 
-        if (hook == HookType.None)
+        if (PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+        {
+            var IdenticalCast = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+            if (IdenticalCast != null)
+                hook = IdenticalCast.GetHookIgnoreEnable(bite);
+            else
+                hook = CurrentSetting.GetHook(bite);
+        }
+        else
+            hook = CurrentSetting.GetHook(bite);
+
+        if (hook == null || hook == HookType.None)
             return;
 
         if (PlayerResources.ActionAvailable((uint)hook)) // Check if Powerful/Precision is available

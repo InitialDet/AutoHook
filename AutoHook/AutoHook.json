@@ -9,5 +9,5 @@
   "Tags": ["Gathering","Fishing"],
   "DalamudApiLevel": 6,
   "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
-  "Changelog": "- Trying to add support for CN server \n- Fixing problems with collectable fish"
+  "Changelog": "- Trying to add support for CN server \n- Fixing problems with collectable fish\n- Added a new option to use Double/Triple Hooks only when Identical Cast is Enabled"
 }

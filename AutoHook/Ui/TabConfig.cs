@@ -150,6 +150,12 @@ abstract class TabConfig : IDisposable
 
             ImGui.TextColored(ImGuiColors.DalamudYellow, "Double/Triple Hook Settings");
             ImGui.Spacing();
+
+            ImGui.Checkbox("Only use when Identical Cast is active", ref cfg.UseDHTHOnlySurfaceSlap);
+            ImGui.Spacing();
+            ImGui.Separator();
+            ImGui.Spacing();
+
             if (ImGui.Checkbox("Use Double Hook (If gp > 400)", ref cfg.UseDoubleHook))
             {
                 if (cfg.UseDoubleHook) cfg.UseTripleHook = false;
@@ -166,8 +172,9 @@ abstract class TabConfig : IDisposable
                 ImGui.Indent();
 
 
-                ImGui.Checkbox("Also use when Patience is active (not recommended)", ref cfg.UseDHTHPatience);
+                ImGui.Checkbox("Use when Patience is active (not recommended)", ref cfg.UseDHTHPatience);
                 ImGuiComponents.HelpMarker("Important!!!\n\nIf disabled, Precision/Powerful hook will be used instead when Patience is up.");
+                ImGui.Checkbox("Let the fish escape if GP is below the required", ref cfg.OnlyUseDHTH);
                 ImGui.Unindent();
             }
 

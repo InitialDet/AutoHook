@@ -14,27 +14,24 @@ internal class GeneralTab : TabConfig
     public override bool Enabled => true;
     public override string TabName => "General";
 
-
     public override void DrawHeader()
     {
         ImGui.Text("General settings");
         
         ImGui.Separator();
         ImGui.Spacing();
-        if (ImGui.Button("Please report any issue you encounter."))
+        if (ImGui.Button("Click here to report an issue or make an suggestion"))
         {
             Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/issues", UseShellExecute = true });
         }
         ImGui.Spacing();
 
-
 #if DEBUG
 
         if (ImGui.Button("Testing"))
         {
-            PluginLog.Debug($"Pot CD = {PlayerResources.GetPotCooldown()}, is it out of cd? {PlayerResources.IsPotOffCooldown()}");
-            PluginLog.Debug($"RecastGorup: {PlayerResources.GetRecastGroups(6141, ActionType.Item)}");
-
+            PluginLog.Debug($"IdenticalCast = {PlayerResources.HasStatus(IDs.Status.IdenticalCast)}");
+ 
         }
 #endif
     }

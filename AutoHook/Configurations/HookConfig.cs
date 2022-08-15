@@ -2,6 +2,7 @@ using System;
 using AutoHook.Data;
 using AutoHook.Enums;
 using AutoHook.Utils;
+using Dalamud.Logging;
 
 namespace AutoHook.Configurations;
 
@@ -37,6 +38,9 @@ public class HookConfig
     public bool UseDoubleHook = false;
     public bool UseTripleHook = false;
     public bool UseDHTHPatience = false;
+    public bool UseDHTHOnlySurfaceSlap = false;
+    public bool OnlyUseDHTH = false;
+
 
     public double MaxTimeDelay = 0;
     public double MinTimeDelay = 0;
@@ -49,7 +53,7 @@ public class HookConfig
         BaitName = bait;
     }
 
-    public HookType GetHook(BiteType bite)
+    public HookType? GetHook(BiteType bite)
     {
         bool hasIntuition = PlayerResources.HasStatus(IDs.Status.FishersIntuition);
 
@@ -64,6 +68,21 @@ public class HookConfig
         var hook = GetDoubleTripleHook(bite);
 
         if (hook != HookType.None)
+            return hook;
+
+        if (hasIntuition)
+            return GetIntuitionHook(bite);
+        else
+            return GetPatienceHook(bite);
+    }
+
+    public HookType? GetHookIgnoreEnable(BiteType bite)
+    {
+        bool hasIntuition = PlayerResources.HasStatus(IDs.Status.FishersIntuition);
+
+        var hook = GetDoubleTripleHook(bite);
+
+        if (hook == null || hook != HookType.None)
             return hook;
 
         if (hasIntuition)
@@ -101,18 +120,33 @@ public class HookConfig
         _ => HookType.None,
     };
 
-    private HookType GetDoubleTripleHook(BiteType bite)
+    private HookType? GetDoubleTripleHook(BiteType bite)
     {
         HookType hook = HookType.None;
 
         if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPatience)
             return hook;
 
-        if (UseDoubleHook && PlayerResources.GetCurrentGP() >= 400)
-            hook = HookType.Double;
-        else if (UseTripleHook && PlayerResources.GetCurrentGP() >= 700)
-            hook = HookType.Triple;
+        if (UseDHTHOnlySurfaceSlap && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+            return hook;
 
+  
+        if (UseDoubleHook)
+        {
+            if (PlayerResources.GetCurrentGP() >= 400)
+                hook = HookType.Double;
+            else if (OnlyUseDHTH)
+                return null;
+        }
+      
+        else if (UseTripleHook)
+        {
+            if (PlayerResources.GetCurrentGP() >= 700)
+                hook = HookType.Triple;
+            else if (OnlyUseDHTH)
+                return null;
+        }
+          
         return hook;
     }
 

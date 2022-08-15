@@ -37,6 +37,7 @@ namespace AutoHook.Data
         {
             public const uint
             FishersIntuition = 568,
+            IdenticalCast = 1804,
 
             AnglersFortune = 850,
             
