@@ -85,10 +85,11 @@ public partial class FishingParser : IDisposable
 
     private bool OnUseAction(IntPtr manager, ActionType actionType, uint actionId, GameObjectID targetId, uint a4, uint a5, uint a6, IntPtr a7)
     {
-        if (actionType == ActionType.Spell)
+        if (actionType == ActionType.Spell && PlayerResources.ActionAvailable(actionId))
             switch (actionId)
             {
                 case IDs.Actions.Cast:
+                    
                     BeganFishing?.Invoke();
                     break;
                 case IDs.Actions.Mooch:

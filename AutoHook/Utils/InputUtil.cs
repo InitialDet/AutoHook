@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace AutoHook.Utils;
 
+// I got this from the XIVDeck plugin, ty KazWolfe
 internal static class InputUtil
 {
     private const uint WM_KEYUP = 0x101;

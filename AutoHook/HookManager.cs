@@ -106,6 +106,8 @@ public class HookingManager : IDisposable
 
     private void OnBeganFishing()
     {
+        if (LastStep == CatchSteps.BeganFishing)
+            return;
         CurrentBait = GetCurrentBait();
         Timer.Reset();
         Timer.Start();
@@ -115,6 +117,9 @@ public class HookingManager : IDisposable
 
     private void OnBeganMooch()
     {
+        if (LastStep == CatchSteps.BeganMooching)
+            return;
+
         CurrentBait = new string(LastCatch);
         Timer.Reset();
         Timer.Start();
@@ -171,7 +176,6 @@ public class HookingManager : IDisposable
         if (Timer.IsRunning)
         {
             Timer.Stop();
-    
         }
 
         CurrentBait = "-";
@@ -189,6 +193,8 @@ public class HookingManager : IDisposable
             PlayerResources.CastActionDelayed(IDs.Actions.Quit);
             state = FishingState.Quit;
         }
+
+        //CheckState();
 
         // FishBit in this case means that the fish was hooked, but it escaped. I might need to find a way to check if the fish was caught or not.
         if (LastStep != CatchSteps.Quitting && state == FishingState.PoleReady && (LastStep == CatchSteps.FishBit || LastStep == CatchSteps.FishCaught || LastStep == CatchSteps.TimeOut))
