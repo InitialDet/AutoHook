@@ -79,8 +79,7 @@ public class HookingManager : IDisposable
     {
         ResetAFKTimer();
 
-        if (CurrentSetting == null)
-            CurrentSetting = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(CurrentBait));
+        CurrentSetting = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(CurrentBait));
 
         if (CurrentSetting == null)
         {
