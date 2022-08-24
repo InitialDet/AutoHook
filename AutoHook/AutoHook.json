@@ -7,7 +7,7 @@
   "RepoUrl": "https://github.com/InitialDet/AutoHook",
   "ApplicableVersion": "any",
   "Tags": ["Gathering","Fishing"],
-  "DalamudApiLevel": 6,
+  "DalamudApiLevel": 7,
   "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
-  "Changelog": "- Added an experimental anti-AFK prevention\n- Trying to add support for CN server \n- Fixing problems with collectable fish\n- Added a new option to use Double/Triple Hooks only when Identical Cast is Enabled"
+  "Changelog": "Patch 6.2 Update"
 }

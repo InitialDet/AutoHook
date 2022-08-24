@@ -2,11 +2,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Authors>Det</Authors>
-		<Version>2.2.3.1</Version>
+		<Version>2.2.3.2</Version>
 		<Description>Auto hooks for you</Description>
 		<PackageProjectUrl>https://github.com/InitialDet/AutoHook</PackageProjectUrl>
 		<Configurations>Release;Debug</Configurations>
-		<TargetFramework>net5.0-windows</TargetFramework>
+		<TargetFramework>net6.0-windows</TargetFramework>
 		<Platforms>x64</Platforms>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
@@ -15,6 +15,10 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<OutputPath>bin\$(Configuration)\</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -42,7 +46,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DalamudPackager" Version="2.1.7" />
+		<PackageReference Include="DalamudPackager" Version="2.1.8" />
 		<Reference Include="FFXIVClientStructs">
 			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
 			<Private>false</Private>
