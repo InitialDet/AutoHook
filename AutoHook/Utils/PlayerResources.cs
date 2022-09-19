@@ -36,6 +36,8 @@ public class PlayerResources : IDisposable
 
     public void EnableHooks()
     {
+        // Not using this rn because it didnt work like i expected
+        // I was trying to wait for a server responce after an action is used but, but this is not quite right
         //receiveActionEffectHook?.Enable();
     }
     public void Dispose()
@@ -186,12 +188,10 @@ public class PlayerResources : IDisposable
 
         /*ActionEffectHeader header = Marshal.PtrToStructure<ActionEffectHeader>(effectHeader);
 
-        PluginLog.Debug("owoooooo?");
         if (sourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
         {
             if (header.ActionId == LastActionID)
             {
-                PluginLog.Debug("Awaaaaaaaaaaaaa?");
                 LastActionID = NextActionID;
                 ResetAutoCast();
             }

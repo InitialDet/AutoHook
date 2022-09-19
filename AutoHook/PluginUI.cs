@@ -17,7 +17,8 @@ public class PluginUI : Window, IDisposable
         {
             new TabGeneral(),
             new TabBaitFish(),
-            new TabAutoCasts()
+            new TabAutoCasts(),
+            new TabGPConfig()
         };
 
     public PluginUI() : base($"{Service.PluginName} Settings")

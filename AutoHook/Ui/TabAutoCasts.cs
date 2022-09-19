@@ -9,7 +9,7 @@ using System;
 
 namespace AutoHook.Ui;
 
-internal partial class TabAutoCasts : TabBaseConfig
+internal class TabAutoCasts : TabBaseConfig
 {
     public override bool Enabled => true;
     public override string TabName => "Auto Casts";
@@ -30,45 +30,21 @@ internal partial class TabAutoCasts : TabBaseConfig
             if (DrawUtil.Checkbox("Don't Cancel Mooch", ref AutoCastsConfig.DontCancelMooch, "If mooch is available & Auto Mooch is enabled, actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
             { }
         }
-
     }
 
     public override void Draw()
     {
-        if (ImGui.BeginTabBar("AutoHook###TabBars", ImGuiTabBarFlags.NoTooltip))
+        if (cfg.EnableAll)
         {
-            if (ImGui.BeginTabItem("Actions"))
-            {
-                if (cfg.EnableAll)
-                {
-                    ImGui.PushID("Actions");
-
-                    DrawAutoCast();
-                    DrawAutoMooch();
-                    DrawChum();
-                    DrawCordials();
-                    DrawFishEyes();
-                    DrawMakeShiftBait();
-                    DrawPatience();
-                    DrawPrizeCatch();
-                    DrawThaliaksFavor();
-
-                    ImGui.PopID();
-                    ImGui.EndTabItem();
-                }
-            }
-
-            if (ImGui.BeginTabItem("GP Config"))
-            {
-                ImGui.PushID("GP");
-
-                DrawGPTab();
-
-                ImGui.PopID();
-                ImGui.EndTabItem();
-            }
-
-            ImGui.EndTabBar();
+            DrawAutoCast();
+            DrawAutoMooch();
+            DrawChum();
+            DrawCordials();
+            DrawFishEyes();
+            DrawMakeShiftBait();
+            DrawPatience();
+            DrawPrizeCatch();
+            DrawThaliaksFavor();
         }
     }
 

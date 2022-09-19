@@ -208,7 +208,7 @@ public sealed class AutoDoubleHook : BaseActionCast
     }
     public override bool CastCondition()
     {
-        return false;
+        return true;
     }
 }
 #endregion
@@ -222,7 +222,7 @@ public sealed class AutoTripleHook : BaseActionCast
     }
     public override bool CastCondition()
     {
-        return false;
+        return true;
     }
 }
 #endregion
