@@ -1,6 +1,7 @@
 ﻿using AutoHook.Configurations;
 using AutoHook.Data;
 using AutoHook.Utils;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using System;
 
@@ -46,17 +47,15 @@ public sealed class AutoThaliaksFavor : BaseActionCast
 
     public AutoThaliaksFavor() : base("Thaliak's Favor", IDs.Actions.ThaliaksFavor, ActionType.Spell)
     {
-
     }
 
     public override bool CastCondition()
     {
-
-        bool available = PlayerResources.ActionAvailable(IDs.Actions.ThaliaksFavor);
         bool hasStacks = PlayerResources.HasAnglersArtStacks(ThaliaksFavorStacks);
+
         bool notOvercaped = (PlayerResources.GetCurrentGP() + ThaliaksFavorRecover) < PlayerResources.GetMaxGP();
 
-        return available && hasStacks && notOvercaped; // dont use if its going to overcap gp
+        return hasStacks && notOvercaped; // dont use if its going to overcap gp
     }
 }
 #endregion
@@ -87,7 +86,7 @@ public class AutoFishEyes : BaseActionCast
 
     public override bool CastCondition()
     {
-        throw new NotImplementedException();
+        return true;
     }
 }
 #endregion
@@ -162,7 +161,16 @@ public class AutoPatienceI : BaseActionCast
 
     public override bool CastCondition()
     {
-        throw new NotImplementedException();
+        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !AutoCastsConfig.EnableMakeshiftPatience)
+            return false;
+
+        return true;
     }
 }
 #endregion
@@ -170,7 +178,6 @@ public class AutoPatienceI : BaseActionCast
 #region AutoPatienceII
 public class AutoPatienceII : BaseActionCast
 {
-
     public AutoPatienceII() : base("Patience II", Data.IDs.Actions.Patience2, ActionType.Spell)
     {
         DoesCancelMooch = true;
@@ -178,11 +185,19 @@ public class AutoPatienceII : BaseActionCast
 
     public override bool CastCondition()
     {
-        throw new NotImplementedException();
+        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
+            return false;
+
+        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !AutoCastsConfig.EnableMakeshiftPatience)
+            return false;
+
+        return true;
     }
 }
 #endregion
-
 
 #region AutoDoubleHook
 public sealed class AutoDoubleHook : BaseActionCast
@@ -217,20 +232,26 @@ public sealed class AutoTripleHook : BaseActionCast
 public class AutoHICordial : BaseActionCast
 {
     readonly uint itemGPRecovery = 400;
-    public AutoHICordial() : base("Hi-Cordial", Data.IDs.Item.HiCordial, ActionType.Item)
+    public AutoHICordial() : base("Hi-Cordial", IDs.Item.HiCordial, ActionType.Item)
     {
-        GPThreshold = itemGPRecovery;
+        GPThreshold = 1;
     }
 
     public override bool CastCondition()
     {
-        throw new NotImplementedException();
+        if (!PlayerResources.HaveItemInInventory(ID))
+            return false;
+
+        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+
+        PluginLog.Debug($"Is Overcap? {notOvercaped}");
+        return notOvercaped;
     }
 
     public override void SetThreshold(uint newcost)
     {
-        if (newcost < itemGPRecovery)
-            GPThreshold = itemGPRecovery;
+        if (newcost <= 1)
+            GPThreshold = 1;
         else
             GPThreshold = newcost;
     }
@@ -241,20 +262,25 @@ public class AutoHICordial : BaseActionCast
 public class AutoCordial : BaseActionCast
 {
     readonly uint itemGPRecovery = 300;
-    public AutoCordial() : base("Cordial", Data.IDs.Item.HiCordial, ActionType.Item)
+    public AutoCordial() : base("Cordial", Data.IDs.Item.Cordial, ActionType.Item)
     {
-        GPThreshold = itemGPRecovery;
+        GPThreshold = 1;
     }
 
     public override bool CastCondition()
     {
-        throw new NotImplementedException();
+        if (!PlayerResources.HaveItemInInventory(ID))
+            return false;
+
+        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+
+        return notOvercaped;
     }
 
     public override void SetThreshold(uint newcost)
     {
-        if (newcost < itemGPRecovery)
-            GPThreshold = itemGPRecovery;
+        if (newcost <= 1)
+            GPThreshold = 1;
         else
             GPThreshold = newcost;
     }
@@ -264,22 +290,26 @@ public class AutoCordial : BaseActionCast
 #region HQCordial
 public class AutoHQCordial : BaseActionCast
 {
-
     readonly uint itemGPRecovery = 350;
-    public AutoHQCordial() : base("HQ Cordial", Data.IDs.Item.HQCordial, ActionType.Item)
+    public AutoHQCordial() : base("HQ Cordial", IDs.Item.HQCordial, ActionType.Item)
     {
-        GPThreshold = itemGPRecovery;
+        GPThreshold = 1;
     }
 
     public override bool CastCondition()
     {
-        throw new NotImplementedException();
+        if (!PlayerResources.HaveItemInInventory(ID))
+            return false;
+
+        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+
+        return notOvercaped;
     }
 
     public override void SetThreshold(uint newcost)
     {
-        if (newcost < itemGPRecovery)
-            GPThreshold = itemGPRecovery;
+        if (newcost <= 1)
+            GPThreshold = 1;
         else
             GPThreshold = newcost;
     }

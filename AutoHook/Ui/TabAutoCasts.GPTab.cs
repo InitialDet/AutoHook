@@ -12,18 +12,18 @@ using Dalamud.Interface;
 
 namespace AutoHook.Ui;
 
-internal partial class AutoCastsTab
+internal partial class TabAutoCasts
 {
     static List<BaseActionCast> ActionsAbailable = new()
             {
+                cfg.AutoChum,
+                cfg.AutoCordial,
+                cfg.AutoHICordial,
+                cfg.AutoHQCordial,
+                cfg.AutoFishEyes,
                 cfg.AutoPatienceI,
                 cfg.AutoPatienceII,
                 cfg.AutoPrizeCatch,
-                cfg.AutoChum,
-                cfg.AutoFishEyes,
-                cfg.AutoHICordial,
-                cfg.AutoHQCordial,
-                cfg.AutoCordial,
             };
 
     private void DrawGPTab()
@@ -33,13 +33,13 @@ internal partial class AutoCastsTab
             var above = action.GPThresholdAbove;
 
             int gpThreshold = (int) action.GPThreshold;
-            ImGui.PushID(action.ActionName);
+            ImGui.PushID(action.Name);
             ImGui.SetWindowFontScale(1.2f);
-            ImGui.Text(action.ActionName);
+            ImGui.Text(action.Name);
             ImGui.SetWindowFontScale(1f);
 
             if (ImGui.IsItemHovered())
-                ImGui.SetTooltip($"{action.ActionName} will be used when your GP is equal or {(above ? "above" : "below")} {gpThreshold}");
+                ImGui.SetTooltip($"{action.Name} will be used when your GP is equal or {(above ? "above" : "below")} {gpThreshold}");
 
 
             if (ImGui.RadioButton($"Above##1", above == true))

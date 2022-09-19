@@ -19,7 +19,9 @@ public class AutoHook : IDalamudPlugin
     
     private static PluginUI PluginUI = null!;
 
-    public HookingManager FishHooker;
+    public HookingManager HookManager;
+
+    PlayerResources PlayerResources;
 
     public AutoHook(DalamudPluginInterface pluginInterface)
     {
@@ -32,6 +34,7 @@ public class AutoHook : IDalamudPlugin
         Service.Configuration = Configuration.Load();
         Service.Language = Service.ClientState.ClientLanguage;
 
+        PlayerResources = new PlayerResources();
         PlayerResources.Initialize();
         PluginUI = new PluginUI();
 
@@ -50,8 +53,8 @@ public class AutoHook : IDalamudPlugin
             HelpMessage = "Opens Config Window"
         });
 
-        FishHooker = new HookingManager();
-        FishHooker.Enable();
+        HookManager = new HookingManager();
+        HookManager.Enable();
 
         #if (DEBUG)
             OnOpenConfigUi();
@@ -79,7 +82,8 @@ public class AutoHook : IDalamudPlugin
     public void Dispose()
     {
         PluginUI.Dispose();
-        FishHooker.Dispose();
+        HookManager.Dispose();
+        PlayerResources.Dispose();
         Service.Configuration.Save();
         Service.PluginInterface!.UiBuilder.Draw -= Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;

@@ -9,7 +9,7 @@ using ImGuiNET;
 
 namespace AutoHook.Ui;
 
-internal class GeneralTab : BaseTabConfig
+internal class TabGeneral : TabBaseConfig
 {
     public override bool Enabled => true;
     public override string TabName => "General";
@@ -60,8 +60,6 @@ internal class GeneralTab : BaseTabConfig
             //DrawPatienceConfig(Service.Configuration.DefaultCastConfig);
 
             ImGui.Unindent();
-
-            ImGui.EndTabBar();
         }
         ImGui.PopID();
     }

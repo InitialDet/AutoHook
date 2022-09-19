@@ -9,7 +9,7 @@ using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
-abstract class BaseTabConfig : IDisposable
+abstract class TabBaseConfig : IDisposable
 {
     public abstract string TabName { get; }
     public abstract bool Enabled { get; }

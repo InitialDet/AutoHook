@@ -13,11 +13,11 @@ namespace AutoHook;
 public class PluginUI : Window, IDisposable
 {
 
-    private readonly List<BaseTabConfig> tabs = new()
+    private readonly List<TabBaseConfig> tabs = new()
         {
-            new GeneralTab(),
-            new BaitFishTab(),
-            new AutoCastsTab()
+            new TabGeneral(),
+            new TabBaitFish(),
+            new TabAutoCasts()
         };
 
     public PluginUI() : base($"{Service.PluginName} Settings")

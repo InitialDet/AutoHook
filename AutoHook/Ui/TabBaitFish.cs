@@ -6,12 +6,12 @@ using ImGuiNET;
 
 namespace AutoHook.Ui;
 
-class BaitFishTab : BaseTabConfig
+class TabBaitFish : TabBaseConfig
 {
     public override bool Enabled => true;
     public override string TabName => "Bait/Fish";
 
-    public BaitFishTab()
+    public TabBaitFish()
     { }
 
     public override void DrawHeader()

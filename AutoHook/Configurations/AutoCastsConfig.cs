@@ -16,7 +16,7 @@ public class AutoCastsConfig
     public bool EnableMooch2 = false;
 
     public bool EnablePatience = false;
-    public bool EnableMakeshiftPatience = false;
+    public static bool EnableMakeshiftPatience = false;
 
     public static bool DontCancelMooch = true;
 
@@ -54,6 +54,7 @@ public class AutoCastsConfig
 
     public static bool IsMoochAvailable = false;
 
+    // i could make the code more optimized but im too lazy rn.
     public AutoCast? GetNextAutoCast(HookConfig? hookConfig)
     {
         if (!EnableAll)
@@ -67,31 +68,41 @@ public class AutoCastsConfig
             return null;
 
         if (AutoThaliaksFavor.IsAvailableToCast(hookConfig))
-            return new(AutoThaliaksFavor.ActionID, AutoThaliaksFavor.ActionType);
+            return new(AutoThaliaksFavor.ID, AutoThaliaksFavor.ActionType);
 
-        if (AutoThaliaksFavor.IsAvailableToCast(hookConfig))
-            return new(IDs.Actions.MakeshiftBait, ActionType.Spell);
+        if (AutoMakeShiftBait.IsAvailableToCast(hookConfig))
+            return new(AutoMakeShiftBait.ID, AutoMakeShiftBait.ActionType);
 
         if (AutoChum.IsAvailableToCast(hookConfig))
-            return new(IDs.Actions.Chum, ActionType.Spell);
+            return new(AutoChum.ID, AutoChum.ActionType);
 
-         if (AutoFishEyes.IsAvailableToCast(hookConfig))
-            return new(IDs.Actions.FishEyes, ActionType.Spell);
+        if (AutoFishEyes.IsAvailableToCast(hookConfig))
+            return new(AutoFishEyes.ID, AutoFishEyes.ActionType);
 
         if (AutoIdenticalCast.IsAvailableToCast(hookConfig))
-            return new(IDs.Actions.IdenticalCast, ActionType.Spell);
+            return new(AutoIdenticalCast.ID, AutoIdenticalCast.ActionType);
 
         if (AutoSurfaceSlap.IsAvailableToCast(hookConfig))
-            return new(IDs.Actions.SurfaceSlap, ActionType.Spell);
+            return new(AutoSurfaceSlap.ID, AutoSurfaceSlap.ActionType);
 
         if (AutoPrizeCatch.IsAvailableToCast(hookConfig))
-             return new(IDs.Actions.PrizeCatch, ActionType.Spell);
+            return new(AutoPrizeCatch.ID, AutoPrizeCatch.ActionType);
 
-        if (UsePatience()) // This cant be used if a mooch is available or it'll cancel it
-            return new(SelectedPatienceID, ActionType.Spell);
+        if (SelectedPatienceID == IDs.Actions.Patience2)
+        {
+            if (AutoPatienceII.IsAvailableToCast(hookConfig))
+                return new(AutoPatienceII.ID, AutoPatienceII.ActionType);
+        }
+        else
+        {
+            if (AutoPatienceI.IsAvailableToCast(hookConfig))
+                return new(AutoPatienceI.ID, AutoPatienceI.ActionType);
+        }
 
-        if (UsesCordials(out uint idCordial))
-            return new(idCordial, ActionType.Item);
+        var cordial = GetCordials();
+
+        if (cordial != null && cordial.IsAvailableToCast(hookConfig))
+             return new(cordial.ID, cordial.ActionType);
 
         if (UseMooch(out uint idMooch))
             return new(idMooch, ActionType.Spell);
@@ -139,58 +150,18 @@ public class AutoCastsConfig
 
     private bool CheckMoochAvailable()
     {
-        if (PlayerResources.ActionAvailable(IDs.Actions.Mooch))  
+        if (PlayerResources.ActionAvailable(IDs.Actions.Mooch))
             return true;
-        
+
         else if (PlayerResources.ActionAvailable(IDs.Actions.Mooch2))
             return true;
 
         return false;
     }
 
-    private bool UsePatience()
+
+    private BaseActionCast? GetCordials()
     {
-        if (EnablePatience)
-        {
-            if (!PlayerResources.HasStatus(IDs.Status.AnglersFortune))
-            {
-                // Dont use Patience if mooch is available
-                if (IsMoochAvailable)
-                    return false;
-
-                if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
-                    return false;
-
-                if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !EnableMakeshiftPatience)
-                    return false;
-
-                if (PlayerResources.ActionAvailable(SelectedPatienceID))
-                {
-                    if (SelectedPatienceID == IDs.Actions.Patience)
-                        return PlayerResources.GetCurrentGP() >= (200 + 20);
-                    if (SelectedPatienceID == IDs.Actions.Patience2)
-                        return PlayerResources.GetCurrentGP() >= (560 + 20);
-                }
-            }
-        }
-
-        return false;
-    }
-
-    IDictionary<uint, int> cordialCost = new Dictionary<uint, int>()
-            {
-                {IDs.Item.Cordial,300},
-                {IDs.Item.HQCordial, 350},
-                {IDs.Item.HiCordial,400},
-                {0,0}
-            };
-    private bool UsesCordials(out uint itemID)
-    {
-        itemID = 0;
-
-        if (!EnableCordials)
-            return false;
-
         bool useCordial = false;
         bool useHQCordial = false;
         bool useHICordial = false;
@@ -207,27 +178,26 @@ public class AutoCastsConfig
         if (EnableCordialFirst)
         {
             if (useHQCordial)
-                itemID = IDs.Item.HQCordial;
+                return AutoHQCordial;
             else if (useCordial)
-                itemID = IDs.Item.Cordial;
+                return AutoCordial;
             else if (useHICordial)
-                itemID = IDs.Item.HiCordial;
+                return AutoHICordial;
         }
         else
         {
             if (useHICordial)
-                itemID = IDs.Item.HiCordial;
+                return AutoHICordial;
             else if (useHQCordial)
-                itemID = IDs.Item.HQCordial;
+                return AutoHQCordial;
             else if (useCordial)
-                itemID = IDs.Item.Cordial;
+                return AutoCordial;
         }
 
-        bool notOvercaped = (PlayerResources.GetCurrentGP() + cordialCost[itemID]) < PlayerResources.GetMaxGP();
-
-        return (itemID != 0) && notOvercaped && PlayerResources.IsPotOffCooldown();
+        return null;
     }
 }
+
 
 public class AutoCast
 {

@@ -9,7 +9,7 @@ using System;
 
 namespace AutoHook.Ui;
 
-internal partial class AutoCastsTab : BaseTabConfig
+internal partial class TabAutoCasts : TabBaseConfig
 {
     public override bool Enabled => true;
     public override string TabName => "Auto Casts";
@@ -45,13 +45,13 @@ internal partial class AutoCastsTab : BaseTabConfig
 
                     DrawAutoCast();
                     DrawAutoMooch();
-                    DrawPatience();
-                    DrawMakeShiftBait();
-                    DrawThaliaksFavor();
-                    DrawPrizeCatch();
                     DrawChum();
-                    DrawFishEyes();
                     DrawCordials();
+                    DrawFishEyes();
+                    DrawMakeShiftBait();
+                    DrawPatience();
+                    DrawPrizeCatch();
+                    DrawThaliaksFavor();
 
                     ImGui.PopID();
                     ImGui.EndTabItem();
@@ -130,11 +130,11 @@ internal partial class AutoCastsTab : BaseTabConfig
     private void DrawExtraOptionsPatience()
     {
 
-        var enabled = cfg.EnableMakeshiftPatience;
+        var enabled = AutoCastsConfig.EnableMakeshiftPatience;
        
         if (DrawUtil.Checkbox("Use when Makeshift Bait is active", ref enabled))
         {
-            cfg.EnableMakeshiftPatience = enabled;
+            AutoCastsConfig.EnableMakeshiftPatience = enabled;
             Service.Configuration.Save();
         }
 
@@ -177,9 +177,10 @@ internal partial class AutoCastsTab : BaseTabConfig
         {
             if (stack < 3)
                 cfg.AutoThaliaksFavor.ThaliaksFavorStacks = 3;
-
-            if (stack > 10)
+            else if (stack > 10)
                 cfg.AutoThaliaksFavor.ThaliaksFavorStacks = 10;
+            else
+                cfg.AutoThaliaksFavor.ThaliaksFavorStacks = stack;
 
             Service.Configuration.Save();
         }
@@ -212,9 +213,11 @@ internal partial class AutoCastsTab : BaseTabConfig
         {
             if (stack < 5)
                 cfg.AutoMakeShiftBait.MakeshiftBaitStacks = 5;
-
-            if (stack > 10)
+            else if (stack > 10)
                 cfg.AutoMakeShiftBait.MakeshiftBaitStacks = 10;
+            else
+                cfg.AutoMakeShiftBait.MakeshiftBaitStacks = stack;
+
 
             Service.Configuration.Save();
 
@@ -256,10 +259,16 @@ internal partial class AutoCastsTab : BaseTabConfig
 
     private void DrawCordials()
     {
-        if (DrawUtil.Checkbox("Use Cordials (Hi-Cordial First)", ref cfg.EnableCordials, "If theres no Hi-Cordials, Cordials will be used instead"))
-        { }
 
-        if (cfg.EnableCordials)
+        var enabled = cfg.AutoHICordial.Enabled;
+        if (DrawUtil.Checkbox("Use Cordials (Hi-Cordial First)", ref enabled, "If theres no Hi-Cordials, Cordials will be used instead"))
+        {
+            cfg.AutoHICordial.Enabled = enabled;
+            cfg.AutoHQCordial.Enabled = enabled;
+            cfg.AutoCordial.Enabled = enabled;
+        }
+
+        if (enabled)
         {
             ImGui.Indent();
             DrawExtraOptionsCordials();

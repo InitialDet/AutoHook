@@ -1,6 +1,7 @@
 ﻿using AutoHook.Configurations;
 using AutoHook.Data;
 using AutoHook.Utils;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using System;
 using System.Collections.Generic;
@@ -13,22 +14,23 @@ public abstract class BaseActionCast
 {
     protected HookConfig? HookConfig = null;
 
-    protected BaseActionCast(string actionName, uint actionID, ActionType actionType = ActionType.Spell)
+    protected BaseActionCast(string name, uint id, ActionType actionType = ActionType.Spell)
     {
+        Name = name;
+        ID = id;
         Enabled = false;
-        ActionName = actionName;
-        ActionID = actionID;
+
         ActionType = actionType;
 
         if (actionType == ActionType.Spell)
-            GPThreshold = PlayerResources.CastActionCost(ActionID, ActionType);
+            GPThreshold = PlayerResources.CastActionCost(ID, ActionType);
     }
 
-    public string ActionName { get; protected init; }
+    public string Name { get; protected init; }
 
     public bool Enabled { get; set; }
 
-    public uint ActionID { get; protected init; }
+    public uint ID { get; protected init; }
 
     public uint GPThreshold { get; set; }
 
@@ -40,7 +42,7 @@ public abstract class BaseActionCast
 
     public virtual void SetThreshold(uint newcost)
     {
-        var actionCost = PlayerResources.CastActionCost(ActionID, ActionType);
+        var actionCost = PlayerResources.CastActionCost(ID, ActionType);
         if (newcost < actionCost)
             GPThreshold = actionCost;
         else
@@ -66,9 +68,18 @@ public abstract class BaseActionCast
         else
             hasGP = currentGp <= GPThreshold;
 
-        bool isActionAvailable= PlayerResources.ActionAvailable(ActionID);
+        bool isActive = PlayerResources.ActionAvailable(ID, ActionType);
 
-        return hasGP && isActionAvailable && CastCondition();
+
+        if (ID == Data.IDs.Item.HiCordial)
+        {
+            if (GPThresholdAbove)
+                PluginLog.Debug($"currentGp({currentGp}) >= GPThreshold({GPThreshold}), is Active? {(hasGP && isActive)}");
+            else
+                PluginLog.Debug($"currentGp({currentGp}) <=  GPThreshold({GPThreshold}), is Active? {(hasGP && isActive)}");
+        }
+
+        return hasGP && isActive && CastCondition();
     }
 
     public abstract bool CastCondition();

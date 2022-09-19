@@ -169,17 +169,6 @@ public class HookingManager : IDisposable
         }
     }
 
-    private void OnFishingStop()
-    {
-        LastStep = CatchSteps.None;
-        if (Timer.IsRunning)
-        {
-            Timer.Stop();
-        }
-
-        CurrentBait = "-";
-        FishCounter.Reset();
-    }
 
     private void OnFrameworkUpdate(Framework _)
     {
@@ -223,7 +212,19 @@ public class HookingManager : IDisposable
                 break;
         }
     }
+    private void OnFishingStop()
+    {
+        LastStep = CatchSteps.None;
+        if (Timer.IsRunning)
+        {
+            Timer.Stop();
+        }
 
+        CurrentBait = "-";
+
+        FishCounter.Reset();
+        PlayerResources.ResetAutoCast();
+    }
     private unsafe void HookFish(BiteType bite)
     {
         if (CurrentSetting == null)
@@ -250,25 +251,36 @@ public class HookingManager : IDisposable
             return;
 
         if (PlayerResources.ActionAvailable((uint)hook)) // Check if Powerful/Precision is available
-            PlayerResources.CastAction((uint)hook);
+            PlayerResources.CastActionDelayed((uint)hook);
         else // If not, use normal hook
-            PlayerResources.CastAction((uint)HookType.Normal);
+            PlayerResources.CastActionDelayed((uint)HookType.Normal);
     }
 
+
+    private static double LastTickMS = 200;
+    private Stopwatch RecastTimer = new();
     private void UseAutoCasts()
     {
-        AutoCast? cast = null;
+        if (!RecastTimer.IsRunning)
+            RecastTimer.Start();
 
-        HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
-
-        if (CustomMoochCfg != null)
-            cast = cfg.AutoCastsCfg.GetNextAutoCast(CustomMoochCfg);
-        else
-            cast = cfg.AutoCastsCfg.GetNextAutoCast(CurrentSetting);
-
-        if (cast != null)
+        if (RecastTimer.ElapsedMilliseconds > LastTickMS + 200)
         {
-            PlayerResources.CastActionDelayed(cast.Id, cast.ActionType);
+            LastTickMS = RecastTimer.ElapsedMilliseconds;
+
+            AutoCast? cast = null;
+
+            HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+
+            if (CustomMoochCfg != null)
+                cast = cfg.AutoCastsCfg.GetNextAutoCast(CustomMoochCfg);
+            else
+                cast = cfg.AutoCastsCfg.GetNextAutoCast(CurrentSetting);
+
+            if (cast != null)
+            {
+                PlayerResources.CastActionDelayed(cast.Id, cast.ActionType);
+            }
         }
     }
 
@@ -305,7 +317,7 @@ public class HookingManager : IDisposable
         {
             PluginLog.Verbose("Timeout. Hooking fish.");
             LastStep = CatchSteps.TimeOut;
-            PlayerResources.CastAction(IDs.Actions.Hook);
+            PlayerResources.CastActionDelayed(IDs.Actions.Hook);
         }
     }
 
