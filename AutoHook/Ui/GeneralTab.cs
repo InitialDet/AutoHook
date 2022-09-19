@@ -9,7 +9,7 @@ using ImGuiNET;
 
 namespace AutoHook.Ui;
 
-internal class GeneralTab : TabConfig
+internal class GeneralTab : BaseTabConfig
 {
     public override bool Enabled => true;
     public override string TabName => "General";

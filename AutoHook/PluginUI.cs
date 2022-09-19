@@ -13,10 +13,10 @@ namespace AutoHook;
 public class PluginUI : Window, IDisposable
 {
 
-    private readonly List<TabConfig> tabs = new()
+    private readonly List<BaseTabConfig> tabs = new()
         {
             new GeneralTab(),
-            new MoochTab(),
+            new BaitFishTab(),
             new AutoCastsTab()
         };
 
@@ -85,6 +85,7 @@ public class PluginUI : Window, IDisposable
                     ImGui.EndTabItem();
                 }
             }
+            ImGui.EndTabBar();
         }
     }
 

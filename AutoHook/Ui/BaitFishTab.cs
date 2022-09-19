@@ -6,14 +6,13 @@ using ImGuiNET;
 
 namespace AutoHook.Ui;
 
-class MoochTab : TabConfig
+class BaitFishTab : BaseTabConfig
 {
     public override bool Enabled => true;
-    public override string TabName => "Bait/Mooch";
+    public override string TabName => "Bait/Fish";
 
-    public MoochTab()
+    public BaitFishTab()
     { }
-
 
     public override void DrawHeader()
     {

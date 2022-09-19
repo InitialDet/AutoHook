@@ -9,10 +9,9 @@ using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
-abstract class TabConfig : IDisposable
+abstract class BaseTabConfig : IDisposable
 {
     public abstract string TabName { get; }
-
     public abstract bool Enabled { get; }
 
     public string StrHookWeak => "Hook Weak (!)";
@@ -118,7 +117,7 @@ abstract class TabConfig : IDisposable
 
             switch (cfg.MinTimeDelay)
             {
-             
+
                 case <= 0:
                     cfg.MinTimeDelay = 0;
                     break;
@@ -127,7 +126,7 @@ abstract class TabConfig : IDisposable
                     break;
             }
         }
-        
+
         ImGui.SameLine();
         ImGuiComponents.HelpMarker("Hook will NOT be used until the minimum time has passed.\n\nEx: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked\n\nSet Zero (0) to disable");
     }
@@ -182,7 +181,7 @@ abstract class TabConfig : IDisposable
         }
 
     }
-    
+
     /*
         public void DrawPatienceConfig(HookConfig cfg)
         {
@@ -241,7 +240,7 @@ abstract class TabConfig : IDisposable
             }
         }
     */
-    
+
     public void DrawFishersIntuitionConfig(HookConfig cfg)
     {
         if (ImGui.Button("Fisher's Intuition Settings###FishersIntuition"))
@@ -250,7 +249,7 @@ abstract class TabConfig : IDisposable
         }
 
         if (ImGui.BeginPopup("fisher_intuition_settings"))
-        {   
+        {
             ImGui.TextColored(ImGuiColors.DalamudYellow, "Fisher's Intuition Settings");
             ImGui.Spacing();
             Utils.DrawUtil.Checkbox("Enable", ref cfg.UseCustomIntuitionHook, "Enable Custom Hooks when Fisher's Intuition is detected");
@@ -338,15 +337,16 @@ abstract class TabConfig : IDisposable
 
             }
 
-            if (cfg.StopAfterCaught) {
+            if (cfg.StopAfterCaught)
+            {
                 ImGui.Indent();
                 ImGui.SetNextItemWidth(90 * ImGuiHelpers.GlobalScale);
                 if (ImGui.InputInt("Time(s)", ref cfg.StopAfterCaughtLimit))
                 {
-                    if(cfg.StopAfterCaughtLimit < 1)
+                    if (cfg.StopAfterCaughtLimit < 1)
                         cfg.StopAfterCaughtLimit = 1;
                 }
-                
+
                 ImGui.Unindent();
             }
 

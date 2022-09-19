@@ -7,13 +7,17 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 
+using LuminaAction = Lumina.Excel.GeneratedSheets.Action;
+
 namespace AutoHook.Utils;
 
 public class PlayerResources
 {
+    private static Lumina.Excel.ExcelSheet<LuminaAction> actionSheet = Service.DataManager.GetExcelSheet<LuminaAction>()!;
+
     private static unsafe IntPtr ItemContextMenuAgent => (IntPtr)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.InventoryContext);
 
-    private static unsafe ActionManager* _actionManager = ActionManager.Instance();
+    private static readonly unsafe ActionManager* _actionManager = ActionManager.Instance();
 
     [Signature("E8 ?? ?? ?? ?? E9 ?? ?? ?? ?? 41 B0 01 BA 13 00 00 00")]
     private static unsafe delegate* unmanaged<IntPtr, uint, uint, uint, short, void> useItem = null;
@@ -109,6 +113,11 @@ public class PlayerResources
         return recast->Total - recast->Elapsed == 0;
     }
 
+    public static uint CastActionCost(uint id, ActionType actionType = ActionType.Spell)
+        => (uint)ActionManager.GetActionCost(ActionType.Spell, id, 0, 0, 0, 0);
+
+
+
     public static unsafe float GetPotCooldown()
     {
         var recast = _actionManager->GetRecastGroupDetail(68);
@@ -118,7 +127,7 @@ public class PlayerResources
     public static unsafe bool HaveItemInInventory(uint id, bool isHQ = false)
     {
 
-        return FFXIVClientStructs.FFXIV.Client.Game.InventoryManager.Instance()->GetInventoryItemCount(id, isHQ) > 0;
+        return InventoryManager.Instance()->GetInventoryItemCount(id, isHQ) > 0;
     }
 
     static bool isCasting = false;
@@ -148,4 +157,5 @@ public class PlayerResources
 
         isCasting = false;
     }
+
 }

@@ -33,7 +33,6 @@ public class AutoHook : IDalamudPlugin
         Service.Language = Service.ClientState.ClientLanguage;
 
         PlayerResources.Initialize();
-
         PluginUI = new PluginUI();
 
         Service.Commands.AddHandler(CmdAHOff, new CommandInfo(OnCommand)

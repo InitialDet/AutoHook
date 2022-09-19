@@ -2,10 +2,14 @@ using ImGuiNET;
 using AutoHook.Utils;
 using AutoHook.Configurations;
 using AutoHook.Data;
+using System.Numerics;
+using System.Collections.Generic;
+using AutoHook.Classes;
+using System;
 
 namespace AutoHook.Ui;
 
-internal class AutoCastsTab : TabConfig
+internal partial class AutoCastsTab : BaseTabConfig
 {
     public override bool Enabled => true;
     public override string TabName => "Auto Casts";
@@ -20,34 +24,58 @@ internal class AutoCastsTab : TabConfig
         if (DrawUtil.Checkbox("Enable Auto Casts", ref cfg.EnableAll, "You can uncheck this to not use any actions below"))
         { }
 
-        if (cfg.EnableAll) {
+        if (cfg.EnableAll)
+        {
             ImGui.SameLine();
-            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref cfg.DontCancelMooch, "If mooch is available & Auto Mooch is enabled, actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
+            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref AutoCastsConfig.DontCancelMooch, "If mooch is available & Auto Mooch is enabled, actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
             { }
         }
+
     }
 
     public override void Draw()
     {
-        if (cfg.EnableAll)
+        if (ImGui.BeginTabBar("AutoHook###TabBars", ImGuiTabBarFlags.NoTooltip))
         {
-            DrawAutoCast();
-            DrawAutoMooch();
-            DrawPatience();
-            DrawMakeShiftBait();
-            DrawThaliaksFavor();
-            DrawPrizeCatch();
-            DrawChum();
-            DrawFishEyes();
-            //DrawSurfaceSlapIdenticalCast();
-            DrawCordials();
+            if (ImGui.BeginTabItem("Actions"))
+            {
+                if (cfg.EnableAll)
+                {
+                    ImGui.PushID("Actions");
+
+                    DrawAutoCast();
+                    DrawAutoMooch();
+                    DrawPatience();
+                    DrawMakeShiftBait();
+                    DrawThaliaksFavor();
+                    DrawPrizeCatch();
+                    DrawChum();
+                    DrawFishEyes();
+                    DrawCordials();
+
+                    ImGui.PopID();
+                    ImGui.EndTabItem();
+                }
+            }
+
+            if (ImGui.BeginTabItem("GP Config"))
+            {
+                ImGui.PushID("GP");
+
+                DrawGPTab();
+
+                ImGui.PopID();
+                ImGui.EndTabItem();
+            }
+
+            ImGui.EndTabBar();
         }
     }
 
     private void DrawAutoCast()
     {
         if (DrawUtil.Checkbox("Global Auto Cast Line", ref cfg.EnableAutoCast, "Cast (FSH Action) will be used after a fish bite\n\nIMPORTANT!!!\nIf you have this option enabled and you don't have a Custom Auto Mooch or the Global Auto Mooch option enabled, the line will be casted normally and you'll lose your mooch oportunity (If available)."))
-        {}
+        { }
 
         if (cfg.EnableAutoCast)
         {
@@ -82,10 +110,16 @@ internal class AutoCastsTab : TabConfig
 
     private void DrawPatience()
     {
-        if (DrawUtil.Checkbox("Use Patience I/II", ref cfg.EnablePatience, "Patience I/II will be used when your current GP is equal (or higher) to the action cost +20 (Ex: 220 for I, 580 for II), this helps to avoid not having GP for the hooksets"))
-        { }
 
-        if (cfg.EnablePatience)
+        var enabled = cfg.AutoPatienceII.Enabled;
+        if (DrawUtil.Checkbox("Use Patience I/II", ref enabled, "Patience I/II will be used when your current GP is equal (or higher) to the action cost +20 (Ex: 220 for I, 580 for II), this helps to avoid not having GP for the hooksets"))
+        {
+            cfg.AutoPatienceII.Enabled = enabled;
+            cfg.AutoPatienceI.Enabled = enabled;
+            Service.Configuration.Save();
+        }
+
+        if (enabled)
         {
             ImGui.Indent();
             DrawExtraOptionsPatience();
@@ -96,26 +130,38 @@ internal class AutoCastsTab : TabConfig
     private void DrawExtraOptionsPatience()
     {
 
-        if (DrawUtil.Checkbox("Use when Makeshift Bait is active", ref cfg.EnableMakeshiftPatience))
-        { }
+        var enabled = cfg.EnableMakeshiftPatience;
+       
+        if (DrawUtil.Checkbox("Use when Makeshift Bait is active", ref enabled))
+        {
+            cfg.EnableMakeshiftPatience = enabled;
+            Service.Configuration.Save();
+        }
+
         if (ImGui.RadioButton("Patience I###1", cfg.SelectedPatienceID == IDs.Actions.Patience))
         {
             cfg.SelectedPatienceID = IDs.Actions.Patience;
+            Service.Configuration.Save();
         }
 
         if (ImGui.RadioButton("Patience II###2", cfg.SelectedPatienceID == IDs.Actions.Patience2))
         {
             cfg.SelectedPatienceID = IDs.Actions.Patience2;
+            Service.Configuration.Save();
         }
     }
 
     private void DrawThaliaksFavor()
     {
         ImGui.PushID("ThaliaksFavor");
-        if (DrawUtil.Checkbox("Use Thaliak's Favor", ref cfg.EnableThaliaksFavor, "This might conflict with Auto MakeShift Bait"))
-        { }
+        var enabled = cfg.AutoThaliaksFavor.Enabled;
+        if (DrawUtil.Checkbox("Use Thaliak's Favor", ref enabled, "This might conflict with Auto MakeShift Bait"))
+        {
+            cfg.AutoThaliaksFavor.Enabled = enabled;
+            Service.Configuration.Save();
+        }
 
-        if (cfg.EnableThaliaksFavor)
+        if (enabled)
         {
             ImGui.Indent();
             DrawExtraOptionsThaliaksFavor();
@@ -126,25 +172,31 @@ internal class AutoCastsTab : TabConfig
 
     private void DrawExtraOptionsThaliaksFavor()
     {
-        if (Utils.DrawUtil.EditNumberField("When Stacks =", ref cfg.ThaliaksFavorStacks))
+        var stack = cfg.AutoThaliaksFavor.ThaliaksFavorStacks;
+        if (DrawUtil.EditNumberField("When Stacks =", ref stack))
         {
-            if (cfg.ThaliaksFavorStacks < 3)
-                cfg.ThaliaksFavorStacks = 3;
+            if (stack < 3)
+                cfg.AutoThaliaksFavor.ThaliaksFavorStacks = 3;
 
-            if (cfg.ThaliaksFavorStacks > 10)
-                cfg.ThaliaksFavorStacks = 10;
+            if (stack > 10)
+                cfg.AutoThaliaksFavor.ThaliaksFavorStacks = 10;
+
+            Service.Configuration.Save();
         }
     }
 
     private void DrawMakeShiftBait()
     {
         ImGui.PushID("MakeShiftBait");
-        if (DrawUtil.Checkbox("Use Makeshift Bait", ref cfg.EnableMakeshiftBait, "This might conflict with Auto Thaliak's Favor"))
-        {
 
+        var enabled = cfg.AutoMakeShiftBait.Enabled;
+        if (DrawUtil.Checkbox("Use Makeshift Bait", ref enabled, "This might conflict with Auto Thaliak's Favor"))
+        {
+            cfg.AutoMakeShiftBait.Enabled = enabled;
+            Service.Configuration.Save();
         }
 
-        if (cfg.EnableMakeshiftBait)
+        if (enabled)
         {
             ImGui.Indent();
             DrawExtraOptionsMakeShiftBait();
@@ -155,44 +207,50 @@ internal class AutoCastsTab : TabConfig
 
     private void DrawExtraOptionsMakeShiftBait()
     {
-        if (Utils.DrawUtil.EditNumberField($"When Stacks = ", ref cfg.MakeshiftBaitStacks))
+        var stack = cfg.AutoMakeShiftBait.MakeshiftBaitStacks;
+        if (DrawUtil.EditNumberField($"When Stacks = ", ref stack))
         {
-            if (cfg.MakeshiftBaitStacks < 5)
-                cfg.MakeshiftBaitStacks = 5;
+            if (stack < 5)
+                cfg.AutoMakeShiftBait.MakeshiftBaitStacks = 5;
 
-            if (cfg.MakeshiftBaitStacks > 10)
-                cfg.MakeshiftBaitStacks = 10;
+            if (stack > 10)
+                cfg.AutoMakeShiftBait.MakeshiftBaitStacks = 10;
+
+            Service.Configuration.Save();
+
         }
     }
 
     private void DrawPrizeCatch()
     {
-        if (DrawUtil.Checkbox("Use Prize Catch", ref cfg.EnablePrizeCatch, "Cancels Current Mooch. Patience and Makeshift Bait will not be used when Prize Catch active"))
-        { }
+        var enabled = cfg.AutoPrizeCatch.Enabled;
+        if (DrawUtil.Checkbox("Use Prize Catch", ref enabled, "Cancels Current Mooch. Patience and Makeshift Bait will not be used when Prize Catch active"))
+        {
+            cfg.AutoPrizeCatch.Enabled = enabled;
+            Service.Configuration.Save();
+
+        }
     }
 
     private void DrawChum()
     {
-        if (DrawUtil.Checkbox("Use Chum", ref cfg.EnableChum, "Cancels Current Mooch"))
-        { }
+        var enabled = cfg.AutoChum.Enabled;
+        if (DrawUtil.Checkbox("Use Chum", ref enabled, "Cancels Current Mooch"))
+        {
+            cfg.AutoChum.Enabled = enabled;
+            Service.Configuration.Save();
+
+        }
     }
 
     private void DrawFishEyes()
     {
-        if (DrawUtil.Checkbox("Use Fish Eyes", ref cfg.EnableFishEyes, "Cancels Current Mooch"))
-        { }
-    }
-
-    private void DrawSurfaceSlapIdenticalCast()
-    {
-        if (DrawUtil.Checkbox("Use Surface Slap", ref cfg.EnableSurfaceSlap, "Overrides Identical Cast"))
+        var enabled = cfg.AutoFishEyes.Enabled;
+        if (DrawUtil.Checkbox("Use Fish Eyes", ref enabled, "Cancels Current Mooch"))
         {
-            cfg.EnableIdenticalCast = false;
-        }
+            cfg.AutoFishEyes.Enabled = enabled;
+            Service.Configuration.Save();
 
-        if (DrawUtil.Checkbox("Use Identical Cast", ref cfg.EnableIdenticalCast, "Overrides Surface Slap"))
-        {
-            cfg.EnableSurfaceSlap = false;
         }
     }
 

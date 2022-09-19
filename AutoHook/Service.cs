@@ -30,7 +30,6 @@ public class Service
     [PluginService][RequiredVersion("1.0")] public static GameNetwork Network { get; private set; } = null!;
     [PluginService][RequiredVersion("1.0")] public static CommandManager Commands { get; private set; } = null!;
     [PluginService][RequiredVersion("1.0")] public static Framework Framework { get; private set; } = null!;
-
     public static EventFramework EventFramework { get; set; } = null!;
     public static CurrentBait CurrentBait { get; set; } = null!;
     public static Configuration Configuration { get; set; } = null!;
