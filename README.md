@@ -18,6 +18,7 @@ https://raw.githubusercontent.com/InitialDet/MyDalamudPlugins/main/pluginmaster.
 - Configurable Max/Min wait time before hooking
 - Conditional hooking while under the effect of Fisher's intuition
 - Auto Cast Line, Auto Mooch, Auto Cordial, and much more.
+- Auto Spearfishing
 
 ## Default Cast and Default Mooch
 As the name suggests, this is the default behavior when using Cast/Mooch if you don't have a custom configuration for a bait/mooched fish. That means if you select only to hook Weak Tugs (!), all !! or !!! tugs will be ignored no matter the bait or fish being mooched. 
