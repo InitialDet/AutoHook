@@ -143,7 +143,7 @@ public class HookingManager : IDisposable
 
         LastStep = CatchSteps.FishCaught;
         
-        // Check if should stop with the current bait/mooch
+        // Check if should stop with the current bait/fish
         if (CurrentSetting != null && CurrentSetting.StopAfterCaught) {
             int total = FishCounter.Add(CurrentSetting.BaitName);
 
@@ -154,7 +154,7 @@ public class HookingManager : IDisposable
             }
         }
 
-        // Check if should stop with another bait/mooch
+        // Check if should stop with another bait/fish
         HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
         if (CustomMoochCfg != null && CustomMoochCfg.StopAfterCaught)
         {

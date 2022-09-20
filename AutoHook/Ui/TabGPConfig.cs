@@ -43,8 +43,8 @@ internal class TabGPConfig : TabBaseConfig
         foreach (var action in ActionsAbailable)
         {
             var above = action.GPThresholdAbove;
-
             int gpThreshold = (int)action.GPThreshold;
+
             ImGui.PushID(action.Name);
             ImGui.SetWindowFontScale(1.2f);
             ImGui.Text(action.Name);
@@ -52,7 +52,6 @@ internal class TabGPConfig : TabBaseConfig
 
             if (ImGui.IsItemHovered())
                 ImGui.SetTooltip($"{action.Name} will be used when your GP is equal or {(above ? "above" : "below")} {gpThreshold}");
-
 
             if (ImGui.RadioButton($"Above##1", above == true))
             {
@@ -74,7 +73,6 @@ internal class TabGPConfig : TabBaseConfig
             if (ImGui.InputInt("GP", ref gpThreshold, 1, 1))
             {
                 action.SetThreshold((uint)gpThreshold);
-
             }
 
             ImGui.PopID();

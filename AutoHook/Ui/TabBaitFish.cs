@@ -16,7 +16,7 @@ class TabBaitFish : TabBaseConfig
 
     public override void DrawHeader()
     {
-        ImGui.TextWrapped("Here you can customize which hook to use based on the current bait or fish being mooched.\nIf a bait/mooch is not specified, the default behavior (General Tab) will be used instead.");
+        ImGui.TextWrapped("Here you can customize which hook to use based on the current bait or fish being mooched.\nIf a bait/fish is not specified, the default behavior (General Tab) will be used instead.");
         if (ImGui.Button("Add"))
         {
             var setting = new HookConfig("EditMe");
@@ -27,11 +27,11 @@ class TabBaitFish : TabBaseConfig
         }
 
         ImGui.SameLine();
-        ImGui.Text($"New bait/mooch ({Service.Configuration.CustomBait.Count})");
+        ImGui.Text($"New bait/fish ({Service.Configuration.CustomBait.Count})");
         ImGui.SameLine();
-        ImGuiComponents.HelpMarker("Make sure to edit the bait/mooch name correctly like ingame (Ex: Versatile Lure)");
+        ImGuiComponents.HelpMarker("Make sure to edit the bait/fish name correctly like ingame (Ex: Versatile Lure)");
 
-        if (ImGui.Button("Add Current Bait/Mooch"))
+        if (ImGui.Button("Add Current Bait/Fish"))
         {
             var setting = new HookConfig(HookingManager.CurrentBait ?? "-");
 
@@ -41,7 +41,7 @@ class TabBaitFish : TabBaseConfig
             Service.Configuration.Save();
         }
 
-        ImGui.Text($"Current bait/mooch:");
+        ImGui.Text($"Current bait/fish:");
         ImGui.SameLine();
         ImGui.TextColored(ImGuiColors.HealerGreen, HookingManager.CurrentBait ?? "-");
     }

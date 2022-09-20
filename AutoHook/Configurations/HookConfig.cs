@@ -14,16 +14,19 @@ public class HookConfig
 
     public bool HookWeakEnabled = true;
     public bool HookWeakIntuitionEnabled = true;
+    public bool HookWeakDHTHEnabled = true;
     public HookType HookTypeWeak = HookType.Precision;
     public HookType HookTypeWeakIntuition = HookType.Precision;
 
     public bool HookStrongEnabled = true;
     public bool HookStrongIntuitionEnabled = true;
+    public bool HookStrongDHTHEnabled = true;
     public HookType HookTypeStrong = HookType.Powerful;
     public HookType HookTypeStrongIntuition = HookType.Powerful;
 
     public bool HookLegendaryEnabled = true;
     public bool HookLegendaryIntuitionEnabled = true;
+    public bool HookLegendaryDHTHEnabled = true;
     public HookType HookTypeLegendary = HookType.Powerful;
     public HookType HookTypeLegendaryIntuition = HookType.Powerful;
 
@@ -39,8 +42,7 @@ public class HookConfig
     public bool UseTripleHook = false;
     public bool UseDHTHPatience = false;
     public bool UseDHTHOnlySurfaceSlap = false;
-    public bool OnlyUseDHTH = false;
-
+    public bool LetFishEscape = false;
 
     public double MaxTimeDelay = 0;
     public double MinTimeDelay = 0;
@@ -103,6 +105,12 @@ public class HookConfig
         bite == BiteType.Legendary ? HookLegendaryIntuitionEnabled :
         false;
 
+    public bool CheckHookDHTHEnabled(BiteType bite) =>
+        bite == BiteType.Weak ? HookWeakDHTHEnabled :
+        bite == BiteType.Strong ? HookStrongDHTHEnabled :
+        bite == BiteType.Legendary ? HookLegendaryDHTHEnabled :
+        false;
+
 
     private HookType GetPatienceHook(BiteType bite) => bite switch
     {
@@ -133,17 +141,16 @@ public class HookConfig
   
         if (UseDoubleHook)
         {
-            if (PlayerResources.GetCurrentGP() >= 400)
+            if (PlayerResources.GetCurrentGP() >= 400 && CheckHookDHTHEnabled(bite))
                 hook = HookType.Double;
-            else if (OnlyUseDHTH)
+            if (LetFishEscape)
                 return null;
         }
-      
         else if (UseTripleHook)
         {
-            if (PlayerResources.GetCurrentGP() >= 700)
+            if (PlayerResources.GetCurrentGP() >= 700 && CheckHookDHTHEnabled(bite))
                 hook = HookType.Triple;
-            else if (OnlyUseDHTH)
+            else if (LetFishEscape)
                 return null;
         }
           

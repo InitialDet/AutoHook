@@ -3,6 +3,7 @@ using System.Numerics;
 using AutoHook.Configurations;
 using AutoHook.Enums;
 using AutoHook.Utils;
+using Dalamud.Hooking;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
@@ -47,7 +48,7 @@ abstract class TabBaseConfig : IDisposable
 
     public void DrawSelectTugs(string hook, ref bool enabled, ref HookType type)
     {
-        ImGui.PushID(hook);
+       
         ImGui.Checkbox(hook, ref enabled);
         if (ImGui.IsItemHovered())
             ImGui.SetTooltip("\"Hook\" will be used if Patience is not up");
@@ -55,19 +56,18 @@ abstract class TabBaseConfig : IDisposable
         if (enabled)
         {
             ImGui.Indent();
-            if (ImGui.RadioButton($"Precision Hookset", type == HookType.Precision))
+            if (ImGui.RadioButton($"Precision Hookset###{hook}1", type == HookType.Precision))
             {
                 type = HookType.Precision;
                 Service.Configuration.Save();
             }
 
-            if (ImGui.RadioButton($"Powerful Hookset", type == HookType.Powerful))
+            if (ImGui.RadioButton($"Powerful Hookset###{hook}2", type == HookType.Powerful))
             {
                 type = HookType.Powerful;
                 Service.Configuration.Save();
             }
             ImGui.Unindent();
-            ImGui.PopID();
         }
     }
 
@@ -114,10 +114,8 @@ abstract class TabBaseConfig : IDisposable
         ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
         if (ImGui.InputDouble("Min. Wait", ref cfg.MinTimeDelay, .1, 1, "%.1f%"))
         {
-
             switch (cfg.MinTimeDelay)
             {
-
                 case <= 0:
                     cfg.MinTimeDelay = 0;
                     break;
@@ -170,76 +168,23 @@ abstract class TabBaseConfig : IDisposable
             {
                 ImGui.Indent();
 
-
                 ImGui.Checkbox("Use when Patience is active (not recommended)", ref cfg.UseDHTHPatience);
                 ImGuiComponents.HelpMarker("Important!!!\n\nIf disabled, Precision/Powerful hook will be used instead when Patience is up.");
-                ImGui.Checkbox("Let the fish escape if GP is below the required", ref cfg.OnlyUseDHTH);
+                ImGui.Checkbox("Let the fish escape if GP is below the required", ref cfg.LetFishEscape);
                 ImGui.Unindent();
+
+                ImGui.Separator();
+                ImGui.Spacing();
+
+                ImGui.Checkbox(StrHookWeak, ref cfg.HookWeakDHTHEnabled);
+                ImGui.Checkbox(StrHookStrong, ref cfg.HookStrongDHTHEnabled);
+                ImGui.Checkbox(StrHookLegendary, ref cfg.HookLegendaryDHTHEnabled);
             }
 
             ImGui.EndPopup();
         }
 
     }
-
-    /*
-        public void DrawPatienceConfig(HookConfig cfg)
-        {
-
-            if (ImGui.Button("Patience Settings###PatienceSettings"))
-            {
-                ImGui.OpenPopup("Patience Settings###PatienceSettings");
-            }
-
-            if (ImGui.BeginPopup("Patience Settings###PatienceSettings"))
-            {
-                ImGui.Text("Weak Hook");
-                ImGui.Indent();
-                if (ImGui.RadioButton("Precision Hookset###1", cfg.HookTypeWeak == HookType.Precision))
-                {
-                    cfg.HookTypeWeak = HookType.Precision;
-                    Service.Configuration.Save();
-                }
-
-                if (ImGui.RadioButton("Powerful Hookset###2", cfg.HookTypeWeak == HookType.Powerful))
-                {
-                    cfg.HookTypeWeak = HookType.Powerful;
-                    Service.Configuration.Save();
-                }
-                ImGui.Unindent();
-
-                ImGui.Text("Strong Hook");
-                ImGui.Indent();
-                if (ImGui.RadioButton("Precision Hookset###3", cfg.HookTypeStrong == HookType.Precision))
-                {
-                    cfg.HookTypeStrong = HookType.Precision;
-                    Service.Configuration.Save();
-                }
-                if (ImGui.RadioButton("Powerful Hookset###4", cfg.HookTypeStrong == HookType.Powerful))
-                {
-                    cfg.HookTypeStrong = HookType.Powerful;
-                    Service.Configuration.Save();
-                }
-                ImGui.Unindent();
-
-                ImGui.Text("Lendary Hook");
-                ImGui.Indent();
-                if (ImGui.RadioButton("Precision Hookset###5", cfg.HookTypeLegendary == HookType.Precision))
-                {
-                    cfg.HookTypeLegendary = HookType.Precision;
-                    Service.Configuration.Save();
-                }
-                if (ImGui.RadioButton("Powerful Hookset###6", cfg.HookTypeLegendary == HookType.Powerful))
-                {
-                    cfg.HookTypeLegendary = HookType.Powerful;
-                    Service.Configuration.Save();
-                }
-                ImGui.Unindent();
-
-                ImGui.EndPopup();
-            }
-        }
-    */
 
     public void DrawFishersIntuitionConfig(HookConfig cfg)
     {
