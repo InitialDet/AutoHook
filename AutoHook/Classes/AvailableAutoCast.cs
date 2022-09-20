@@ -47,6 +47,7 @@ public sealed class AutoThaliaksFavor : BaseActionCast
 
     public AutoThaliaksFavor() : base("Thaliak's Favor", IDs.Actions.ThaliaksFavor, ActionType.Spell)
     {
+
     }
 
     public override bool CastCondition()

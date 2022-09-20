@@ -154,25 +154,24 @@ public class PlayerResources : IDisposable
             return;
 
         delay = setdelay;
+
         NextActionID = id;
 
         if (actionType == ActionType.Spell)
         {
             if (ActionAvailable(NextActionID, actionType))
-            {  
-
+            {
                 isCasting = true;
                 if (CastAction(NextActionID, actionType))
                 {
-                    PluginLog.Debug("Castingsuccess");
                     ResetAutoCast();
-                } else
+                }
+                else
                 {
-                    PluginLog.Debug("--------Didnt cast---------");
                     ResetAutoCast();
                 }
             }
-        
+
         }
         else if (actionType == ActionType.Item)
         {
@@ -181,7 +180,7 @@ public class PlayerResources : IDisposable
         }
     }
 
-   
+
     private void ReceiveActionEffectDetour(int sourceObjectId, IntPtr sourceActor, IntPtr position, IntPtr effectHeader, IntPtr effectArray, IntPtr effectTrail)
     {
         receiveActionEffectHook!.Original(sourceObjectId, sourceActor, position, effectHeader, effectArray, effectTrail);
@@ -203,16 +202,26 @@ public class PlayerResources : IDisposable
         if (delay <= 0)
             delay = new Random().Next(600, 700);
 
-        // ThaliaksFavor is a weird skill idk how this works so im just adding a lot of delay and hoping it stops being used twice
-        if (NextActionID == IDs.Actions.ThaliaksFavor) 
-            delay += 1100;
+        delay += ConditionalDelay();
 
         await Task.Delay(delay);
 
-        PluginLog.Debug("Reseting AutoCast");
+        LastActionID = NextActionID;
         NextActionID = 0;
         isCasting = false;
         delay = 0;
+    }
+
+    private static int ConditionalDelay()
+    {
+ 
+        // ThaliaksFavor is a weird skill idk how this works so im just adding a lot of delay and hoping it stops being used twice
+        if (NextActionID == IDs.Actions.ThaliaksFavor || NextActionID == IDs.Actions.MakeshiftBait)
+        {
+            return 1100;
+        }
+
+        return 0;
     }
 
     [StructLayout(LayoutKind.Explicit)]

@@ -23,9 +23,11 @@ internal class TabGPConfig : TabBaseConfig
                 cfg.AutoHICordial,
                 cfg.AutoHQCordial,
                 cfg.AutoFishEyes,
+                cfg.AutoMakeShiftBait,
                 cfg.AutoPatienceI,
                 cfg.AutoPatienceII,
                 cfg.AutoPrizeCatch,
+                cfg.AutoThaliaksFavor,
             };
 
     public override void Draw()
