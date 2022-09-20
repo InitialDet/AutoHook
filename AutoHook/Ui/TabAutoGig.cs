@@ -2,6 +2,7 @@
 using AutoHook.Configurations;
 using AutoHook.Utils;
 using Dalamud.Interface;
+using GatherBuddy.Enums;
 using ImGuiNET;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ internal class TabAutoGig : TabBaseConfig
     public override string TabName => "AutoGig";
     public override bool Enabled => true;
 
+    List<SpearfishSpeed> speedTypes = Enum.GetValues(typeof(SpearfishSpeed)).Cast<SpearfishSpeed>().ToList();
+    List<SpearfishSize> sizeTypes = Enum.GetValues(typeof(SpearfishSize)).Cast<SpearfishSize>().ToList();
+
     public override void DrawHeader()
     {
         ImGui.Spacing();
@@ -24,13 +28,12 @@ internal class TabAutoGig : TabBaseConfig
 
     public override void Draw()
     {
-        if (DrawUtil.Checkbox("Enable AutoGig", ref Service.Configuration.AutoGigEnabled, "You can uncheck this to not use any actions below"))
+        if (DrawUtil.Checkbox("Enable AutoGig", ref Service.Configuration.AutoGigEnabled))
         {
             if (Service.Configuration.AutoGigEnabled)
             {
                 Service.Configuration.AutoGigHideOverlay = false;
                 Service.Configuration.Save();
-
             }
         }
 
@@ -43,7 +46,45 @@ internal class TabAutoGig : TabBaseConfig
             }
 
             ImGui.Unindent();
+        }
 
+        ImGui.Separator();
+
+        DrawSpeedSize();
+    }
+
+
+
+
+    private void DrawSpeedSize()
+    {
+        ImGui.Spacing();
+        ImGui.TextWrapped("Select the Size and Speed of the fish you want (Gatherbuddy's Spearfishing overlay helps a lot)");
+        ImGui.Spacing();
+
+        ImGui.SetNextItemWidth(130);
+        if (ImGui.BeginCombo("Size", Service.Configuration.currentSize.ToName()))
+        {
+
+            foreach (SpearfishSize size in sizeTypes.Where(size =>
+                        ImGui.Selectable(size.ToName(), size == Service.Configuration.currentSize)))
+            {
+                Service.Configuration.currentSize = size;
+            }
+            ImGui.EndCombo();
+        }
+
+        ImGui.SameLine();
+
+        ImGui.SetNextItemWidth(130);
+        if (ImGui.BeginCombo("Speed", Service.Configuration.currentSpeed.ToName()))
+        {
+            foreach (SpearfishSpeed speed in speedTypes.Where(speed =>
+                        ImGui.Selectable(speed.ToName(), speed == Service.Configuration.currentSpeed)))
+            {
+                Service.Configuration.currentSpeed = speed;
+            }
+            ImGui.EndCombo();
         }
     }
 

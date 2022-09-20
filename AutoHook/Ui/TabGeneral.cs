@@ -20,7 +20,7 @@ internal class TabGeneral : TabBaseConfig
 
         ImGui.Separator();
         ImGui.Spacing();
-        if (ImGui.Button("Click here to report an issue or make an suggestion"))
+        if (ImGui.Button("Click here to report an issue or make a suggestion"))
         {
             Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/issues", UseShellExecute = true });
         }

@@ -18,9 +18,10 @@ internal class TabAutoCasts : TabBaseConfig
 
     public override void DrawHeader()
     {
-        ImGui.TextWrapped("The new Auto Cast/Mooch is a experimental feature and can be a little confusing at first. I'll be trying to find a more simple and intuitive solution later\nPlease report any issues you encounter.");
+        //ImGui.TextWrapped("The new Auto Cast/Mooch is a experimental feature and can be a little confusing at first. I'll be trying to find a more simple and intuitive solution later\nPlease report any issues you encounter.");
 
         // Disable all casts
+        ImGui.Spacing();
         if (DrawUtil.Checkbox("Enable Auto Casts", ref cfg.EnableAll, "You can uncheck this to not use any actions below"))
         { }
 
@@ -30,6 +31,8 @@ internal class TabAutoCasts : TabBaseConfig
             if (DrawUtil.Checkbox("Don't Cancel Mooch", ref AutoCastsConfig.DontCancelMooch, "If mooch is available & Auto Mooch is enabled, actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
             { }
         }
+        ImGui.Spacing();
+
     }
 
     public override void Draw()

@@ -50,6 +50,7 @@ public class PluginUI : Window, IDisposable
 
         Utils.DrawUtil.Checkbox("Enable AutoHook", ref Service.Configuration.PluginEnabled, "Enables/Disables the plugin for you");
         ShowKofi();
+        ShowPaypal();
         ImGui.Indent();
 
         if (Service.Configuration.PluginEnabled)
@@ -108,6 +109,22 @@ public class PluginUI : Window, IDisposable
         if (ImGui.Button(buttonText))
         {
             OpenBrowser("https://ko-fi.com/initialdet");
+        }
+
+        ImGui.PopStyleColor(3);
+    }
+
+    public static void ShowPaypal()
+    {
+        string buttonText = "Support on PayPal";
+        ImGui.SameLine();
+        ImGui.PushStyleColor(ImGuiCol.Button, 0xFFA06020);
+        ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
+        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
+
+        if (ImGui.Button(buttonText))
+        {
+            OpenBrowser("https://www.paypal.com/donate/?business=PDZJVTF5484UA&no_recurring=0&currency_code=USD");
         }
 
         ImGui.PopStyleColor(3);

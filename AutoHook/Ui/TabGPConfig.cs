@@ -37,7 +37,9 @@ internal class TabGPConfig : TabBaseConfig
 
     public override void DrawHeader()
     {
-       
+        ImGui.Spacing();
+        ImGui.TextWrapped("Here you can customize the GP Threshold for the actions and items used by the AutoCast feature.");
+        ImGui.Spacing();
     }
 
     private void DrawGPTab()

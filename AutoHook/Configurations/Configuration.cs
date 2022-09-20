@@ -18,12 +18,12 @@ public class Configuration : IPluginConfiguration
     public HookConfig DefaultMoochConfig = new("DefaultMooch");
     public List<HookConfig> CustomBait = new();
 
-    public bool AutoGigEnabled = false;
+    public bool AutoGigEnabled = true;
     public bool AutoGigHideOverlay = false;
     public bool AutoGigNaturesBountyEnabled = false;
 
-    public SpearfishSpeed currentSpeed = SpearfishSpeed.Slow;
-    public SpearfishSize currentSize = SpearfishSize.Small;
+    public SpearfishSpeed currentSpeed = SpearfishSpeed.All;
+    public SpearfishSize currentSize = SpearfishSize.All;
 
     public void Save()
     {

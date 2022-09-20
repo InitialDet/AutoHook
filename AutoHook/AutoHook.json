@@ -6,8 +6,8 @@
   "InternalName": "AutoHook",
   "RepoUrl": "https://github.com/InitialDet/AutoHook",
   "ApplicableVersion": "any",
-  "Tags": ["Gathering","Fishing"],
+  "Tags": [ "Gathering", "Fishing" ],
   "DalamudApiLevel": 7,
   "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
-  "Changelog": "Patch 6.2 Update"
+  "Changelog": "- New AutoGig (spearfishing) Option\n- Added GP management for autocast\n- Added selectable Tugs for Double/Triple hook\n\n-- Small changes --\n- Adjustments to the UI\n- A lot of code refactor\n- Some bugfixes"
 }
