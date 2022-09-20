@@ -18,7 +18,7 @@ public class Configuration : IPluginConfiguration
     public HookConfig DefaultMoochConfig = new("DefaultMooch");
     public List<HookConfig> CustomBait = new();
 
-    public bool AutoGigEnabled = true;
+    public bool AutoGigEnabled = false;
     public bool AutoGigHideOverlay = false;
     public bool AutoGigNaturesBountyEnabled = false;
 

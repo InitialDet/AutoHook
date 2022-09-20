@@ -23,10 +23,10 @@ public class PlayerResources : IDisposable
 
     [Signature("E8 ?? ?? ?? ?? E9 ?? ?? ?? ?? 41 B0 01 BA 13 00 00 00")]
     private static unsafe delegate* unmanaged<IntPtr, uint, uint, uint, short, void> useItem = null;
-
+    /*
     [Signature("E8 ?? ?? ?? ?? 48 8B 8D F0 03 00 00", DetourName = nameof(ReceiveActionEffectDetour))]
     private readonly Hook<ReceiveActionEffectDelegate>? receiveActionEffectHook = null;
-    private delegate void ReceiveActionEffectDelegate(int sourceObjectId, IntPtr sourceActor, IntPtr position, IntPtr effectHeader, IntPtr effectArray, IntPtr effectTrail);
+    private delegate void ReceiveActionEffectDelegate(int sourceObjectId, IntPtr sourceActor, IntPtr position, IntPtr effectHeader, IntPtr effectArray, IntPtr effectTrail);*/
 
     public void Initialize()
     {
@@ -204,12 +204,12 @@ public class PlayerResources : IDisposable
         isCastingNoDelay = false;
     }
 
-
+    /*
     private void ReceiveActionEffectDetour(int sourceObjectId, IntPtr sourceActor, IntPtr position, IntPtr effectHeader, IntPtr effectArray, IntPtr effectTrail)
     {
         receiveActionEffectHook!.Original(sourceObjectId, sourceActor, position, effectHeader, effectArray, effectTrail);
 
-        /*ActionEffectHeader header = Marshal.PtrToStructure<ActionEffectHeader>(effectHeader);
+        ActionEffectHeader header = Marshal.PtrToStructure<ActionEffectHeader>(effectHeader);
 
         if (sourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
         {
@@ -218,8 +218,8 @@ public class PlayerResources : IDisposable
                 LastActionID = NextActionID;
                 ResetAutoCast();
             }
-        }*/
-    }
+        }
+    }*/
 
     public static async void ResetAutoCast()
     {

@@ -15,6 +15,7 @@ public class AutoHook : IDalamudPlugin
     public string Name => "AutoHook";
 
     private const string CmdAHCfg = "/ahcfg";
+    private const string CmdAH = "/ah";
     private const string CmdAHOn = "/ahon";
     private const string CmdAHOff = "/ahoff";
     
@@ -59,6 +60,11 @@ public class AutoHook : IDalamudPlugin
             HelpMessage = "Opens Config Window"
         });
 
+        Service.Commands.AddHandler(CmdAH, new CommandInfo(OnCommand)
+        {
+            HelpMessage = "Opens Config Window"
+        });
+
         HookManager = new HookingManager();
         HookManager.Enable();
 
@@ -70,6 +76,9 @@ public class AutoHook : IDalamudPlugin
     private void OnCommand(string command, string args)
     {
         if (command.Trim().Equals(CmdAHCfg))
+            OnOpenConfigUi();
+
+        if (command.Trim().Equals(CmdAH))
             OnOpenConfigUi();
 
         if (command.Trim().Equals(CmdAHOn))
@@ -95,6 +104,7 @@ public class AutoHook : IDalamudPlugin
         Service.PluginInterface!.UiBuilder.Draw -= Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
         Service.Commands.RemoveHandler(CmdAHCfg);
+        Service.Commands.RemoveHandler(CmdAH);
         Service.Commands.RemoveHandler(CmdAHOn);
         Service.Commands.RemoveHandler(CmdAHOff);
     }
