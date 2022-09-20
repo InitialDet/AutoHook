@@ -8,6 +8,9 @@ namespace AutoHook.Data
             Cast = 289,
             Quit = 299,
 
+            Gig = 7632,
+            NaturesBounty = 7909,
+
             Mooch = 297,
             Mooch2 = 268,
 
@@ -40,15 +43,17 @@ namespace AutoHook.Data
             IdenticalCast = 1804,
 
             AnglersFortune = 850,
-            
+
             AnglersArt = 2778,
             MakeshiftBait = 2779,
             PrizeCatch = 2780,
-            
-            None = 0;   
+
+            NaturesBounty = 1171,
+
+            None = 0;
         }
-    
-        public static class Item 
+
+        public static class Item
         {
             public const uint
             Cordial = 6141,

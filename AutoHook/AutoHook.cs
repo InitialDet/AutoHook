@@ -1,6 +1,7 @@
 ﻿using AutoHook.Configurations;
 using AutoHook.FishTimer;
 using AutoHook.SeFunctions;
+using AutoHook.Spearfishing;
 using AutoHook.Utils;
 using Dalamud.Game.Command;
 using Dalamud.Logging;
@@ -19,6 +20,9 @@ public class AutoHook : IDalamudPlugin
     
     private static PluginUI PluginUI = null!;
 
+    private static AutoGig AutoGig = null!;
+
+
     public HookingManager HookManager;
 
     PlayerResources PlayerResources;
@@ -36,7 +40,9 @@ public class AutoHook : IDalamudPlugin
 
         PlayerResources = new PlayerResources();
         PlayerResources.Initialize();
+
         PluginUI = new PluginUI();
+        AutoGig = new AutoGig();
 
         Service.Commands.AddHandler(CmdAHOff, new CommandInfo(OnCommand)
         {
@@ -82,6 +88,7 @@ public class AutoHook : IDalamudPlugin
     public void Dispose()
     {
         PluginUI.Dispose();
+        AutoGig.Dispose();
         HookManager.Dispose();
         PlayerResources.Dispose();
         Service.Configuration.Save();

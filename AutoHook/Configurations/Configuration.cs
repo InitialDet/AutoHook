@@ -1,4 +1,5 @@
 ﻿using Dalamud.Configuration;
+using GatherBuddy.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -16,6 +17,13 @@ public class Configuration : IPluginConfiguration
     public HookConfig DefaultCastConfig = new("DefaultCast");
     public HookConfig DefaultMoochConfig = new("DefaultMooch");
     public List<HookConfig> CustomBait = new();
+
+    public bool AutoGigEnabled = false;
+    public bool AutoGigHideOverlay = false;
+    public bool AutoGigNaturesBountyEnabled = false;
+
+    public SpearfishSpeed currentSpeed = SpearfishSpeed.Slow;
+    public SpearfishSize currentSize = SpearfishSize.Small;
 
     public void Save()
     {

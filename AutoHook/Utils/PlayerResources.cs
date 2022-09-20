@@ -101,11 +101,11 @@ public class PlayerResources : IDisposable
     public static unsafe uint ActionStatus(uint id, ActionType actionType = ActionType.Spell)
         => _actionManager->GetActionStatus(actionType, id);
 
-    private static unsafe bool CastAction(uint id, ActionType actionType = ActionType.Spell)
+    public static unsafe bool CastAction(uint id, ActionType actionType = ActionType.Spell)
         => _actionManager->UseAction(actionType, id);
 
     public static unsafe int GetRecastGroups(uint id, ActionType actionType = ActionType.Spell)
-        => _actionManager->GetRecastGroup((int)actionType, id);
+    => _actionManager->GetRecastGroup((int)actionType, id);
 
     public static unsafe void UseItem(uint id)
     {
@@ -143,14 +143,14 @@ public class PlayerResources : IDisposable
        => InventoryManager.Instance()->GetInventoryItemCount(id, isHQ) > 0;
 
 
-    static bool isCasting = false;
+    static bool isCastingDelay = false;
     static uint NextActionID = 0;
     static uint LastActionID = 0;
     static int delay = 0;
 
     public static void CastActionDelayed(uint id, ActionType actionType = ActionType.Spell, int setdelay = 0)
     {
-        if (isCasting)
+        if (isCastingDelay)
             return;
 
         delay = setdelay;
@@ -161,7 +161,7 @@ public class PlayerResources : IDisposable
         {
             if (ActionAvailable(NextActionID, actionType))
             {
-                isCasting = true;
+                isCastingDelay = true;
                 if (CastAction(NextActionID, actionType))
                 {
                     ResetAutoCast();
@@ -178,6 +178,30 @@ public class PlayerResources : IDisposable
             UseItem(NextActionID);
             ResetAutoCast();
         }
+    }
+
+
+    static bool isCastingNoDelay = false;
+
+    public static void CastActionNoDelay(uint id, ActionType actionType = ActionType.Spell)
+    {
+        if (isCastingNoDelay)
+            return;
+
+        isCastingNoDelay = true;
+        if (actionType == ActionType.Spell)
+        {
+            if (ActionAvailable(id, actionType))
+            {
+                CastAction(id, actionType);
+            }
+        }
+        else if (actionType == ActionType.Item)
+        {
+            UseItem(id);
+        }
+
+        isCastingNoDelay = false;
     }
 
 
@@ -208,15 +232,15 @@ public class PlayerResources : IDisposable
 
         LastActionID = NextActionID;
         NextActionID = 0;
-        isCasting = false;
+        isCastingDelay = false;
         delay = 0;
     }
 
     private static int ConditionalDelay()
     {
- 
+
         // ThaliaksFavor is a weird skill idk how this works so im just adding a lot of delay and hoping it stops being used twice
-        if (NextActionID == IDs.Actions.ThaliaksFavor || NextActionID == IDs.Actions.MakeshiftBait)
+        if (NextActionID == IDs.Actions.ThaliaksFavor || NextActionID == IDs.Actions.MakeshiftBait || NextActionID == IDs.Actions.NaturesBounty)
         {
             return 1100;
         }
