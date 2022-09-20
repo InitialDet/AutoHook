@@ -245,8 +245,7 @@ public class AutoHICordial : BaseActionCast
 
         bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
 
-        PluginLog.Debug($"Is Overcap? {notOvercaped}");
-        return notOvercaped;
+        return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
 
     public override void SetThreshold(uint newcost)
@@ -275,7 +274,7 @@ public class AutoCordial : BaseActionCast
 
         bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
 
-        return notOvercaped;
+        return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
 
     public override void SetThreshold(uint newcost)
@@ -304,7 +303,7 @@ public class AutoHQCordial : BaseActionCast
 
         bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
 
-        return notOvercaped;
+        return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
 
     public override void SetThreshold(uint newcost)

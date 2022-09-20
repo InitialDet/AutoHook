@@ -70,15 +70,6 @@ public abstract class BaseActionCast
 
         bool isActive = PlayerResources.ActionAvailable(ID, ActionType);
 
-
-        if (ID == Data.IDs.Item.HiCordial)
-        {
-            if (GPThresholdAbove)
-                PluginLog.Debug($"currentGp({currentGp}) >= GPThreshold({GPThreshold}), is Active? {(hasGP && isActive)}");
-            else
-                PluginLog.Debug($"currentGp({currentGp}) <=  GPThreshold({GPThreshold}), is Active? {(hasGP && isActive)}");
-        }
-
         return hasGP && isActive && CastCondition();
     }
 
