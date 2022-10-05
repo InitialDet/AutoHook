@@ -142,14 +142,16 @@ public class HookingManager : IDisposable
         CurrentBait = GetCurrentBait();
 
         LastStep = CatchSteps.FishCaught;
-        
+
         // Check if should stop with the current bait/fish
-        if (CurrentSetting != null && CurrentSetting.StopAfterCaught) {
+        if (CurrentSetting != null && CurrentSetting.StopAfterCaught)
+        {
             int total = FishCounter.Add(CurrentSetting.BaitName);
 
             PluginLog.Debug($"{CurrentSetting.BaitName} caught. Total: {total} out of {CurrentSetting.StopAfterCaughtLimit}");
 
-            if (total >= CurrentSetting.StopAfterCaughtLimit) {
+            if (total >= CurrentSetting.StopAfterCaughtLimit)
+            {
                 LastStep = CatchSteps.Quitting;
             }
         }
@@ -177,7 +179,8 @@ public class HookingManager : IDisposable
         if (!cfg.PluginEnabled || state == FishingState.None)
             return;
 
-        if (state != FishingState.Quit && LastStep == CatchSteps.Quitting) {
+        if (state != FishingState.Quit && LastStep == CatchSteps.Quitting)
+        {
             PlayerResources.CastActionDelayed(IDs.Actions.Quit);
             state = FishingState.Quit;
         }
@@ -256,7 +259,6 @@ public class HookingManager : IDisposable
             PlayerResources.CastActionDelayed((uint)HookType.Normal);
     }
 
-
     private static double LastTickMS = 200;
     private Stopwatch RecastTimer = new();
     private void UseAutoCasts()
@@ -284,7 +286,8 @@ public class HookingManager : IDisposable
         }
     }
 
-    private void QuitFishing() {
+    private void QuitFishing()
+    {
         PlayerResources.CastActionDelayed(IDs.Actions.Quit);
     }
 
@@ -344,10 +347,12 @@ public class HookingManager : IDisposable
         }
     }
 
-    private static class FishCounter {
+    private static class FishCounter
+    {
         static Dictionary<string, int> fishCount = new();
 
-        public static int Add(string fishName) {
+        public static int Add(string fishName)
+        {
             if (!fishCount.ContainsKey(fishName))
                 fishCount.Add(fishName, 0);
             fishCount[fishName]++;
@@ -355,13 +360,15 @@ public class HookingManager : IDisposable
             return GetCount(fishName);
         }
 
-        public static int GetCount(string fishName) {
+        public static int GetCount(string fishName)
+        {
             if (!fishCount.ContainsKey(fishName))
                 return 0;
             return fishCount[fishName];
         }
 
-        public static void Reset() {
+        public static void Reset()
+        {
 
             fishCount = new();
         }

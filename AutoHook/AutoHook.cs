@@ -18,7 +18,8 @@ public class AutoHook : IDalamudPlugin
     private const string CmdAH = "/ah";
     private const string CmdAHOn = "/ahon";
     private const string CmdAHOff = "/ahoff";
-    
+    private const string CmdAHTG = "/ahtg";
+
     private static PluginUI PluginUI = null!;
 
     private static AutoGig AutoGig = null!;
@@ -65,12 +66,17 @@ public class AutoHook : IDalamudPlugin
             HelpMessage = "Opens Config Window"
         });
 
+        Service.Commands.AddHandler(CmdAHTG, new CommandInfo(OnCommand)
+        {
+            HelpMessage = "Toogles AutoHook On/Off"
+        });
+
         HookManager = new HookingManager();
         HookManager.Enable();
 
-        #if (DEBUG)
-            OnOpenConfigUi();
-        #endif
+#if (DEBUG)
+        OnOpenConfigUi();
+#endif
     }
 
     private void OnCommand(string command, string args)
@@ -92,6 +98,20 @@ public class AutoHook : IDalamudPlugin
             Service.Chat.Print("AutoHook Disabled");
             Service.Configuration.PluginEnabled = false;
         }
+
+        if (command.Trim().Equals(CmdAHTG))
+        {
+            if (Service.Configuration.PluginEnabled)
+            {
+                Service.Chat.Print("AutoHook Disabled");
+                Service.Configuration.PluginEnabled = false;
+            }
+            else
+            {
+                Service.Chat.Print("AutoHook Enabled");
+                Service.Configuration.PluginEnabled = true;
+            }
+        }
     }
 
     public void Dispose()
@@ -107,6 +127,7 @@ public class AutoHook : IDalamudPlugin
         Service.Commands.RemoveHandler(CmdAH);
         Service.Commands.RemoveHandler(CmdAHOn);
         Service.Commands.RemoveHandler(CmdAHOff);
+        Service.Commands.RemoveHandler(CmdAHTG);
     }
 
     private void OnOpenConfigUi() => PluginUI.Toggle();
