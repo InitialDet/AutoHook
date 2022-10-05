@@ -15,9 +15,9 @@ abstract class TabBaseConfig : IDisposable
     public abstract string TabName { get; }
     public abstract bool Enabled { get; }
 
-    public string StrHookWeak => "Hook Weak (!)";
-    public string StrHookStrong => "Hook Strong (!!)";
-    public string StrHookLegendary => "Hook Legendary (!!!)";
+    public static string StrHookWeak => "Hook Weak (!)";
+    public static string StrHookStrong => "Hook Strong (!!)";
+    public static string StrHookLegendary => "Hook Legendary (!!!)";
 
     public abstract void DrawHeader();
 
@@ -56,13 +56,13 @@ abstract class TabBaseConfig : IDisposable
         if (enabled)
         {
             ImGui.Indent();
-            if (ImGui.RadioButton($"Precision Hookset###{hook}1", type == HookType.Precision))
+            if (ImGui.RadioButton($"Precision Hookset###{TabName}{hook}1", type == HookType.Precision))
             {
                 type = HookType.Precision;
                 Service.Configuration.Save();
             }
 
-            if (ImGui.RadioButton($"Powerful Hookset###{hook}2", type == HookType.Powerful))
+            if (ImGui.RadioButton($"Powerful Hookset###{TabName}{hook}2", type == HookType.Powerful))
             {
                 type = HookType.Powerful;
                 Service.Configuration.Save();

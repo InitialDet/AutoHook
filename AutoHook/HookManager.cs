@@ -105,7 +105,7 @@ public class HookingManager : IDisposable
 
     private void OnBeganFishing()
     {
-        if (LastStep == CatchSteps.BeganFishing)
+        if (LastStep == CatchSteps.BeganFishing && LastState != FishingState.PoleReady)
             return;
         CurrentBait = GetCurrentBait();
         Timer.Reset();
@@ -116,7 +116,7 @@ public class HookingManager : IDisposable
 
     private void OnBeganMooch()
     {
-        if (LastStep == CatchSteps.BeganMooching)
+        if (LastStep == CatchSteps.BeganMooching && LastState != FishingState.PoleReady)
             return;
 
         CurrentBait = new string(LastCatch);

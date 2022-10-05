@@ -125,7 +125,6 @@ public class PlayerResources : IDisposable
     // RecastGroup 68 = Cordial pots
     public static unsafe bool IsPotOffCooldown()
     {
-
         var recast = _actionManager->GetRecastGroupDetail(68);
         return recast->Total - recast->Elapsed == 0;
     }
@@ -236,17 +235,17 @@ public class PlayerResources : IDisposable
         delay = 0;
     }
 
-    private static int ConditionalDelay()
-    {
-
-        // ThaliaksFavor is a weird skill idk how this works so im just adding a lot of delay and hoping it stops being used twice
-        if (NextActionID == IDs.Actions.ThaliaksFavor || NextActionID == IDs.Actions.MakeshiftBait || NextActionID == IDs.Actions.NaturesBounty)
+    private static int ConditionalDelay() =>
+        NextActionID switch
         {
-            return 1100;
-        }
-
-        return 0;
-    }
+            IDs.Actions.ThaliaksFavor => 1100,
+            IDs.Actions.MakeshiftBait => 1100,
+            IDs.Actions.NaturesBounty => 1100,
+            IDs.Item.Cordial => 1100,
+            IDs.Item.HQCordial => 1100,
+            IDs.Item.HiCordial => 1100,
+            _ => 0,
+        };
 
     [StructLayout(LayoutKind.Explicit)]
     private struct ActionEffectHeader
