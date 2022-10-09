@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace AutoHook.Ui;
 internal class TabGPConfig : TabBaseConfig
 {
-    public override string TabName => "GP Config";
+    public override string TabName => "GP 设置";
     public override bool Enabled => true;
 
     private static AutoCastsConfig cfg = Service.Configuration.AutoCastsCfg;
@@ -38,7 +38,7 @@ internal class TabGPConfig : TabBaseConfig
     public override void DrawHeader()
     {
         ImGui.Spacing();
-        ImGui.TextWrapped("Here you can customize the GP Threshold for the actions and items used by the AutoCast feature.");
+        ImGui.TextWrapped("在这里自定义使用不同技能和道具的 GP 阈值。");
         ImGui.Spacing();
     }
 
@@ -50,14 +50,14 @@ internal class TabGPConfig : TabBaseConfig
             int gpThreshold = (int)action.GPThreshold;
 
             ImGui.PushID(action.Name);
-            ImGui.SetWindowFontScale(1.2f);
+            //ImGui.SetWindowFontScale(1.2f);
             ImGui.Text(action.Name);
             ImGui.SetWindowFontScale(1f);
 
             if (ImGui.IsItemHovered())
-                ImGui.SetTooltip($"{action.Name} will be used when your GP is equal or {(above ? "above" : "below")} {gpThreshold}");
+                ImGui.SetTooltip($"{action.Name} 会在 GP 等于 {(above ? "高于" : "低于")} {gpThreshold} 时使用。");
 
-            if (ImGui.RadioButton($"Above##1", above == true))
+            if (ImGui.RadioButton($"高于##1", above == true))
             {
                 action.GPThresholdAbove = true;
                 Service.Configuration.Save();
@@ -65,7 +65,7 @@ internal class TabGPConfig : TabBaseConfig
 
             ImGui.SameLine();
 
-            if (ImGui.RadioButton($"Below##1", above == false))
+            if (ImGui.RadioButton($"低于##1", above == false))
             {
                 action.GPThresholdAbove = false;
                 Service.Configuration.Save();

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace AutoHook.Ui;
 internal class TabAutoGig : TabBaseConfig
 {
-    public override string TabName => "AutoGig";
+    public override string TabName => "自动刺鱼";
     public override bool Enabled => true;
 
     List<SpearfishSpeed> speedTypes = Enum.GetValues(typeof(SpearfishSpeed)).Cast<SpearfishSpeed>().ToList();
@@ -22,13 +22,13 @@ internal class TabAutoGig : TabBaseConfig
     public override void DrawHeader()
     {
         ImGui.Spacing();
-        ImGui.TextWrapped("This is an experimental feature and it might miss the fish. If you find it missing too much, try adjusting the SpearFishing window scale to something different");
+        ImGui.TextWrapped("实验性功能，可能会错过一些鱼，如果你错过了太多鱼，可能需要调节不同的窗口尺寸");
         ImGui.Spacing();
     }
 
     public override void Draw()
     {
-        if (DrawUtil.Checkbox("Enable AutoGig", ref Service.Configuration.AutoGigEnabled))
+        if (DrawUtil.Checkbox("启用自动刺鱼", ref Service.Configuration.AutoGigEnabled))
         {
             if (Service.Configuration.AutoGigEnabled)
             {
@@ -40,7 +40,7 @@ internal class TabAutoGig : TabBaseConfig
         if (!Service.Configuration.AutoGigEnabled)
         {
             ImGui.Indent();
-            if (DrawUtil.Checkbox("Hide overlay during Spearfishing", ref Service.Configuration.AutoGigHideOverlay, "It'll only hide if the AutoGig option is disabled"))
+            if (DrawUtil.Checkbox("刺鱼时显示覆盖层", ref Service.Configuration.AutoGigHideOverlay, "仅当关闭自动刺鱼时显示"))
             {
                 Service.Configuration.Save();
             }
@@ -59,11 +59,11 @@ internal class TabAutoGig : TabBaseConfig
     private void DrawSpeedSize()
     {
         ImGui.Spacing();
-        ImGui.TextWrapped("Select the Size and Speed of the fish you want (Gatherbuddy's Spearfishing overlay helps a lot)");
+        ImGui.TextWrapped("选择你需要鱼的尺寸和速度 (Gatherbuddy的刺鱼悬浮窗非常有用)");
         ImGui.Spacing();
 
         ImGui.SetNextItemWidth(130);
-        if (ImGui.BeginCombo("Size", Service.Configuration.currentSize.ToName()))
+        if (ImGui.BeginCombo("尺寸", Service.Configuration.currentSize.ToName()))
         {
 
             foreach (SpearfishSize size in sizeTypes.Where(size =>
@@ -77,7 +77,7 @@ internal class TabAutoGig : TabBaseConfig
         ImGui.SameLine();
 
         ImGui.SetNextItemWidth(130);
-        if (ImGui.BeginCombo("Speed", Service.Configuration.currentSpeed.ToName()))
+        if (ImGui.BeginCombo("速度", Service.Configuration.currentSpeed.ToName()))
         {
             foreach (SpearfishSpeed speed in speedTypes.Where(speed =>
                         ImGui.Selectable(speed.ToName(), speed == Service.Configuration.currentSpeed)))

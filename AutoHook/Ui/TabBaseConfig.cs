@@ -15,9 +15,9 @@ abstract class TabBaseConfig : IDisposable
     public abstract string TabName { get; }
     public abstract bool Enabled { get; }
 
-    public static string StrHookWeak => "Hook Weak (!)";
-    public static string StrHookStrong => "Hook Strong (!!)";
-    public static string StrHookLegendary => "Hook Legendary (!!!)";
+    public static string StrHookWeak => "咬钩轻杆 (!)";
+    public static string StrHookStrong => "咬钩中杆 (!!)";
+    public static string StrHookLegendary => "咬钩重杆 (!!!)";
 
     public abstract void DrawHeader();
 
@@ -36,7 +36,7 @@ abstract class TabBaseConfig : IDisposable
         ImGui.PopFont();
 
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip("Hold SHIFT to delete.");
+            ImGui.SetTooltip("按住 SHIFT 删除。");
     }
 
     public void DrawHookCheckboxes(HookConfig cfg)
@@ -51,18 +51,18 @@ abstract class TabBaseConfig : IDisposable
        
         ImGui.Checkbox(hook, ref enabled);
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip("\"Hook\" will be used if Patience is not up");
+            ImGui.SetTooltip("未开启耐心时会直接使用 \"提钩\"");
 
         if (enabled)
         {
             ImGui.Indent();
-            if (ImGui.RadioButton($"Precision Hookset###{TabName}{hook}1", type == HookType.Precision))
+            if (ImGui.RadioButton($"精准提钩###{TabName}{hook}1", type == HookType.Precision))
             {
                 type = HookType.Precision;
                 Service.Configuration.Save();
             }
 
-            if (ImGui.RadioButton($"Powerful Hookset###{TabName}{hook}2", type == HookType.Powerful))
+            if (ImGui.RadioButton($"强力提钩###{TabName}{hook}2", type == HookType.Powerful))
             {
                 type = HookType.Powerful;
                 Service.Configuration.Save();
@@ -75,10 +75,10 @@ abstract class TabBaseConfig : IDisposable
     {
         string matchText = new string(cfg.BaitName);
         ImGui.SetNextItemWidth(-260 * ImGuiHelpers.GlobalScale);
-        if (ImGui.InputText("Mooch/Bait Name", ref matchText, 64, ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.EnterReturnsTrue))
+        if (ImGui.InputText("以小钓大/鱼饵 名称", ref matchText, 64, ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.EnterReturnsTrue))
         {
             if (cfg.BaitName != matchText && Service.Configuration.CustomBait.Contains(new HookConfig(matchText)))
-                cfg.BaitName = "Bait already exists";
+                cfg.BaitName = "鱼饵已存在";
             else
                 cfg.BaitName = matchText;
 
@@ -89,7 +89,7 @@ abstract class TabBaseConfig : IDisposable
     public void DrawInputDoubleMaxTime(HookConfig cfg)
     {
         ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
-        if (ImGui.InputDouble("Max. Wait", ref cfg.MaxTimeDelay, .1, 1, "%.1f%"))
+        if (ImGui.InputDouble("最长等待", ref cfg.MaxTimeDelay, .1, 1, "%.1f%"))
         {
             switch (cfg.MaxTimeDelay)
             {
@@ -112,7 +112,7 @@ abstract class TabBaseConfig : IDisposable
     public void DrawInputDoubleMinTime(HookConfig cfg)
     {
         ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
-        if (ImGui.InputDouble("Min. Wait", ref cfg.MinTimeDelay, .1, 1, "%.1f%"))
+        if (ImGui.InputDouble("最长等待", ref cfg.MinTimeDelay, .1, 1, "%.1f%"))
         {
             switch (cfg.MinTimeDelay)
             {
@@ -131,34 +131,34 @@ abstract class TabBaseConfig : IDisposable
 
     public void DrawEnabledButtonCustomBait(HookConfig cfg)
     {
-        ImGui.Checkbox("Enabled Config ->", ref cfg.Enabled);
+        ImGui.Checkbox("启用设置 ->", ref cfg.Enabled);
         ImGuiComponents.HelpMarker("Important!!!\n\nIf disabled, the fish will NOT be hooked or Mooched.\nTo use the default behavior (General Tab), please delete this configuration.");
     }
 
     public void DrawCheckBoxDoubleTripleHook(HookConfig cfg)
     {
 
-        if (ImGui.Button("Double/Triple Hook Settings###DHTH"))
+        if (ImGui.Button("多重提钩 设置###DHTH"))
         {
-            ImGui.OpenPopup("Double/Triple SettingsHook###DHTH");
+            ImGui.OpenPopup("多重提钩###DHTH");
         }
-        if (ImGui.BeginPopup("Double/Triple SettingsHook###DHTH"))
+        if (ImGui.BeginPopup("多重提钩###DHTH"))
         {
 
-            ImGui.TextColored(ImGuiColors.DalamudYellow, "Double/Triple Hook Settings");
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "多重提钩设置");
             ImGui.Spacing();
 
-            ImGui.Checkbox("Only use when Identical Cast is active", ref cfg.UseDHTHOnlySurfaceSlap);
+            ImGui.Checkbox("仅在专一垂钓时启用", ref cfg.UseDHTHOnlySurfaceSlap);
             ImGui.Spacing();
             ImGui.Separator();
             ImGui.Spacing();
 
-            if (ImGui.Checkbox("Use Double Hook (If gp > 400)", ref cfg.UseDoubleHook))
+            if (ImGui.Checkbox("使用双提 (当 gp > 400)", ref cfg.UseDoubleHook))
             {
                 if (cfg.UseDoubleHook) cfg.UseTripleHook = false;
                 Service.Configuration.Save();
             }
-            if (ImGui.Checkbox("Use Triple Hook (If gp > 700)", ref cfg.UseTripleHook))
+            if (ImGui.Checkbox("使用双提 (当 gp > 700)", ref cfg.UseTripleHook))
             {
                 if (cfg.UseTripleHook) cfg.UseDoubleHook = false;
                 Service.Configuration.Save();
@@ -168,9 +168,9 @@ abstract class TabBaseConfig : IDisposable
             {
                 ImGui.Indent();
 
-                ImGui.Checkbox("Use when Patience is active (not recommended)", ref cfg.UseDHTHPatience);
-                ImGuiComponents.HelpMarker("Important!!!\n\nIf disabled, Precision/Powerful hook will be used instead when Patience is up.");
-                ImGui.Checkbox("Let the fish escape if GP is below the required", ref cfg.LetFishEscape);
+                ImGui.Checkbox("启用耐心时也使用 (不推荐)", ref cfg.UseDHTHPatience);
+                ImGuiComponents.HelpMarker("注意!!!\n\n禁用时，耐心中在使用精准提钩和强力提钩。");
+                ImGui.Checkbox("当 GP 低于要求时把鱼放跑", ref cfg.LetFishEscape);
                 ImGui.Unindent();
 
                 ImGui.Separator();
@@ -188,16 +188,16 @@ abstract class TabBaseConfig : IDisposable
 
     public void DrawFishersIntuitionConfig(HookConfig cfg)
     {
-        if (ImGui.Button("Fisher's Intuition Settings###FishersIntuition"))
+        if (ImGui.Button("捕鱼人之识 设置###FishersIntuition"))
         {
             ImGui.OpenPopup("fisher_intuition_settings");
         }
 
         if (ImGui.BeginPopup("fisher_intuition_settings"))
         {
-            ImGui.TextColored(ImGuiColors.DalamudYellow, "Fisher's Intuition Settings");
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "捕鱼人之识");
             ImGui.Spacing();
-            Utils.DrawUtil.Checkbox("Enable", ref cfg.UseCustomIntuitionHook, "Enable Custom Hooks when Fisher's Intuition is detected");
+            Utils.DrawUtil.Checkbox("Enable", ref cfg.UseCustomIntuitionHook, "当检测到捕鱼人之识时启用特殊提钩");
             ImGui.Separator();
 
             DrawSelectTugs(StrHookWeak, ref cfg.HookWeakIntuitionEnabled, ref cfg.HookTypeWeakIntuition);
@@ -211,19 +211,19 @@ abstract class TabBaseConfig : IDisposable
     public void DrawAutoMooch(HookConfig cfg)
     {
 
-        if (ImGui.Button("Auto Mooch"))
+        if (ImGui.Button("自动以小钓大"))
         {
             ImGui.OpenPopup("auto_mooch");
         }
 
         if (ImGui.BeginPopup("auto_mooch"))
         {
-            ImGui.TextColored(ImGuiColors.DalamudYellow, "Auto Mooch");
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "自动以小钓大");
             ImGui.Spacing();
             ImGui.Text("- If this is a Bait, all fish caught by this bait will be mooched");
             ImGui.Text("- If this is a Fish/Mooch (Ex: Harbor Herring), it'll be mooched when caught");
             ImGui.Text("If this option is disabled, it will NOT be mooched even if Auto Mooch is also enabled in the general tab");
-            if (Utils.DrawUtil.Checkbox("Auto Mooch", ref cfg.UseAutoMooch, "This option takes priority over the Auto Cast Line"))
+            if (Utils.DrawUtil.Checkbox("自动以小钓大", ref cfg.UseAutoMooch, "This option takes priority over the Auto Cast Line"))
             {
                 if (!cfg.UseAutoMooch)
                     cfg.UseAutoMooch2 = false;
@@ -232,7 +232,7 @@ abstract class TabBaseConfig : IDisposable
             if (cfg.UseAutoMooch)
             {
                 ImGui.Indent();
-                ImGui.Checkbox("Use Mooch II", ref cfg.UseAutoMooch2);
+                ImGui.Checkbox("使用以小钓大II", ref cfg.UseAutoMooch2);
                 ImGui.Unindent();
             }
             ImGui.EndPopup();
@@ -242,21 +242,21 @@ abstract class TabBaseConfig : IDisposable
     public void DrawSurfaceSlapIdenticalCast(HookConfig cfg)
     {
 
-        if (ImGui.Button("Surface Slap & Identical Cast"))
+        if (ImGui.Button("拍击水面和专一垂钓"))
         {
             ImGui.OpenPopup("surface_slap_identical_cast");
         }
 
         if (ImGui.BeginPopup("surface_slap_identical_cast"))
         {
-            ImGui.TextColored(ImGuiColors.DalamudYellow, "Surface Slap & Identical Cast");
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "拍击水面和专一垂钓");
             ImGui.Spacing();
-            if (DrawUtil.Checkbox("Use Surface Slap", ref cfg.UseSurfaceSlap, "Overrides Identical Cast"))
+            if (DrawUtil.Checkbox("使用拍击水面", ref cfg.UseSurfaceSlap, "覆盖专一垂钓"))
             {
                 cfg.UseIdenticalCast = false;
             }
 
-            if (DrawUtil.Checkbox("Use Identical Cast", ref cfg.UseIdenticalCast, "Overrides Surface Slap"))
+            if (DrawUtil.Checkbox("使用专一垂钓", ref cfg.UseIdenticalCast, "覆盖拍击水面"))
             {
                 cfg.UseSurfaceSlap = false;
             }
@@ -268,16 +268,16 @@ abstract class TabBaseConfig : IDisposable
     public void DrawStopAfter(HookConfig cfg)
     {
 
-        if (ImGui.Button("Stop fishing after..."))
+        if (ImGui.Button("停止垂钓当..."))
         {
             ImGui.OpenPopup(str_id: "stop_after");
         }
 
         if (ImGui.BeginPopupContextWindow("stop_after"))
         {
-            ImGui.TextColored(ImGuiColors.DalamudYellow, "Stop fishing");
+            ImGui.TextColored(ImGuiColors.DalamudYellow, "停止垂钓");
             ImGui.Spacing();
-            if (DrawUtil.Checkbox("After being caught...", ref cfg.StopAfterCaught, "- If this config is a bait: Stops fishing after X amount of fish is caught\n- If this config is a fish: Stops fishing after it being caught X amount of times"))
+            if (DrawUtil.Checkbox("钓到...", ref cfg.StopAfterCaught, "- If this config is a bait: Stops fishing after X amount of fish is caught\n- If this config is a fish: Stops fishing after it being caught X amount of times"))
             {
 
             }
@@ -286,7 +286,7 @@ abstract class TabBaseConfig : IDisposable
             {
                 ImGui.Indent();
                 ImGui.SetNextItemWidth(90 * ImGuiHelpers.GlobalScale);
-                if (ImGui.InputInt("Time(s)", ref cfg.StopAfterCaughtLimit))
+                if (ImGui.InputInt("次", ref cfg.StopAfterCaughtLimit))
                 {
                     if (cfg.StopAfterCaughtLimit < 1)
                         cfg.StopAfterCaughtLimit = 1;

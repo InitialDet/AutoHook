@@ -9,7 +9,7 @@ namespace AutoHook.Ui;
 class TabBaitFish : TabBaseConfig
 {
     public override bool Enabled => true;
-    public override string TabName => "Bait/Fish";
+    public override string TabName => "鱼饵预设";
 
     public TabBaitFish()
     { }
@@ -17,9 +17,9 @@ class TabBaitFish : TabBaseConfig
     public override void DrawHeader()
     {
         ImGui.TextWrapped("Here you can customize which hook to use based on the current bait or fish being mooched.\nIf a bait/fish is not specified, the default behavior (General Tab) will be used instead.");
-        if (ImGui.Button("Add"))
+        if (ImGui.Button("添加"))
         {
-            var setting = new HookConfig("EditMe");
+            var setting = new HookConfig("编辑");
             if (!Service.Configuration.CustomBait.Contains(setting))
                 Service.Configuration.CustomBait.Add(setting);
 
@@ -27,11 +27,11 @@ class TabBaitFish : TabBaseConfig
         }
 
         ImGui.SameLine();
-        ImGui.Text($"New bait/fish ({Service.Configuration.CustomBait.Count})");
+        ImGui.Text($"新鱼饵/鱼 ({Service.Configuration.CustomBait.Count})");
         ImGui.SameLine();
-        ImGuiComponents.HelpMarker("Make sure to edit the bait/fish name correctly like ingame (Ex: Versatile Lure)");
+        ImGuiComponents.HelpMarker("请确保输入的名称是游戏中有效的名称例如 (Ex: 熔岩蠕虫)");
 
-        if (ImGui.Button("Add Current Bait/Fish"))
+        if (ImGui.Button("添加当前鱼饵/鱼"))
         {
             var setting = new HookConfig(HookingManager.CurrentBait ?? "-");
 
@@ -41,7 +41,7 @@ class TabBaitFish : TabBaseConfig
             Service.Configuration.Save();
         }
 
-        ImGui.Text($"Current bait/fish:");
+        ImGui.Text($"当前鱼饵/鱼:");
         ImGui.SameLine();
         ImGui.TextColored(ImGuiColors.HealerGreen, HookingManager.CurrentBait ?? "-");
     }

@@ -12,11 +12,11 @@ namespace AutoHook.Ui;
 internal class TabGeneral : TabBaseConfig
 {
     public override bool Enabled => true;
-    public override string TabName => "General";
+    public override string TabName => "通用";
 
     public override void DrawHeader()
     {
-        ImGui.Text("General settings");
+        ImGui.Text("通用设置");
 
         ImGui.Separator();
         ImGui.Spacing();
@@ -28,7 +28,7 @@ internal class TabGeneral : TabBaseConfig
 
 #if DEBUG
 
-        if (ImGui.Button("Testing"))
+        if (ImGui.Button("测试"))
         {
             PluginLog.Debug($"IdenticalCast = {PlayerResources.HasStatus(IDs.Status.IdenticalCast)}");
 
@@ -40,7 +40,7 @@ internal class TabGeneral : TabBaseConfig
 
         if (ImGui.BeginTabBar("TabBarsGeneral", ImGuiTabBarFlags.NoTooltip))
         {
-            if (ImGui.BeginTabItem("Default Cast###DC1"))
+            if (ImGui.BeginTabItem("默认直接抛竿###DC1"))
             {
                 ImGui.PushID("TabDefaultCast");
                 DrawDefaultCast();
@@ -48,7 +48,7 @@ internal class TabGeneral : TabBaseConfig
                 ImGui.EndTabItem();
             }
 
-            if (ImGui.BeginTabItem("Default Mooch###DM1"))
+            if (ImGui.BeginTabItem("默认以小钓大###DM1"))
             {
                 ImGui.PushID("TabDefaultMooch");
                 DrawDefaultMooch();
@@ -64,8 +64,8 @@ internal class TabGeneral : TabBaseConfig
     public void DrawDefaultCast()
     {
         ImGui.Spacing();
-        ImGui.Checkbox("Use Default Cast", ref Service.Configuration.DefaultCastConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Bait Config is found.");
+        ImGui.Checkbox("使用默认抛竿", ref Service.Configuration.DefaultCastConfig.Enabled);
+        ImGuiComponents.HelpMarker("找不到特定鱼饵的设置时使用该默认设置。");
 
         ImGui.Indent();
 
@@ -83,8 +83,8 @@ internal class TabGeneral : TabBaseConfig
     public void DrawDefaultMooch()
     {
         ImGui.Spacing();
-        ImGui.Checkbox("Use Default Mooch", ref Service.Configuration.DefaultMoochConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Mooch Config is found.");
+        ImGui.Checkbox("使用默认以小钓大", ref Service.Configuration.DefaultMoochConfig.Enabled);
+        ImGuiComponents.HelpMarker("找不到特定鱼饵的以小钓大设置时使用该默认设置。");
 
         ImGui.Indent();
 

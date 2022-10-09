@@ -12,7 +12,7 @@ namespace AutoHook.Ui;
 internal class TabAutoCasts : TabBaseConfig
 {
     public override bool Enabled => true;
-    public override string TabName => "Auto Casts";
+    public override string TabName => "自动抛竿";
 
     private static AutoCastsConfig cfg = Service.Configuration.AutoCastsCfg;
 
@@ -22,13 +22,13 @@ internal class TabAutoCasts : TabBaseConfig
 
         // Disable all casts
         ImGui.Spacing();
-        if (DrawUtil.Checkbox("Enable Auto Casts", ref cfg.EnableAll, "You can uncheck this to not use any actions below"))
+        if (DrawUtil.Checkbox("启用自动抛竿", ref cfg.EnableAll, "反选后下面的技能一个也不会使用"))
         { }
 
         if (cfg.EnableAll)
         {
             ImGui.SameLine();
-            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref AutoCastsConfig.DontCancelMooch, "If mooch is available & Auto Mooch is enabled, actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
+            if (DrawUtil.Checkbox("总是以小钓大", ref AutoCastsConfig.DontCancelMooch, "如果是以小钓大的机会并且自动以小钓大启用是，任何会取消以小钓大机会的技能不会被使用。 (例如：撒饵，鱼眼，大鱼猎手等)"))
             { }
         }
         ImGui.Spacing();
@@ -53,7 +53,7 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawAutoCast()
     {
-        if (DrawUtil.Checkbox("Global Auto Cast Line", ref cfg.EnableAutoCast, "Cast (FSH Action) will be used after a fish bite\n\nIMPORTANT!!!\nIf you have this option enabled and you don't have a Custom Auto Mooch or the Global Auto Mooch option enabled, the line will be casted normally and you'll lose your mooch oportunity (If available)."))
+        if (DrawUtil.Checkbox("全局自动抛竿", ref cfg.EnableAutoCast, "Cast (FSH Action) will be used after a fish bite\n\nIMPORTANT!!!\nIf you have this option enabled and you don't have a Custom Auto Mooch or the Global Auto Mooch option enabled, the line will be casted normally and you'll lose your mooch oportunity (If available)."))
         { }
 
         if (cfg.EnableAutoCast)
@@ -71,7 +71,7 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawAutoMooch()
     {
-        if (DrawUtil.Checkbox("Global Auto Mooch", ref cfg.EnableMooch, "All fish will be mooched if available. This option have priority over Auto Cast Line\n\nIf you want to Auto Mooch only a especific fish and ignore others, disable this option and add the fish you want in the bait/fish tab"))
+        if (DrawUtil.Checkbox("全局自动以小钓大", ref cfg.EnableMooch, "All fish will be mooched if available. This option have priority over Auto Cast Line\n\nIf you want to Auto Mooch only a especific fish and ignore others, disable this option and add the fish you want in the bait/fish tab"))
         { }
 
         if (cfg.EnableMooch)
@@ -84,14 +84,14 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsAutoMooch()
     {
-        ImGui.Checkbox("Use Mooch II", ref cfg.EnableMooch2);
+        ImGui.Checkbox("使用以小钓大II", ref cfg.EnableMooch2);
     }
 
     private void DrawPatience()
     {
 
         var enabled = cfg.AutoPatienceII.Enabled;
-        if (DrawUtil.Checkbox("Use Patience I/II", ref enabled, "Patience I/II will be used when your current GP is equal (or higher) to the action cost +20 (Ex: 220 for I, 580 for II), this helps to avoid not having GP for the hooksets"))
+        if (DrawUtil.Checkbox("使用耐心I/II", ref enabled, "Patience I/II will be used when your current GP is equal (or higher) to the action cost +20 (Ex: 220 for I, 580 for II), this helps to avoid not having GP for the hooksets"))
         {
             cfg.AutoPatienceII.Enabled = enabled;
             cfg.AutoPatienceI.Enabled = enabled;
@@ -111,19 +111,19 @@ internal class TabAutoCasts : TabBaseConfig
 
         var enabled = AutoCastsConfig.EnableMakeshiftPatience;
        
-        if (DrawUtil.Checkbox("Use when Makeshift Bait is active", ref enabled))
+        if (DrawUtil.Checkbox("当熟练渔技启用时", ref enabled))
         {
             AutoCastsConfig.EnableMakeshiftPatience = enabled;
             Service.Configuration.Save();
         }
 
-        if (ImGui.RadioButton("Patience I###1", cfg.SelectedPatienceID == IDs.Actions.Patience))
+        if (ImGui.RadioButton("耐心I###1", cfg.SelectedPatienceID == IDs.Actions.Patience))
         {
             cfg.SelectedPatienceID = IDs.Actions.Patience;
             Service.Configuration.Save();
         }
 
-        if (ImGui.RadioButton("Patience II###2", cfg.SelectedPatienceID == IDs.Actions.Patience2))
+        if (ImGui.RadioButton("耐心II###2", cfg.SelectedPatienceID == IDs.Actions.Patience2))
         {
             cfg.SelectedPatienceID = IDs.Actions.Patience2;
             Service.Configuration.Save();
@@ -134,7 +134,7 @@ internal class TabAutoCasts : TabBaseConfig
     {
         ImGui.PushID("ThaliaksFavor");
         var enabled = cfg.AutoThaliaksFavor.Enabled;
-        if (DrawUtil.Checkbox("Use Thaliak's Favor", ref enabled, "This might conflict with Auto MakeShift Bait"))
+        if (DrawUtil.Checkbox("使用沙利亚克的恩宠", ref enabled, "与熟练渔技冲突"))
         {
             cfg.AutoThaliaksFavor.Enabled = enabled;
             Service.Configuration.Save();
@@ -152,7 +152,7 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawExtraOptionsThaliaksFavor()
     {
         var stack = cfg.AutoThaliaksFavor.ThaliaksFavorStacks;
-        if (DrawUtil.EditNumberField("When Stacks =", ref stack))
+        if (DrawUtil.EditNumberField("当捕鱼人之计层数 =", ref stack))
         {
             if (stack < 3)
                 cfg.AutoThaliaksFavor.ThaliaksFavorStacks = 3;
@@ -170,7 +170,7 @@ internal class TabAutoCasts : TabBaseConfig
         ImGui.PushID("MakeShiftBait");
 
         var enabled = cfg.AutoMakeShiftBait.Enabled;
-        if (DrawUtil.Checkbox("Use Makeshift Bait", ref enabled, "This might conflict with Auto Thaliak's Favor"))
+        if (DrawUtil.Checkbox("使用熟练渔技", ref enabled, "与沙利亚克的恩宠冲突"))
         {
             cfg.AutoMakeShiftBait.Enabled = enabled;
             Service.Configuration.Save();
@@ -188,7 +188,7 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawExtraOptionsMakeShiftBait()
     {
         var stack = cfg.AutoMakeShiftBait.MakeshiftBaitStacks;
-        if (DrawUtil.EditNumberField($"When Stacks = ", ref stack))
+        if (DrawUtil.EditNumberField($"当捕鱼人之计层数 = ", ref stack))
         {
             if (stack < 5)
                 cfg.AutoMakeShiftBait.MakeshiftBaitStacks = 5;
@@ -206,7 +206,7 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawPrizeCatch()
     {
         var enabled = cfg.AutoPrizeCatch.Enabled;
-        if (DrawUtil.Checkbox("Use Prize Catch", ref enabled, "Cancels Current Mooch. Patience and Makeshift Bait will not be used when Prize Catch active"))
+        if (DrawUtil.Checkbox("使用大鱼猎手", ref enabled, "Cancels Current Mooch. Patience and Makeshift Bait will not be used when Prize Catch active"))
         {
             cfg.AutoPrizeCatch.Enabled = enabled;
             Service.Configuration.Save();
@@ -217,7 +217,7 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawChum()
     {
         var enabled = cfg.AutoChum.Enabled;
-        if (DrawUtil.Checkbox("Use Chum", ref enabled, "Cancels Current Mooch"))
+        if (DrawUtil.Checkbox("使用撒饵", ref enabled, "Cancels Current Mooch"))
         {
             cfg.AutoChum.Enabled = enabled;
             Service.Configuration.Save();
@@ -228,7 +228,7 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawFishEyes()
     {
         var enabled = cfg.AutoFishEyes.Enabled;
-        if (DrawUtil.Checkbox("Use Fish Eyes", ref enabled, "Cancels Current Mooch"))
+        if (DrawUtil.Checkbox("使用鱼眼", ref enabled, "Cancels Current Mooch"))
         {
             cfg.AutoFishEyes.Enabled = enabled;
             Service.Configuration.Save();
@@ -240,7 +240,7 @@ internal class TabAutoCasts : TabBaseConfig
     {
 
         var enabled = cfg.AutoHICordial.Enabled;
-        if (DrawUtil.Checkbox("Use Cordials (Hi-Cordial First)", ref enabled, "If theres no Hi-Cordials, Cordials will be used instead"))
+        if (DrawUtil.Checkbox("使用强心剂 (高强优先)", ref enabled, "If theres no Hi-Cordials, Cordials will be used instead"))
         {
             cfg.AutoHICordial.Enabled = enabled;
             cfg.AutoHQCordial.Enabled = enabled;
@@ -257,7 +257,7 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsCordials()
     {
-        if (DrawUtil.Checkbox("Change Priority: Cordial > HI-Cordials", ref cfg.EnableCordialFirst, "If theres no Cordials, Hi-Cordials will be used instead"))
+        if (DrawUtil.Checkbox("修改优先级: 强心剂 > 高级强心剂", ref cfg.EnableCordialFirst, "If theres no Cordials, Hi-Cordials will be used instead"))
         { }
     }
 }
