@@ -73,7 +73,7 @@ jobs:
           name: ${{ env.PROJECT_NAME }} ${{steps.version.outputs.prop}}
           tag_name: ${{steps.version.outputs.prop}} 
           body: ${{ github.events.commits[0].message }}
-          files: ${{ steps.download.outputs.download-path }}/latest.zip
+          files: ./latest.zip
 
       - name: Trigger plugin repo update
         uses: peter-evans/repository-dispatch@v1
