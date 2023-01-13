@@ -31,7 +31,7 @@ public partial class FishingParser : IDisposable
     public unsafe FishingParser()
     {
         _catchHook = new UpdateFishCatch(Service.SigScanner).CreateHook(OnCatchUpdate);
-        var hookPtr = (IntPtr)ActionManager.fpUseAction;
+        var hookPtr = (IntPtr)ActionManager.MemberFunctionPointers.UseAction;
         _hookHook = Hook<UseActionDelegate>.FromAddress(hookPtr, OnUseAction);
     }
 

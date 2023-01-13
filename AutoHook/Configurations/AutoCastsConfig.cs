@@ -46,7 +46,7 @@ public class AutoCastsConfig
 
     public AutoPrizeCatch AutoPrizeCatch = new();
 
-    public HookConfig? HookConfig = null;
+    public BaitConfig? BaitConfig = null;
 
     public bool EnableCordials = false;
 
@@ -55,54 +55,54 @@ public class AutoCastsConfig
     public static bool IsMoochAvailable = false;
 
     // i could make the code more optimized but im too lazy rn.
-    public AutoCast? GetNextAutoCast(HookConfig? hookConfig)
+    public AutoCast? GetNextAutoCast(BaitConfig? baitConfig)
     {
         if (!EnableAll)
             return null;
 
-        HookConfig = hookConfig;
+        BaitConfig = baitConfig;
 
         IsMoochAvailable = CheckMoochAvailable();
 
         if (!PlayerResources.ActionAvailable(IDs.Actions.Cast))
             return null;
 
-        if (AutoThaliaksFavor.IsAvailableToCast(hookConfig))
+        if (AutoThaliaksFavor.IsAvailableToCast(baitConfig))
             return new(AutoThaliaksFavor.ID, AutoThaliaksFavor.ActionType);
 
-        if (AutoMakeShiftBait.IsAvailableToCast(hookConfig))
+        if (AutoMakeShiftBait.IsAvailableToCast(baitConfig))
             return new(AutoMakeShiftBait.ID, AutoMakeShiftBait.ActionType);
 
-        if (AutoChum.IsAvailableToCast(hookConfig))
+        if (AutoChum.IsAvailableToCast(baitConfig))
             return new(AutoChum.ID, AutoChum.ActionType);
 
-        if (AutoFishEyes.IsAvailableToCast(hookConfig))
+        if (AutoFishEyes.IsAvailableToCast(baitConfig))
             return new(AutoFishEyes.ID, AutoFishEyes.ActionType);
 
-        if (AutoIdenticalCast.IsAvailableToCast(hookConfig))
+        if (AutoIdenticalCast.IsAvailableToCast(baitConfig))
             return new(AutoIdenticalCast.ID, AutoIdenticalCast.ActionType);
 
-        if (AutoSurfaceSlap.IsAvailableToCast(hookConfig))
+        if (AutoSurfaceSlap.IsAvailableToCast(baitConfig))
             return new(AutoSurfaceSlap.ID, AutoSurfaceSlap.ActionType);
 
-        if (AutoPrizeCatch.IsAvailableToCast(hookConfig))
+        if (AutoPrizeCatch.IsAvailableToCast(baitConfig))
             return new(AutoPrizeCatch.ID, AutoPrizeCatch.ActionType);
 
         if (SelectedPatienceID == IDs.Actions.Patience2)
         {
-            if (AutoPatienceII.IsAvailableToCast(hookConfig))
+            if (AutoPatienceII.IsAvailableToCast(baitConfig))
                 return new(AutoPatienceII.ID, AutoPatienceII.ActionType);
         }
         else
         {
-            if (AutoPatienceI.IsAvailableToCast(hookConfig))
+            if (AutoPatienceI.IsAvailableToCast(baitConfig))
                 return new(AutoPatienceI.ID, AutoPatienceI.ActionType);
         }
 
         var cordial = GetCordials();
 
-        if (cordial != null && cordial.IsAvailableToCast(hookConfig))
-             return new(cordial.ID, cordial.ActionType);
+        if (cordial != null && cordial.IsAvailableToCast(baitConfig))
+            return new(cordial.ID, cordial.ActionType);
 
         if (UseMooch(out uint idMooch))
             return new(idMooch, ActionType.Spell);
@@ -120,15 +120,15 @@ public class AutoCastsConfig
         bool useAutoMooch = false;
         bool useAutoMooch2 = false;
 
-        if (HookConfig == null || HookConfig?.BaitName == "DefaultCast" || HookConfig?.BaitName == "DefaultMooch")
+        if (BaitConfig == null || BaitConfig?.BaitName == "DefaultCast" || BaitConfig?.BaitName == "DefaultMooch")
         {
             useAutoMooch = EnableMooch;
             useAutoMooch2 = EnableMooch2;
         }
         else
         {
-            useAutoMooch = HookConfig?.UseAutoMooch ?? false;
-            useAutoMooch2 = HookConfig?.UseAutoMooch2 ?? false;
+            useAutoMooch = BaitConfig?.UseAutoMooch ?? false;
+            useAutoMooch2 = BaitConfig?.UseAutoMooch2 ?? false;
         }
 
         if (useAutoMooch)

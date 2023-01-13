@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Collections.Generic;
 using AutoHook.Classes;
 using System;
+using System.Diagnostics;
 
 namespace AutoHook.Ui;
 
@@ -14,25 +15,29 @@ internal class TabAutoCasts : TabBaseConfig
     public override bool Enabled => true;
     public override string TabName => "Auto Casts";
 
-    private static AutoCastsConfig cfg = Service.Configuration.AutoCastsCfg;
-
+    private readonly static AutoCastsConfig cfg = Service.Configuration.AutoCastsCfg;
     public override void DrawHeader()
     {
         //ImGui.TextWrapped("The new Auto Cast/Mooch is a experimental feature and can be a little confusing at first. I'll be trying to find a more simple and intuitive solution later\nPlease report any issues you encounter.");
 
         // Disable all casts
         ImGui.Spacing();
-        if (DrawUtil.Checkbox("Enable Auto Casts", ref cfg.EnableAll, "You can uncheck this to not use any actions below"))
+        if (DrawUtil.Checkbox("Enable Auto Casts", ref cfg.EnableAll))
         { }
 
         if (cfg.EnableAll)
         {
             ImGui.SameLine();
-            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref AutoCastsConfig.DontCancelMooch, "If mooch is available & Auto Mooch is enabled, actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
+            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref AutoCastsConfig.DontCancelMooch, "Actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
             { }
         }
+
         ImGui.Spacing();
 
+        if (ImGui.Button("Guide: How to auto accept Collectables"))
+        {
+            Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/blob/main/AcceptCollectable.md", UseShellExecute = true });
+        }
     }
 
     public override void Draw()
@@ -71,7 +76,7 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawAutoMooch()
     {
-        if (DrawUtil.Checkbox("Global Auto Mooch", ref cfg.EnableMooch, "All fish will be mooched if available. This option have priority over Auto Cast Line\n\nIf you want to Auto Mooch only a especific fish and ignore others, disable this option and add the fish you want in the bait/fish tab"))
+        if (DrawUtil.Checkbox("Global Auto Mooch", ref cfg.EnableMooch, "All fish will be mooched if available. This option have priority over Auto Cast Line\n\nIf you want to Auto Mooch only a especific fish and ignore others, disable this option and add Custom Preset."))
         { }
 
         if (cfg.EnableMooch)
@@ -110,7 +115,7 @@ internal class TabAutoCasts : TabBaseConfig
     {
 
         var enabled = AutoCastsConfig.EnableMakeshiftPatience;
-       
+
         if (DrawUtil.Checkbox("Use when Makeshift Bait is active", ref enabled))
         {
             AutoCastsConfig.EnableMakeshiftPatience = enabled;
@@ -212,6 +217,19 @@ internal class TabAutoCasts : TabBaseConfig
             Service.Configuration.Save();
 
         }
+
+        if (enabled)
+        {
+            ImGui.Indent();
+            DrawExtraOptionPrizeCatch();
+            ImGui.Unindent();
+        }  
+    }
+
+    private void DrawExtraOptionPrizeCatch()
+    {
+        if (DrawUtil.Checkbox("Only use when Mooch II is on NOT available - READ >>>", ref cfg.AutoPrizeCatch.UseWhenMoochIIOnCD, ">Make sure 'Use Mooch II' is enabled or else it wont work<\nThis could save you 100gp if going only for mooches"))
+        { }
     }
 
     private void DrawChum()
@@ -221,8 +239,20 @@ internal class TabAutoCasts : TabBaseConfig
         {
             cfg.AutoChum.Enabled = enabled;
             Service.Configuration.Save();
-
         }
+
+        if (enabled)
+        {
+            ImGui.Indent();
+            DrawExtraOptionsChum();
+            ImGui.Unindent();
+        }
+    }
+
+    private void DrawExtraOptionsChum()
+    {
+        if (DrawUtil.Checkbox("Only use when Fisher's Intution is active", ref cfg.AutoChum.OnlyUseWithIntuition))
+        { }
     }
 
     private void DrawFishEyes()

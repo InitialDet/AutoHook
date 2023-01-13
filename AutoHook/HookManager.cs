@@ -15,10 +15,9 @@ namespace AutoHook.FishTimer;
 
 public class HookingManager : IDisposable
 {
-    private HookConfig? CurrentSetting;
-    private List<HookConfig> HookSettings = cfg.CustomBait;
+    private BaitConfig? _selectedPreset;
 
-    private static Configuration cfg = Service.Configuration;
+    private static readonly Configuration cfg = Service.Configuration;
 
     private readonly FishingParser Parser = new();
     private CatchSteps LastStep = 0;
@@ -30,7 +29,7 @@ public class HookingManager : IDisposable
 
     public HookingManager()
     {
-        CurrentBait = GetCurrentBait();
+
     }
 
     public void Enable()
@@ -79,11 +78,11 @@ public class HookingManager : IDisposable
     {
         ResetAFKTimer();
 
-        CurrentSetting = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(CurrentBait));
+        _selectedPreset = cfg.CurrentPreset?.ListOfBaits.FirstOrDefault(mooch => mooch.BaitName.Equals(CurrentBait));
 
-        if (CurrentSetting == null)
+        if (_selectedPreset == null)
         {
-            HookConfig defaultConfig;
+            BaitConfig defaultConfig;
 
             if (LastStep == CatchSteps.BeganMooching)
                 defaultConfig = cfg.DefaultMoochConfig;
@@ -91,16 +90,16 @@ public class HookingManager : IDisposable
                 defaultConfig = cfg.DefaultCastConfig;
 
             if (defaultConfig.Enabled)
-                CurrentSetting = defaultConfig;
+                _selectedPreset = defaultConfig;
         }
 
-        else if (!CurrentSetting.Enabled)
-            CurrentSetting = null;
+        else if (!_selectedPreset.Enabled)
+            _selectedPreset = null;
 
-        if (CurrentSetting == null)
+        if (_selectedPreset == null)
             PluginLog.Debug("No config found. Not hooking");
         else
-            PluginLog.Debug($"Config found. Hooking with {CurrentSetting.BaitName} Config");
+            PluginLog.Debug($"Config found. Hooking with Preset: {cfg.CurrentPreset?.PresetName} - {_selectedPreset.BaitName} Config");
     }
 
     private void OnBeganFishing()
@@ -144,20 +143,20 @@ public class HookingManager : IDisposable
         LastStep = CatchSteps.FishCaught;
 
         // Check if should stop with the current bait/fish
-        if (CurrentSetting != null && CurrentSetting.StopAfterCaught)
+        if (_selectedPreset != null && _selectedPreset.StopAfterCaught)
         {
-            int total = FishCounter.Add(CurrentSetting.BaitName);
+            int total = FishCounter.Add(_selectedPreset.BaitName);
 
-            PluginLog.Debug($"{CurrentSetting.BaitName} caught. Total: {total} out of {CurrentSetting.StopAfterCaughtLimit}");
+            PluginLog.Debug($"{_selectedPreset.BaitName} caught. Total: {total} out of {_selectedPreset.StopAfterCaughtLimit}");
 
-            if (total >= CurrentSetting.StopAfterCaughtLimit)
+            if (total >= _selectedPreset.StopAfterCaughtLimit)
             {
                 LastStep = CatchSteps.Quitting;
             }
         }
 
         // Check if should stop with another bait/fish
-        HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+        BaitConfig? CustomMoochCfg = cfg.CurrentPreset?.ListOfBaits.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
         if (CustomMoochCfg != null && CustomMoochCfg.StopAfterCaught)
         {
             int total = FishCounter.Add(CustomMoochCfg.BaitName);
@@ -230,7 +229,7 @@ public class HookingManager : IDisposable
     }
     private unsafe void HookFish(BiteType bite)
     {
-        if (CurrentSetting == null)
+        if (_selectedPreset == null)
             return;
 
         // Check if the minimum time has passed
@@ -241,14 +240,14 @@ public class HookingManager : IDisposable
 
         if (PlayerResources.HasStatus(IDs.Status.IdenticalCast))
         {
-            var IdenticalCast = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+            var IdenticalCast = cfg.CurrentPreset?.ListOfBaits.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
             if (IdenticalCast != null)
                 hook = IdenticalCast.GetHookIgnoreEnable(bite);
             else
-                hook = CurrentSetting.GetHook(bite);
+                hook = _selectedPreset.GetHook(bite);
         }
         else
-            hook = CurrentSetting.GetHook(bite);
+            hook = _selectedPreset.GetHook(bite);
 
         if (hook == null || hook == HookType.None)
             return;
@@ -272,12 +271,12 @@ public class HookingManager : IDisposable
 
             AutoCast? cast = null;
 
-            HookConfig? CustomMoochCfg = HookSettings.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+            BaitConfig? CustomMoochCfg = cfg.CurrentPreset?.ListOfBaits.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
 
             if (CustomMoochCfg != null)
                 cast = cfg.AutoCastsCfg.GetNextAutoCast(CustomMoochCfg);
             else
-                cast = cfg.AutoCastsCfg.GetNextAutoCast(CurrentSetting);
+                cast = cfg.AutoCastsCfg.GetNextAutoCast(_selectedPreset);
 
             if (cast != null)
             {
@@ -293,10 +292,10 @@ public class HookingManager : IDisposable
 
     private bool CheckMinTimeLimit()
     {
-        if (CurrentSetting == null)
+        if (_selectedPreset == null)
             return true;
 
-        double minTime = Math.Truncate(CurrentSetting.MinTimeDelay * 100) / 100;
+        double minTime = Math.Truncate(_selectedPreset.MinTimeDelay * 100) / 100;
         double timeElapsed = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
         if (minTime > 0 && timeElapsed < minTime)
         {
@@ -310,15 +309,15 @@ public class HookingManager : IDisposable
 
     private void CheckMaxTimeLimit()
     {
-        if (CurrentSetting == null)
+        if (_selectedPreset == null)
             return;
 
-        double maxTime = Math.Truncate(CurrentSetting.MaxTimeDelay * 100) / 100;
+        double maxTime = Math.Truncate(_selectedPreset.MaxTimeDelay * 100) / 100;
         double currentTime = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
 
         if (maxTime > 0 && currentTime > maxTime && LastStep != CatchSteps.TimeOut)
         {
-            PluginLog.Verbose("Timeout. Hooking fish.");
+            PluginLog.Debug("Timeout. Hooking fish.");
             LastStep = CatchSteps.TimeOut;
             PlayerResources.CastActionDelayed(IDs.Actions.Hook);
         }
@@ -369,7 +368,6 @@ public class HookingManager : IDisposable
 
         public static void Reset()
         {
-
             fishCount = new();
         }
     }

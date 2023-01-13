@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace AutoHook.Classes;
 public abstract class BaseActionCast
 {
-    protected HookConfig? HookConfig = null;
+    protected BaitConfig? _baitConfig = null;
 
     protected BaseActionCast(string name, uint id, ActionType actionType = ActionType.Spell)
     {
@@ -49,9 +49,9 @@ public abstract class BaseActionCast
             GPThreshold = newcost;
     }
 
-    public bool IsAvailableToCast(HookConfig? hookConfig)
+    public bool IsAvailableToCast(BaitConfig? baitConfig)
     {
-        this.HookConfig = hookConfig;
+        this._baitConfig = baitConfig;
 
         if (!Enabled)
             return false;

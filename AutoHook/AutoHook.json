@@ -7,7 +7,8 @@
   "RepoUrl": "https://github.com/InitialDet/AutoHook",
   "ApplicableVersion": "any",
   "Tags": [ "Gathering", "Fishing" ],
-  "DalamudApiLevel": 7,
+  "DalamudApiLevel": 8,
+  "AcceptsFeedback": false,
   "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
-  "Changelog": "- New AutoGig (spearfishing) Option\n- Added GP management for autocast\n- Added selectable Tugs for Double/Triple hook\n\n-- Small changes --\n- Adjustments to the UI\n- A lot of code refactor\n- Some bugfixes"
+  "Changelog": "- Presets for custom baits added, you can now swap configs without needing to recreate it every time\n- Added an option to only cast Chum when under the effect of Fisher's Intuition\n- Added an option to only cast Prize Catch when Mooch II is not available, saving you 100gp if all you want is to mooch\n-Upgrade to .net7 and API8\n\n-- Small changes --\n- Adjustments to the UI\n- A lot of code refactor\n- Some bugfixes"
 }

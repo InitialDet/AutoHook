@@ -16,8 +16,8 @@ internal class TabAutoGig : TabBaseConfig
     public override string TabName => "AutoGig";
     public override bool Enabled => true;
 
-    List<SpearfishSpeed> speedTypes = Enum.GetValues(typeof(SpearfishSpeed)).Cast<SpearfishSpeed>().ToList();
-    List<SpearfishSize> sizeTypes = Enum.GetValues(typeof(SpearfishSize)).Cast<SpearfishSize>().ToList();
+    private readonly List<SpearfishSpeed> _speedTypes = Enum.GetValues(typeof(SpearfishSpeed)).Cast<SpearfishSpeed>().ToList();
+    private readonly List<SpearfishSize> _sizeTypes = Enum.GetValues(typeof(SpearfishSize)).Cast<SpearfishSize>().ToList();
 
     public override void DrawHeader()
     {
@@ -53,9 +53,6 @@ internal class TabAutoGig : TabBaseConfig
         DrawSpeedSize();
     }
 
-
-
-
     private void DrawSpeedSize()
     {
         ImGui.Spacing();
@@ -66,7 +63,7 @@ internal class TabAutoGig : TabBaseConfig
         if (ImGui.BeginCombo("Size", Service.Configuration.currentSize.ToName()))
         {
 
-            foreach (SpearfishSize size in sizeTypes.Where(size =>
+            foreach (SpearfishSize size in _sizeTypes.Where(size =>
                         ImGui.Selectable(size.ToName(), size == Service.Configuration.currentSize)))
             {
                 Service.Configuration.currentSize = size;
@@ -79,7 +76,7 @@ internal class TabAutoGig : TabBaseConfig
         ImGui.SetNextItemWidth(130);
         if (ImGui.BeginCombo("Speed", Service.Configuration.currentSpeed.ToName()))
         {
-            foreach (SpearfishSpeed speed in speedTypes.Where(speed =>
+            foreach (SpearfishSpeed speed in _speedTypes.Where(speed =>
                         ImGui.Selectable(speed.ToName(), speed == Service.Configuration.currentSpeed)))
             {
                 Service.Configuration.currentSpeed = speed;
@@ -87,5 +84,4 @@ internal class TabAutoGig : TabBaseConfig
             ImGui.EndCombo();
         }
     }
-
 }

@@ -14,9 +14,9 @@ internal class TabGPConfig : TabBaseConfig
     public override string TabName => "GP Config";
     public override bool Enabled => true;
 
-    private static AutoCastsConfig cfg = Service.Configuration.AutoCastsCfg;
+    private static readonly AutoCastsConfig cfg = Service.Configuration.AutoCastsCfg;
 
-    static List<BaseActionCast> ActionsAbailable = new()
+    private static readonly List<BaseActionCast> _actionsAvailable = new()
             {
                 cfg.AutoChum,
                 cfg.AutoCordial,
@@ -44,9 +44,9 @@ internal class TabGPConfig : TabBaseConfig
 
     private void DrawGPTab()
     {
-        foreach (var action in ActionsAbailable)
+        foreach (var action in _actionsAvailable)
         {
-            var above = action.GPThresholdAbove;
+            bool above = action.GPThresholdAbove;
             int gpThreshold = (int)action.GPThreshold;
 
             ImGui.PushID(action.Name);

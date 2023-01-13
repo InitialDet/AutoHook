@@ -1,10 +1,7 @@
 using System.Diagnostics;
-using AutoHook.Data;
-using AutoHook.Utils;
-using Dalamud.Interface;
+using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -19,7 +16,13 @@ internal class TabGeneral : TabBaseConfig
         ImGui.Text("General settings");
 
         ImGui.Separator();
+
+        ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
+        ImGui.TextWrapped("Things might be broken in this new version. If you spot any weird behavior, please click the button below.");
+        ImGui.PopStyleColor();
+      
         ImGui.Spacing();
+
         if (ImGui.Button("Click here to report an issue or make a suggestion"))
         {
             Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/issues", UseShellExecute = true });
@@ -30,8 +33,7 @@ internal class TabGeneral : TabBaseConfig
 
         if (ImGui.Button("Testing"))
         {
-            PluginLog.Debug($"IdenticalCast = {PlayerResources.HasStatus(IDs.Status.IdenticalCast)}");
-
+            PluginLog.Debug($"Version = {Service.Configuration.Version}");
         }
 #endif
     }
@@ -65,7 +67,7 @@ internal class TabGeneral : TabBaseConfig
     {
         ImGui.Spacing();
         ImGui.Checkbox("Use Default Cast", ref Service.Configuration.DefaultCastConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Bait Config is found.");
+        ImGuiComponents.HelpMarker("This is the default hooking behavior if no Custom Preset is found.");
 
         ImGui.Indent();
 
@@ -74,7 +76,6 @@ internal class TabGeneral : TabBaseConfig
         DrawHookCheckboxes(Service.Configuration.DefaultCastConfig);
         DrawFishersIntuitionConfig(Service.Configuration.DefaultCastConfig);
         DrawCheckBoxDoubleTripleHook(Service.Configuration.DefaultCastConfig);
-        //DrawPatienceConfig(Service.Configuration.DefaultCastConfig);
 
         ImGui.Unindent();
 
@@ -84,7 +85,7 @@ internal class TabGeneral : TabBaseConfig
     {
         ImGui.Spacing();
         ImGui.Checkbox("Use Default Mooch", ref Service.Configuration.DefaultMoochConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no specific Mooch Config is found.");
+        ImGuiComponents.HelpMarker("This is the default hooking behavior if no Custom Preset is found.");
 
         ImGui.Indent();
 
@@ -93,7 +94,6 @@ internal class TabGeneral : TabBaseConfig
         DrawHookCheckboxes(Service.Configuration.DefaultMoochConfig);
         DrawFishersIntuitionConfig(Service.Configuration.DefaultMoochConfig);
         DrawCheckBoxDoubleTripleHook(Service.Configuration.DefaultMoochConfig);
-        //DrawPatienceConfig(Service.Configuration.DefaultMoochConfig);
 
         ImGui.Unindent();
     }

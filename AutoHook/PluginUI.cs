@@ -16,7 +16,7 @@ public class PluginUI : Window, IDisposable
     private readonly List<TabBaseConfig> tabs = new()
         {
             new TabGeneral(),
-            new TabBaitFish(),
+            new TabPresets(),
             new TabAutoCasts(),
             new TabGPConfig(),
             new TabAutoGig()
@@ -50,7 +50,8 @@ public class PluginUI : Window, IDisposable
 
         Utils.DrawUtil.Checkbox("Enable AutoHook", ref Service.Configuration.PluginEnabled, "Enables/Disables the plugin for you");
         ShowKofi();
-        ShowPaypal();
+        //paypal bad madge
+        //ShowPaypal();
         ImGui.Indent();
 
         if (Service.Configuration.PluginEnabled)

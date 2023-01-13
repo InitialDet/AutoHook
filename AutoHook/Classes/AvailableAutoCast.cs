@@ -64,6 +64,7 @@ public sealed class AutoThaliaksFavor : BaseActionCast
 #region AutoChum
 public sealed class AutoChum : BaseActionCast
 {
+    public bool OnlyUseWithIntuition = false;
     public AutoChum() : base("Chum", IDs.Actions.Chum, ActionType.Spell)
     {
         DoesCancelMooch = true;
@@ -71,6 +72,9 @@ public sealed class AutoChum : BaseActionCast
 
     public override bool CastCondition()
     {
+        if (!PlayerResources.HasStatus(IDs.Status.FishersIntuition) && OnlyUseWithIntuition)
+            return false;
+
         return true;
     }
 }
@@ -95,7 +99,7 @@ public class AutoFishEyes : BaseActionCast
 #region IdenticalCast
 public sealed class AutoIdenticalCast : BaseActionCast
 {
-    // this option is based on the custom HookConfig, not the AutoCast tab
+    // this option is based on the custom BaitConfig, not the AutoCast tab
     public AutoIdenticalCast() : base("Identical Cast", Data.IDs.Actions.IdenticalCast, ActionType.Spell)
     {
         Enabled = true;
@@ -103,7 +107,7 @@ public sealed class AutoIdenticalCast : BaseActionCast
 
     public override bool CastCondition()
     {
-        return HookConfig?.UseIdenticalCast ?? false;
+        return _baitConfig?.UseIdenticalCast ?? false;
     }
 }
 #endregion
@@ -112,14 +116,14 @@ public sealed class AutoIdenticalCast : BaseActionCast
 public sealed class AutoSurfaceSlap : BaseActionCast
 {
 
-    // this option is based on the custom HookConfig, not the AutoCast tab
+    // this option is based on the BaitConfig, not the AutoCast tab
     public AutoSurfaceSlap() : base("Surface Slap", Data.IDs.Actions.SurfaceSlap, ActionType.Spell)
     {
         Enabled = true;
     }
     public override bool CastCondition()
     {
-        return HookConfig?.UseSurfaceSlap ?? false; ;
+        return _baitConfig?.UseSurfaceSlap ?? false; ;
     }
 }
 #endregion
@@ -128,14 +132,20 @@ public sealed class AutoSurfaceSlap : BaseActionCast
 public class AutoPrizeCatch : BaseActionCast
 {
 
+    public bool UseWhenMoochIIOnCD = false;
+
     public AutoPrizeCatch() : base("Prize Catch", Data.IDs.Actions.PrizeCatch, ActionType.Spell)
     {
         DoesCancelMooch = true;
     }
 
+
     public override bool CastCondition()
     {
         if (!Enabled)
+            return false;
+
+        if (UseWhenMoochIIOnCD && PlayerResources.ActionAvailable(IDs.Actions.Mooch2))
             return false;
 
         if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait))

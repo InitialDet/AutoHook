@@ -6,7 +6,7 @@ using Dalamud.Logging;
 
 namespace AutoHook.Configurations;
 
-public class HookConfig
+public class BaitConfig
 {
     public bool Enabled = true;
 
@@ -50,7 +50,7 @@ public class HookConfig
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
 
-    public HookConfig(string bait)
+    public BaitConfig(string bait)
     {
         BaitName = bait;
     }
@@ -159,7 +159,7 @@ public class HookConfig
 
     public override bool Equals(object? obj)
     {
-        return obj is HookConfig settings &&
+        return obj is BaitConfig settings &&
                BaitName == settings.BaitName;
     }
 
