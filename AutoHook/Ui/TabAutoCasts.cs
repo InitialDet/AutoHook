@@ -230,6 +230,9 @@ internal class TabAutoCasts : TabBaseConfig
     {
         if (DrawUtil.Checkbox("Only use when Mooch II is on NOT available - READ >>>", ref cfg.AutoPrizeCatch.UseWhenMoochIIOnCD, ">Make sure 'Use Mooch II' is enabled or else it wont work<\nThis could save you 100gp if going only for mooches"))
         { }
+
+        if (DrawUtil.Checkbox("Only use when Identical Cast is active", ref cfg.AutoPrizeCatch.UseOnlyWithIdenticalCast))
+        { }
     }
 
     private void DrawChum()

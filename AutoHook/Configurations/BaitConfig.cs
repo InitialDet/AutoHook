@@ -47,6 +47,10 @@ public class BaitConfig
     public double MaxTimeDelay = 0;
     public double MinTimeDelay = 0;
 
+    public bool UseChumTimer = false;
+    public double MaxChumTimeDelay = 0;
+    public double MinChumTimeDelay = 0;
+
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
 

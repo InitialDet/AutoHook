@@ -23,10 +23,12 @@ internal class TabGPConfig : TabBaseConfig
                 cfg.AutoHICordial,
                 cfg.AutoHQCordial,
                 cfg.AutoFishEyes,
+                cfg.AutoIdenticalCast,
                 cfg.AutoMakeShiftBait,
                 cfg.AutoPatienceI,
                 cfg.AutoPatienceII,
                 cfg.AutoPrizeCatch,
+                cfg.AutoSurfaceSlap,
                 cfg.AutoThaliaksFavor,
             };
 

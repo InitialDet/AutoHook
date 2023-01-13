@@ -295,11 +295,18 @@ public class HookingManager : IDisposable
         if (_selectedPreset == null)
             return true;
 
-        double minTime = Math.Truncate(_selectedPreset.MinTimeDelay * 100) / 100;
+        double minTime;
+
+        if(_selectedPreset.UseChumTimer && PlayerResources.HasStatus(IDs.Status.Chum))
+        {
+            minTime = Math.Truncate(_selectedPreset.MinChumTimeDelay * 100) / 100;
+        }
+        else 
+            minTime = Math.Truncate(_selectedPreset.MinTimeDelay * 100) / 100;
+
         double timeElapsed = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
         if (minTime > 0 && timeElapsed < minTime)
         {
-            PluginLog.Debug($"Not enough time to hook. {timeElapsed} < {minTime}");
             LastStep = CatchSteps.TimeOut;
             return false;
         }
@@ -312,7 +319,15 @@ public class HookingManager : IDisposable
         if (_selectedPreset == null)
             return;
 
-        double maxTime = Math.Truncate(_selectedPreset.MaxTimeDelay * 100) / 100;
+        double maxTime;
+
+        if (_selectedPreset.UseChumTimer && PlayerResources.HasStatus(IDs.Status.Chum))
+        {
+            PluginLog.Debug($"Using Chum timer");
+            maxTime = Math.Truncate(_selectedPreset.MaxChumTimeDelay * 100) / 100;
+        }
+        else
+            maxTime = Math.Truncate(_selectedPreset.MaxTimeDelay * 100) / 100;
         double currentTime = Math.Truncate((Timer.ElapsedMilliseconds / 1000.0) * 100) / 100;
 
         if (maxTime > 0 && currentTime > maxTime && LastStep != CatchSteps.TimeOut)

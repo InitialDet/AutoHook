@@ -140,6 +140,17 @@ class TabPresets : TabBaseConfig
                 cfg.Save();
             }
 
+            ImGui.SameLine();
+            if (ImGui.Button($"Add Last Catch: {HookingManager.LastCatch ?? "-"}"))
+            {
+                var setting = new BaitConfig(HookingManager.LastCatch ?? "-");
+
+                if (cfg.CurrentPreset != null && !cfg.CurrentPreset.ListOfBaits.Contains(setting))
+                    cfg.CurrentPreset.ListOfBaits.Add(setting);
+
+                cfg.Save();
+            }
+
             ImGui.Text($"Current bait/fish:");
             ImGui.SameLine();
             ImGui.TextColored(ImGuiColors.HealerGreen, HookingManager.CurrentBait ?? "-");
@@ -285,6 +296,7 @@ class TabPresets : TabBaseConfig
                     DrawInputTextName(bait);
                     DrawInputDoubleMinTime(bait);
                     DrawInputDoubleMaxTime(bait);
+                    DrawChumMinMaxTime(bait);
                     DrawHookCheckboxes(bait);
                     ImGui.Spacing();
 

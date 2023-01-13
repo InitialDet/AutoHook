@@ -134,6 +134,9 @@ public class AutoPrizeCatch : BaseActionCast
 
     public bool UseWhenMoochIIOnCD = false;
 
+    public bool UseOnlyWithIdenticalCast = false;
+
+
     public AutoPrizeCatch() : base("Prize Catch", Data.IDs.Actions.PrizeCatch, ActionType.Spell)
     {
         DoesCancelMooch = true;
@@ -146,6 +149,9 @@ public class AutoPrizeCatch : BaseActionCast
             return false;
 
         if (UseWhenMoochIIOnCD && PlayerResources.ActionAvailable(IDs.Actions.Mooch2))
+            return false;
+
+        if (UseOnlyWithIdenticalCast && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
             return false;
 
         if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait))

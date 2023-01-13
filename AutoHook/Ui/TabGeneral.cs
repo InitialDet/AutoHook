@@ -73,6 +73,7 @@ internal class TabGeneral : TabBaseConfig
 
         DrawInputDoubleMinTime(Service.Configuration.DefaultCastConfig);
         DrawInputDoubleMaxTime(Service.Configuration.DefaultCastConfig);
+        DrawChumMinMaxTime(Service.Configuration.DefaultCastConfig);
         DrawHookCheckboxes(Service.Configuration.DefaultCastConfig);
         DrawFishersIntuitionConfig(Service.Configuration.DefaultCastConfig);
         DrawCheckBoxDoubleTripleHook(Service.Configuration.DefaultCastConfig);
@@ -91,6 +92,7 @@ internal class TabGeneral : TabBaseConfig
 
         DrawInputDoubleMinTime(Service.Configuration.DefaultMoochConfig);
         DrawInputDoubleMaxTime(Service.Configuration.DefaultMoochConfig);
+        DrawChumMinMaxTime(Service.Configuration.DefaultMoochConfig);
         DrawHookCheckboxes(Service.Configuration.DefaultMoochConfig);
         DrawFishersIntuitionConfig(Service.Configuration.DefaultMoochConfig);
         DrawCheckBoxDoubleTripleHook(Service.Configuration.DefaultMoochConfig);

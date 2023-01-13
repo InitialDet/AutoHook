@@ -50,6 +50,8 @@ namespace AutoHook.Data
 
             NaturesBounty = 1171,
 
+            Chum = 763,
+
             None = 0;
         }
 

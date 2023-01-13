@@ -10,5 +10,5 @@
   "DalamudApiLevel": 8,
   "AcceptsFeedback": false,
   "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
-  "Changelog": "- Presets for custom baits added, you can now swap configs without needing to recreate it every time\n- Added an option to only cast Chum when under the effect of Fisher's Intuition\n- Added an option to only cast Prize Catch when Mooch II is not available, saving you 100gp if all you want is to mooch\n-Upgrade to .net7 and API8\n\n-- Small changes --\n- Adjustments to the UI\n- A lot of code refactor\n- Some bugfixes"
+  "Changelog": "- Presets for custom baits added, you can now swap configs without needing to recreate it every time\n- Added an option to only cast Chum when under the effect of Fisher's Intuition\n- Added an option to only cast Prize Catch when Mooch II is not available, saving you 100gp if all you want is to mooch\n- Added Custom Timer when under the effect of Chum\n- Added an option to only use Prize Catch when under the effect of Identical Cast\n- Upgrade to .net7 and API8"
 }
