@@ -97,7 +97,6 @@ class TabPresets : TabBaseConfig
             {
                 cfg.BaitPresetList.Remove(cfg.CurrentPreset);
                 cfg.CurrentPreset = null;
-
             }
 
             cfg.Save();
@@ -129,6 +128,13 @@ class TabPresets : TabBaseConfig
             ImGui.Text($"New bait/fish ({cfg.CurrentPreset?.ListOfBaits.Count})");
             ImGui.SameLine();
             ImGuiComponents.HelpMarker("Make sure to edit the bait/fish name correctly like ingame (Ex: Versatile Lure)");
+
+            // I hate ImGui and i dont care to make this look good
+            ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
+            ImGui.TextWrapped("Auto Mooch");
+            ImGui.PopStyleColor();
+            ImGui.SameLine();
+            ImGui.TextWrapped("is enabled by default when new bait/fish is added ");
 
             if (ImGui.Button("Add Current Bait/Fish"))
             {
@@ -224,7 +230,6 @@ class TabPresets : TabBaseConfig
 
                 if (ImGui.Button("Import"))
                 {
-
                     if (Service.Configuration.BaitPresetList.Contains(new(name)))
                     {
                         _alertMessage = "A preset with the same name already exists";
@@ -258,7 +263,6 @@ class TabPresets : TabBaseConfig
             ImGui.SetTooltip("Import stack from clipboard.");
 
         TimedWarning();
-
     }
 
     private static readonly double _timelimit = 5000;
@@ -276,7 +280,6 @@ class TabPresets : TabBaseConfig
             }
         }
     }
-
     public override void Draw()
     {
         if (_hasPreset)

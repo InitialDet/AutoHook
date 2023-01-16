@@ -34,7 +34,8 @@ public class BaitConfig
 
     public bool UseAutoMooch = true;
     public bool UseAutoMooch2 = false;
-    
+    public bool OnlyMoochIntuition = false;
+
     public bool UseSurfaceSlap = false;
     public bool UseIdenticalCast = false;
 

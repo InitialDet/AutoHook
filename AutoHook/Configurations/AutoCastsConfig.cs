@@ -11,9 +11,10 @@ public class AutoCastsConfig
 {
     public bool EnableAll = false;
     public bool EnableAutoCast = false;
-    public bool EnableMooch = false;
 
+    public bool EnableMooch = false;
     public bool EnableMooch2 = false;
+    public bool OnlyMoochIntuition = false;
 
     public bool EnablePatience = false;
     public static bool EnableMakeshiftPatience = false;
@@ -119,20 +120,29 @@ public class AutoCastsConfig
 
         bool useAutoMooch = false;
         bool useAutoMooch2 = false;
+        bool onlyMoochIntuition = false;
 
+        // 
         if (BaitConfig == null || BaitConfig?.BaitName == "DefaultCast" || BaitConfig?.BaitName == "DefaultMooch")
         {
             useAutoMooch = EnableMooch;
             useAutoMooch2 = EnableMooch2;
+            onlyMoochIntuition = OnlyMoochIntuition;
+
         }
         else
         {
             useAutoMooch = BaitConfig?.UseAutoMooch ?? false;
             useAutoMooch2 = BaitConfig?.UseAutoMooch2 ?? false;
+            onlyMoochIntuition = BaitConfig?.OnlyMoochIntuition ?? false;
         }
 
         if (useAutoMooch)
         {
+
+            if (onlyMoochIntuition && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+                return false;
+
             if (PlayerResources.ActionAvailable(IDs.Actions.Mooch))
             {
                 id = IDs.Actions.Mooch;

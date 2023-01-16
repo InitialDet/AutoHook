@@ -23,13 +23,17 @@ internal class TabAutoCasts : TabBaseConfig
         // Disable all casts
         ImGui.Spacing();
         if (DrawUtil.Checkbox("Enable Auto Casts", ref cfg.EnableAll))
-        { }
+        {
+            Service.Configuration.Save();
+        }
 
         if (cfg.EnableAll)
         {
             ImGui.SameLine();
             if (DrawUtil.Checkbox("Don't Cancel Mooch", ref AutoCastsConfig.DontCancelMooch, "Actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
-            { }
+            {
+                Service.Configuration.Save();
+            }
         }
 
         ImGui.Spacing();
@@ -59,7 +63,9 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawAutoCast()
     {
         if (DrawUtil.Checkbox("Global Auto Cast Line", ref cfg.EnableAutoCast, "Cast (FSH Action) will be used after a fish bite\n\nIMPORTANT!!!\nIf you have this option enabled and you don't have a Custom Auto Mooch or the Global Auto Mooch option enabled, the line will be casted normally and you'll lose your mooch oportunity (If available)."))
-        { }
+        {
+            Service.Configuration.Save();
+        }
 
         if (cfg.EnableAutoCast)
         {
@@ -76,8 +82,10 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawAutoMooch()
     {
-        if (DrawUtil.Checkbox("Global Auto Mooch", ref cfg.EnableMooch, "All fish will be mooched if available. This option have priority over Auto Cast Line\n\nIf you want to Auto Mooch only a especific fish and ignore others, disable this option and add Custom Preset."))
-        { }
+        if (DrawUtil.Checkbox("Global Auto Mooch", ref cfg.EnableMooch, "This option have priority over Auto Cast Line\n\nIf you want to Auto Mooch only a especific fish and ignore others, disable this option and add Custom Preset."))
+        {
+            Service.Configuration.Save();
+        }
 
         if (cfg.EnableMooch)
         {
@@ -89,7 +97,15 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsAutoMooch()
     {
-        ImGui.Checkbox("Use Mooch II", ref cfg.EnableMooch2);
+        if (ImGui.Checkbox("Use Mooch II", ref cfg.EnableMooch2))
+        {
+            Service.Configuration.Save();
+        }
+
+        if (ImGui.Checkbox("Only use when Fisher's Intution is active", ref cfg.OnlyMoochIntuition))
+        {
+            Service.Configuration.Save();
+        }
     }
 
     private void DrawPatience()
@@ -202,9 +218,7 @@ internal class TabAutoCasts : TabBaseConfig
             else
                 cfg.AutoMakeShiftBait.MakeshiftBaitStacks = stack;
 
-
             Service.Configuration.Save();
-
         }
     }
 
@@ -215,7 +229,6 @@ internal class TabAutoCasts : TabBaseConfig
         {
             cfg.AutoPrizeCatch.Enabled = enabled;
             Service.Configuration.Save();
-
         }
 
         if (enabled)
@@ -223,7 +236,7 @@ internal class TabAutoCasts : TabBaseConfig
             ImGui.Indent();
             DrawExtraOptionPrizeCatch();
             ImGui.Unindent();
-        }  
+        }
     }
 
     private void DrawExtraOptionPrizeCatch()

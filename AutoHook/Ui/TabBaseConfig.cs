@@ -276,9 +276,9 @@ abstract class TabBaseConfig : IDisposable
         {
             ImGui.TextColored(ImGuiColors.DalamudYellow, "Auto Mooch");
             ImGui.Spacing();
-            ImGui.Text("- If this is a Bait, all fish caught by this bait will be mooched");
+            ImGui.Text("- If this is a Bait (Ex: Versatile Lure), all fish caught by this bait will be mooched");
             ImGui.Text("- If this is a Fish/Mooch (Ex: Harbor Herring), it'll be mooched when caught");
-            ImGui.Text("If this option is disabled, it will NOT be mooched even if Auto Mooch is also enabled in the general tab");
+            ImGui.Text("If this option is disabled, the fish will NOT be mooched even if Auto Mooch is also enabled in the general tab");
             if (Utils.DrawUtil.Checkbox("Auto Mooch", ref cfg.UseAutoMooch, "This option takes priority over the Auto Cast Line"))
             {
                 if (!cfg.UseAutoMooch)
@@ -288,7 +288,16 @@ abstract class TabBaseConfig : IDisposable
             if (cfg.UseAutoMooch)
             {
                 ImGui.Indent();
-                ImGui.Checkbox("Use Mooch II", ref cfg.UseAutoMooch2);
+
+                if (ImGui.Checkbox("Use Mooch II", ref cfg.UseAutoMooch2))
+                {
+                    Service.Configuration.Save();
+                }
+
+                if (ImGui.Checkbox("Only use when Fisher's Intution is active", ref cfg.OnlyMoochIntuition))
+                {
+                    Service.Configuration.Save();
+                }
                 ImGui.Unindent();
             }
             ImGui.EndPopup();
