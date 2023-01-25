@@ -31,7 +31,7 @@ public class Configuration : IPluginConfiguration
     public bool AutoGigHideOverlay = false;
     public bool AutoGigNaturesBountyEnabled = false;
     public bool AutoGigDrawFishHitbox = false;
-    public bool AutoGigDrawGigHitbox = false;
+    public bool AutoGigDrawGigHitbox = true;
 
     public SpearfishSpeed currentSpeed = SpearfishSpeed.All;
     public SpearfishSize currentSize = SpearfishSize.All;

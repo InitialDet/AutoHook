@@ -35,7 +35,7 @@ internal class TabGeneral : TabBaseConfig
         {
             Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/issues", UseShellExecute = true });
         }
-        
+
         ImGui.Spacing();
 
 #if DEBUG
@@ -115,7 +115,7 @@ internal class TabGeneral : TabBaseConfig
     bool openChangelog = false;
     private void DrawChangelog()
     {
-        if (ImGui.Button("Changelog 2.4.2.0"))
+        if (ImGui.Button("Changelog"))
         {
             //ImGui.OpenPopup("changelog");
             openChangelog = !openChangelog;
@@ -124,7 +124,6 @@ internal class TabGeneral : TabBaseConfig
             {
                 //ImGui.SetNextWindowSize(new Vector2(400, 250));
             }
-
         }
 
         if (openChangelog)
@@ -144,26 +143,35 @@ internal class TabGeneral : TabBaseConfig
                 ImGui.TextWrapped("- (experimental) Nature's Bounty will be used when the target fish appears on screen ");
                 ImGui.TextWrapped("- Added changelog button");
 
+                ImGui.Separator();
+                ImGui.TextWrapped("2.4.2.1");
+                ImGui.TextWrapped("- Gig hitbox enabled by default");
                 ImGui.Spacing();
                 ImGui.Separator();
                 ImGui.Spacing();
 
-                if (ImGui.TreeNode("2.4.1.0"))
+               
+                if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
                 {
-                    ImGui.TextWrapped("- Added options to cast Mooch only when under the effect of Fisher's Intuition");
-                    ImGui.TreePop();
+                    if (ImGui.TreeNode("2.4.1.0"))
+                    {
+                        ImGui.TextWrapped("- Added options to cast Mooch only when under the effect of Fisher's Intuition");
+                        ImGui.TreePop();
+                    }
+
+                    if (ImGui.TreeNode("2.4.0.0"))
+                    {
+                        ImGui.TextWrapped("- Presets for custom baits added, you can now swap configs without needing to recreate it every time");
+                        ImGui.TextWrapped("- Added options to cast Chum only when under the effect of Fisher's Intuition");
+                        ImGui.TextWrapped("- Added an option to only cast Prize Catch when Mooch II is not available, saving you 100gp if all you want is to mooch");
+                        ImGui.TextWrapped("- Added Custom Timer when under the effect of Chum");
+                        ImGui.TextWrapped("- Added an option to only use Prize Catch when under the effect of Identical Cast");
+                        ImGui.TextWrapped("- Upgrade to .net7 and API8");
+                        ImGui.TreePop();
+                    }
+                    ImGui.EndChild();
                 }
 
-                if (ImGui.TreeNode("2.4.0.0"))
-                {
-                    ImGui.TextWrapped("- Presets for custom baits added, you can now swap configs without needing to recreate it every time");
-                    ImGui.TextWrapped("- Added options to cast Chum only when under the effect of Fisher's Intuition");
-                    ImGui.TextWrapped("- Added an option to only cast Prize Catch when Mooch II is not available, saving you 100gp if all you want is to mooch");
-                    ImGui.TextWrapped("- Added Custom Timer when under the effect of Chum");
-                    ImGui.TextWrapped("- Added an option to only use Prize Catch when under the effect of Identical Cast");
-                    ImGui.TextWrapped("- Upgrade to .net7 and API8");
-                    ImGui.TreePop();
-                }
             }
             ImGui.End();
         }
