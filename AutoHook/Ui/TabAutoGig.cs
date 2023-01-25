@@ -46,6 +46,18 @@ internal class TabAutoGig : TabBaseConfig
             }
 
             ImGui.Unindent();
+        } else
+        {
+            ImGui.Indent();
+            if (DrawUtil.Checkbox("Draw fish hitbox", ref Service.Configuration.AutoGigDrawFishHitbox, "The hitbox its only available for the fish of the Size and Speed selected"))
+            {
+                Service.Configuration.Save();
+            }
+            if (DrawUtil.Checkbox("Draw gig hitbox", ref Service.Configuration.AutoGigDrawGigHitbox))
+            {
+                Service.Configuration.Save();
+            }
+            ImGui.Unindent();
         }
 
         ImGui.Separator();

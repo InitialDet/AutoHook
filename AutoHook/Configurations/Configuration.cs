@@ -30,9 +30,13 @@ public class Configuration : IPluginConfiguration
     public bool AutoGigEnabled = false;
     public bool AutoGigHideOverlay = false;
     public bool AutoGigNaturesBountyEnabled = false;
+    public bool AutoGigDrawFishHitbox = false;
+    public bool AutoGigDrawGigHitbox = false;
 
     public SpearfishSpeed currentSpeed = SpearfishSpeed.All;
     public SpearfishSize currentSize = SpearfishSize.All;
+
+    public Dictionary<string, int> GigSpacing = new Dictionary<string, int>();
 
     public void Save()
     {

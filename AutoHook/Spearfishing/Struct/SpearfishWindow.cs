@@ -50,4 +50,9 @@ public struct SpearfishWindow
 
     public unsafe AtkResNode* Fish3Node
         => Base.UldManager.NodeList[17];
+
+    public unsafe AtkComponentGaugeBar* GaugeBar
+        => (AtkComponentGaugeBar*)Base.UldManager.NodeList[35];
+
+
 }

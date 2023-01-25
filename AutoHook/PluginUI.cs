@@ -115,22 +115,6 @@ public class PluginUI : Window, IDisposable
         ImGui.PopStyleColor(3);
     }
 
-    public static void ShowPaypal()
-    {
-        string buttonText = "Support on PayPal";
-        ImGui.SameLine();
-        ImGui.PushStyleColor(ImGuiCol.Button, 0xFFA06020);
-        ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
-        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
-
-        if (ImGui.Button(buttonText))
-        {
-            OpenBrowser("https://www.paypal.com/donate/?business=PDZJVTF5484UA&no_recurring=0&currency_code=USD");
-        }
-
-        ImGui.PopStyleColor(3);
-    }
-
     public static void OpenBrowser(string url)
     {
         Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
