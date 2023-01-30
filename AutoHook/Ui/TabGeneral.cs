@@ -146,11 +146,14 @@ internal class TabGeneral : TabBaseConfig
                 ImGui.Separator();
                 ImGui.TextWrapped("2.4.2.1");
                 ImGui.TextWrapped("- Gig hitbox enabled by default");
-                ImGui.Spacing();
                 ImGui.Separator();
                 ImGui.Spacing();
 
-               
+                ImGui.TextWrapped("2.4.2.2");
+                ImGui.TextWrapped("- Fixed order of Chum Timer Min/Max fields");
+                ImGui.Separator();
+                ImGui.Spacing();
+
                 if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
                 {
                     if (ImGui.TreeNode("2.4.1.0"))

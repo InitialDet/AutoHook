@@ -143,26 +143,6 @@ abstract class TabBaseConfig : IDisposable
             ImGui.Separator();
 
             ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
-            if (ImGui.InputDouble("Max. Wait", ref cfg.MaxChumTimeDelay, .1, 1, "%.1f%"))
-            {
-                switch (cfg.MaxTimeDelay)
-                {
-                    case 0.1:
-                        cfg.MaxTimeDelay = 2;
-                        break;
-                    case <= 0:
-                    case <= 1.9: //This makes the option turn off if delay = 2 seconds when clicking the minus.
-                        cfg.MaxTimeDelay = 0;
-                        break;
-                    case > 99:
-                        cfg.MaxTimeDelay = 99;
-                        break;
-                }
-            }
-            ImGui.SameLine();
-            ImGuiComponents.HelpMarker("Hook will be used after the defined amount of time has passed\nMin. time: 2s (because of animation lock)\n\nSet Zero (0) to disable, and dont make this lower than the Min. Wait");
-
-            ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
             if (ImGui.InputDouble("Min. Wait", ref cfg.MinChumTimeDelay, .1, 1, "%.1f%"))
             {
                 switch (cfg.MinTimeDelay)
@@ -179,6 +159,30 @@ abstract class TabBaseConfig : IDisposable
             ImGui.SameLine();
             ImGuiComponents.HelpMarker("Hook will NOT be used until the minimum time has passed.\n\nEx: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked\n\nSet Zero (0) to disable");
 
+
+            ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
+            if (ImGui.InputDouble("Max. Wait", ref cfg.MaxChumTimeDelay, .1, 1, "%.1f%"))
+            {
+                switch (cfg.MaxTimeDelay)
+                {
+                    case 0.1:
+                        cfg.MaxTimeDelay = 2;
+                        break;
+                    case <= 0:
+                    case <= 1.9: //This makes the option turn off if delay = 2 seconds when clicking the minus.
+                        cfg.MaxTimeDelay = 0;
+                        break;
+                    case > 99:
+                        cfg.MaxTimeDelay = 99;
+                        break;
+                }
+            }
+            
+            ImGui.SameLine();
+            
+            ImGuiComponents.HelpMarker("Hook will be used after the defined amount of time has passed\nMin. time: 2s (because of animation lock)\n\nSet Zero (0) to disable, and dont make this lower than the Min. Wait");
+
+        
 
             ImGui.EndPopup();
         }
