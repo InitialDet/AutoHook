@@ -45,6 +45,18 @@ public class PlayerResources : IDisposable
         //receiveActionEffectHook?.Disable();
     }
 
+
+    public static bool IsMoochAvailable()
+    {
+        if (ActionAvailable(IDs.Actions.Mooch))
+            return true;
+
+        else if (ActionAvailable(IDs.Actions.Mooch2))
+            return true;
+
+        return false;
+    }
+
     public static bool HasStatus(uint statusID)
     {
         if (Service.ClientState.LocalPlayer?.StatusList == null)
@@ -141,7 +153,6 @@ public class PlayerResources : IDisposable
     public static unsafe bool HaveItemInInventory(uint id, bool isHQ = false)
        => InventoryManager.Instance()->GetInventoryItemCount(id, isHQ) > 0;
 
-
     static bool isCastingDelay = false;
     static uint NextActionID = 0;
     static uint LastActionID = 0;
@@ -179,7 +190,6 @@ public class PlayerResources : IDisposable
         }
     }
 
-
     static bool isCastingNoDelay = false;
 
     public static void CastActionNoDelay(uint id, ActionType actionType = ActionType.Spell)
@@ -202,23 +212,6 @@ public class PlayerResources : IDisposable
 
         isCastingNoDelay = false;
     }
-
-    /*
-    private void ReceiveActionEffectDetour(int sourceObjectId, IntPtr sourceActor, IntPtr position, IntPtr effectHeader, IntPtr effectArray, IntPtr effectTrail)
-    {
-        receiveActionEffectHook!.Original(sourceObjectId, sourceActor, position, effectHeader, effectArray, effectTrail);
-
-        ActionEffectHeader header = Marshal.PtrToStructure<ActionEffectHeader>(effectHeader);
-
-        if (sourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
-        {
-            if (header.ActionId == LastActionID)
-            {
-                LastActionID = NextActionID;
-                ResetAutoCast();
-            }
-        }
-    }*/
 
     public static async void ResetAutoCast()
     {
@@ -246,15 +239,5 @@ public class PlayerResources : IDisposable
             IDs.Item.HiCordial => 1100,
             _ => 0,
         };
-
-    [StructLayout(LayoutKind.Explicit)]
-    private struct ActionEffectHeader
-    {
-        [FieldOffset(0x0)] public long TargetObjectId;
-        [FieldOffset(0x8)] public uint ActionId;
-        [FieldOffset(0x14)] public uint UnkObjectId;
-        [FieldOffset(0x18)] public ushort Sequence;
-        [FieldOffset(0x1A)] public ushort Unk_1A;
-    }
 
 }

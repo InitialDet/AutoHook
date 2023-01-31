@@ -144,15 +144,17 @@ internal class TabGeneral : TabBaseConfig
                 ImGui.TextWrapped("- Added changelog button");
 
                 ImGui.Separator();
-                ImGui.TextWrapped("2.4.2.1");
-                ImGui.TextWrapped("- Gig hitbox enabled by default");
-                ImGui.Separator();
-                ImGui.Spacing();
+                
+                if (ImGui.TreeNode("2.4.2.X - Small Fixes"))
+                {
+                    ImGui.TextWrapped("- Gig hitbox is now enabled by default");
+                    ImGui.TextWrapped("- Fixed the order of the Chum Timer Min/Max fields");
+                    ImGui.TextWrapped("- Fixed some options not saving correctly");
+                    ImGui.TreePop();
+                }
 
-                ImGui.TextWrapped("2.4.2.2");
-                ImGui.TextWrapped("- Fixed order of Chum Timer Min/Max fields");
                 ImGui.Separator();
-                ImGui.Spacing();
+                ImGui.Spacing();           
 
                 if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
                 {

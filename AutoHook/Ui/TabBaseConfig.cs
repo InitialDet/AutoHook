@@ -208,7 +208,7 @@ abstract class TabBaseConfig : IDisposable
             ImGui.TextColored(ImGuiColors.DalamudYellow, "Double/Triple Hook Settings");
             ImGui.Spacing();
 
-            ImGui.Checkbox("Only use when Identical Cast is active", ref cfg.UseDHTHOnlySurfaceSlap);
+            ImGui.Checkbox("Only use when Identical Cast is active##surface_slap", ref cfg.UseDHTHOnlySurfaceSlap);
             ImGui.Spacing();
             ImGui.Separator();
             ImGui.Spacing();
@@ -298,7 +298,7 @@ abstract class TabBaseConfig : IDisposable
                     Service.Configuration.Save();
                 }
 
-                if (ImGui.Checkbox("Only use when Fisher's Intution is active", ref cfg.OnlyMoochIntuition))
+                if (ImGui.Checkbox("Only use when Fisher's Intution is active##Mooch", ref cfg.OnlyMoochIntuition))
                 {
                     Service.Configuration.Save();
                 }

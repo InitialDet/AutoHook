@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using AutoHook.Classes;
 using AutoHook.Data;
 using AutoHook.Utils;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace AutoHook.Configurations;
@@ -17,9 +15,9 @@ public class AutoCastsConfig
     public bool OnlyMoochIntuition = false;
 
     public bool EnablePatience = false;
-    public static bool EnableMakeshiftPatience = false;
+    public bool EnableMakeshiftPatience = false;
 
-    public static bool DontCancelMooch = true;
+    public bool DontCancelMooch = true;
 
     public uint SelectedPatienceID = IDs.Actions.Patience2; // Default to Patience2
 
@@ -53,7 +51,6 @@ public class AutoCastsConfig
 
     public bool EnableCordialFirst = false;
 
-    public static bool IsMoochAvailable = false;
 
     // i could make the code more optimized but im too lazy rn.
     public AutoCast? GetNextAutoCast(BaitConfig? baitConfig)
@@ -62,8 +59,6 @@ public class AutoCastsConfig
             return null;
 
         BaitConfig = baitConfig;
-
-        IsMoochAvailable = CheckMoochAvailable();
 
         if (!PlayerResources.ActionAvailable(IDs.Actions.Cast))
             return null;
@@ -157,18 +152,6 @@ public class AutoCastsConfig
 
         return false;
     }
-
-    private bool CheckMoochAvailable()
-    {
-        if (PlayerResources.ActionAvailable(IDs.Actions.Mooch))
-            return true;
-
-        else if (PlayerResources.ActionAvailable(IDs.Actions.Mooch2))
-            return true;
-
-        return false;
-    }
-
 
     private BaseActionCast? GetCordials()
     {

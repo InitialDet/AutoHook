@@ -1,18 +1,12 @@
 ﻿using AutoHook.Configurations;
-using AutoHook.Data;
 using AutoHook.Utils;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutoHook.Classes;
 public abstract class BaseActionCast
 {
     protected BaitConfig? _baitConfig = null;
+    protected readonly static AutoCastsConfig _acConfig = Service.Configuration.AutoCastsCfg;
 
     protected BaseActionCast(string name, uint id, ActionType actionType = ActionType.Spell)
     {
@@ -56,7 +50,7 @@ public abstract class BaseActionCast
         if (!Enabled)
             return false;
 
-        if (DoesCancelMooch && AutoCastsConfig.IsMoochAvailable && AutoCastsConfig.DontCancelMooch)
+        if (DoesCancelMooch && PlayerResources.IsMoochAvailable() && _acConfig.DontCancelMooch)
             return false;
 
         uint currentGp = PlayerResources.GetCurrentGP();

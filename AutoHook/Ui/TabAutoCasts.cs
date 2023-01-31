@@ -30,7 +30,7 @@ internal class TabAutoCasts : TabBaseConfig
         if (cfg.EnableAll)
         {
             ImGui.SameLine();
-            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref AutoCastsConfig.DontCancelMooch, "Actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
+            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref cfg.DontCancelMooch, "Actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
             {
                 Service.Configuration.Save();
             }
@@ -102,7 +102,7 @@ internal class TabAutoCasts : TabBaseConfig
             Service.Configuration.Save();
         }
 
-        if (ImGui.Checkbox("Only use when Fisher's Intution is active", ref cfg.OnlyMoochIntuition))
+        if (ImGui.Checkbox("Only use when Fisher's Intution is active##fi_mooch", ref cfg.OnlyMoochIntuition))
         {
             Service.Configuration.Save();
         }
@@ -130,11 +130,11 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawExtraOptionsPatience()
     {
 
-        var enabled = AutoCastsConfig.EnableMakeshiftPatience;
+        var enabled = cfg.EnableMakeshiftPatience;
 
-        if (DrawUtil.Checkbox("Use when Makeshift Bait is active", ref enabled))
+        if (DrawUtil.Checkbox("Use when Makeshift Bait is active##patience_makeshift", ref enabled))
         {
-            AutoCastsConfig.EnableMakeshiftPatience = enabled;
+            cfg.EnableMakeshiftPatience = enabled;
             Service.Configuration.Save();
         }
 
@@ -244,7 +244,7 @@ internal class TabAutoCasts : TabBaseConfig
         if (DrawUtil.Checkbox("Only use when Mooch II is on NOT available - READ >>>", ref cfg.AutoPrizeCatch.UseWhenMoochIIOnCD, ">Make sure 'Use Mooch II' is enabled or else it wont work<\nThis could save you 100gp if going only for mooches"))
         { }
 
-        if (DrawUtil.Checkbox("Only use when Identical Cast is active", ref cfg.AutoPrizeCatch.UseOnlyWithIdenticalCast))
+        if (DrawUtil.Checkbox("Only use when Identical Cast is active##ic_prize_catch", ref cfg.AutoPrizeCatch.UseOnlyWithIdenticalCast))
         { }
     }
 
@@ -267,7 +267,7 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsChum()
     {
-        if (DrawUtil.Checkbox("Only use when Fisher's Intution is active", ref cfg.AutoChum.OnlyUseWithIntuition))
+        if (DrawUtil.Checkbox("Only use when Fisher's Intution is active##fi_chum", ref cfg.AutoChum.OnlyUseWithIntuition))
         { }
     }
 

@@ -24,7 +24,6 @@ public class AutoHook : IDalamudPlugin
 
     private static AutoGig AutoGig = null!;
 
-
     public HookingManager HookManager;
 
     PlayerResources PlayerResources;

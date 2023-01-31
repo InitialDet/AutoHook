@@ -184,7 +184,7 @@ public class AutoPatienceI : BaseActionCast
         if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
             return false;
 
-        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !AutoCastsConfig.EnableMakeshiftPatience)
+        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !_acConfig.EnableMakeshiftPatience)
             return false;
 
         return true;
@@ -208,7 +208,7 @@ public class AutoPatienceII : BaseActionCast
         if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
             return false;
 
-        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !AutoCastsConfig.EnableMakeshiftPatience)
+        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !_acConfig.EnableMakeshiftPatience)
             return false;
 
         return true;
