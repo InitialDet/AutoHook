@@ -35,6 +35,10 @@ public class AutoCastsConfig
 
     public AutoCordial AutoCordial = new();
 
+    public AutoHQCordial AutoHQWateredCordial = new();
+
+    public AutoCordial AutoWateredCordial = new();
+
     public AutoThaliaksFavor AutoThaliaksFavor = new();
 
     public AutoMakeShiftBait AutoMakeShiftBait = new();
@@ -155,36 +159,37 @@ public class AutoCastsConfig
 
     private BaseActionCast? GetCordials()
     {
-        bool useCordial = false;
-        bool useHQCordial = false;
-        bool useHICordial = false;
-
-        if (PlayerResources.HaveItemInInventory(IDs.Item.HiCordial))
-            useHICordial = true;
-
-        if (PlayerResources.HaveItemInInventory(IDs.Item.Cordial, true))
-            useHQCordial = true;
-
-        if (PlayerResources.HaveItemInInventory(IDs.Item.Cordial))
-            useCordial = true;
+        bool useWateredCordial = PlayerResources.HaveItemInInventory(IDs.Item.WateredCordial);
+        bool useHQWateredCordial = PlayerResources.HaveItemInInventory(IDs.Item.WateredCordial, true);
+        bool useCordial = PlayerResources.HaveItemInInventory(IDs.Item.Cordial);
+        bool useHQCordial = PlayerResources.HaveItemInInventory(IDs.Item.Cordial, true);
+        bool useHICordial = PlayerResources.HaveItemInInventory(IDs.Item.HiCordial);
 
         if (EnableCordialFirst)
         {
+            if (useWateredCordial)
+                return AutoWateredCordial;
+            if (useHQWateredCordial)
+                return AutoHQWateredCordial;
+            if (useCordial)
+                return AutoCordial;
             if (useHQCordial)
                 return AutoHQCordial;
-            else if (useCordial)
-                return AutoCordial;
-            else if (useHICordial)
+            if (useHICordial)
                 return AutoHICordial;
         }
         else
         {
             if (useHICordial)
                 return AutoHICordial;
-            else if (useHQCordial)
+            if (useHQCordial)
                 return AutoHQCordial;
-            else if (useCordial)
+            if (useCordial)
                 return AutoCordial;
+            if (useHQWateredCordial)
+                return AutoHQWateredCordial;
+            if (useWateredCordial)
+                return AutoWateredCordial;
         }
 
         return null;

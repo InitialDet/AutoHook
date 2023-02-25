@@ -331,3 +331,61 @@ public class AutoHQCordial : BaseActionCast
     }
 }
 #endregion
+
+#region WateredCordial
+public class AutoWateredCordial : BaseActionCast
+{
+    readonly uint itemGPRecovery = 150;
+    public AutoWateredCordial() : base("WateredCordial", Data.IDs.Item.WateredCordial, ActionType.Item)
+    {
+        GPThreshold = 1;
+    }
+
+    public override bool CastCondition()
+    {
+        if (!PlayerResources.HaveItemInInventory(ID))
+            return false;
+
+        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+
+        return notOvercaped && PlayerResources.IsPotOffCooldown();
+    }
+
+    public override void SetThreshold(uint newcost)
+    {
+        if (newcost <= 1)
+            GPThreshold = 1;
+        else
+            GPThreshold = newcost;
+    }
+}
+#endregion
+
+#region HQWateredCordial
+public class AutoHQWateredCordial : BaseActionCast
+{
+    readonly uint itemGPRecovery = 200;
+    public AutoHQWateredCordial() : base("HQ Watered Cordial", IDs.Item.HQWateredCordial, ActionType.Item)
+    {
+        GPThreshold = 1;
+    }
+
+    public override bool CastCondition()
+    {
+        if (!PlayerResources.HaveItemInInventory(ID))
+            return false;
+
+        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+
+        return notOvercaped && PlayerResources.IsPotOffCooldown();
+    }
+
+    public override void SetThreshold(uint newcost)
+    {
+        if (newcost <= 1)
+            GPThreshold = 1;
+        else
+            GPThreshold = newcost;
+    }
+}
+#endregion

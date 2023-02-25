@@ -22,6 +22,8 @@ internal class TabGPConfig : TabBaseConfig
                 cfg.AutoCordial,
                 cfg.AutoHICordial,
                 cfg.AutoHQCordial,
+                cfg.AutoWateredCordial,
+                cfg.AutoHQWateredCordial,
                 cfg.AutoFishEyes,
                 cfg.AutoIdenticalCast,
                 cfg.AutoMakeShiftBait,
