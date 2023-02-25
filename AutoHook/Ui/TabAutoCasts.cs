@@ -291,6 +291,8 @@ internal class TabAutoCasts : TabBaseConfig
             cfg.AutoHICordial.Enabled = enabled;
             cfg.AutoHQCordial.Enabled = enabled;
             cfg.AutoCordial.Enabled = enabled;
+            cfg.AutoHQWateredCordial.Enabled = enabled;
+            cfg.AutoWateredCordial.Enabled = enabled;
         }
 
         if (enabled)
@@ -303,7 +305,7 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsCordials()
     {
-        if (DrawUtil.Checkbox("Change Priority: Cordial > HI-Cordials", ref cfg.EnableCordialFirst, "If theres no Cordials, Hi-Cordials will be used instead"))
+        if (DrawUtil.Checkbox("Change Priority: Watered-Cordial > Cordial > HI-Cordials", ref cfg.EnableCordialFirst, "If theres no Cordials, Hi-Cordials will be used instead"))
         { }
     }
 }

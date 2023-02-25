@@ -58,6 +58,8 @@ namespace AutoHook.Data
         public static class Item
         {
             public const uint
+            WateredCordial = 16911,
+            HQWateredCordial = 1016911,
             Cordial = 6141,
             HQCordial = 1006141,
 
