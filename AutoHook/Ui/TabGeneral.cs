@@ -132,32 +132,37 @@ internal class TabGeneral : TabBaseConfig
             if (ImGui.Begin("Changelog", ref openChangelog, ImGuiWindowFlags.AlwaysAutoResize))
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-                ImGui.TextWrapped("2.4.2.0");
+                ImGui.TextWrapped("2.4.3.0");
                 ImGui.PopStyleColor();
                 ImGui.Separator();
-                ImGui.TextWrapped("- Added customizable hitbox for autogig");
-                ImGui.Indent();
-                ImGui.TextWrapped("Each Size and Speed combination has its own hitbox config");
-                ImGui.Unindent();
-                ImGui.TextWrapped("- Added an option to see the fish hitbox when spearfishing");
-                ImGui.TextWrapped("- (experimental) Nature's Bounty will be used when the target fish appears on screen ");
-                ImGui.TextWrapped("- Added changelog button");
-
-                ImGui.Separator();
-                
-                if (ImGui.TreeNode("2.4.2.X - Small Fixes"))
-                {
-                    ImGui.TextWrapped("- Gig hitbox is now enabled by default");
-                    ImGui.TextWrapped("- Fixed the order of the Chum Timer Min/Max fields");
-                    ImGui.TextWrapped("- Fixed some options not saving correctly");
-                    ImGui.TreePop();
-                }
-
-                ImGui.Separator();
+                ImGui.TextWrapped("- Added Watered Cortials for AutoCasts");
+      
                 ImGui.Spacing();           
 
                 if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
                 {
+                    if (ImGui.TreeNode("2.4.2.0"))
+                    {
+                        ImGui.TextWrapped("- Added customizable hitbox for autogig");
+                        ImGui.Indent();
+                        ImGui.TextWrapped("Each Size and Speed combination has its own hitbox config");
+                        ImGui.Unindent();
+                        ImGui.TextWrapped("- Added an option to see the fish hitbox when spearfishing");
+                        ImGui.TextWrapped("- (experimental) Nature's Bounty will be used when the target fish appears on screen ");
+                        ImGui.TextWrapped("- Added changelog button");
+
+                        ImGui.Spacing();
+                        ImGui.Separator();
+                        ImGui.Spacing();
+
+                        ImGui.TextWrapped("2.4.2.X");
+                        ImGui.TextWrapped("- Gig hitbox is now enabled by default");
+                        ImGui.TextWrapped("- Fixed the order of the Chum Timer Min/Max fields");
+                        ImGui.TextWrapped("- Fixed some options not saving correctly");
+
+                        ImGui.TreePop();
+                    }
+
                     if (ImGui.TreeNode("2.4.1.0"))
                     {
                         ImGui.TextWrapped("- Added options to cast Mooch only when under the effect of Fisher's Intuition");
