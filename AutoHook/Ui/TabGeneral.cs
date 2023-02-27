@@ -137,7 +137,14 @@ internal class TabGeneral : TabBaseConfig
                 ImGui.Separator();
                 ImGui.TextWrapped("- Added Watered Cortials for AutoCasts");
       
-                ImGui.Spacing();           
+                ImGui.Spacing();
+
+                if (ImGui.TreeNode("2.4.3.x"))
+                {
+                    ImGui.TextWrapped("- Fixed duplicated GP Configs");
+
+                    ImGui.TreePop();
+                }
 
                 if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
                 {

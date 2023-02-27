@@ -336,7 +336,7 @@ public class AutoHQCordial : BaseActionCast
 public class AutoWateredCordial : BaseActionCast
 {
     readonly uint itemGPRecovery = 150;
-    public AutoWateredCordial() : base("WateredCordial", Data.IDs.Item.WateredCordial, ActionType.Item)
+    public AutoWateredCordial() : base("Watered Cordial", Data.IDs.Item.WateredCordial, ActionType.Item)
     {
         GPThreshold = 1;
     }

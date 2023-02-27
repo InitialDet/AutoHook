@@ -35,9 +35,9 @@ public class AutoCastsConfig
 
     public AutoCordial AutoCordial = new();
 
-    public AutoHQCordial AutoHQWateredCordial = new();
+    public AutoHQWateredCordial AutoHQWateredCordial = new();
 
-    public AutoCordial AutoWateredCordial = new();
+    public AutoWateredCordial AutoWateredCordial = new();
 
     public AutoThaliaksFavor AutoThaliaksFavor = new();
 
