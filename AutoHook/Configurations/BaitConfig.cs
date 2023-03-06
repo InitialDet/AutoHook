@@ -152,7 +152,7 @@ public class BaitConfig
 
             else if (PlayerResources.GetCurrentGP() >= 400 && CheckHookDHTHEnabled(bite)) // added an "else" so doublehook won't overwrite triplehook if both are selected
                 hook = HookType.Double;
-            if (LetFishEscape)
+            else if (LetFishEscape)
                 return null;
         }
         else if (UseTripleHook)
