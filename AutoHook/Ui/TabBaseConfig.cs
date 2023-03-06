@@ -215,12 +215,12 @@ abstract class TabBaseConfig : IDisposable
 
             if (ImGui.Checkbox("Use Double Hook (If gp > 400)", ref cfg.UseDoubleHook))
             {
-                if (cfg.UseDoubleHook) cfg.UseTripleHook = false;
+                //if (cfg.UseDoubleHook) cfg.UseTripleHook = false; commenting out what restricts only one of double hook and triple hook being active at once
                 Service.Configuration.Save();
             }
-            if (ImGui.Checkbox("Use Triple Hook (If gp > 700)", ref cfg.UseTripleHook))
+            if (ImGui.Checkbox("Use Triple Hook (If gp > 700), prioritized over Double Hook", ref cfg.UseTripleHook))
             {
-                if (cfg.UseTripleHook) cfg.UseDoubleHook = false;
+                //if (cfg.UseTripleHook) cfg.UseDoubleHook = false;
                 Service.Configuration.Save();
             }
 

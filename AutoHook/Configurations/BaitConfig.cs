@@ -146,7 +146,11 @@ public class BaitConfig
   
         if (UseDoubleHook)
         {
-            if (PlayerResources.GetCurrentGP() >= 400 && CheckHookDHTHEnabled(bite))
+            // is TripleHook is also selected and there's enough GP, then prioritize that
+            if (UseTripleHook && PlayerResources.GetCurrentGP() >= 700 && CheckHookDHTHEnabled(bite))
+                hook = HookType.Triple;
+
+            else if (PlayerResources.GetCurrentGP() >= 400 && CheckHookDHTHEnabled(bite)) // added an "else" so doublehook won't overwrite triplehook if both are selected
                 hook = HookType.Double;
             if (LetFishEscape)
                 return null;
