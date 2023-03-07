@@ -135,31 +135,25 @@ public class BaitConfig
 
     private HookType? GetDoubleTripleHook(BiteType bite)
     {
-        HookType hook = HookType.None;
-
-        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPatience)
-            return hook;
-
-        if (UseDHTHOnlySurfaceSlap && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
-            return hook;
-
-  
-        if (UseDoubleHook)
+        if (UseTripleHook || UseDoubleHook)
         {
-            if (PlayerResources.GetCurrentGP() >= 400 && CheckHookDHTHEnabled(bite))
-                hook = HookType.Double;
+            if (UseDHTHOnlySurfaceSlap && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+                return HookType.None;
+
+            if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPatience)
+                return HookType.None;
+
+            if (UseTripleHook && PlayerResources.GetCurrentGP() >= 700 && CheckHookDHTHEnabled(bite))
+                return HookType.Triple;
+
+            if (UseDoubleHook && PlayerResources.GetCurrentGP() >= 400 && CheckHookDHTHEnabled(bite))
+                return HookType.Double;
+
             if (LetFishEscape)
                 return null;
         }
-        else if (UseTripleHook)
-        {
-            if (PlayerResources.GetCurrentGP() >= 700 && CheckHookDHTHEnabled(bite))
-                hook = HookType.Triple;
-            else if (LetFishEscape)
-                return null;
-        }
-          
-        return hook;
+
+        return HookType.None;
     }
 
     public override bool Equals(object? obj)

@@ -215,14 +215,17 @@ abstract class TabBaseConfig : IDisposable
 
             if (ImGui.Checkbox("Use Double Hook (If gp > 400)", ref cfg.UseDoubleHook))
             {
-                if (cfg.UseDoubleHook) cfg.UseTripleHook = false;
+                if (cfg.UseDoubleHook && !ImGui.GetIO().KeyShift) cfg.UseTripleHook = false;
                 Service.Configuration.Save();
             }
+            ImGuiComponents.HelpMarker("Hold SHIFT to select both Double and Triple Hook (not recommended)");
+
             if (ImGui.Checkbox("Use Triple Hook (If gp > 700)", ref cfg.UseTripleHook))
             {
-                if (cfg.UseTripleHook) cfg.UseDoubleHook = false;
+                if (cfg.UseTripleHook && !ImGui.GetIO().KeyShift) cfg.UseDoubleHook = false;
                 Service.Configuration.Save();
             }
+            ImGuiComponents.HelpMarker("Hold SHIFT to select both Double and Triple Hook (not recommended)");
 
             if (cfg.UseTripleHook || cfg.UseDoubleHook)
             {

@@ -132,22 +132,31 @@ internal class TabGeneral : TabBaseConfig
             if (ImGui.Begin("Changelog", ref openChangelog, ImGuiWindowFlags.AlwaysAutoResize))
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-                ImGui.TextWrapped("2.4.3.0");
+                ImGui.TextWrapped("2.4.4.0");
                 ImGui.PopStyleColor();
                 ImGui.Separator();
-                ImGui.TextWrapped("- Added Watered Cortials for AutoCasts");
+                //Current Version
+                ImGui.TextWrapped("- It's now possible to enable both Double and Triple hook (hold shift when selecting the options)");
       
                 ImGui.Spacing();
 
-                if (ImGui.TreeNode("2.4.3.x"))
+                /*if (ImGui.TreeNode("2.4.4.x"))
                 {
-                    ImGui.TextWrapped("- Fixed duplicated GP Configs");
-
                     ImGui.TreePop();
-                }
+                }*/
 
                 if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
                 {
+                    if (ImGui.TreeNode("2.4.3.0"))
+                    {
+                        ImGui.TextWrapped("- Added Watered Cortials for AutoCasts");
+                        ImGui.Spacing();
+                        ImGui.TextWrapped("2.4.3.x");
+                        ImGui.TextWrapped("- Fixed duplicated GP Configs");
+
+                        ImGui.TreePop();
+                    }
+
                     if (ImGui.TreeNode("2.4.2.0"))
                     {
                         ImGui.TextWrapped("- Added customizable hitbox for autogig");
@@ -162,7 +171,7 @@ internal class TabGeneral : TabBaseConfig
                         ImGui.Separator();
                         ImGui.Spacing();
 
-                        ImGui.TextWrapped("2.4.2.X");
+                        ImGui.TextWrapped("2.4.2.x");
                         ImGui.TextWrapped("- Gig hitbox is now enabled by default");
                         ImGui.TextWrapped("- Fixed the order of the Chum Timer Min/Max fields");
                         ImGui.TextWrapped("- Fixed some options not saving correctly");
