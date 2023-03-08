@@ -140,10 +140,13 @@ internal class TabGeneral : TabBaseConfig
       
                 ImGui.Spacing();
 
-                /*if (ImGui.TreeNode("2.4.4.x"))
+                if (ImGui.TreeNode("2.4.4.x"))
                 {
+                    ImGui.TextWrapped("- Removed captalization for bait names");
+                    ImGui.TextWrapped("- Bug fixes");
+
                     ImGui.TreePop();
-                }*/
+                }
 
                 if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
                 {

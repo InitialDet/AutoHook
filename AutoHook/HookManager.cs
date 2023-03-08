@@ -29,27 +29,40 @@ public class HookingManager : IDisposable
 
     public HookingManager()
     {
-
+        Enable();
     }
 
     public void Enable()
-    {
-        Parser.Enable();
+    {  
         SubscribeToParser();
         Service.Framework.Update += OnFrameworkUpdate;
     }
 
-    public void Disable()
+    private void SubscribeToParser()
     {
-        UnSubscribeToParser();
-        Parser.Disable();
-        Service.Framework.Update -= OnFrameworkUpdate;
+        Parser.Enable();
+        Parser.CaughtFish += OnCatch;
+        Parser.BeganFishing += OnBeganFishing;
+        Parser.BeganMooching += OnBeganMooch;
     }
 
     public void Dispose()
     {
         Disable();
         Parser.Dispose();
+    }
+
+    public void Disable()
+    {
+        UnSubscribeToParser();
+        Service.Framework.Update -= OnFrameworkUpdate;
+    }
+    private void UnSubscribeToParser()
+    {
+        Parser.Disable();
+        Parser.CaughtFish -= OnCatch;
+        Parser.BeganFishing -= OnBeganFishing;
+        Parser.BeganMooching -= OnBeganMooch;
     }
 
     public static string GetCurrentBait()
@@ -59,26 +72,12 @@ public class HookingManager : IDisposable
         return baitName;
     }
 
-    private void SubscribeToParser()
-    {
-        Parser.CaughtFish += OnCatch;
-        Parser.BeganFishing += OnBeganFishing;
-        Parser.BeganMooching += OnBeganMooch;
-    }
-
-    private void UnSubscribeToParser()
-    {
-        Parser.CaughtFish -= OnCatch;
-        Parser.BeganFishing -= OnBeganFishing;
-        Parser.BeganMooching -= OnBeganMooch;
-    }
-
     // The current config is updates two times: When we began fishing (to get the config based on the mooch/bait) and when we hooked the fish (in case the user updated their configs).
     private void UpdateCurrentSetting()
     {
         ResetAFKTimer();
 
-        _selectedPreset = cfg.CurrentPreset?.ListOfBaits.FirstOrDefault(mooch => mooch.BaitName.Equals(CurrentBait));
+        _selectedPreset = GetPreset(CurrentBait);
 
         if (_selectedPreset == null)
         {
@@ -99,13 +98,19 @@ public class HookingManager : IDisposable
         if (_selectedPreset == null)
             PluginLog.Debug("No config found. Not hooking");
         else
-            PluginLog.Debug($"Config found. Hooking with Preset: {cfg.CurrentPreset?.PresetName} - {_selectedPreset.BaitName} Config");
+            PluginLog.Debug($"Preset Found: {cfg.CurrentPreset?.PresetName}, Bait: {_selectedPreset.BaitName}");
+    }
+
+    private static BaitConfig? GetPreset(string? baitName)
+    {
+        return cfg.CurrentPreset?.ListOfBaits.FirstOrDefault(mooch => mooch.BaitName.ToLower().Equals(baitName?.ToLower()));
     }
 
     private void OnBeganFishing()
     {
         if (LastStep == CatchSteps.BeganFishing && LastState != FishingState.PoleReady)
             return;
+
         CurrentBait = GetCurrentBait();
         Timer.Reset();
         Timer.Start();
@@ -121,7 +126,7 @@ public class HookingManager : IDisposable
         CurrentBait = new string(LastCatch);
         Timer.Reset();
         Timer.Start();
-        LastCatch = null;
+        //LastCatch = null;
         LastStep = CatchSteps.BeganMooching;
         UpdateCurrentSetting();
     }
@@ -156,7 +161,7 @@ public class HookingManager : IDisposable
         }
 
         // Check if should stop with another bait/fish
-        BaitConfig? CustomMoochCfg = cfg.CurrentPreset?.ListOfBaits.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+        BaitConfig? CustomMoochCfg = GetPreset(LastCatch);
         if (CustomMoochCfg != null && CustomMoochCfg.StopAfterCaught)
         {
             int total = FishCounter.Add(CustomMoochCfg.BaitName);
@@ -240,7 +245,7 @@ public class HookingManager : IDisposable
 
         if (PlayerResources.HasStatus(IDs.Status.IdenticalCast))
         {
-            var IdenticalCast = cfg.CurrentPreset?.ListOfBaits.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+            var IdenticalCast = GetPreset(LastCatch);
             if (IdenticalCast != null)
                 hook = IdenticalCast.GetHookIgnoreEnable(bite);
             else
@@ -271,7 +276,7 @@ public class HookingManager : IDisposable
 
             AutoCast? cast = null;
 
-            BaitConfig? CustomMoochCfg = cfg.CurrentPreset?.ListOfBaits.FirstOrDefault(mooch => mooch.BaitName.Equals(LastCatch));
+            BaitConfig? CustomMoochCfg = GetPreset(LastCatch);
 
             if (CustomMoochCfg != null)
                 cast = cfg.AutoCastsCfg.GetNextAutoCast(CustomMoochCfg);

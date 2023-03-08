@@ -71,7 +71,6 @@ public class AutoHook : IDalamudPlugin
         });
 
         HookManager = new HookingManager();
-        HookManager.Enable();
 
 #if (DEBUG)
         OnOpenConfigUi();
