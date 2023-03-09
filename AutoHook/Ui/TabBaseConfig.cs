@@ -55,6 +55,12 @@ abstract class TabBaseConfig : IDisposable
         if (enabled)
         {
             ImGui.Indent();
+            if (ImGui.RadioButton($"Hook###{TabName}{hook}0", type == HookType.Normal))
+            {
+                type = HookType.Normal;
+                Service.Configuration.Save();
+            }
+
             if (ImGui.RadioButton($"Precision Hookset###{TabName}{hook}1", type == HookType.Precision))
             {
                 type = HookType.Precision;
