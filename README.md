@@ -1,4 +1,4 @@
-# AutoHook
+# AutoHook (maintenence mode for some time)
 AutoHook is a FFXIV plugin that assists you while fishing
 
 ## Installation
