@@ -2,9 +2,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.Intrinsics.X86;
+using AutoHook.Configurations;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
+using ECommons.LanguageHelpers;
 using ImGuiNET;
 using Microsoft.VisualBasic;
 
@@ -13,16 +15,16 @@ namespace AutoHook.Ui;
 internal class TabGeneral : TabBaseConfig
 {
     public override bool Enabled => true;
-    public override string TabName => "General";
+    public override string TabName => "General".Loc();
 
     public override void DrawHeader()
     {
-        ImGui.Text("General settings");
+        ImGui.Text("General settings".Loc());
 
         ImGui.Separator();
 
         ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-        ImGui.TextWrapped("Check the new changes in the Changelog below");
+        ImGui.TextWrapped("Check the new changes in the Changelog below".Loc());
         ImGui.PopStyleColor();
 
         ImGui.Spacing();
@@ -31,17 +33,35 @@ internal class TabGeneral : TabBaseConfig
 
         ImGui.Spacing();
 
-        if (ImGui.Button("Click here to report an issue or make a suggestion"))
+        if (ImGui.Button("Click here to report an issue or make a suggestion".Loc()))
         {
             Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/issues", UseShellExecute = true });
         }
-
         ImGui.Spacing();
+        // Select Language
+        if (ImGui.BeginCombo("Language".Loc(), Service.Configuration.UiLanguage == null ? "Game Language".Loc() : Service.Configuration.UiLanguage.Loc()))
+        {
+            if (ImGui.Selectable("Game Language".Loc()))
+            {
+                Service.Configuration.UiLanguage = null;
+                Localization.Init(Localization.GameLanguageString);
+            }
+            foreach (var x in Localization.GetAvaliableLanguages())
+            {
+                if (ImGui.Selectable(x.Loc()))
+                {
+                    Service.Configuration.UiLanguage = x;
+                    Localization.Init(Service.Configuration.UiLanguage);
+                    Service.Configuration.Save();
+                }
+            }
+            ImGui.EndCombo();
+        }
 
 #if DEBUG
 
         ImGui.SameLine();
-        if (ImGui.Button("Testing"))
+        if (ImGui.Button("Testing".Loc()))
         {
             ImGui.OpenPopup("changelog");
         }
@@ -54,7 +74,7 @@ internal class TabGeneral : TabBaseConfig
 
         if (ImGui.BeginTabBar("TabBarsGeneral", ImGuiTabBarFlags.NoTooltip))
         {
-            if (ImGui.BeginTabItem("Default Cast###DC1"))
+            if (ImGui.BeginTabItem("Default Cast###DC1".Loc()))
             {
                 ImGui.PushID("TabDefaultCast");
                 DrawDefaultCast();
@@ -62,7 +82,7 @@ internal class TabGeneral : TabBaseConfig
                 ImGui.EndTabItem();
             }
 
-            if (ImGui.BeginTabItem("Default Mooch###DM1"))
+            if (ImGui.BeginTabItem("Default Mooch###DM1".Loc()))
             {
                 ImGui.PushID("TabDefaultMooch");
                 DrawDefaultMooch();
@@ -78,8 +98,8 @@ internal class TabGeneral : TabBaseConfig
     public void DrawDefaultCast()
     {
         ImGui.Spacing();
-        ImGui.Checkbox("Use Default Cast", ref Service.Configuration.DefaultCastConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no Custom Preset is found.");
+        ImGui.Checkbox("Use Default Cast".Loc(), ref Service.Configuration.DefaultCastConfig.Enabled);
+        ImGuiComponents.HelpMarker("This is the default hooking behavior if no Custom Preset is found.".Loc());
 
         ImGui.Indent();
 
@@ -97,8 +117,8 @@ internal class TabGeneral : TabBaseConfig
     public void DrawDefaultMooch()
     {
         ImGui.Spacing();
-        ImGui.Checkbox("Use Default Mooch", ref Service.Configuration.DefaultMoochConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no Custom Preset is found.");
+        ImGui.Checkbox("Use Default Mooch".Loc(), ref Service.Configuration.DefaultMoochConfig.Enabled);
+        ImGuiComponents.HelpMarker("This is the default mooching behavior if no Custom Preset is found.".Loc());
 
         ImGui.Indent();
 
@@ -115,7 +135,7 @@ internal class TabGeneral : TabBaseConfig
     bool openChangelog = false;
     private void DrawChangelog()
     {
-        if (ImGui.Button("Changelog"))
+        if (ImGui.Button("Changelog".Loc()))
         {
             //ImGui.OpenPopup("changelog");
             openChangelog = !openChangelog;

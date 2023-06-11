@@ -9,6 +9,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
+using ECommons.LanguageHelpers;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -16,7 +17,7 @@ namespace AutoHook.Ui;
 class TabPresets : TabBaseConfig
 {
     public override bool Enabled => true;
-    public override string TabName => "Custom Presets";
+    public override string TabName => "Custom Presets".Loc();
 
     private bool _hasPreset = false;
 
@@ -31,12 +32,13 @@ class TabPresets : TabBaseConfig
     {
         _hasPreset = cfg.CurrentPreset != null;
 
-        ImGui.TextWrapped("Here you can customize which hook to use based on the current bait or fish being mooched.\nIf a bait/fish is not specified, the default behavior (General Tab) will be used instead.");
-        if (ImGui.Button("Add New Preset"))
+        ImGui.TextWrapped("Here you can customize which hook to use based on the current bait or fish being mooched.\nIf a bait/fish is not specified, the default behavior (General Tab) will be used instead.".Loc());
+        if (ImGui.Button("Add New Preset".Loc()))
         {
             try
             {
-                BaitPresetConfig preset = new($"New Preset{cfg.BaitPresetList.Count + 1}");
+                string newPreset = "New Preset".Loc();
+                BaitPresetConfig preset = new($"{newPreset}{cfg.BaitPresetList.Count + 1}");
                 cfg.BaitPresetList.Add(preset);
                 cfg.BaitPresetList.OrderBy(s => s);
                 cfg.CurrentPreset = preset;
@@ -131,7 +133,7 @@ class TabPresets : TabBaseConfig
 
             // I hate ImGui and i dont care to make this look good
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-            ImGui.TextWrapped("Auto Mooch");
+            ImGui.TextWrapped("Auto Mooch".Loc());
             ImGui.PopStyleColor();
             ImGui.SameLine();
             ImGui.TextWrapped("is enabled by default when new bait/fish is added ");
@@ -157,7 +159,7 @@ class TabPresets : TabBaseConfig
                 cfg.Save();
             }
 
-            ImGui.Text($"Current bait/fish:");
+            ImGui.Text($"Current bait/fish:".Loc());
             ImGui.SameLine();
             ImGui.TextColored(ImGuiColors.HealerGreen, HookingManager.CurrentBait ?? "-");
         }

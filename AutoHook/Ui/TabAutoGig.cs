@@ -9,11 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommons.LanguageHelpers;
 
 namespace AutoHook.Ui;
 internal class TabAutoGig : TabBaseConfig
 {
-    public override string TabName => "AutoGig";
+    public override string TabName => "AutoGig".Loc();
     public override bool Enabled => true;
 
     private readonly List<SpearfishSpeed> _speedTypes = Enum.GetValues(typeof(SpearfishSpeed)).Cast<SpearfishSpeed>().ToList();
@@ -22,13 +23,13 @@ internal class TabAutoGig : TabBaseConfig
     public override void DrawHeader()
     {
         ImGui.Spacing();
-        ImGui.TextWrapped("This is an experimental feature and it might miss the fish. If you find it missing too much, try adjusting the SpearFishing window scale to something different");
+        ImGui.TextWrapped("This is an experimental feature and it might miss the fish. If you find it missing too much, try adjusting the SpearFishing window scale to something different".Loc());
         ImGui.Spacing();
     }
 
     public override void Draw()
     {
-        if (DrawUtil.Checkbox("Enable AutoGig", ref Service.Configuration.AutoGigEnabled))
+        if (DrawUtil.Checkbox("Enable AutoGig".Loc(), ref Service.Configuration.AutoGigEnabled))
         {
             if (Service.Configuration.AutoGigEnabled)
             {
@@ -40,7 +41,7 @@ internal class TabAutoGig : TabBaseConfig
         if (!Service.Configuration.AutoGigEnabled)
         {
             ImGui.Indent();
-            if (DrawUtil.Checkbox("Hide overlay during Spearfishing", ref Service.Configuration.AutoGigHideOverlay, "It'll only hide if the AutoGig option is disabled"))
+            if (DrawUtil.Checkbox("Hide overlay during Spearfishing".Loc(), ref Service.Configuration.AutoGigHideOverlay, "It'll only hide if the AutoGig option is disabled".Loc()))
             {
                 Service.Configuration.Save();
             }
@@ -49,11 +50,11 @@ internal class TabAutoGig : TabBaseConfig
         } else
         {
             ImGui.Indent();
-            if (DrawUtil.Checkbox("Draw fish hitbox", ref Service.Configuration.AutoGigDrawFishHitbox, "The hitbox its only available for the fish of the Size and Speed selected"))
+            if (DrawUtil.Checkbox("Draw fish hitbox".Loc(), ref Service.Configuration.AutoGigDrawFishHitbox, "The hitbox its only available for the fish of the Size and Speed selected".Loc()))
             {
                 Service.Configuration.Save();
             }
-            if (DrawUtil.Checkbox("Draw gig hitbox", ref Service.Configuration.AutoGigDrawGigHitbox))
+            if (DrawUtil.Checkbox("Draw gig hitbox".Loc(), ref Service.Configuration.AutoGigDrawGigHitbox))
             {
                 Service.Configuration.Save();
             }
@@ -68,15 +69,15 @@ internal class TabAutoGig : TabBaseConfig
     private void DrawSpeedSize()
     {
         ImGui.Spacing();
-        ImGui.TextWrapped("Select the Size and Speed of the fish you want (Gatherbuddy's Spearfishing overlay helps a lot)");
+        ImGui.TextWrapped("Select the Size and Speed of the fish you want (Gatherbuddy's Spearfishing overlay helps a lot)".Loc());
         ImGui.Spacing();
 
         ImGui.SetNextItemWidth(130);
-        if (ImGui.BeginCombo("Size", Service.Configuration.currentSize.ToName()))
+        if (ImGui.BeginCombo("Size".Loc(), Service.Configuration.currentSize.ToName().Loc()))
         {
 
             foreach (SpearfishSize size in _sizeTypes.Where(size =>
-                        ImGui.Selectable(size.ToName(), size == Service.Configuration.currentSize)))
+                        ImGui.Selectable(size.ToName().Loc(), size == Service.Configuration.currentSize)))
             {
                 Service.Configuration.currentSize = size;
             }
@@ -86,10 +87,10 @@ internal class TabAutoGig : TabBaseConfig
         ImGui.SameLine();
 
         ImGui.SetNextItemWidth(130);
-        if (ImGui.BeginCombo("Speed", Service.Configuration.currentSpeed.ToName()))
+        if (ImGui.BeginCombo("Speed".Loc(), Service.Configuration.currentSpeed.ToName().Loc()))
         {
             foreach (SpearfishSpeed speed in _speedTypes.Where(speed =>
-                        ImGui.Selectable(speed.ToName(), speed == Service.Configuration.currentSpeed)))
+                        ImGui.Selectable(speed.ToName().Loc(), speed == Service.Configuration.currentSpeed)))
             {
                 Service.Configuration.currentSpeed = speed;
             }

@@ -43,10 +43,14 @@
 
 	<ItemGroup>
 		<Folder Include="images\" />
+    <None Update="LanguageChinese.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="DalamudPackager" Version="2.1.10" />
+		<PackageReference Include="ECommons" Version="2.0.0.4" />
 		<Reference Include="FFXIVClientStructs">
 			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
 			<Private>false</Private>

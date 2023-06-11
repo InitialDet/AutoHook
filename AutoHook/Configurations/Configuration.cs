@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO.Compression;
 using System.IO;
 using System.Text;
+using ECommons.LanguageHelpers;
 
 namespace AutoHook.Configurations;
 
@@ -35,6 +36,8 @@ public class Configuration : IPluginConfiguration
 
     public SpearfishSpeed currentSpeed = SpearfishSpeed.All;
     public SpearfishSize currentSize = SpearfishSize.All;
+
+    public string UiLanguage = Localization.GameLanguageString;
 
     public Dictionary<string, int> GigSpacing = new Dictionary<string, int>();
 

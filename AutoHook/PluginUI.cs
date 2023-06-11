@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using AutoHook.Ui;
 using System.Numerics;
 using System.Diagnostics;
+using ECommons.LanguageHelpers;
 
 namespace AutoHook;
 
@@ -48,7 +49,7 @@ public class PluginUI : Window, IDisposable
         if (!IsOpen)
             return;
 
-        Utils.DrawUtil.Checkbox("Enable AutoHook", ref Service.Configuration.PluginEnabled, "Enables/Disables the plugin for you");
+        Utils.DrawUtil.Checkbox("Enable AutoHook".Loc(), ref Service.Configuration.PluginEnabled, "Enables/Disables the plugin for you".Loc());
         ShowKofi();
         //paypal bad madge
         //ShowPaypal();
@@ -56,11 +57,11 @@ public class PluginUI : Window, IDisposable
 
         if (Service.Configuration.PluginEnabled)
         {
-            ImGui.TextColored(ImGuiColors.HealerGreen, "Plugin Enabled");
+            ImGui.TextColored(ImGuiColors.HealerGreen, "Plugin Enabled".Loc());
         }
         else
         {
-            ImGui.TextColored(ImGuiColors.DalamudRed, "Plugin Disabled");
+            ImGui.TextColored(ImGuiColors.DalamudRed, "Plugin Disabled".Loc());
         }
         ImGui.Unindent();
         ImGui.Spacing();
@@ -101,7 +102,7 @@ public class PluginUI : Window, IDisposable
 
     public static void ShowKofi()
     {
-        string buttonText = "Support on Ko-fi";
+        string buttonText = "Support on Ko-fi".Loc();
         ImGui.SameLine();
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);

@@ -1,11 +1,15 @@
-﻿using AutoHook.Configurations;
+﻿using System.Net.NetworkInformation;
+using AutoHook.Configurations;
 using AutoHook.FishTimer;
 using AutoHook.SeFunctions;
 using AutoHook.Spearfishing;
+using AutoHook.Ui;
 using AutoHook.Utils;
 using Dalamud.Game.Command;
 using Dalamud.Logging;
 using Dalamud.Plugin;
+using ECommons.DalamudServices;
+using ECommons.LanguageHelpers;
 using SeFunctions;
 
 namespace AutoHook;
@@ -30,6 +34,9 @@ public class AutoHook : IDalamudPlugin
 
     public AutoHook(DalamudPluginInterface pluginInterface)
     {
+        // Add ECommons 
+        Svc.Init(pluginInterface);
+
         Service.Initialize(pluginInterface);
         Service.EventFramework = new EventFramework(Service.SigScanner);
         Service.CurrentBait = new CurrentBait(Service.SigScanner);
@@ -38,6 +45,10 @@ public class AutoHook : IDalamudPlugin
         Service.PluginInterface!.UiBuilder.OpenConfigUi += OnOpenConfigUi;
         Service.Configuration = Configuration.Load();
         Service.Language = Service.ClientState.ClientLanguage;
+        // Init Localization
+        Localization.Init(Service.Configuration.UiLanguage == null
+            ? Localization.GameLanguageString
+            : Service.Configuration.UiLanguage);
 
         PlayerResources = new PlayerResources();
         PlayerResources.Initialize();
@@ -69,7 +80,6 @@ public class AutoHook : IDalamudPlugin
         {
             HelpMessage = "Toogles AutoHook On/Off"
         });
-
         HookManager = new HookingManager();
 
 #if (DEBUG)
@@ -130,4 +140,3 @@ public class AutoHook : IDalamudPlugin
 
     private void OnOpenConfigUi() => PluginUI.Toggle();
 }
-

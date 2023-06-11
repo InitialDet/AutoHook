@@ -7,33 +7,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dalamud.Logging;
+using ECommons.LanguageHelpers;
 
 namespace AutoHook.Ui;
+
 internal class TabGPConfig : TabBaseConfig
 {
-    public override string TabName => "GP Config";
+    public override string TabName => "GP Config".Loc();
     public override bool Enabled => true;
 
     private static readonly AutoCastsConfig cfg = Service.Configuration.AutoCastsCfg;
 
     private static readonly List<BaseActionCast> _actionsAvailable = new()
-            {
-                cfg.AutoChum,
-                cfg.AutoCordial,
-                cfg.AutoHICordial,
-                cfg.AutoHQCordial,
-                cfg.AutoWateredCordial,
-                cfg.AutoHQWateredCordial,
-                cfg.AutoFishEyes,
-                cfg.AutoIdenticalCast,
-                cfg.AutoMakeShiftBait,
-                cfg.AutoPatienceI,
-                cfg.AutoPatienceII,
-                cfg.AutoPrizeCatch,
-                cfg.AutoSurfaceSlap,
-                cfg.AutoThaliaksFavor,
-            };
-
+    {
+        cfg.AutoChum,
+        cfg.AutoCordial,
+        cfg.AutoHICordial,
+        cfg.AutoHQCordial,
+        cfg.AutoWateredCordial,
+        cfg.AutoHQWateredCordial,
+        cfg.AutoFishEyes,
+        cfg.AutoIdenticalCast,
+        cfg.AutoMakeShiftBait,
+        cfg.AutoPatienceI,
+        cfg.AutoPatienceII,
+        cfg.AutoPrizeCatch,
+        cfg.AutoSurfaceSlap,
+        cfg.AutoThaliaksFavor,
+    };
+    
     public override void Draw()
     {
         DrawGPTab();
@@ -42,7 +45,8 @@ internal class TabGPConfig : TabBaseConfig
     public override void DrawHeader()
     {
         ImGui.Spacing();
-        ImGui.TextWrapped("Here you can customize the GP Threshold for the actions and items used by the AutoCast feature.");
+        ImGui.TextWrapped(
+            "Here you can customize the GP Threshold for the actions and items used by the AutoCast feature.".Loc());
         ImGui.Spacing();
     }
 
@@ -55,13 +59,15 @@ internal class TabGPConfig : TabBaseConfig
 
             ImGui.PushID(action.Name);
             ImGui.SetWindowFontScale(1.2f);
-            ImGui.Text(action.Name);
+            ImGui.Text(action.Name.Loc());
             ImGui.SetWindowFontScale(1f);
-
+            string staticStr1 = "will be used when your GP is equal or".Loc();
+            string staticStr2 = "above".Loc();
+            string staticStr3 = "below".Loc();
             if (ImGui.IsItemHovered())
-                ImGui.SetTooltip($"{action.Name} will be used when your GP is equal or {(above ? "above" : "below")} {gpThreshold}");
+                ImGui.SetTooltip($"{action.Name} {staticStr1} {(above ? staticStr2 : staticStr3)} {gpThreshold}".Loc());
 
-            if (ImGui.RadioButton($"Above##1", above == true))
+            if (ImGui.RadioButton($"Above##1".Loc(), above == true))
             {
                 action.GPThresholdAbove = true;
                 Service.Configuration.Save();
@@ -69,7 +75,7 @@ internal class TabGPConfig : TabBaseConfig
 
             ImGui.SameLine();
 
-            if (ImGui.RadioButton($"Below##1", above == false))
+            if (ImGui.RadioButton($"Below##1".Loc(), above == false))
             {
                 action.GPThresholdAbove = false;
                 Service.Configuration.Save();
