@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Authors>Det</Authors>
-		<Version>2.4.4.1</Version>
+		<Version>2.5.0.0</Version>
 		<Description>Auto hooks for you</Description>
 		<PackageProjectUrl>https://github.com/InitialDet/AutoHook</PackageProjectUrl>
 		<Configurations>Release;Debug</Configurations>
@@ -45,6 +45,8 @@
 		<Folder Include="images\" />
 	</ItemGroup>
 
+	<!-- Localization -->
+
 	<ItemGroup>
 		<PackageReference Include="DalamudPackager" Version="2.1.10" />
 		<Reference Include="FFXIVClientStructs">
@@ -75,5 +77,20 @@
 			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resources\Localization\UIStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>UIStrings.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Localization\UIStrings.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>UIStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 </Project>

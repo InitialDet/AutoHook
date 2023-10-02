@@ -1,12 +1,13 @@
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using AutoHook.Resources.Localization;
 
 namespace AutoHook.Configurations;
 
 public class BaitPresetConfig
 {
-    private string presetName = "New Preset";
+    private string presetName = UIStrings.New_Preset;
 
     private List<BaitConfig> _listOfBaits = new();
 
@@ -37,7 +38,7 @@ public class BaitPresetConfig
         }
     }
 
-    // This is just for the conversion of the COnfig version 1 to version 2
+    // This is just for the conversion of the Config version 1 to version 2
     public void AddListOfHook(List<BaitConfig> listOfBaits) 
     {
         ListOfBaits.AddRange(listOfBaits);
@@ -51,7 +52,7 @@ public class BaitPresetConfig
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(presetName + "a");
+        return HashCode.Combine(presetName + @"a");
     }
 
     public void RenamePreset(string name) {

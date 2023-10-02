@@ -6,7 +6,7 @@ namespace AutoHook.Classes;
 public abstract class BaseActionCast
 {
     protected BaitConfig? _baitConfig = null;
-    protected readonly static AutoCastsConfig _acConfig = Service.Configuration.AutoCastsCfg;
+    protected static readonly AutoCastsConfig AcConfig = Service.Configuration.AutoCastsCfg;
 
     protected BaseActionCast(string name, uint id, ActionType actionType = ActionType.Spell)
     {
@@ -34,13 +34,13 @@ public abstract class BaseActionCast
 
     public ActionType ActionType { get; protected init; }
 
-    public virtual void SetThreshold(uint newcost)
+    public virtual void SetThreshold(uint newCost)
     {
         var actionCost = PlayerResources.CastActionCost(ID, ActionType);
-        if (newcost < actionCost)
+        if (newCost < actionCost)
             GPThreshold = actionCost;
         else
-            GPThreshold = newcost;
+            GPThreshold = newCost;
     }
 
     public bool IsAvailableToCast(BaitConfig? baitConfig)
@@ -50,7 +50,7 @@ public abstract class BaseActionCast
         if (!Enabled)
             return false;
 
-        if (DoesCancelMooch && PlayerResources.IsMoochAvailable() && _acConfig.DontCancelMooch)
+        if (DoesCancelMooch && PlayerResources.IsMoochAvailable() && AcConfig.DontCancelMooch)
             return false;
 
         uint currentGp = PlayerResources.GetCurrentGP();

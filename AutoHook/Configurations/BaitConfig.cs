@@ -1,6 +1,7 @@
 using System;
 using AutoHook.Data;
 using AutoHook.Enums;
+using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Logging;
 
@@ -10,7 +11,7 @@ public class BaitConfig
 {
     public bool Enabled = true;
 
-    public string BaitName = "Default";
+    public string BaitName = UIStrings.BaitName_Default;
 
     public bool HookWeakEnabled = true;
     public bool HookWeakIntuitionEnabled = true;
@@ -164,6 +165,6 @@ public class BaitConfig
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(BaitName + "a");
+        return HashCode.Combine(BaitName + @"a");
     }
 }

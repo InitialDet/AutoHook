@@ -37,7 +37,7 @@ public class PlayerResources : IDisposable
     public void EnableHooks()
     {
         // Not using this rn because it didnt work like i expected
-        // I was trying to wait for a server responce after an action is used but, but this is not quite right
+        // I was trying to wait for a server response after an action is used but, but this is not quite right
         //receiveActionEffectHook?.Enable();
     }
     public void Dispose()
@@ -101,7 +101,7 @@ public class PlayerResources : IDisposable
     }
 
     // status 0 == available to cast? not sure but it seems to be
-    // Also make sure its the skill is not on cooldown (maily for mooch2)
+    // Also make sure its the skill is not on cooldown (mainly for mooch2)
     public static unsafe bool ActionAvailable(uint id, ActionType actionType = ActionType.Spell)
     {
         if (actionType == ActionType.Item)
@@ -158,12 +158,12 @@ public class PlayerResources : IDisposable
     static uint LastActionID = 0;
     static int delay = 0;
 
-    public static void CastActionDelayed(uint id, ActionType actionType = ActionType.Spell, int setdelay = 0)
+    public static void CastActionDelayed(uint id, ActionType actionType = ActionType.Spell, int setDelay = 0)
     {
         if (isCastingDelay)
             return;
 
-        delay = setdelay;
+        delay = setDelay;
 
         NextActionID = id;
 

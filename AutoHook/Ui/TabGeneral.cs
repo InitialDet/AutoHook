@@ -1,28 +1,26 @@
+using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Numerics;
-using System.Runtime.Intrinsics.X86;
+using AutoHook.Resources.Localization;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
-using Dalamud.Logging;
 using ImGuiNET;
-using Microsoft.VisualBasic;
 
 namespace AutoHook.Ui;
 
 internal class TabGeneral : TabBaseConfig
 {
     public override bool Enabled => true;
-    public override string TabName => "General";
+    public override string TabName => UIStrings.TabnameGeneral;
 
     public override void DrawHeader()
     {
-        ImGui.Text("General settings");
+        ImGui.Text(UIStrings.DrawHeader_GeneralSettings);
 
         ImGui.Separator();
 
         ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-        ImGui.TextWrapped("Check the new changes in the Changelog below");
+        ImGui.TextWrapped(UIStrings.DrawHeader_CheckChangelog);
         ImGui.PopStyleColor();
 
         ImGui.Spacing();
@@ -31,7 +29,7 @@ internal class TabGeneral : TabBaseConfig
 
         ImGui.Spacing();
 
-        if (ImGui.Button("Click here to report an issue or make a suggestion"))
+        if (ImGui.Button(UIStrings.DrawHeader_ClickToReportAnIssue))
         {
             Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/issues", UseShellExecute = true });
         }
@@ -41,7 +39,7 @@ internal class TabGeneral : TabBaseConfig
 #if DEBUG
 
         ImGui.SameLine();
-        if (ImGui.Button("Testing"))
+        if (ImGui.Button(UIStrings.DrawHeader_Testing))
         {
             ImGui.OpenPopup("changelog");
         }
@@ -52,9 +50,9 @@ internal class TabGeneral : TabBaseConfig
     public override void Draw()
     {
 
-        if (ImGui.BeginTabBar("TabBarsGeneral", ImGuiTabBarFlags.NoTooltip))
+        if (ImGui.BeginTabBar(@"TabBarsGeneral", ImGuiTabBarFlags.NoTooltip))
         {
-            if (ImGui.BeginTabItem("Default Cast###DC1"))
+            if (ImGui.BeginTabItem($"{UIStrings.DefaultCast}###DC1"))
             {
                 ImGui.PushID("TabDefaultCast");
                 DrawDefaultCast();
@@ -62,7 +60,7 @@ internal class TabGeneral : TabBaseConfig
                 ImGui.EndTabItem();
             }
 
-            if (ImGui.BeginTabItem("Default Mooch###DM1"))
+            if (ImGui.BeginTabItem($"{UIStrings.DefaultMooch}###DM1"))
             {
                 ImGui.PushID("TabDefaultMooch");
                 DrawDefaultMooch();
@@ -72,14 +70,13 @@ internal class TabGeneral : TabBaseConfig
 
             ImGui.EndTabBar();
         }
-
     }
 
     public void DrawDefaultCast()
     {
         ImGui.Spacing();
-        ImGui.Checkbox("Use Default Cast", ref Service.Configuration.DefaultCastConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no Custom Preset is found.");
+        ImGui.Checkbox(UIStrings.UseDefaultCast, ref Service.Configuration.DefaultCastConfig.Enabled);
+        ImGuiComponents.HelpMarker(UIStrings.DefaultHookingBehavior);
 
         ImGui.Indent();
 
@@ -91,14 +88,13 @@ internal class TabGeneral : TabBaseConfig
         DrawCheckBoxDoubleTripleHook(Service.Configuration.DefaultCastConfig);
 
         ImGui.Unindent();
-
     }
 
     public void DrawDefaultMooch()
     {
         ImGui.Spacing();
-        ImGui.Checkbox("Use Default Mooch", ref Service.Configuration.DefaultMoochConfig.Enabled);
-        ImGuiComponents.HelpMarker("This is the default hooking behavior if no Custom Preset is found.");
+        ImGui.Checkbox(UIStrings.UseDefaultMooch, ref Service.Configuration.DefaultMoochConfig.Enabled);
+        ImGuiComponents.HelpMarker(UIStrings.DefaultMoochingBehavior);
 
         ImGui.Indent();
 
@@ -112,24 +108,25 @@ internal class TabGeneral : TabBaseConfig
         ImGui.Unindent();
     }
 
-    bool openChangelog = false;
+    bool _openChangelog = false;
+    [Localizable(false)]
     private void DrawChangelog()
     {
-        if (ImGui.Button("Changelog"))
+        if (ImGui.Button(UIStrings.Changelog))
         {
             //ImGui.OpenPopup("changelog");
-            openChangelog = !openChangelog;
+            _openChangelog = !_openChangelog;
 
-            if (openChangelog)
+            if (_openChangelog)
             {
                 //ImGui.SetNextWindowSize(new Vector2(400, 250));
             }
         }
 
-        if (openChangelog)
+        if (_openChangelog)
         {
             ImGui.SetNextWindowSize(new Vector2(400, 0));
-            if (ImGui.Begin("Changelog", ref openChangelog, ImGuiWindowFlags.AlwaysAutoResize))
+            if (ImGui.Begin($"{UIStrings.Changelog}", ref _openChangelog, ImGuiWindowFlags.AlwaysAutoResize))
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
                 ImGui.TextWrapped("2.4.4.0");
@@ -200,10 +197,8 @@ internal class TabGeneral : TabBaseConfig
                     }
                     ImGui.EndChild();
                 }
-
             }
             ImGui.End();
         }
     }
-
 }

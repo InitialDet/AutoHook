@@ -1,9 +1,7 @@
-﻿using AutoHook.Configurations;
-using AutoHook.Data;
+﻿using AutoHook.Data;
 using AutoHook.Utils;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using System;
+using AutoHook.Resources.Localization;
 
 namespace AutoHook.Classes;
 
@@ -12,7 +10,7 @@ public sealed class AutoMakeShiftBait : BaseActionCast
 {
     public int MakeshiftBaitStacks = 5;
 
-    public AutoMakeShiftBait() : base("MakeShift Bait", IDs.Actions.MakeshiftBait, ActionType.Spell)
+    public AutoMakeShiftBait() : base(UIStrings.MakeShift_Bait, IDs.Actions.MakeshiftBait, ActionType.Spell)
     {
 
     }
@@ -45,7 +43,7 @@ public sealed class AutoThaliaksFavor : BaseActionCast
     public int ThaliaksFavorStacks = 3;
     public int ThaliaksFavorRecover = 150;
 
-    public AutoThaliaksFavor() : base("Thaliak's Favor", IDs.Actions.ThaliaksFavor, ActionType.Spell)
+    public AutoThaliaksFavor() : base(UIStrings.Thaliaks_Favor, IDs.Actions.ThaliaksFavor, ActionType.Spell)
     {
 
     }
@@ -65,7 +63,7 @@ public sealed class AutoThaliaksFavor : BaseActionCast
 public sealed class AutoChum : BaseActionCast
 {
     public bool OnlyUseWithIntuition = false;
-    public AutoChum() : base("Chum", IDs.Actions.Chum, ActionType.Spell)
+    public AutoChum() : base(UIStrings.Chum, IDs.Actions.Chum, ActionType.Spell)
     {
         DoesCancelMooch = true;
     }
@@ -84,7 +82,7 @@ public sealed class AutoChum : BaseActionCast
 public class AutoFishEyes : BaseActionCast
 {
 
-    public AutoFishEyes() : base("Fish Eyes", IDs.Actions.FishEyes, ActionType.Spell)
+    public AutoFishEyes() : base(UIStrings.Fish_Eyes, IDs.Actions.FishEyes, ActionType.Spell)
     {
         DoesCancelMooch = true;
     }
@@ -100,7 +98,7 @@ public class AutoFishEyes : BaseActionCast
 public sealed class AutoIdenticalCast : BaseActionCast
 {
     // this option is based on the custom BaitConfig, not the AutoCast tab
-    public AutoIdenticalCast() : base("Identical Cast", Data.IDs.Actions.IdenticalCast, ActionType.Spell)
+    public AutoIdenticalCast() : base(UIStrings.Identical_Cast, Data.IDs.Actions.IdenticalCast, ActionType.Spell)
     {
         Enabled = true;
     }
@@ -117,7 +115,7 @@ public sealed class AutoSurfaceSlap : BaseActionCast
 {
 
     // this option is based on the BaitConfig, not the AutoCast tab
-    public AutoSurfaceSlap() : base("Surface Slap", Data.IDs.Actions.SurfaceSlap, ActionType.Spell)
+    public AutoSurfaceSlap() : base(UIStrings.Surface_Slap, Data.IDs.Actions.SurfaceSlap, ActionType.Spell)
     {
         Enabled = true;
     }
@@ -137,7 +135,7 @@ public class AutoPrizeCatch : BaseActionCast
     public bool UseOnlyWithIdenticalCast = false;
 
 
-    public AutoPrizeCatch() : base("Prize Catch", Data.IDs.Actions.PrizeCatch, ActionType.Spell)
+    public AutoPrizeCatch() : base(UIStrings.Prize_Catch, Data.IDs.Actions.PrizeCatch, ActionType.Spell)
     {
         DoesCancelMooch = true;
     }
@@ -171,7 +169,7 @@ public class AutoPrizeCatch : BaseActionCast
 #region AutoPatienceI
 public class AutoPatienceI : BaseActionCast
 {
-    public AutoPatienceI() : base("Patience I", Data.IDs.Actions.Patience, ActionType.Spell)
+    public AutoPatienceI() : base(UIStrings.Patience_I, Data.IDs.Actions.Patience, ActionType.Spell)
     {
         DoesCancelMooch = true;
     }
@@ -184,7 +182,7 @@ public class AutoPatienceI : BaseActionCast
         if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
             return false;
 
-        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !_acConfig.EnableMakeshiftPatience)
+        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !AcConfig.EnableMakeshiftPatience)
             return false;
 
         return true;
@@ -195,7 +193,7 @@ public class AutoPatienceI : BaseActionCast
 #region AutoPatienceII
 public class AutoPatienceII : BaseActionCast
 {
-    public AutoPatienceII() : base("Patience II", Data.IDs.Actions.Patience2, ActionType.Spell)
+    public AutoPatienceII() : base(UIStrings.Patience_II, Data.IDs.Actions.Patience2, ActionType.Spell)
     {
         DoesCancelMooch = true;
     }
@@ -208,7 +206,7 @@ public class AutoPatienceII : BaseActionCast
         if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
             return false;
 
-        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !_acConfig.EnableMakeshiftPatience)
+        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait) && !AcConfig.EnableMakeshiftPatience)
             return false;
 
         return true;
@@ -219,7 +217,7 @@ public class AutoPatienceII : BaseActionCast
 #region AutoDoubleHook
 public sealed class AutoDoubleHook : BaseActionCast
 {
-    public AutoDoubleHook() : base("Double Hook", Data.IDs.Actions.DoubleHook, ActionType.Spell)
+    public AutoDoubleHook() : base(UIStrings.Double_Hook, Data.IDs.Actions.DoubleHook, ActionType.Spell)
     {
 
     }
@@ -233,7 +231,7 @@ public sealed class AutoDoubleHook : BaseActionCast
 #region AutoTripleHook
 public sealed class AutoTripleHook : BaseActionCast
 {
-    public AutoTripleHook() : base("Triple Hook", Data.IDs.Actions.TripleHook, ActionType.Spell)
+    public AutoTripleHook() : base(UIStrings.Triple_Hook, Data.IDs.Actions.TripleHook, ActionType.Spell)
     {
 
     }
@@ -249,7 +247,7 @@ public sealed class AutoTripleHook : BaseActionCast
 public class AutoHICordial : BaseActionCast
 {
     readonly uint itemGPRecovery = 400;
-    public AutoHICordial() : base("Hi-Cordial", IDs.Item.HiCordial, ActionType.Item)
+    public AutoHICordial() : base(UIStrings.Hi_Cordial, IDs.Item.HiCordial, ActionType.Item)
     {
         GPThreshold = 1;
     }
@@ -264,12 +262,12 @@ public class AutoHICordial : BaseActionCast
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
 
-    public override void SetThreshold(uint newcost)
+    public override void SetThreshold(uint newCost)
     {
-        if (newcost <= 1)
+        if (newCost <= 1)
             GPThreshold = 1;
         else
-            GPThreshold = newcost;
+            GPThreshold = newCost;
     }
 }
 #endregion
@@ -278,7 +276,7 @@ public class AutoHICordial : BaseActionCast
 public class AutoCordial : BaseActionCast
 {
     readonly uint itemGPRecovery = 300;
-    public AutoCordial() : base("Cordial", Data.IDs.Item.Cordial, ActionType.Item)
+    public AutoCordial() : base(UIStrings.Cordial, Data.IDs.Item.Cordial, ActionType.Item)
     {
         GPThreshold = 1;
     }
@@ -293,12 +291,12 @@ public class AutoCordial : BaseActionCast
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
 
-    public override void SetThreshold(uint newcost)
+    public override void SetThreshold(uint newCost)
     {
-        if (newcost <= 1)
+        if (newCost <= 1)
             GPThreshold = 1;
         else
-            GPThreshold = newcost;
+            GPThreshold = newCost;
     }
 }
 #endregion
@@ -307,7 +305,7 @@ public class AutoCordial : BaseActionCast
 public class AutoHQCordial : BaseActionCast
 {
     readonly uint itemGPRecovery = 350;
-    public AutoHQCordial() : base("HQ Cordial", IDs.Item.HQCordial, ActionType.Item)
+    public AutoHQCordial() : base(UIStrings.HQ_Cordial, IDs.Item.HQCordial, ActionType.Item)
     {
         GPThreshold = 1;
     }
@@ -322,12 +320,12 @@ public class AutoHQCordial : BaseActionCast
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
 
-    public override void SetThreshold(uint newcost)
+    public override void SetThreshold(uint newCost)
     {
-        if (newcost <= 1)
+        if (newCost <= 1)
             GPThreshold = 1;
         else
-            GPThreshold = newcost;
+            GPThreshold = newCost;
     }
 }
 #endregion
@@ -336,7 +334,7 @@ public class AutoHQCordial : BaseActionCast
 public class AutoWateredCordial : BaseActionCast
 {
     readonly uint itemGPRecovery = 150;
-    public AutoWateredCordial() : base("Watered Cordial", Data.IDs.Item.WateredCordial, ActionType.Item)
+    public AutoWateredCordial() : base(UIStrings.Watered_Cordial, Data.IDs.Item.WateredCordial, ActionType.Item)
     {
         GPThreshold = 1;
     }
@@ -351,12 +349,12 @@ public class AutoWateredCordial : BaseActionCast
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
 
-    public override void SetThreshold(uint newcost)
+    public override void SetThreshold(uint newCost)
     {
-        if (newcost <= 1)
+        if (newCost <= 1)
             GPThreshold = 1;
         else
-            GPThreshold = newcost;
+            GPThreshold = newCost;
     }
 }
 #endregion
@@ -365,7 +363,7 @@ public class AutoWateredCordial : BaseActionCast
 public class AutoHQWateredCordial : BaseActionCast
 {
     readonly uint itemGPRecovery = 200;
-    public AutoHQWateredCordial() : base("HQ Watered Cordial", IDs.Item.HQWateredCordial, ActionType.Item)
+    public AutoHQWateredCordial() : base(UIStrings.HQ_Watered_Cordial, IDs.Item.HQWateredCordial, ActionType.Item)
     {
         GPThreshold = 1;
     }
@@ -380,12 +378,12 @@ public class AutoHQWateredCordial : BaseActionCast
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
 
-    public override void SetThreshold(uint newcost)
+    public override void SetThreshold(uint newCost)
     {
-        if (newcost <= 1)
+        if (newCost <= 1)
             GPThreshold = 1;
         else
-            GPThreshold = newcost;
+            GPThreshold = newCost;
     }
 }
 #endregion

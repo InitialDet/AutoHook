@@ -2,35 +2,32 @@ using ImGuiNET;
 using AutoHook.Utils;
 using AutoHook.Configurations;
 using AutoHook.Data;
-using System.Numerics;
-using System.Collections.Generic;
-using AutoHook.Classes;
-using System;
 using System.Diagnostics;
+using AutoHook.Resources.Localization;
 
 namespace AutoHook.Ui;
 
 internal class TabAutoCasts : TabBaseConfig
 {
     public override bool Enabled => true;
-    public override string TabName => "Auto Casts";
+    public override string TabName => UIStrings.Auto_Casts;
 
-    private readonly static AutoCastsConfig cfg = Service.Configuration.AutoCastsCfg;
+    private static readonly AutoCastsConfig Cfg = Service.Configuration.AutoCastsCfg;
     public override void DrawHeader()
     {
         //ImGui.TextWrapped("The new Auto Cast/Mooch is a experimental feature and can be a little confusing at first. I'll be trying to find a more simple and intuitive solution later\nPlease report any issues you encounter.");
 
         // Disable all casts
         ImGui.Spacing();
-        if (DrawUtil.Checkbox("Enable Auto Casts", ref cfg.EnableAll))
+        if (DrawUtil.Checkbox(UIStrings.Enable_Auto_Casts, ref Cfg.EnableAll))
         {
             Service.Configuration.Save();
         }
 
-        if (cfg.EnableAll)
+        if (Cfg.EnableAll)
         {
             ImGui.SameLine();
-            if (DrawUtil.Checkbox("Don't Cancel Mooch", ref cfg.DontCancelMooch, "Actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)"))
+            if (DrawUtil.Checkbox(UIStrings.Dont_Cancel_Mooch, ref Cfg.DontCancelMooch, UIStrings.TabAutoCasts_DrawHeader_HelpText))
             {
                 Service.Configuration.Save();
             }
@@ -38,7 +35,7 @@ internal class TabAutoCasts : TabBaseConfig
 
         ImGui.Spacing();
 
-        if (ImGui.Button("Guide: How to auto accept Collectables"))
+        if (ImGui.Button(UIStrings.TabAutoCasts_DrawHeader_Guide_Collectables))
         {
             Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/blob/main/AcceptCollectable.md", UseShellExecute = true });
         }
@@ -46,7 +43,7 @@ internal class TabAutoCasts : TabBaseConfig
 
     public override void Draw()
     {
-        if (cfg.EnableAll)
+        if (Cfg.EnableAll)
         {
             DrawAutoCast();
             DrawAutoMooch();
@@ -62,12 +59,12 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawAutoCast()
     {
-        if (DrawUtil.Checkbox("Global Auto Cast Line", ref cfg.EnableAutoCast, "Cast (FSH Action) will be used after a fish bite\n\nIMPORTANT!!!\nIf you have this option enabled and you don't have a Custom Auto Mooch or the Global Auto Mooch option enabled, the line will be casted normally and you'll lose your mooch oportunity (If available)."))
+        if (DrawUtil.Checkbox(UIStrings.Global_Auto_Cast_Line, ref Cfg.EnableAutoCast, UIStrings.TabAutoCasts_DrawAutoCast_HelpText))
         {
             Service.Configuration.Save();
         }
 
-        if (cfg.EnableAutoCast)
+        if (Cfg.EnableAutoCast)
         {
             ImGui.Indent();
             DrawExtraOptionsAutoCast();
@@ -82,12 +79,12 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawAutoMooch()
     {
-        if (DrawUtil.Checkbox("Global Auto Mooch", ref cfg.EnableMooch, "This option have priority over Auto Cast Line\n\nIf you want to Auto Mooch only a especific fish and ignore others, disable this option and add Custom Preset."))
+        if (DrawUtil.Checkbox(UIStrings.Global_Auto_Mooch, ref Cfg.EnableMooch, UIStrings.TabAutoCasts_DrawAutoMooch_HelpText))
         {
             Service.Configuration.Save();
         }
 
-        if (cfg.EnableMooch)
+        if (Cfg.EnableMooch)
         {
             ImGui.Indent();
             DrawExtraOptionsAutoMooch();
@@ -97,12 +94,12 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsAutoMooch()
     {
-        if (ImGui.Checkbox("Use Mooch II", ref cfg.EnableMooch2))
+        if (ImGui.Checkbox(UIStrings.Use_Mooch_II, ref Cfg.EnableMooch2))
         {
             Service.Configuration.Save();
         }
 
-        if (ImGui.Checkbox("Only use when Fisher's Intution is active##fi_mooch", ref cfg.OnlyMoochIntuition))
+        if (ImGui.Checkbox($"{UIStrings.TabAutoCasts_DrawExtraOptionsAutoMooch_Extra_Only_Active}##fi_mooch", ref Cfg.OnlyMoochIntuition))
         {
             Service.Configuration.Save();
         }
@@ -111,11 +108,11 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawPatience()
     {
 
-        var enabled = cfg.AutoPatienceII.Enabled;
-        if (DrawUtil.Checkbox("Use Patience I/II", ref enabled, "Patience I/II will be used when your current GP is equal (or higher) to the action cost +20 (Ex: 220 for I, 580 for II), this helps to avoid not having GP for the hooksets"))
+        var enabled = Cfg.AutoPatienceII.Enabled;
+        if (DrawUtil.Checkbox(UIStrings.Use_Patience_I_II, ref enabled, UIStrings.TabAutoCasts_DrawPatience_HelpText))
         {
-            cfg.AutoPatienceII.Enabled = enabled;
-            cfg.AutoPatienceI.Enabled = enabled;
+            Cfg.AutoPatienceII.Enabled = enabled;
+            Cfg.AutoPatienceI.Enabled = enabled;
             Service.Configuration.Save();
         }
 
@@ -130,23 +127,23 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawExtraOptionsPatience()
     {
 
-        var enabled = cfg.EnableMakeshiftPatience;
+        var enabled = Cfg.EnableMakeshiftPatience;
 
-        if (DrawUtil.Checkbox("Use when Makeshift Bait is active##patience_makeshift", ref enabled))
+        if (DrawUtil.Checkbox($"{UIStrings.TabAutoCasts_DrawExtraOptionsPatience}##patience_makeshift", ref enabled))
         {
-            cfg.EnableMakeshiftPatience = enabled;
+            Cfg.EnableMakeshiftPatience = enabled;
             Service.Configuration.Save();
         }
 
-        if (ImGui.RadioButton("Patience I###1", cfg.SelectedPatienceID == IDs.Actions.Patience))
+        if (ImGui.RadioButton($"{UIStrings.Patience_I}###1", Cfg.SelectedPatienceID == IDs.Actions.Patience))
         {
-            cfg.SelectedPatienceID = IDs.Actions.Patience;
+            Cfg.SelectedPatienceID = IDs.Actions.Patience;
             Service.Configuration.Save();
         }
 
-        if (ImGui.RadioButton("Patience II###2", cfg.SelectedPatienceID == IDs.Actions.Patience2))
+        if (ImGui.RadioButton($"{$"{UIStrings.Patience_II}###2"}", Cfg.SelectedPatienceID == IDs.Actions.Patience2))
         {
-            cfg.SelectedPatienceID = IDs.Actions.Patience2;
+            Cfg.SelectedPatienceID = IDs.Actions.Patience2;
             Service.Configuration.Save();
         }
     }
@@ -154,10 +151,10 @@ internal class TabAutoCasts : TabBaseConfig
     private void DrawThaliaksFavor()
     {
         ImGui.PushID("ThaliaksFavor");
-        var enabled = cfg.AutoThaliaksFavor.Enabled;
-        if (DrawUtil.Checkbox("Use Thaliak's Favor", ref enabled, "This might conflict with Auto MakeShift Bait"))
+        var enabled = Cfg.AutoThaliaksFavor.Enabled;
+        if (DrawUtil.Checkbox(UIStrings.Use_Thaliaks_Favor, ref enabled, UIStrings.TabAutoCasts_DrawThaliaksFavor_HelpText))
         {
-            cfg.AutoThaliaksFavor.Enabled = enabled;
+            Cfg.AutoThaliaksFavor.Enabled = enabled;
             Service.Configuration.Save();
         }
 
@@ -172,15 +169,15 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsThaliaksFavor()
     {
-        var stack = cfg.AutoThaliaksFavor.ThaliaksFavorStacks;
-        if (DrawUtil.EditNumberField("When Stacks =", ref stack))
+        var stack = Cfg.AutoThaliaksFavor.ThaliaksFavorStacks;
+        if (DrawUtil.EditNumberField(UIStrings.TabAutoCasts_DrawExtraOptionsThaliaksFavor_, ref stack))
         {
             if (stack < 3)
-                cfg.AutoThaliaksFavor.ThaliaksFavorStacks = 3;
+                Cfg.AutoThaliaksFavor.ThaliaksFavorStacks = 3;
             else if (stack > 10)
-                cfg.AutoThaliaksFavor.ThaliaksFavorStacks = 10;
+                Cfg.AutoThaliaksFavor.ThaliaksFavorStacks = 10;
             else
-                cfg.AutoThaliaksFavor.ThaliaksFavorStacks = stack;
+                Cfg.AutoThaliaksFavor.ThaliaksFavorStacks = stack;
 
             Service.Configuration.Save();
         }
@@ -190,10 +187,10 @@ internal class TabAutoCasts : TabBaseConfig
     {
         ImGui.PushID("MakeShiftBait");
 
-        var enabled = cfg.AutoMakeShiftBait.Enabled;
-        if (DrawUtil.Checkbox("Use Makeshift Bait", ref enabled, "This might conflict with Auto Thaliak's Favor"))
+        var enabled = Cfg.AutoMakeShiftBait.Enabled;
+        if (DrawUtil.Checkbox(UIStrings.Use_Makeshift_Bait, ref enabled, UIStrings.TabAutoCasts_DrawMakeShiftBait_HelpText))
         {
-            cfg.AutoMakeShiftBait.Enabled = enabled;
+            Cfg.AutoMakeShiftBait.Enabled = enabled;
             Service.Configuration.Save();
         }
 
@@ -208,15 +205,15 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsMakeShiftBait()
     {
-        var stack = cfg.AutoMakeShiftBait.MakeshiftBaitStacks;
-        if (DrawUtil.EditNumberField($"When Stacks = ", ref stack))
+        var stack = Cfg.AutoMakeShiftBait.MakeshiftBaitStacks;
+        if (DrawUtil.EditNumberField(UIStrings.TabAutoCasts_When_Stack_Equals, ref stack))
         {
             if (stack < 5)
-                cfg.AutoMakeShiftBait.MakeshiftBaitStacks = 5;
+                Cfg.AutoMakeShiftBait.MakeshiftBaitStacks = 5;
             else if (stack > 10)
-                cfg.AutoMakeShiftBait.MakeshiftBaitStacks = 10;
+                Cfg.AutoMakeShiftBait.MakeshiftBaitStacks = 10;
             else
-                cfg.AutoMakeShiftBait.MakeshiftBaitStacks = stack;
+                Cfg.AutoMakeShiftBait.MakeshiftBaitStacks = stack;
 
             Service.Configuration.Save();
         }
@@ -224,10 +221,10 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawPrizeCatch()
     {
-        var enabled = cfg.AutoPrizeCatch.Enabled;
-        if (DrawUtil.Checkbox("Use Prize Catch", ref enabled, "Cancels Current Mooch. Patience and Makeshift Bait will not be used when Prize Catch active"))
+        var enabled = Cfg.AutoPrizeCatch.Enabled;
+        if (DrawUtil.Checkbox(UIStrings.Use_Prize_Catch, ref enabled, UIStrings.Use_Prize_Catch_HelpText))
         {
-            cfg.AutoPrizeCatch.Enabled = enabled;
+            Cfg.AutoPrizeCatch.Enabled = enabled;
             Service.Configuration.Save();
         }
 
@@ -241,19 +238,19 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionPrizeCatch()
     {
-        if (DrawUtil.Checkbox("Only use when Mooch II is on NOT available - READ >>>", ref cfg.AutoPrizeCatch.UseWhenMoochIIOnCD, ">Make sure 'Use Mooch II' is enabled or else it wont work<\nThis could save you 100gp if going only for mooches"))
+        if (DrawUtil.Checkbox(UIStrings.AutoCastExtraOptionPrizeCatch, ref Cfg.AutoPrizeCatch.UseWhenMoochIIOnCD, UIStrings.ExtraOptionPrizeCatchHelpMarker))
         { }
 
-        if (DrawUtil.Checkbox("Only use when Identical Cast is active##ic_prize_catch", ref cfg.AutoPrizeCatch.UseOnlyWithIdenticalCast))
+        if (DrawUtil.Checkbox($"{UIStrings.OnlyUseWhenIdenticalCastIsActive}##ic_prize_catch", ref Cfg.AutoPrizeCatch.UseOnlyWithIdenticalCast))
         { }
     }
 
     private void DrawChum()
     {
-        var enabled = cfg.AutoChum.Enabled;
-        if (DrawUtil.Checkbox("Use Chum", ref enabled, "Cancels Current Mooch"))
+        var enabled = Cfg.AutoChum.Enabled;
+        if (DrawUtil.Checkbox(UIStrings.AutoCastUseChum, ref enabled, UIStrings.CancelsCurrentMooch))
         {
-            cfg.AutoChum.Enabled = enabled;
+            Cfg.AutoChum.Enabled = enabled;
             Service.Configuration.Save();
         }
 
@@ -267,16 +264,16 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsChum()
     {
-        if (DrawUtil.Checkbox("Only use when Fisher's Intution is active##fi_chum", ref cfg.AutoChum.OnlyUseWithIntuition))
+        if (DrawUtil.Checkbox($"{UIStrings.OnlyUseWhenFisherSIntutionIsActive}##fi_chum", ref Cfg.AutoChum.OnlyUseWithIntuition))
         { }
     }
 
     private void DrawFishEyes()
     {
-        var enabled = cfg.AutoFishEyes.Enabled;
-        if (DrawUtil.Checkbox("Use Fish Eyes", ref enabled, "Cancels Current Mooch"))
+        var enabled = Cfg.AutoFishEyes.Enabled;
+        if (DrawUtil.Checkbox(UIStrings.AutoCastUseFishEyes, ref enabled, UIStrings.CancelsCurrentMooch))
         {
-            cfg.AutoFishEyes.Enabled = enabled;
+            Cfg.AutoFishEyes.Enabled = enabled;
             Service.Configuration.Save();
 
         }
@@ -284,15 +281,14 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawCordials()
     {
-
-        var enabled = cfg.AutoHICordial.Enabled;
-        if (DrawUtil.Checkbox("Use Cordials (Hi-Cordial First)", ref enabled, "If theres no Hi-Cordials, Cordials will be used instead"))
+        var enabled = Cfg.AutoHICordial.Enabled;
+        if (DrawUtil.Checkbox(UIStrings.AutoCastUseCordial, ref enabled, UIStrings.AutoCastUseCordialHelpMarker))
         {
-            cfg.AutoHICordial.Enabled = enabled;
-            cfg.AutoHQCordial.Enabled = enabled;
-            cfg.AutoCordial.Enabled = enabled;
-            cfg.AutoHQWateredCordial.Enabled = enabled;
-            cfg.AutoWateredCordial.Enabled = enabled;
+            Cfg.AutoHICordial.Enabled = enabled;
+            Cfg.AutoHQCordial.Enabled = enabled;
+            Cfg.AutoCordial.Enabled = enabled;
+            Cfg.AutoHQWateredCordial.Enabled = enabled;
+            Cfg.AutoWateredCordial.Enabled = enabled;
         }
 
         if (enabled)
@@ -305,7 +301,7 @@ internal class TabAutoCasts : TabBaseConfig
 
     private void DrawExtraOptionsCordials()
     {
-        if (DrawUtil.Checkbox("Change Priority: Watered-Cordial > Cordial > HI-Cordials", ref cfg.EnableCordialFirst, "If theres no Cordials, Hi-Cordials will be used instead"))
+        if (DrawUtil.Checkbox(UIStrings.AutoCastCordialPriority, ref Cfg.EnableCordialFirst, UIStrings.AutoCastCordialPriorityHelpMarker))
         { }
     }
 }

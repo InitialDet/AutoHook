@@ -1,5 +1,6 @@
 ﻿using AutoHook.Classes;
 using AutoHook.Configurations;
+using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface;
 using GatherBuddy.Enums;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 namespace AutoHook.Ui;
 internal class TabAutoGig : TabBaseConfig
 {
-    public override string TabName => "AutoGig";
+    public override string TabName => UIStrings.TabNameAutoGig;
     public override bool Enabled => true;
 
     private readonly List<SpearfishSpeed> _speedTypes = Enum.GetValues(typeof(SpearfishSpeed)).Cast<SpearfishSpeed>().ToList();
@@ -22,13 +23,13 @@ internal class TabAutoGig : TabBaseConfig
     public override void DrawHeader()
     {
         ImGui.Spacing();
-        ImGui.TextWrapped("This is an experimental feature and it might miss the fish. If you find it missing too much, try adjusting the SpearFishing window scale to something different");
+        ImGui.TextWrapped(UIStrings.TabAutoGigDescription);
         ImGui.Spacing();
     }
 
     public override void Draw()
     {
-        if (DrawUtil.Checkbox("Enable AutoGig", ref Service.Configuration.AutoGigEnabled))
+        if (DrawUtil.Checkbox(UIStrings.EnableAutoGig, ref Service.Configuration.AutoGigEnabled))
         {
             if (Service.Configuration.AutoGigEnabled)
             {
@@ -40,7 +41,7 @@ internal class TabAutoGig : TabBaseConfig
         if (!Service.Configuration.AutoGigEnabled)
         {
             ImGui.Indent();
-            if (DrawUtil.Checkbox("Hide overlay during Spearfishing", ref Service.Configuration.AutoGigHideOverlay, "It'll only hide if the AutoGig option is disabled"))
+            if (DrawUtil.Checkbox(UIStrings.HideOverlayDuringSpearfishing, ref Service.Configuration.AutoGigHideOverlay, UIStrings.AutoGigHideOverlayHelpMarker))
             {
                 Service.Configuration.Save();
             }
@@ -49,11 +50,11 @@ internal class TabAutoGig : TabBaseConfig
         } else
         {
             ImGui.Indent();
-            if (DrawUtil.Checkbox("Draw fish hitbox", ref Service.Configuration.AutoGigDrawFishHitbox, "The hitbox its only available for the fish of the Size and Speed selected"))
+            if (DrawUtil.Checkbox(UIStrings.DrawFishHitbox, ref Service.Configuration.AutoGigDrawFishHitbox, UIStrings.DrawFishHitboxHelpMarker))
             {
                 Service.Configuration.Save();
             }
-            if (DrawUtil.Checkbox("Draw gig hitbox", ref Service.Configuration.AutoGigDrawGigHitbox))
+            if (DrawUtil.Checkbox(UIStrings.DrawGigHitbox, ref Service.Configuration.AutoGigDrawGigHitbox))
             {
                 Service.Configuration.Save();
             }
@@ -68,11 +69,11 @@ internal class TabAutoGig : TabBaseConfig
     private void DrawSpeedSize()
     {
         ImGui.Spacing();
-        ImGui.TextWrapped("Select the Size and Speed of the fish you want (Gatherbuddy's Spearfishing overlay helps a lot)");
+        ImGui.TextWrapped(UIStrings.SelectTheSizeAndSpeed);
         ImGui.Spacing();
 
         ImGui.SetNextItemWidth(130);
-        if (ImGui.BeginCombo("Size", Service.Configuration.currentSize.ToName()))
+        if (ImGui.BeginCombo(UIStrings.Size, Service.Configuration.currentSize.ToName()))
         {
 
             foreach (SpearfishSize size in _sizeTypes.Where(size =>
@@ -86,7 +87,7 @@ internal class TabAutoGig : TabBaseConfig
         ImGui.SameLine();
 
         ImGui.SetNextItemWidth(130);
-        if (ImGui.BeginCombo("Speed", Service.Configuration.currentSpeed.ToName()))
+        if (ImGui.BeginCombo(UIStrings.Speed, Service.Configuration.currentSpeed.ToName()))
         {
             foreach (SpearfishSpeed speed in _speedTypes.Where(speed =>
                         ImGui.Selectable(speed.ToName(), speed == Service.Configuration.currentSpeed)))

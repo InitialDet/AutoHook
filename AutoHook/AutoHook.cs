@@ -1,32 +1,30 @@
 ﻿using AutoHook.Configurations;
-using AutoHook.FishTimer;
+using AutoHook.Resources.Localization;
 using AutoHook.SeFunctions;
 using AutoHook.Spearfishing;
 using AutoHook.Utils;
 using Dalamud.Game.Command;
-using Dalamud.Logging;
 using Dalamud.Plugin;
 using SeFunctions;
-
 namespace AutoHook;
 
 public class AutoHook : IDalamudPlugin
 {
-    public string Name => "AutoHook";
+    public string Name => UIStrings.AutoHook;
 
-    private const string CmdAHCfg = "/ahcfg";
-    private const string CmdAH = "/ah";
-    private const string CmdAHOn = "/ahon";
-    private const string CmdAHOff = "/ahoff";
-    private const string CmdAHTG = "/ahtg";
+    private const string CmdAhCfg = "/ahcfg";
+    private const string CmdAh = "/ah";
+    private const string CmdAhOn = "/ahon";
+    private const string CmdAhOff = "/ahoff";
+    private const string CmdAhtg = "/ahtg";
 
-    private static PluginUI PluginUI = null!;
+    private static PluginUi _pluginUi = null!;
 
-    private static AutoGig AutoGig = null!;
+    private static AutoGig _autoGig = null!;
 
-    public HookingManager HookManager;
+    private readonly HookingManager _hookManager;
 
-    PlayerResources PlayerResources;
+    private readonly PlayerResources _playerResources;
 
     public AutoHook(DalamudPluginInterface pluginInterface)
     {
@@ -34,100 +32,92 @@ public class AutoHook : IDalamudPlugin
         Service.EventFramework = new EventFramework(Service.SigScanner);
         Service.CurrentBait = new CurrentBait(Service.SigScanner);
         Service.TugType = new SeTugType(Service.SigScanner);
-        Service.PluginInterface!.UiBuilder.Draw += Service.WindowSystem.Draw;
-        Service.PluginInterface!.UiBuilder.OpenConfigUi += OnOpenConfigUi;
+        Service.PluginInterface.UiBuilder.Draw += Service.WindowSystem.Draw;
+        Service.PluginInterface.UiBuilder.OpenConfigUi += OnOpenConfigUi;
         Service.Configuration = Configuration.Load();
         Service.Language = Service.ClientState.ClientLanguage;
 
-        PlayerResources = new PlayerResources();
-        PlayerResources.Initialize();
+        _playerResources = new PlayerResources();
+        _playerResources.Initialize();
 
-        PluginUI = new PluginUI();
-        AutoGig = new AutoGig();
+        _pluginUi = new PluginUi();
+        _autoGig = new AutoGig();
 
-        Service.Commands.AddHandler(CmdAHOff, new CommandInfo(OnCommand)
+        Service.Commands.AddHandler(CmdAhOff, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Disables AutoHook"
+            HelpMessage = UIStrings.Disables_AutoHook
         });
 
-        Service.Commands.AddHandler(CmdAHOn, new CommandInfo(OnCommand)
+        Service.Commands.AddHandler(CmdAhOn, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Enables AutoHook"
+            HelpMessage = UIStrings.Enables_AutoHook
         });
 
-        Service.Commands.AddHandler(CmdAHCfg, new CommandInfo(OnCommand)
+        Service.Commands.AddHandler(CmdAhCfg, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Opens Config Window"
+            HelpMessage = UIStrings.Opens_Config_Window
         });
 
-        Service.Commands.AddHandler(CmdAH, new CommandInfo(OnCommand)
+        Service.Commands.AddHandler(CmdAh, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Opens Config Window"
+            HelpMessage = UIStrings.Opens_Config_Window
         });
 
-        Service.Commands.AddHandler(CmdAHTG, new CommandInfo(OnCommand)
+        Service.Commands.AddHandler(CmdAhtg, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Toogles AutoHook On/Off"
+            HelpMessage = UIStrings.Toggles_AutoHook_On_Off
         });
 
-        HookManager = new HookingManager();
+        _hookManager = new HookingManager();
 
 #if (DEBUG)
         OnOpenConfigUi();
 #endif
     }
 
-    private void OnCommand(string command, string args)
+    private static void OnCommand(string command, string args)
     {
-        if (command.Trim().Equals(CmdAHCfg))
-            OnOpenConfigUi();
-
-        if (command.Trim().Equals(CmdAH))
-            OnOpenConfigUi();
-
-        if (command.Trim().Equals(CmdAHOn))
+        switch (command.Trim())
         {
-            Service.Chat.Print("AutoHook Enabled");
-            Service.Configuration.PluginEnabled = true;
-        }
-
-        if (command.Trim().Equals(CmdAHOff))
-        {
-            Service.Chat.Print("AutoHook Disabled");
-            Service.Configuration.PluginEnabled = false;
-        }
-
-        if (command.Trim().Equals(CmdAHTG))
-        {
-            if (Service.Configuration.PluginEnabled)
-            {
-                Service.Chat.Print("AutoHook Disabled");
-                Service.Configuration.PluginEnabled = false;
-            }
-            else
-            {
-                Service.Chat.Print("AutoHook Enabled");
+            case CmdAhCfg:
+            case CmdAh:
+                OnOpenConfigUi();
+                break;
+            case CmdAhOn:
+                Service.Chat.Print(UIStrings.AutoHook_Enabled);
                 Service.Configuration.PluginEnabled = true;
-            }
+                break;
+            case CmdAhOff:
+                Service.Chat.Print(UIStrings.AutoHook_Disabled);
+                Service.Configuration.PluginEnabled = false;
+                break;
+            case CmdAhtg when Service.Configuration.PluginEnabled:
+                Service.Chat.Print(UIStrings.AutoHook_Disabled);
+                Service.Configuration.PluginEnabled = false;
+                break;
+            case CmdAhtg:
+                Service.Chat.Print(UIStrings.AutoHook_Enabled);
+                Service.Configuration.PluginEnabled = true;
+                break;
         }
     }
 
     public void Dispose()
     {
-        PluginUI.Dispose();
-        AutoGig.Dispose();
-        HookManager.Dispose();
-        PlayerResources.Dispose();
+        _pluginUi.Dispose();
+        _autoGig.Dispose();
+        _hookManager.Dispose();
+        _playerResources.Dispose();
         Service.Configuration.Save();
-        Service.PluginInterface!.UiBuilder.Draw -= Service.WindowSystem.Draw;
+        Service.PluginInterface.UiBuilder.Draw -= Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
-        Service.Commands.RemoveHandler(CmdAHCfg);
-        Service.Commands.RemoveHandler(CmdAH);
-        Service.Commands.RemoveHandler(CmdAHOn);
-        Service.Commands.RemoveHandler(CmdAHOff);
-        Service.Commands.RemoveHandler(CmdAHTG);
+        Service.Commands.RemoveHandler(CmdAhCfg);
+        Service.Commands.RemoveHandler(CmdAh);
+        Service.Commands.RemoveHandler(CmdAhOn);
+        Service.Commands.RemoveHandler(CmdAhOff);
+        Service.Commands.RemoveHandler(CmdAhtg);
     }
 
-    private void OnOpenConfigUi() => PluginUI.Toggle();
+    private static void OnOpenConfigUi() => _pluginUi.Toggle();
 }
 

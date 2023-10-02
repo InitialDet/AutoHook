@@ -1,5 +1,4 @@
-﻿using Dalamud.Interface;
-using Dalamud.Interface.Windowing;
+﻿using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using System;
 using Dalamud.Interface.Colors;
@@ -7,23 +6,23 @@ using System.Collections.Generic;
 using AutoHook.Ui;
 using System.Numerics;
 using System.Diagnostics;
+using AutoHook.Resources.Localization;
 
 namespace AutoHook;
 
-public class PluginUI : Window, IDisposable
+public class PluginUi : Window, IDisposable
 {
 
-    private readonly List<TabBaseConfig> tabs = new()
+    private readonly List<TabBaseConfig> _tabs = new()
         {
             new TabGeneral(),
             new TabPresets(),
             new TabAutoCasts(),
             new TabGPConfig(),
             new TabAutoGig()
-
         };
 
-    public PluginUI() : base($"{Service.PluginName} Settings")
+    public PluginUi() : base(string.Format(UIStrings.Plugin_Name_Settings, Service.PluginName))
     {
         Service.WindowSystem.AddWindow(this);
 
@@ -35,7 +34,7 @@ public class PluginUI : Window, IDisposable
     {
         Service.Configuration.Save();
 
-        foreach (var tab in tabs)
+        foreach (var tab in _tabs)
         {
             tab.Dispose();
         }
@@ -48,7 +47,7 @@ public class PluginUI : Window, IDisposable
         if (!IsOpen)
             return;
 
-        Utils.DrawUtil.Checkbox("Enable AutoHook", ref Service.Configuration.PluginEnabled, "Enables/Disables the plugin for you");
+        Utils.DrawUtil.Checkbox(UIStrings.Enable_AutoHook, ref Service.Configuration.PluginEnabled, UIStrings.PluginUi_Draw_Enables_Disables);
         ShowKofi();
         //paypal bad madge
         //ShowPaypal();
@@ -56,11 +55,11 @@ public class PluginUI : Window, IDisposable
 
         if (Service.Configuration.PluginEnabled)
         {
-            ImGui.TextColored(ImGuiColors.HealerGreen, "Plugin Enabled");
+            ImGui.TextColored(ImGuiColors.HealerGreen, UIStrings.Plugin_Enabled);
         }
         else
         {
-            ImGui.TextColored(ImGuiColors.DalamudRed, "Plugin Disabled");
+            ImGui.TextColored(ImGuiColors.DalamudRed, UIStrings.Plugin_Disabled);
         }
         ImGui.Unindent();
         ImGui.Spacing();
@@ -70,9 +69,9 @@ public class PluginUI : Window, IDisposable
 
     private void DrawTabs()
     {
-        if (ImGui.BeginTabBar("AutoHook###TabBars", ImGuiTabBarFlags.NoTooltip))
+        if (ImGui.BeginTabBar(@"AutoHook###TabBars", ImGuiTabBarFlags.NoTooltip))
         {
-            foreach (var tab in tabs)
+            foreach (var tab in _tabs)
             {
                 if (tab.Enabled == false) continue;
 
@@ -81,7 +80,7 @@ public class PluginUI : Window, IDisposable
                     ImGui.PushID(tab.TabName);
 
                     tab.DrawHeader();
-                    if (ImGui.BeginChild("AutoHook###Childs", new Vector2(0, 0), true))
+                    if (ImGui.BeginChild(@"AutoHook###Child", new Vector2(0, 0), true))
                     {
                         tab.Draw();
                         ImGui.EndChild();
@@ -99,9 +98,9 @@ public class PluginUI : Window, IDisposable
         Service.Configuration.Save();
     }
 
-    public static void ShowKofi()
+    private static void ShowKofi()
     {
-        string buttonText = "Support on Ko-fi";
+        string buttonText = UIStrings.Support_me_on_Ko_fi;
         ImGui.SameLine();
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
@@ -109,13 +108,13 @@ public class PluginUI : Window, IDisposable
 
         if (ImGui.Button(buttonText))
         {
-            OpenBrowser("https://ko-fi.com/initialdet");
+            OpenBrowser(@"https://ko-fi.com/initialdet");
         }
 
         ImGui.PopStyleColor(3);
     }
 
-    public static void OpenBrowser(string url)
+    private static void OpenBrowser(string url)
     {
         Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
     }

@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using AutoHook.Resources.Localization;
 
 namespace AutoHook.Spearfishing;
 internal class AutoGig : Window, IDisposable
@@ -35,9 +36,9 @@ internal class AutoGig : Window, IDisposable
     private readonly List<SpearfishSize> _sizeTypes = Enum.GetValues(typeof(SpearfishSize)).Cast<SpearfishSize>().ToList();
     private readonly List<SpearfishSpeed> _speedTypes = Enum.GetValues(typeof(SpearfishSpeed)).Cast<SpearfishSpeed>().ToList();
 
-    private string currentKey = "zero";
+    private string currentKey = @"zero";
 
-    public AutoGig() : base("SpearfishingHelper", WindowFlags, true)
+    public AutoGig() : base(@"SpearfishingHelper", WindowFlags, true)
     {
         Service.WindowSystem.AddWindow(this);
         IsOpen = true;
@@ -47,7 +48,7 @@ internal class AutoGig : Window, IDisposable
 
     public static void ShowKofi()
     {
-        string buttonText = "Support on Ko-fi";
+        string buttonText = UIStrings.Support_me_on_Ko_fi;
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
@@ -75,7 +76,7 @@ internal class AutoGig : Window, IDisposable
     public unsafe void DrawSettings()
     {
         currentKey = currentKey = Service.Configuration.currentSize.ToName() + Service.Configuration.currentSpeed.ToName();
-        if (ImGui.Checkbox("Enable AutoGig ", ref Service.Configuration.AutoGigEnabled))
+        if (ImGui.Checkbox(UIStrings.Enable_AutoGig + @" ", ref Service.Configuration.AutoGigEnabled))
         {
             Service.Configuration.Save();
         }
@@ -93,7 +94,7 @@ internal class AutoGig : Window, IDisposable
 
                 hitbox = Service.Configuration.GigSpacing[currentKey];
                 ImGui.SetNextItemWidth(90);
-                if (ImGui.InputInt("Hitbox ", ref hitbox))
+                if (ImGui.InputInt(UIStrings.Hitbox + @" ", ref hitbox))
                 {
                     if (hitbox > 300)
                         hitbox = 300;
@@ -104,7 +105,7 @@ internal class AutoGig : Window, IDisposable
                     Service.Configuration.GigSpacing[currentKey] = hitbox;
                 }
                 ImGui.SameLine();
-                if (ImGui.Checkbox("Use Nature's Bounty ", ref Service.Configuration.AutoGigNaturesBountyEnabled))
+                if (ImGui.Checkbox(UIStrings.Use_Natures_Bounty, ref Service.Configuration.AutoGigNaturesBountyEnabled))
                 {
                     Service.Configuration.Save();
                 }
@@ -121,7 +122,7 @@ internal class AutoGig : Window, IDisposable
         ShowKofi();
 
         ImGui.SetNextItemWidth(130);
-        if (ImGui.BeginCombo("Size", Service.Configuration.currentSize.ToName()))
+        if (ImGui.BeginCombo(UIStrings.Size, Service.Configuration.currentSize.ToName()))
         {
 
             foreach (SpearfishSize size in _sizeTypes.Where(size =>
@@ -135,7 +136,7 @@ internal class AutoGig : Window, IDisposable
         ImGui.SameLine();
 
         ImGui.SetNextItemWidth(130);
-        if (ImGui.BeginCombo("Speed", Service.Configuration.currentSpeed.ToName()))
+        if (ImGui.BeginCombo(UIStrings.Speed, Service.Configuration.currentSpeed.ToName()))
         {
             foreach (SpearfishSpeed speed in _speedTypes.Where(speed =>
                         ImGui.Selectable(speed.ToName(), speed == Service.Configuration.currentSpeed)))
@@ -215,9 +216,9 @@ internal class AutoGig : Window, IDisposable
             PlayerResources.CastActionNoDelay(IDs.Actions.Gig);
 
             if (node->GetScaleX() == -1)
-                PluginLog.Debug($"FishHitbox L = {fishHitbox}, GigHitbox = {centerX - hitBox}");
+                PluginLog.Debug($@"FishHitbox L = {fishHitbox}, GigHitbox = {centerX - hitBox}");
             else
-                PluginLog.Debug($"FishHitbox R= {fishHitbox}, GigHitbox = {centerX + hitBox}");
+                PluginLog.Debug($@"FishHitbox R= {fishHitbox}, GigHitbox = {centerX + hitBox}");
 
         }
     }

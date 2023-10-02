@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO.Compression;
 using System.IO;
 using System.Text;
+using AutoHook.Resources.Localization;
 
 namespace AutoHook.Configurations;
 
@@ -17,10 +18,10 @@ public class Configuration : IPluginConfiguration
 
     public bool PluginEnabled = true;
 
-    public AutoCastsConfig AutoCastsCfg = new AutoCastsConfig();
+    public AutoCastsConfig AutoCastsCfg = new();
 
-    public BaitConfig DefaultCastConfig = new("DefaultCast");
-    public BaitConfig DefaultMoochConfig = new("DefaultMooch");
+    public BaitConfig DefaultCastConfig = new(@"DefaultCast");
+    public BaitConfig DefaultMoochConfig = new(@"DefaultMooch");
 
     public List<BaitConfig> CustomBait = new(); // old config, not deleting because im scared
 
@@ -47,8 +48,8 @@ public class Configuration : IPluginConfiguration
     {
         if (Version == 1)
         {
-            PluginLog.Debug("Updating to Version 2");
-            CurrentPreset = new("New Preset");
+            PluginLog.Debug(@"Updating to Version 2");
+            CurrentPreset = new(UIStrings.New_Preset);
             CurrentPreset.AddListOfHook(CustomBait);
             BaitPresetList.Add(CurrentPreset);
 
@@ -77,7 +78,7 @@ public class Configuration : IPluginConfiguration
     public static BaitPresetConfig? ImportActionStack(string import)
         => JsonConvert.DeserializeObject<BaitPresetConfig>(DecompressString(import));
 
-    private const string exportPrefix = "AH_";
+    private const string ExportPrefix = "AH_";
 
     public static string CompressString(string s)
     {
@@ -85,14 +86,14 @@ public class Configuration : IPluginConfiguration
         using var ms = new MemoryStream();
         using (var gs = new GZipStream(ms, CompressionMode.Compress))
             gs.Write(bytes, 0, bytes.Length);
-        return exportPrefix + Convert.ToBase64String(ms.ToArray());
+        return ExportPrefix + Convert.ToBase64String(ms.ToArray());
     }
 
     public static string DecompressString(string s)
     {
-        if (!s.StartsWith(exportPrefix))
-            throw new ApplicationException("This is not a valid import.");
-        var data = Convert.FromBase64String(s[exportPrefix.Length..]);
+        if (!s.StartsWith(ExportPrefix))
+            throw new ApplicationException(UIStrings.DecompressString_Invalid_Import);
+        var data = Convert.FromBase64String(s[ExportPrefix.Length..]);
         var lengthBuffer = new byte[4];
         Array.Copy(data, data.Length - 4, lengthBuffer, 0, 4);
         var uncompressedSize = BitConverter.ToInt32(lengthBuffer, 0);

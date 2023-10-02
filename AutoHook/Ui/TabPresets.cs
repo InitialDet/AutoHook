@@ -3,8 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using AutoHook.Configurations;
-using AutoHook.FishTimer;
-using AutoHook.Utils;
+using AutoHook.Resources.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
@@ -16,13 +15,13 @@ namespace AutoHook.Ui;
 class TabPresets : TabBaseConfig
 {
     public override bool Enabled => true;
-    public override string TabName => "Custom Presets";
+    public override string TabName => UIStrings.TabNameCustomPresets;
 
     private bool _hasPreset = false;
 
     private BaitPresetConfig? _tempImport = null;
 
-    private readonly static Configuration cfg = Service.Configuration;
+    private static readonly Configuration cfg = Service.Configuration;
 
     public TabPresets()
     { }
@@ -31,12 +30,11 @@ class TabPresets : TabBaseConfig
     {
         _hasPreset = cfg.CurrentPreset != null;
 
-        ImGui.TextWrapped("Here you can customize which hook to use based on the current bait or fish being mooched.\nIf a bait/fish is not specified, the default behavior (General Tab) will be used instead.");
-        if (ImGui.Button("Add New Preset"))
+        ImGui.TextWrapped(UIStrings.TabPresets_DrawHeader_TabDescription);
+        if (ImGui.Button(UIStrings.AddNewPreset))
         {
-            try
-            {
-                BaitPresetConfig preset = new($"New Preset{cfg.BaitPresetList.Count + 1}");
+            try {
+                BaitPresetConfig preset = new($"{UIStrings.NewPreset} {cfg.BaitPresetList.Count + 1}");
                 cfg.BaitPresetList.Add(preset);
                 cfg.BaitPresetList.OrderBy(s => s);
                 cfg.CurrentPreset = preset;
@@ -50,7 +48,7 @@ class TabPresets : TabBaseConfig
 
         ImGui.SetNextItemWidth(130);
 
-        if (ImGui.BeginCombo("Hook Presets", cfg.CurrentPreset == null ? "None" : cfg.CurrentPreset.PresetName))
+        if (ImGui.BeginCombo(UIStrings.HookPresets, cfg.CurrentPreset == null ? UIStrings.None : cfg.CurrentPreset.PresetName))
         {
             foreach (BaitPresetConfig preset in cfg.BaitPresetList)
             {
@@ -63,16 +61,16 @@ class TabPresets : TabBaseConfig
         }
 
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip("Right-click to rename");
+            ImGui.SetTooltip(UIStrings.RightClickToRename);
 
         if (_hasPreset)
         {
             if (ImGui.BeginPopupContextItem("PresetName###name"))
             {
                 string name = cfg.CurrentPreset?.PresetName ?? "-";
-                ImGui.Text("Edit Preset name (press Enter to confirm)");
+                ImGui.Text(UIStrings.TabPresets_DrawHeader_EditPresetNamePressEnterToConfirm);
 
-                if (ImGui.InputText("Preset Name", ref name, 64, ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.EnterReturnsTrue))
+                if (ImGui.InputText(UIStrings.PresetName, ref name, 64, ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.EnterReturnsTrue))
                 {
                     if (cfg.CurrentPreset != null && !Service.Configuration.BaitPresetList.Contains(new(name)))
                     {
@@ -81,7 +79,7 @@ class TabPresets : TabBaseConfig
                     }
                 }
 
-                if (ImGui.Button("Close"))
+                if (ImGui.Button(UIStrings.Close))
                     ImGui.CloseCurrentPopup();
 
                 ImGui.EndPopup();
@@ -104,7 +102,7 @@ class TabPresets : TabBaseConfig
         ImGui.PopFont();
 
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip("Hold SHIFT to delete.");
+            ImGui.SetTooltip(UIStrings.HoldShiftToDelete);
 
         ImGui.Spacing();
 
@@ -115,9 +113,9 @@ class TabPresets : TabBaseConfig
 
         if (_hasPreset)
         {
-            if (ImGui.Button("Add"))
+            if (ImGui.Button(UIStrings.Add))
             {
-                var setting = new BaitConfig("EditMe");
+                var setting = new BaitConfig(UIStrings.EditMe);
                 if (cfg.CurrentPreset != null && !cfg.CurrentPreset.ListOfBaits.Contains(setting))
                     cfg.CurrentPreset.ListOfBaits.Add(setting);
 
@@ -125,18 +123,18 @@ class TabPresets : TabBaseConfig
             }
 
             ImGui.SameLine();
-            ImGui.Text($"New bait/fish ({cfg.CurrentPreset?.ListOfBaits.Count})");
+            ImGui.Text($"{UIStrings.NewBaitMooch} ({cfg.CurrentPreset?.ListOfBaits.Count})");
             ImGui.SameLine();
-            ImGuiComponents.HelpMarker("Make sure to edit the bait/fish name correctly like ingame (Ex: Versatile Lure)");
+            ImGuiComponents.HelpMarker(UIStrings.TabPresets_DrawHeader_CorrectlyEditTheBaitMoochName);
 
             // I hate ImGui and i dont care to make this look good
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-            ImGui.TextWrapped("Auto Mooch");
+            ImGui.TextWrapped(UIStrings.AutoMooch);
             ImGui.PopStyleColor();
             ImGui.SameLine();
-            ImGui.TextWrapped("is enabled by default when new bait/fish is added ");
+            ImGui.TextWrapped(UIStrings.TabPresets_DrawHeader_IsEnabledByDefault);
 
-            if (ImGui.Button("Add Current Bait/Fish"))
+            if (ImGui.Button(UIStrings.AddCurrentBaitMooch))
             {
                 var setting = new BaitConfig(HookingManager.CurrentBait ?? "-");
 
@@ -147,7 +145,7 @@ class TabPresets : TabBaseConfig
             }
 
             ImGui.SameLine();
-            if (ImGui.Button($"Add Last Catch: {HookingManager.LastCatch ?? "-"}"))
+            if (ImGui.Button($"{UIStrings.AddLastCatch} {HookingManager.LastCatch ?? "-"}"))
             {
                 var setting = new BaitConfig(HookingManager.LastCatch ?? "-");
 
@@ -157,7 +155,7 @@ class TabPresets : TabBaseConfig
                 cfg.Save();
             }
 
-            ImGui.Text($"Current bait/fish:");
+            ImGui.Text(UIStrings.CurrentBaitMooch);
             ImGui.SameLine();
             ImGui.TextColored(ImGuiColors.HealerGreen, HookingManager.CurrentBait ?? "-");
         }
@@ -175,7 +173,7 @@ class TabPresets : TabBaseConfig
             {
                 ImGui.SetClipboardText(Configuration.ExportActionStack(cfg.CurrentPreset!));
 
-                _alertMessage = "Preset exported to the clipboard";
+                _alertMessage = UIStrings.PresetExportedToTheClipboard;
                 _alertTimer.Start();
             }
             catch (Exception e)
@@ -189,7 +187,7 @@ class TabPresets : TabBaseConfig
         ImGui.PopFont();
 
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip("Export preset to clipboard.");
+            ImGui.SetTooltip(UIStrings.ExportPresetToClipboard);
 
         ImGui.SameLine();
 
@@ -221,18 +219,18 @@ class TabPresets : TabBaseConfig
             if (ImGui.BeginPopup("import_new_preset"))
             {
                 string name = _tempImport.PresetName;
-                ImGui.Text("Import this preset?");
+                ImGui.Text(UIStrings.ImportThisPreset);
 
-                if (ImGui.InputText("Preset Name", ref name, 64, ImGuiInputTextFlags.AutoSelectAll))
+                if (ImGui.InputText(UIStrings.PresetName, ref name, 64, ImGuiInputTextFlags.AutoSelectAll))
                 {
                     _tempImport.RenamePreset(name);
                 }
 
-                if (ImGui.Button("Import"))
+                if (ImGui.Button(UIStrings.Import))
                 {
                     if (Service.Configuration.BaitPresetList.Contains(new(name)))
                     {
-                        _alertMessage = "A preset with the same name already exists";
+                        _alertMessage = UIStrings.PresetAlreadyExist;
                         _alertTimer.Start();
                     }
                     else
@@ -247,7 +245,7 @@ class TabPresets : TabBaseConfig
 
                 ImGui.SameLine();
 
-                if (ImGui.Button("Cancel"))
+                if (ImGui.Button(UIStrings.DrawImportExport_Cancel))
                 {
                     _tempImport = null;
                     ImGui.CloseCurrentPopup();
@@ -260,7 +258,7 @@ class TabPresets : TabBaseConfig
         }
 
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip("Import stack from clipboard.");
+            ImGui.SetTooltip(UIStrings.ImportStackFromClipboard);
 
         TimedWarning();
     }

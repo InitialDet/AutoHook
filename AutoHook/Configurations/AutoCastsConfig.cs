@@ -122,7 +122,7 @@ public class AutoCastsConfig
         bool onlyMoochIntuition = false;
 
         // 
-        if (BaitConfig == null || BaitConfig?.BaitName == "DefaultCast" || BaitConfig?.BaitName == "DefaultMooch")
+        if (BaitConfig == null || BaitConfig?.BaitName == @"DefaultCast" || BaitConfig?.BaitName == @"DefaultMooch")
         {
             useAutoMooch = EnableMooch;
             useAutoMooch2 = EnableMooch2;

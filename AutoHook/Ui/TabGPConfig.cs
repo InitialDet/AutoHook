@@ -1,17 +1,14 @@
 ﻿using AutoHook.Classes;
 using AutoHook.Configurations;
+using AutoHook.Resources.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutoHook.Ui;
 internal class TabGPConfig : TabBaseConfig
 {
-    public override string TabName => "GP Config";
+    public override string TabName => UIStrings.TabNameGPConfig;
     public override bool Enabled => true;
 
     private static readonly AutoCastsConfig cfg = Service.Configuration.AutoCastsCfg;
@@ -42,7 +39,7 @@ internal class TabGPConfig : TabBaseConfig
     public override void DrawHeader()
     {
         ImGui.Spacing();
-        ImGui.TextWrapped("Here you can customize the GP Threshold for the actions and items used by the AutoCast feature.");
+        ImGui.TextWrapped(UIStrings.TabGPConfig_TabDescription);
         ImGui.Spacing();
     }
 
@@ -50,7 +47,7 @@ internal class TabGPConfig : TabBaseConfig
     {
         foreach (var action in _actionsAvailable)
         {
-            bool above = action.GPThresholdAbove;
+            bool isAbove = action.GPThresholdAbove;
             int gpThreshold = (int)action.GPThreshold;
 
             ImGui.PushID(action.Name);
@@ -59,9 +56,9 @@ internal class TabGPConfig : TabBaseConfig
             ImGui.SetWindowFontScale(1f);
 
             if (ImGui.IsItemHovered())
-                ImGui.SetTooltip($"{action.Name} will be used when your GP is equal or {(above ? "above" : "below")} {gpThreshold}");
+                ImGui.SetTooltip($"{action.Name} {UIStrings.WillBeUsedWhenYourGPIsEqualOr} {(isAbove ? UIStrings.Above : UIStrings.Below)} {gpThreshold}");
 
-            if (ImGui.RadioButton($"Above##1", above == true))
+            if (ImGui.RadioButton($"{UIStrings.Above}##1", isAbove == true))
             {
                 action.GPThresholdAbove = true;
                 Service.Configuration.Save();
@@ -69,7 +66,7 @@ internal class TabGPConfig : TabBaseConfig
 
             ImGui.SameLine();
 
-            if (ImGui.RadioButton($"Below##1", above == false))
+            if (ImGui.RadioButton($"{UIStrings.Below}##1", isAbove == false))
             {
                 action.GPThresholdAbove = false;
                 Service.Configuration.Save();
@@ -78,7 +75,7 @@ internal class TabGPConfig : TabBaseConfig
             ImGui.SameLine();
 
             ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
-            if (ImGui.InputInt("GP", ref gpThreshold, 1, 1))
+            if (ImGui.InputInt(UIStrings.GP, ref gpThreshold, 1, 1))
             {
                 action.SetThreshold((uint)gpThreshold);
             }

@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using AutoHook.Resources.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
@@ -65,7 +66,7 @@ public static class DrawUtil
 
     public static void CompleteIncomplete(bool complete)
     {
-        ConditionalText(complete, "Complete", "Incomplete");
+        ConditionalText(complete, UIStrings.Complete, UIStrings.Incomplete);
     }
 
     public static void ConditionalText(bool condition, string trueString, string falseString)
