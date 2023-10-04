@@ -1075,6 +1075,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        internal static string PluginUi_Language {
+            get {
+                return ResourceManager.GetString("PluginUi_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Powerful Hookset.
         /// </summary>
         internal static string PowerfulHookset {

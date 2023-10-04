@@ -7,6 +7,7 @@ using AutoHook.Ui;
 using System.Numerics;
 using System.Diagnostics;
 using AutoHook.Resources.Localization;
+using System.Globalization;
 
 namespace AutoHook;
 
@@ -49,8 +50,9 @@ public class PluginUi : Window, IDisposable
 
         Utils.DrawUtil.Checkbox(UIStrings.Enable_AutoHook, ref Service.Configuration.PluginEnabled, UIStrings.PluginUi_Draw_Enables_Disables);
         ShowKofi();
-        //paypal bad madge
-        //ShowPaypal();
+        ImGui.SameLine();
+        ShowPaypal();
+        
         ImGui.Indent();
 
         if (Service.Configuration.PluginEnabled)
@@ -64,6 +66,11 @@ public class PluginUi : Window, IDisposable
         ImGui.Unindent();
         ImGui.Spacing();
 
+        
+        DrawLanguageSelector();
+        
+        ImGui.Spacing();
+        
         DrawTabs();
     }
 
@@ -112,6 +119,37 @@ public class PluginUi : Window, IDisposable
         }
 
         ImGui.PopStyleColor(3);
+    }
+    
+    public static void ShowPaypal()
+    {
+        string buttonText = "PayPal";
+        ImGui.SameLine();
+        ImGui.PushStyleColor(ImGuiCol.Button, 0xFFA06020);
+        ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
+        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
+
+        if (ImGui.Button(buttonText))
+        {
+            OpenBrowser("https://www.paypal.com/donate/?business=PDZJVTF5484UA&no_recurring=0&currency_code=USD");
+        }
+
+        ImGui.PopStyleColor(3);
+    }
+
+    private void DrawLanguageSelector()
+    {
+        ImGui.SetNextItemWidth(55);
+        var languages = new List<string> { "en", "cz", "es", "fr", "ko"};
+        var currentLanguage = languages.IndexOf(Service.Configuration.CurrentLanguage);
+        if (ImGui.Combo(UIStrings.PluginUi_Language, ref currentLanguage, languages.ToArray(), languages.Count))
+        {
+            Service.Configuration.CurrentLanguage = languages[currentLanguage];
+            UIStrings.Culture = new CultureInfo(Service.Configuration.CurrentLanguage);
+            Service.Configuration.Save();
+            Service.Chat.Print("Saved");
+            // get current ImGui tab name
+        }
     }
 
     private static void OpenBrowser(string url)

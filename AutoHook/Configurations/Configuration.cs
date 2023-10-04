@@ -4,6 +4,7 @@ using GatherBuddy.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.Compression;
 using System.IO;
 using System.Text;
@@ -15,6 +16,7 @@ namespace AutoHook.Configurations;
 public class Configuration : IPluginConfiguration
 {
     public int Version { get; set; } = 2;
+    public string CurrentLanguage { get; set; } = "en";
 
     public bool PluginEnabled = true;
 

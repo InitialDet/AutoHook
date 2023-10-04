@@ -1,9 +1,9 @@
 ﻿using AutoHook.Classes;
 using AutoHook.Configurations;
 using AutoHook.Resources.Localization;
-using Dalamud.Interface;
 using ImGuiNET;
 using System.Collections.Generic;
+using Dalamud.Interface.Utility;
 
 namespace AutoHook.Ui;
 internal class TabGPConfig : TabBaseConfig

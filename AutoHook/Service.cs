@@ -1,13 +1,10 @@
 using Dalamud.Game;
 using Dalamud.IoC;
-using Dalamud.Data;
 using Dalamud.Plugin;
-using Dalamud.Game.Gui;
-using Dalamud.Game.ClientState;
 using Dalamud.Interface.Windowing;
-using Dalamud.Game.Command;
 using AutoHook.SeFunctions;
 using SeFunctions;
+using Dalamud.Plugin.Services;
 using Dalamud;
 using AutoHook.Configurations;
 namespace AutoHook;
@@ -19,14 +16,16 @@ public class Service
 
     public const string PluginName = "AutoHook";
 
-    [PluginService][RequiredVersion("1.0")] public static DalamudPluginInterface PluginInterface { get; set; } = null!;
-    [PluginService][RequiredVersion("1.0")] public static SigScanner SigScanner { get; private set; } = null!;
-    [PluginService][RequiredVersion("1.0")] public static ChatGui Chat { get; private set; } = null!;
-    [PluginService][RequiredVersion("1.0")] public static ClientState ClientState { get; private set; } = null!;
-    [PluginService][RequiredVersion("1.0")] public static DataManager DataManager { get; private set; } = null!;
-    [PluginService][RequiredVersion("1.0")] public static CommandManager Commands { get; private set; } = null!;
-    [PluginService][RequiredVersion("1.0")] public static Framework Framework { get; private set; } = null!;
-    [PluginService][RequiredVersion("1.0")] public static GameGui GameGui { get; private set; } = null!;
+    [PluginService] public static DalamudPluginInterface PluginInterface { get; set; } = null!;
+    [PluginService] public static ISigScanner SigScanner { get; private set; } = null!;
+    [PluginService] public static IChatGui Chat { get; private set; } = null!;
+    [PluginService] public static IClientState ClientState { get; private set; } = null!;
+    [PluginService] public static IDataManager DataManager { get; private set; } = null!;
+    [PluginService] public static ICommandManager Commands { get; private set; } = null!;
+    [PluginService] public static IFramework Framework { get; private set; } = null!;
+    [PluginService] public static IGameGui GameGui { get; private set; } = null!;
+    [PluginService] public static IGameInteropProvider GameInteropProvider { get; private set; } = null!;
+
     public static EventFramework EventFramework { get; set; } = null!;
     public static CurrentBait CurrentBait { get; set; } = null!;
     public static Configuration Configuration { get; set; } = null!;

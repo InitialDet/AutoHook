@@ -144,10 +144,10 @@ public class BaitConfig
             if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPatience)
                 return HookType.None;
 
-            if (UseTripleHook && PlayerResources.GetCurrentGP() >= 700 && CheckHookDHTHEnabled(bite))
+            if (UseTripleHook && PlayerResources.GetCurrentGp() >= 700 && CheckHookDHTHEnabled(bite))
                 return HookType.Triple;
 
-            if (UseDoubleHook && PlayerResources.GetCurrentGP() >= 400 && CheckHookDHTHEnabled(bite))
+            if (UseDoubleHook && PlayerResources.GetCurrentGp() >= 400 && CheckHookDHTHEnabled(bite))
                 return HookType.Double;
 
             if (LetFishEscape)

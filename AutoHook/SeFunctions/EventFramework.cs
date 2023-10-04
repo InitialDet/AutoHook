@@ -45,7 +45,7 @@ public sealed class EventFramework : SeAddressBase
         }
     }
 
-    public EventFramework(SigScanner sigScanner)
+    public EventFramework(ISigScanner sigScanner)
         : base(sigScanner,
             "48 8B 2D ?? ?? ?? ?? 48 8B F1 48 8B 85 ?? ?? ?? ?? 48 8B 18 48 3B D8 74 35 0F 1F 00 F6 83 ?? ?? ?? ?? ?? 75 1D 48 8B 46 28 48 8D 4E 28 48 8B 93 ?? ?? ?? ??")
     { }

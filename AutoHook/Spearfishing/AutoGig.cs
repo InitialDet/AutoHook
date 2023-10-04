@@ -15,6 +15,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using AutoHook.Resources.Localization;
+using Dalamud.Interface.Utility;
 
 namespace AutoHook.Spearfishing;
 internal class AutoGig : Window, IDisposable

@@ -10,7 +10,7 @@ public sealed class AutoMakeShiftBait : BaseActionCast
 {
     public int MakeshiftBaitStacks = 5;
 
-    public AutoMakeShiftBait() : base(UIStrings.MakeShift_Bait, IDs.Actions.MakeshiftBait, ActionType.Spell)
+    public AutoMakeShiftBait() : base(UIStrings.MakeShift_Bait, IDs.Actions.MakeshiftBait, ActionType.Action)
     {
 
     }
@@ -43,7 +43,7 @@ public sealed class AutoThaliaksFavor : BaseActionCast
     public int ThaliaksFavorStacks = 3;
     public int ThaliaksFavorRecover = 150;
 
-    public AutoThaliaksFavor() : base(UIStrings.Thaliaks_Favor, IDs.Actions.ThaliaksFavor, ActionType.Spell)
+    public AutoThaliaksFavor() : base(UIStrings.Thaliaks_Favor, IDs.Actions.ThaliaksFavor, ActionType.Action)
     {
 
     }
@@ -52,7 +52,7 @@ public sealed class AutoThaliaksFavor : BaseActionCast
     {
         bool hasStacks = PlayerResources.HasAnglersArtStacks(ThaliaksFavorStacks);
 
-        bool notOvercaped = (PlayerResources.GetCurrentGP() + ThaliaksFavorRecover) < PlayerResources.GetMaxGP();
+        bool notOvercaped = (PlayerResources.GetCurrentGp() + ThaliaksFavorRecover) < PlayerResources.GetMaxGp();
 
         return hasStacks && notOvercaped; // dont use if its going to overcap gp
     }
@@ -63,7 +63,7 @@ public sealed class AutoThaliaksFavor : BaseActionCast
 public sealed class AutoChum : BaseActionCast
 {
     public bool OnlyUseWithIntuition = false;
-    public AutoChum() : base(UIStrings.Chum, IDs.Actions.Chum, ActionType.Spell)
+    public AutoChum() : base(UIStrings.Chum, IDs.Actions.Chum, ActionType.Action)
     {
         DoesCancelMooch = true;
     }
@@ -82,7 +82,7 @@ public sealed class AutoChum : BaseActionCast
 public class AutoFishEyes : BaseActionCast
 {
 
-    public AutoFishEyes() : base(UIStrings.Fish_Eyes, IDs.Actions.FishEyes, ActionType.Spell)
+    public AutoFishEyes() : base(UIStrings.Fish_Eyes, IDs.Actions.FishEyes, ActionType.Action)
     {
         DoesCancelMooch = true;
     }
@@ -98,7 +98,7 @@ public class AutoFishEyes : BaseActionCast
 public sealed class AutoIdenticalCast : BaseActionCast
 {
     // this option is based on the custom BaitConfig, not the AutoCast tab
-    public AutoIdenticalCast() : base(UIStrings.Identical_Cast, Data.IDs.Actions.IdenticalCast, ActionType.Spell)
+    public AutoIdenticalCast() : base(UIStrings.Identical_Cast, Data.IDs.Actions.IdenticalCast, ActionType.Action)
     {
         Enabled = true;
     }
@@ -115,7 +115,7 @@ public sealed class AutoSurfaceSlap : BaseActionCast
 {
 
     // this option is based on the BaitConfig, not the AutoCast tab
-    public AutoSurfaceSlap() : base(UIStrings.Surface_Slap, Data.IDs.Actions.SurfaceSlap, ActionType.Spell)
+    public AutoSurfaceSlap() : base(UIStrings.Surface_Slap, Data.IDs.Actions.SurfaceSlap, ActionType.Action)
     {
         Enabled = true;
     }
@@ -135,7 +135,7 @@ public class AutoPrizeCatch : BaseActionCast
     public bool UseOnlyWithIdenticalCast = false;
 
 
-    public AutoPrizeCatch() : base(UIStrings.Prize_Catch, Data.IDs.Actions.PrizeCatch, ActionType.Spell)
+    public AutoPrizeCatch() : base(UIStrings.Prize_Catch, Data.IDs.Actions.PrizeCatch, ActionType.Action)
     {
         DoesCancelMooch = true;
     }
@@ -169,7 +169,7 @@ public class AutoPrizeCatch : BaseActionCast
 #region AutoPatienceI
 public class AutoPatienceI : BaseActionCast
 {
-    public AutoPatienceI() : base(UIStrings.Patience_I, Data.IDs.Actions.Patience, ActionType.Spell)
+    public AutoPatienceI() : base(UIStrings.Patience_I, Data.IDs.Actions.Patience, ActionType.Action)
     {
         DoesCancelMooch = true;
     }
@@ -193,7 +193,7 @@ public class AutoPatienceI : BaseActionCast
 #region AutoPatienceII
 public class AutoPatienceII : BaseActionCast
 {
-    public AutoPatienceII() : base(UIStrings.Patience_II, Data.IDs.Actions.Patience2, ActionType.Spell)
+    public AutoPatienceII() : base(UIStrings.Patience_II, Data.IDs.Actions.Patience2, ActionType.Action)
     {
         DoesCancelMooch = true;
     }
@@ -217,7 +217,7 @@ public class AutoPatienceII : BaseActionCast
 #region AutoDoubleHook
 public sealed class AutoDoubleHook : BaseActionCast
 {
-    public AutoDoubleHook() : base(UIStrings.Double_Hook, Data.IDs.Actions.DoubleHook, ActionType.Spell)
+    public AutoDoubleHook() : base(UIStrings.Double_Hook, Data.IDs.Actions.DoubleHook, ActionType.Action)
     {
 
     }
@@ -231,7 +231,7 @@ public sealed class AutoDoubleHook : BaseActionCast
 #region AutoTripleHook
 public sealed class AutoTripleHook : BaseActionCast
 {
-    public AutoTripleHook() : base(UIStrings.Triple_Hook, Data.IDs.Actions.TripleHook, ActionType.Spell)
+    public AutoTripleHook() : base(UIStrings.Triple_Hook, Data.IDs.Actions.TripleHook, ActionType.Action)
     {
 
     }
@@ -257,7 +257,7 @@ public class AutoHICordial : BaseActionCast
         if (!PlayerResources.HaveItemInInventory(ID))
             return false;
 
-        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+        bool notOvercaped = (PlayerResources.GetCurrentGp() + itemGPRecovery < PlayerResources.GetMaxGp());
 
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
@@ -286,7 +286,7 @@ public class AutoCordial : BaseActionCast
         if (!PlayerResources.HaveItemInInventory(ID))
             return false;
 
-        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+        bool notOvercaped = (PlayerResources.GetCurrentGp() + itemGPRecovery < PlayerResources.GetMaxGp());
 
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
@@ -315,7 +315,7 @@ public class AutoHQCordial : BaseActionCast
         if (!PlayerResources.HaveItemInInventory(ID))
             return false;
 
-        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+        bool notOvercaped = (PlayerResources.GetCurrentGp() + itemGPRecovery < PlayerResources.GetMaxGp());
 
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
@@ -344,7 +344,7 @@ public class AutoWateredCordial : BaseActionCast
         if (!PlayerResources.HaveItemInInventory(ID))
             return false;
 
-        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+        bool notOvercaped = (PlayerResources.GetCurrentGp() + itemGPRecovery < PlayerResources.GetMaxGp());
 
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }
@@ -373,7 +373,7 @@ public class AutoHQWateredCordial : BaseActionCast
         if (!PlayerResources.HaveItemInInventory(ID))
             return false;
 
-        bool notOvercaped = (PlayerResources.GetCurrentGP() + itemGPRecovery < PlayerResources.GetMaxGP());
+        bool notOvercaped = (PlayerResources.GetCurrentGp() + itemGPRecovery < PlayerResources.GetMaxGp());
 
         return notOvercaped && PlayerResources.IsPotOffCooldown();
     }

@@ -105,10 +105,10 @@ public class AutoCastsConfig
             return new(cordial.ID, cordial.ActionType);
 
         if (UseMooch(out uint idMooch))
-            return new(idMooch, ActionType.Spell);
+            return new(idMooch, ActionType.Action);
 
         if (EnableAutoCast)
-            return new(IDs.Actions.Cast, ActionType.Spell);
+            return new(IDs.Actions.Cast, ActionType.Action);
 
         return null;
     }

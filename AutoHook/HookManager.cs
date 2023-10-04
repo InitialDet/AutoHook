@@ -7,9 +7,9 @@ using AutoHook.Data;
 using AutoHook.Enums;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
-using Dalamud.Game;
 using Dalamud.Logging;
-using Parser;
+using AutoHook.Parser;
+using Dalamud.Plugin.Services;
 using Item = Lumina.Excel.GeneratedSheets.Item;
 
 namespace AutoHook;
@@ -185,7 +185,7 @@ public class HookingManager : IDisposable
     }
 
 
-    private void OnFrameworkUpdate(Framework _)
+    private void OnFrameworkUpdate(IFramework _)
     {
         var state = Service.EventFramework.FishingState;
 

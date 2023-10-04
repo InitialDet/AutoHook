@@ -16,7 +16,7 @@ namespace AutoHook.SeFunctions
             Address = sigScanner.Module.BaseAddress + offset;
         }
 
-        public SeFunctionBase(SigScanner sigScanner, string signature, int offset = 0)
+        public SeFunctionBase(ISigScanner sigScanner, string signature, int offset = 0)
         {
             Address = sigScanner.ScanText(signature);
             if (Address != IntPtr.Zero)
@@ -60,7 +60,7 @@ namespace AutoHook.SeFunctions
         {
             if (Address != IntPtr.Zero)
             {
-                var hook = Hook<T>.FromAddress(Address, detour);
+                var hook = Service.GameInteropProvider.HookFromAddress<T>(Address, detour);
                 hook.Enable();
                 return hook;
             }

@@ -8,7 +8,7 @@ public abstract class BaseActionCast
     protected BaitConfig? _baitConfig = null;
     protected static readonly AutoCastsConfig AcConfig = Service.Configuration.AutoCastsCfg;
 
-    protected BaseActionCast(string name, uint id, ActionType actionType = ActionType.Spell)
+    protected BaseActionCast(string name, uint id, ActionType actionType = ActionType.Action)
     {
         Name = name;
         ID = id;
@@ -16,7 +16,7 @@ public abstract class BaseActionCast
 
         ActionType = actionType;
 
-        if (actionType == ActionType.Spell)
+        if (actionType == ActionType.Action)
             GPThreshold = PlayerResources.CastActionCost(ID, ActionType);
     }
 
@@ -53,7 +53,7 @@ public abstract class BaseActionCast
         if (DoesCancelMooch && PlayerResources.IsMoochAvailable() && AcConfig.DontCancelMooch)
             return false;
 
-        uint currentGp = PlayerResources.GetCurrentGP();
+        uint currentGp = PlayerResources.GetCurrentGp();
 
         bool hasGP;
 

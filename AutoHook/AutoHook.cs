@@ -1,4 +1,5 @@
-﻿using AutoHook.Configurations;
+﻿using System.Globalization;
+using AutoHook.Configurations;
 using AutoHook.Resources.Localization;
 using AutoHook.SeFunctions;
 using AutoHook.Spearfishing;
@@ -39,7 +40,7 @@ public class AutoHook : IDalamudPlugin
 
         _playerResources = new PlayerResources();
         _playerResources.Initialize();
-
+        UIStrings.Culture = new CultureInfo(Service.Configuration.CurrentLanguage);
         _pluginUi = new PluginUi();
         _autoGig = new AutoGig();
 
@@ -58,10 +59,10 @@ public class AutoHook : IDalamudPlugin
             HelpMessage = UIStrings.Opens_Config_Window
         });
 
-        Service.Commands.AddHandler(CmdAh, new CommandInfo(OnCommand)
+        /*Service.Commands.AddHandler(CmdAh, new CommandInfo(OnCommand)
         {
             HelpMessage = UIStrings.Opens_Config_Window
-        });
+        });*/
 
         Service.Commands.AddHandler(CmdAhtg, new CommandInfo(OnCommand)
         {
@@ -72,6 +73,8 @@ public class AutoHook : IDalamudPlugin
 
 #if (DEBUG)
         OnOpenConfigUi();
+        
+        
 #endif
     }
 
@@ -112,7 +115,7 @@ public class AutoHook : IDalamudPlugin
         Service.PluginInterface.UiBuilder.Draw -= Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
         Service.Commands.RemoveHandler(CmdAhCfg);
-        Service.Commands.RemoveHandler(CmdAh);
+        //Service.Commands.RemoveHandler(CmdAh);
         Service.Commands.RemoveHandler(CmdAhOn);
         Service.Commands.RemoveHandler(CmdAhOff);
         Service.Commands.RemoveHandler(CmdAhtg);

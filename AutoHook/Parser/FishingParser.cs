@@ -10,7 +10,7 @@ using AutoHook.Utils;
 using Item = Lumina.Excel.GeneratedSheets.Item;
 using AutoHook.Data;
 
-namespace Parser;
+namespace AutoHook.Parser;
 
 public partial class FishingParser : IDisposable
 {
@@ -32,7 +32,7 @@ public partial class FishingParser : IDisposable
     {
         _catchHook = new UpdateFishCatch(Service.SigScanner).CreateHook(OnCatchUpdate);
         var hookPtr = (IntPtr)ActionManager.MemberFunctionPointers.UseAction;
-        _hookHook = Hook<UseActionDelegate>.FromAddress(hookPtr, OnUseAction);
+        _hookHook = Service.GameInteropProvider.HookFromAddress<UseActionDelegate>(hookPtr, OnUseAction);
     }
 
     public void Enable()
@@ -85,7 +85,7 @@ public partial class FishingParser : IDisposable
 
     private bool OnUseAction(IntPtr manager, ActionType actionType, uint actionId, GameObjectID targetId, uint a4, uint a5, uint a6, IntPtr a7)
     {
-        if (actionType == ActionType.Spell && PlayerResources.ActionAvailable(actionId))
+        if (actionType == ActionType.Action && PlayerResources.ActionAvailable(actionId))
             switch (actionId)
             {
                 case IDs.Actions.Cast:

@@ -7,7 +7,7 @@
   "RepoUrl": "https://github.com/InitialDet/AutoHook",
   "ApplicableVersion": "any",
   "Tags": [ "Gathering", "Fishing" ],
-  "DalamudApiLevel": 8,
+  "DalamudApiLevel": 9,
   "AcceptsFeedback": false,
   "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
   "Changelog": "Click the new Changelog button to see whats new"

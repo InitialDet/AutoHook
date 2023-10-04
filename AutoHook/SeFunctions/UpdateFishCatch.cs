@@ -8,7 +8,7 @@ public delegate void UpdateCatchDelegate(IntPtr module, uint fishId, bool large,
 
 public sealed class UpdateFishCatch : SeFunctionBase<UpdateCatchDelegate>
 {
-    public UpdateFishCatch(SigScanner sigScanner)
+    public UpdateFishCatch(ISigScanner sigScanner)
         : base(sigScanner, "?? 89 ?? ?? ?? ?? 89 ?? ?? ?? ?? 89 ?? ?? ?? 41 ?? 48 83 ?? ?? 41 0F ?? ?? 41 0F ?? ?? 8B DA 4C 8B ?? E8")
     { }
 }

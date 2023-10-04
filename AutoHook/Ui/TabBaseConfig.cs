@@ -4,10 +4,10 @@ using AutoHook.Configurations;
 using AutoHook.Enums;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
-using Dalamud.Hooking;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
