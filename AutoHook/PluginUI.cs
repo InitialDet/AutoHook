@@ -143,12 +143,12 @@ public class PluginUi : Window, IDisposable
         var languages = new List<string>
         {
             @"en", 
-            @"cz", 
             @"es", 
             @"fr", 
             @"ge", 
             @"jp",
-            @"ko"
+            @"ko",
+            @"zh"
         };
         var currentLanguage = languages.IndexOf(Service.Configuration.CurrentLanguage);
         
