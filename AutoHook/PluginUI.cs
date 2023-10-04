@@ -131,7 +131,7 @@ public class PluginUi : Window, IDisposable
 
         if (ImGui.Button(buttonText))
         {
-            OpenBrowser("https://www.paypal.com/donate/?business=PDZJVTF5484UA&no_recurring=0&currency_code=USD");
+            OpenBrowser(@"https://www.paypal.com/donate/?business=PDZJVTF5484UA&no_recurring=0&currency_code=USD");
         }
 
         ImGui.PopStyleColor(3);
@@ -140,16 +140,25 @@ public class PluginUi : Window, IDisposable
     private void DrawLanguageSelector()
     {
         ImGui.SetNextItemWidth(55);
-        var languages = new List<string> { "en", "cz", "es", "fr", "ko"};
-        var currentLanguage = languages.IndexOf(Service.Configuration.CurrentLanguage);
-        if (ImGui.Combo(UIStrings.PluginUi_Language, ref currentLanguage, languages.ToArray(), languages.Count))
+        var languages = new List<string>
         {
-            Service.Configuration.CurrentLanguage = languages[currentLanguage];
-            UIStrings.Culture = new CultureInfo(Service.Configuration.CurrentLanguage);
-            Service.Configuration.Save();
-            Service.Chat.Print("Saved");
-            // get current ImGui tab name
-        }
+            @"en", 
+            @"cz", 
+            @"es", 
+            @"fr", 
+            @"ge", 
+            @"jp",
+            @"ko"
+        };
+        var currentLanguage = languages.IndexOf(Service.Configuration.CurrentLanguage);
+        
+        if (!ImGui.Combo(UIStrings.PluginUi_Language, ref currentLanguage, languages.ToArray(), languages.Count))
+            return;
+        
+        Service.Configuration.CurrentLanguage = languages[currentLanguage];
+        UIStrings.Culture = new CultureInfo(Service.Configuration.CurrentLanguage);
+        Service.Configuration.Save();
+        //Service.Chat.Print("Saved");
     }
 
     private static void OpenBrowser(string url)

@@ -1332,6 +1332,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Help with the plugin localization (Crowdin).
+        /// </summary>
+        internal static string TabGeneral_DrawHeader_Localization_Help {
+            get {
+                return ResourceManager.GetString("TabGeneral_DrawHeader_Localization_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Here you can customize the GP Threshold for the actions and items used by the AutoCast feature..
         /// </summary>
         internal static string TabGPConfig_TabDescription {

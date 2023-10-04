@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Numerics;
 using AutoHook.Resources.Localization;
 using Dalamud.Interface.Colors;
@@ -23,38 +21,39 @@ internal class TabGeneral : TabBaseConfig
         ImGui.Separator();
 
         ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-        ImGui.TextWrapped(UIStrings.DrawHeader_CheckChangelog);
+        ImGui.TextWrapped("Localization options were added, but currently only English is available. If you want to help with the translation, please visit the link below");
         ImGui.PopStyleColor();
 
         ImGui.Spacing();
+        
 
-        DrawChangelog();
+        if (ImGui.Button(UIStrings.TabGeneral_DrawHeader_Localization_Help))
+        {
+            Process.Start(new ProcessStartInfo
+                { FileName = "https://crowdin.com/project/autohook-plugin-localization", UseShellExecute = true });
+        }
 
         ImGui.Spacing();
-
-        if (ImGui.Button(UIStrings.DrawHeader_ClickToReportAnIssue))
-        {
-            Process.Start(new ProcessStartInfo { FileName = "https://github.com/InitialDet/AutoHook/issues", UseShellExecute = true });
-        }
+        
+        DrawChangelog();
 
         ImGui.Spacing();
 
 #if DEBUG
 
-        ImGui.SameLine();
+       ImGui.Separator();
+       ImGui.Spacing();
         if (ImGui.Button(UIStrings.DrawHeader_Testing))
         {
-            ImGui.TabItemButton(UIStrings.TabNameGPConfig);
-            //Service.Chat.Print(Service.Configuration.CurrentLanguage);
+           
         }
-        
+        ImGui.Spacing();
 
 #endif
     }
 
     public override void Draw()
     {
-
         if (ImGui.BeginTabBar(@"TabBarsGeneral", ImGuiTabBarFlags.NoTooltip))
         {
             if (ImGui.BeginTabItem($"{UIStrings.DefaultCast}###DC1"))
@@ -114,86 +113,73 @@ internal class TabGeneral : TabBaseConfig
     }
 
     private bool _openChangelog = false;
+
     [Localizable(false)]
     private void DrawChangelog()
     {
         if (ImGui.Button(UIStrings.Changelog))
-        {
-            //ImGui.OpenPopup("changelog");
             _openChangelog = !_openChangelog;
-
-            /*if (_openChangelog)
-            {
-                ImGui.SetNextWindowSize(new Vector2(400, 250));
-            }*/
-        }
-
-        if (_openChangelog)
+        
+        if (!_openChangelog)
+            return;
+        
+        ImGui.SetNextWindowSize(new Vector2(400, 0));
+        if (ImGui.Begin($"{UIStrings.Changelog}", ref _openChangelog, ImGuiWindowFlags.AlwaysAutoResize))
         {
-            ImGui.SetNextWindowSize(new Vector2(400, 0));
-            if (ImGui.Begin($"{UIStrings.Changelog}", ref _openChangelog, ImGuiWindowFlags.AlwaysAutoResize))
+            var changes = PluginChangeLog.Versions;
+            
+            if (changes.Count > 0)
             {
-                var changes = PluginChangeLog.Versions;
-                // check if the list is empty and store the first value
-                if (changes.Count > 0)
+                ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
+                ImGui.TextWrapped($"{changes[0].VersionNumber}");
+                ImGui.PopStyleColor();
+                ImGui.Separator();
+
+                //First value is the current Version
+                foreach (var mainChange in changes[0].MainChanges)
                 {
-                    ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-                    ImGui.TextWrapped($"{changes[0].VersionNumber}");
-                    ImGui.PopStyleColor();
-                    ImGui.Separator();
-                    
-                    //Current Version
-                    foreach (var mainChange in changes[0].MainChanges)
-                    {
-                        ImGui.TextWrapped($"- {mainChange}");
-                    }
-                    
-                    ImGui.Spacing();
-                    
-                    if (changes[0].MinorChanges.Count > 0)
-                    {
-                        ImGui.TextWrapped("Bug Fixes");
-                        foreach (var minorChange in changes[0].MinorChanges)
-                        {
-                            ImGui.TextWrapped($"- {minorChange}");
-                        }
-                    }
-                    
-                    ImGui.Separator();
-
-
-                    if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
-                    {
-                        // old versions
-                        for (var i = 1; i < changes.Count; i++)
-                        {
-                            if (ImGui.TreeNode($"{changes[i].VersionNumber}"))
-                            {
-                                foreach (var mainChange in changes[i].MainChanges)
-                                {
-                                    ImGui.TextWrapped($"- {mainChange}");
-                                }
-                            
-                                if (changes[i].MinorChanges.Count > 0)
-                                {
-                                    ImGui.Spacing();
-                                    ImGui.TextWrapped("Bug Fixes");
-                                    foreach (var minorChange in changes[i].MinorChanges)
-                                    {
-                                        ImGui.TextWrapped($"- {minorChange}");
-                                    }
-                                }
-
-                                ImGui.TreePop();
-                            }
-                        }
-                    }
-                    ImGui.EndChild();
-                    
+                    ImGui.TextWrapped($"- {mainChange}");
                 }
+
+                ImGui.Spacing();
+
+                if (changes[0].MinorChanges.Count > 0)
+                {
+                    ImGui.TextWrapped("Bug Fixes");
+                    foreach (var minorChange in changes[0].MinorChanges)
+                    {
+                        ImGui.TextWrapped($"- {minorChange}");
+                    }
+                }
+
+                ImGui.Separator();
+                
+                if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
+                {
+                    for (var i = 1; i < changes.Count; i++)
+                    {
+                        if (!ImGui.TreeNode($"{changes[i].VersionNumber}"))
+                            continue;
+                        
+                        foreach (var mainChange in changes[i].MainChanges)
+                            ImGui.TextWrapped($"- {mainChange}");
+
+                        if (changes[i].MinorChanges.Count > 0)
+                        {
+                            ImGui.Spacing();
+                            ImGui.TextWrapped("Bug Fixes");
+                            
+                            foreach (var minorChange in changes[i].MinorChanges)
+                                ImGui.TextWrapped($"- {minorChange}");
+                        }
+                        ImGui.TreePop();
+                    }
+                }
+                ImGui.EndChild();
             }
-            ImGui.End();
         }
+
+        ImGui.End();
     }
 
     [Localizable(false)]
@@ -215,7 +201,7 @@ internal class TabGeneral : TabBaseConfig
                 {
                     "It's now possible to enable both Double and Triple hook (hold shift when selecting the options)",
                 },
-                MinorChanges = 
+                MinorChanges =
                 {
                     "Removed captalization for bait names",
                 }
@@ -233,13 +219,15 @@ internal class TabGeneral : TabBaseConfig
             },
             new Version("2.4.2.0")
             {
-                MainChanges = {
+                MainChanges =
+                {
                     "Added customizable hitbox for autogig",
                     "Added an option to see the fish hitbox when spearfishing",
                     "(experimental) Nature's Bounty will be used when the target fish appears on screen",
                     "Added changelog button"
                 },
-                MinorChanges = {
+                MinorChanges =
+                {
                     "Gig hitbox is now enabled by default",
                     "Fixed the order of the Chum Timer Min/Max fields",
                     "Fixed some options not saving correctly"
@@ -251,7 +239,8 @@ internal class TabGeneral : TabBaseConfig
             },
             new Version("2.4.0.0")
             {
-                MainChanges = {
+                MainChanges =
+                {
                     "Presets for custom baits added, you can now swap configs without needing to recreate it every time",
                     "Added options to cast Chum only when under the effect of Fisher's Intuition",
                     "Added an option to only cast Prize Catch when Mooch II is not available, saving you 100gp if all you want is to mooch",
@@ -261,8 +250,8 @@ internal class TabGeneral : TabBaseConfig
                 }
             }
         };
-        
-        
+
+
         public class Version
         {
             public string VersionNumber { get; set; }

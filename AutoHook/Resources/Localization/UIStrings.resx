@@ -655,4 +655,7 @@ If you want to Auto Mooch only a specific fish and ignore others, disable this o
   <data name="PluginUi_Language" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="TabGeneral_DrawHeader_Localization_Help" xml:space="preserve">
+    <value>Help with the plugin localization (Crowdin)</value>
+  </data>
 </root>
