@@ -198,6 +198,15 @@ public class HookingManager : IDisposable
             state = FishingState.Quit;
         }
 
+        if (_selectedPreset != null && _selectedPreset.StopAfterAnglersArt)
+        {
+            bool hasStacks = PlayerResources.HasAnglersArtStacks(_selectedPreset.StopAfterAnglersArtLimit);
+
+        if (hasStacks)
+            {
+                state = FishingState.Quit;
+            }
+        }
         //CheckState();
 
         // FishBit in this case means that the fish was hooked, but it escaped. I might need to find a way to check if the fish was caught or not.

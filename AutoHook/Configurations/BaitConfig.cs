@@ -56,6 +56,9 @@ public class BaitConfig
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
 
+    public bool StopAfterAnglersArt = false;
+    public int StopAfterAnglersArtLimit = 1;
+
     public BaitConfig(string bait)
     {
         BaitName = bait;

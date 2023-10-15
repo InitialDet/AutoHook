@@ -317,6 +317,13 @@ Set Zero (0) to disable</value>
     <value>- If this config is a bait: Stops fishing after X amount of fish is caught
 - If this config is a fish: Stops fishing after it being caught X amount of times</value>
   </data>
+  <data name="AfterAnglersArt" xml:space="preserve">
+    <value>After X stacks of Anglers Art...</value>
+  </data>
+  <data name="AfterAnglersArtDescription" xml:space="preserve">
+    <value>- If this config is a bait: Stops fishing after X stacks of Anglers Art
+- If this config is a fish: Has no effect, only works on baits!</value>
+  </data>
   <data name="TimeS" xml:space="preserve">
     <value>Time(s)</value>
     <comment>Quantity, example: 5 Time(s) </comment>

@@ -133,6 +133,25 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to After X stacks of Anglers Art....
+        /// </summary>
+        internal static string AfterAnglersArt {
+            get {
+                return ResourceManager.GetString("AfterAnglersArt", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to - If this config is a bait: Stops fishing after X stacks of Anglers Art
+        ///- If this config is a fish: Stops fishing after X stacks of Anglers Art.
+        /// </summary>
+        internal static string AfterAnglersArtDescription {
+            get {
+                return ResourceManager.GetString("AfterAnglersArtDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A preset with the same name already exists.
         /// </summary>
         internal static string APresetWithTheSameNameAlreadyExists {

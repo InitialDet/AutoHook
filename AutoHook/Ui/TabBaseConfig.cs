@@ -360,8 +360,19 @@ internal abstract class TabBaseConfig : IDisposable
             ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.StopFishing);
             ImGui.Spacing();
             if (DrawUtil.Checkbox(UIStrings.AfterBeingCaught, ref cfg.StopAfterCaught,
-                    UIStrings.AfterBeingCaughtDescription))
+                UIStrings.AfterBeingCaughtDescription))
             {
+                //cfg.StopAfterCaught = true;
+                cfg.StopAfterAnglersArt = false;
+                Service.Configuration.Save();
+            }
+
+            if (DrawUtil.Checkbox(UIStrings.AfterAnglersArt, ref cfg.StopAfterAnglersArt,
+                UIStrings.AfterAnglersArtDescription))
+            {
+                //cfg.StopAfterAnglersArt = true;
+                cfg.StopAfterCaught = false;
+                Service.Configuration.Save();
             }
 
             if (cfg.StopAfterCaught)
@@ -372,6 +383,22 @@ internal abstract class TabBaseConfig : IDisposable
                 {
                     if (cfg.StopAfterCaughtLimit < 1)
                         cfg.StopAfterCaughtLimit = 1;
+                }
+
+                ImGui.Unindent();
+            }
+
+            if (cfg.StopAfterAnglersArt)
+            {
+                ImGui.Indent();
+                ImGui.SetNextItemWidth(90 * ImGuiHelpers.GlobalScale);
+                if (ImGui.InputInt(UIStrings.TabAutoCasts_DrawExtraOptionsThaliaksFavor_, ref cfg.StopAfterAnglersArtLimit))
+                {
+                    if (cfg.StopAfterAnglersArtLimit < 1)
+                        cfg.StopAfterAnglersArtLimit = 1;
+
+                    if (cfg.StopAfterAnglersArtLimit >= 10)
+                        cfg.StopAfterAnglersArtLimit = 10;
                 }
 
                 ImGui.Unindent();
