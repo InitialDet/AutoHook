@@ -362,7 +362,6 @@ internal abstract class TabBaseConfig : IDisposable
             if (DrawUtil.Checkbox(UIStrings.AfterBeingCaught, ref cfg.StopAfterCaught,
                 UIStrings.AfterBeingCaughtDescription))
             {
-                //cfg.StopAfterCaught = true;
                 cfg.StopAfterAnglersArt = false;
                 Service.Configuration.Save();
             }
@@ -370,7 +369,6 @@ internal abstract class TabBaseConfig : IDisposable
             if (DrawUtil.Checkbox(UIStrings.AfterAnglersArt, ref cfg.StopAfterAnglersArt,
                 UIStrings.AfterAnglersArtDescription))
             {
-                //cfg.StopAfterAnglersArt = true;
                 cfg.StopAfterCaught = false;
                 Service.Configuration.Save();
             }
