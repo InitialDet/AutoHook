@@ -41,7 +41,7 @@ In the "Bait" sub-tab, you can set conditions for normal hooking. For example, y
 
 The "Mooch" sub-tab functions similarly to the "Bait" tab but focuses on customizing conditions for mooching actions. In FFXIV, a fish being mooched is considered a type of bait. In this tab, you can set specific conditions for mooching actions.
 
-Both the "Hook" and "Mooch" tabs serve the same purpose but are separated for better organization.
+Both the "Bait" and "Mooch" tabs serve the same purpose but are separated for better organization.
 
 ### Auto Cast Tab
 A simple tab: select one or more actions from the list, and the plugin will cast it for you.
