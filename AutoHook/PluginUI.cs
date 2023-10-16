@@ -49,7 +49,9 @@ public class PluginUi : Window, IDisposable
     {
         if (!IsOpen)
             return;
-
+        
+        ImGui.TextColored(ImGuiColors.DalamudYellow, "Major plugin rework!!! Please, recheck all of your presets");
+        ImGui.Spacing();
         DrawUtil.Checkbox(UIStrings.Enable_AutoHook, ref Service.Configuration.PluginEnabled,
             UIStrings.PluginUi_Draw_Enables_Disables);
         ShowKofi();
