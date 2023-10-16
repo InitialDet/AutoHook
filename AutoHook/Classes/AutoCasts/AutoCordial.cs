@@ -15,12 +15,12 @@ public class AutoCordial : BaseActionCast
     private const uint CordialWateredRecovery = 150;
 
     private bool _invertCordialPriority;
-    
+
     public AutoCordial() : base(UIStrings.Cordial, IDs.Item.Cordial, ActionType.Item)
     {
         GpThreshold = 1;
     }
-
+    
     public override bool CastCondition()
     {
         var cordialList = new List<(uint, bool, uint)>
@@ -31,20 +31,21 @@ public class AutoCordial : BaseActionCast
             (IDs.Item.WateredCordial, true, CordialHqWateredRecovery), // Hq
             (IDs.Item.WateredCordial, false, CordialWateredRecovery)
         };
-        
+
         if (_invertCordialPriority)
             cordialList.Reverse();
-        
+
         foreach (var (id, hq, recovery) in cordialList)
         {
             if (!PlayerResources.HaveItemInInventory(id, hq))
                 continue;
-            
+
             Id = id;
-            
+
             var notOvercaped = PlayerResources.GetCurrentGp() + recovery < PlayerResources.GetMaxGp();
             return notOvercaped && PlayerResources.IsPotOffCooldown();
         }
+
         return false;
     }
 
@@ -55,7 +56,7 @@ public class AutoCordial : BaseActionCast
         else
             GpThreshold = newCost;
     }
-    
+
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
         if (DrawUtil.Checkbox(UIStrings.AutoCastCordialPriority, ref _invertCordialPriority))

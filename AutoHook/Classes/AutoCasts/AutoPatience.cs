@@ -9,16 +9,18 @@ namespace AutoHook.Classes.AutoCasts;
 public class AutoPatience : BaseActionCast
 {
     public bool EnableMakeshiftPatience;
-    
+
     public AutoPatience() : base(UIStrings.AutoPatience_Patience, Data.IDs.Actions.Patience2, ActionType.Action)
     {
         DoesCancelMooch = true;
         HelpText = UIStrings.CancelsCurrentMooch;
     }
 
+    public override string GetName()
+        => Name = UIStrings.AutoPatience_Patience;
+
     public override bool CastCondition()
     {
-        
         if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
             return false;
 
@@ -30,7 +32,7 @@ public class AutoPatience : BaseActionCast
 
         return true;
     }
-    
+
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
         if (DrawUtil.Checkbox(UIStrings.TabAutoCasts_DrawExtraOptionsPatience, ref EnableMakeshiftPatience))

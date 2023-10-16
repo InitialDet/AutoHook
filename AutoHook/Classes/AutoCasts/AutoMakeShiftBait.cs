@@ -14,6 +14,10 @@ public class AutoMakeShiftBait : BaseActionCast
     {
         HelpText = UIStrings.TabAutoCasts_DrawMakeShiftBait_HelpText;
     }
+
+    public override string GetName()
+        => Name = UIStrings.MakeShift_Bait;
+
     public override bool CastCondition()
     {
         if (!Enabled)
@@ -34,7 +38,7 @@ public class AutoMakeShiftBait : BaseActionCast
 
         return hasStacks && available;
     }
-    
+
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
         var stack = MakeshiftBaitStacks;
@@ -46,4 +50,3 @@ public class AutoMakeShiftBait : BaseActionCast
         }
     };
 }
-

@@ -7,16 +7,18 @@ namespace AutoHook.Classes.AutoCasts;
 
 public class AutoPrizeCatch : BaseActionCast
 {
-
     public bool UseWhenMoochIIOnCD = false;
 
     public bool UseOnlyWithIdenticalCast = false;
-    
+
     public AutoPrizeCatch() : base(UIStrings.Prize_Catch, Data.IDs.Actions.PrizeCatch, ActionType.Action)
     {
         DoesCancelMooch = true;
         HelpText = UIStrings.Use_Prize_Catch_HelpText;
     }
+
+    public override string GetName()
+        => Name = UIStrings.Prize_Catch;
 
     public override bool CastCondition()
     {
@@ -40,7 +42,7 @@ public class AutoPrizeCatch : BaseActionCast
 
         return PlayerResources.ActionAvailable(IDs.Actions.PrizeCatch);
     }
-    
+
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
         if (DrawUtil.Checkbox(UIStrings.AutoCastExtraOptionPrizeCatch,

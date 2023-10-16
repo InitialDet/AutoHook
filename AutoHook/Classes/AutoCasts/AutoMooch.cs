@@ -10,17 +10,20 @@ public class AutoMooch : BaseActionCast
     public AutoMooch2 Mooch2 = new();
 
     public bool OnlyMoochIntuition = false;
-    
+
     public AutoMooch() : base(UIStrings.AutoMooch, Data.IDs.Actions.Mooch, ActionType.Action)
     {
         DoesCancelMooch = false;
     }
-    
+
+    public override string GetName()
+        => Name = UIStrings.AutoMooch;
+
     public override bool CastCondition()
     {
         if (OnlyMoochIntuition && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
             return false;
-        
+
         if (Mooch2.IsAvailableToCast())
         {
             Service.PrintDebug(@$"Mooch2 Available, casting mooch2");
@@ -37,11 +40,12 @@ public class AutoMooch : BaseActionCast
 
         return true;
     }
-    
+
     protected override DrawOptionsDelegate DrawOptions => () =>
-    { 
+    {
         Mooch2.DrawConfig();
-        if (DrawUtil.Checkbox(UIStrings.TabAutoCasts_DrawExtraOptionsAutoMooch_Extra_Only_Active, ref OnlyMoochIntuition))
+        if (DrawUtil.Checkbox(UIStrings.TabAutoCasts_DrawExtraOptionsAutoMooch_Extra_Only_Active,
+                ref OnlyMoochIntuition))
         {
             Service.Save();
         }

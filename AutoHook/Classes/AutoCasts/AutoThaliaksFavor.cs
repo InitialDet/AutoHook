@@ -15,6 +15,9 @@ public class AutoThaliaksFavor : BaseActionCast
     {
         HelpText = UIStrings.TabAutoCasts_DrawThaliaksFavor_HelpText;
     }
+    
+    public override string GetName()
+        => Name = UIStrings.Thaliaks_Favor;
 
     public override bool CastCondition()
     {

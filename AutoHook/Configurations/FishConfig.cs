@@ -14,8 +14,8 @@ public class FishConfig
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
     
-    public AutoIdenticalCast IdenticalCast = new(UIStrings.UseIdenticalCast);
-    public AutoSurfaceSlap SurfaceSlap = new(UIStrings.UseSurfaceSlap);
+    public AutoIdenticalCast IdenticalCast = new();
+    public AutoSurfaceSlap SurfaceSlap = new();
     public AutoMooch Mooch = new();
     
     public bool SwapBait = false;

@@ -7,19 +7,22 @@ namespace AutoHook.Classes.AutoCasts;
 public class AutoChum : BaseActionCast
 {
     private bool _onlyUseWithIntuition;
-    
+
     public AutoChum() : base(UIStrings.Chum, IDs.Actions.Chum)
     {
         DoesCancelMooch = true;
         HelpText = UIStrings.CancelsCurrentMooch;
     }
 
+    public override string GetName()
+        => Name = UIStrings.Chum;
+
     public override bool CastCondition()
     {
         if (!PlayerResources.HasStatus(IDs.Status.FishersIntuition) && _onlyUseWithIntuition)
             return false;
 
-        return true; 
+        return true;
     }
 
     protected override DrawOptionsDelegate DrawOptions => () =>

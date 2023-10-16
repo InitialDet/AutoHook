@@ -76,13 +76,15 @@ public abstract class BaseActionCast
 
     public abstract bool CastCondition();
 
+    public virtual string GetName() => "";
+
     protected delegate void DrawOptionsDelegate();
 
     protected virtual DrawOptionsDelegate? DrawOptions => null;
 
     public virtual void DrawConfig()
     {
-        ImGui.PushID($"{Name}_cfg");
+        ImGui.PushID($"{GetName()}_cfg");
         
         if (DrawOptions != null)
         {
@@ -91,7 +93,7 @@ public abstract class BaseActionCast
 
             ImGui.SameLine();
             
-            if (ImGui.TreeNodeEx($"{Name}",  ImGuiTreeNodeFlags.FramePadding))
+            if (ImGui.TreeNodeEx($"{GetName()}",  ImGuiTreeNodeFlags.FramePadding))
             {
                 ImGui.SameLine();
                 DrawGpThreshold();
@@ -107,7 +109,7 @@ public abstract class BaseActionCast
         }
         else
         {
-            if (DrawUtil.Checkbox(Name, ref Enabled, HelpText, true))
+            if (DrawUtil.Checkbox(GetName(), ref Enabled, HelpText, true))
                 Service.Save();
             
             ImGui.SameLine();
@@ -118,7 +120,7 @@ public abstract class BaseActionCast
 
     public virtual void DrawGpThreshold()
     {
-        ImGui.PushID($"{Name}_gp");
+        ImGui.PushID($"{GetName()}_gp");
         if (ImGui.Button("GP"))
         {
             ImGui.OpenPopup(str_id: @"gp_cfg");
@@ -131,11 +133,11 @@ public abstract class BaseActionCast
                 if (ImGui.Button(" X "))
                     ImGui.CloseCurrentPopup();
                 ImGui.SameLine();
-                ImGui.TextColored(ImGuiColors.DalamudYellow, $"GP - {Name}");
+                ImGui.TextColored(ImGuiColors.DalamudYellow, $"GP - {GetName()}");
                 
                 if (ImGui.IsItemHovered())
                     ImGui.SetTooltip(
-                        @$"{Name} {UIStrings.WillBeUsedWhenYourGPIsEqualOr} {(GpThresholdAbove ? UIStrings.Above : UIStrings.Below)} {GpThreshold}");
+                        @$"{GetName()} {UIStrings.WillBeUsedWhenYourGPIsEqualOr} {(GpThresholdAbove ? UIStrings.Above : UIStrings.Below)} {GpThreshold}");
                 
                 ImGui.Separator();
                 if (ImGui.RadioButton(UIStrings.Above, GpThresholdAbove))
