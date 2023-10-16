@@ -1,8 +1,8 @@
 using System.Runtime.InteropServices;
+using AutoHook.Spearfishing.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using GatherBuddy.Enums;
 
-namespace GatherBuddy.SeFunctions;
+namespace AutoHook.Spearfishing.Struct;
 
 [StructLayout(LayoutKind.Explicit)]
 public struct SpearfishWindow

@@ -118,538 +118,541 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DrawHeader_Testing" xml:space="preserve">
-    <value>Testing</value>
+    <value>테스트</value>
+    <comment>Just a test field - Not being used
+</comment>
   </data>
   <data name="default" xml:space="preserve">
-    <value>Default</value>
+    <value>기본값</value>
   </data>
   <data name="DrawImportExport_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>취소</value>
   </data>
   <data name="ImportStackFromClipboard" xml:space="preserve">
-    <value>Import stack from clipboard.</value>
+    <value>클립보드로부터 스타일 불러오기</value>
   </data>
   <data name="Import" xml:space="preserve">
-    <value>Import</value>
+    <value>불러오기</value>
   </data>
   <data name="PresetName" xml:space="preserve">
-    <value>Preset Name</value>
+    <value>프리셋 이름</value>
   </data>
   <data name="ImportThisPreset" xml:space="preserve">
-    <value>Import this preset?</value>
+    <value>이 프리셋을 불러오시겠습니까?</value>
   </data>
   <data name="AutoMooch" xml:space="preserve">
-    <value>Auto Mooch</value>
+    <value>자동 생미끼 낚시</value>
   </data>
   <data name="AddLastCatch" xml:space="preserve">
-    <value>Add Last Catch:</value>
+    <value>마지막으로 잡은 물고기 추가하기:</value>
   </data>
   <data name="ExportPresetToClipboard" xml:space="preserve">
-    <value>Export preset to clipboard.</value>
+    <value>클립보드에 해당 사전 설정 내보내기.</value>
   </data>
   <data name="PresetExportedToTheClipboard" xml:space="preserve">
-    <value>Preset exported to the clipboard</value>
+    <value>해당 사전 설정은 클립보드로 내보냈습니다</value>
   </data>
   <data name="APresetWithTheSameNameAlreadyExists" xml:space="preserve">
-    <value>A preset with the same name already exists</value>
+    <value>같은 이름의 프리셋이 이미 존재합니다</value>
   </data>
   <data name="PresetAlreadyExist" xml:space="preserve">
-    <value>A preset with the same name already exists</value>
+    <value>같은 이름의 프리셋이 이미 존재합니다</value>
   </data>
   <data name="CurrentBaitMooch" xml:space="preserve">
-    <value>Current bait/mooch:</value>
+    <value>현재 미끼/생미끼 추가하기:</value>
   </data>
   <data name="AddCurrentBaitMooch" xml:space="preserve">
-    <value>Add Current Bait/Mooch</value>
+    <value>현재 미끼/생미끼 추가하기</value>
   </data>
   <data name="TabPresets_DrawHeader_IsEnabledByDefault" xml:space="preserve">
-    <value>is enabled by default when new bait/mooch is added </value>
+    <value>가 새로운 미끼/생미끼 추가 시 기본으로 활성화 됨 </value>
   </data>
   <data name="TabPresets_DrawHeader_CorrectlyEditTheBaitMoochName" xml:space="preserve">
-    <value>Make sure to correctly edit the bait/mooch name like displayed in-game (Ex: Versatile Lure)</value>
+    <value>수정 시 미끼/생미끼의 이름이 게임 내와 일치하는 지 확인하세요. (예: 만능 루어)</value>
   </data>
   <data name="NewBaitMooch" xml:space="preserve">
-    <value>New bait/mooch</value>
+    <value>새로운 미끼/생미끼</value>
   </data>
   <data name="EditMe" xml:space="preserve">
-    <value>EditMe</value>
+    <value>이름을 입력하세요</value>
+    <comment>Context: Temporary name displayed to the user telling them to edit the field with the wanted Bait or Fish name</comment>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>Add</value>
+    <value>추가</value>
   </data>
   <data name="HoldShiftToDelete" xml:space="preserve">
-    <value>Hold SHIFT to delete.</value>
+    <value>Shift를 눌러 삭제하기.</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
+    <value>닫기</value>
   </data>
   <data name="RightClickToRename" xml:space="preserve">
-    <value>Right-click to rename</value>
+    <value>마우스 우클릭으로 이름 변경하기</value>
   </data>
   <data name="TabPresets_DrawHeader_EditPresetNamePressEnterToConfirm" xml:space="preserve">
-    <value>Edit Preset name (press Enter to confirm)</value>
+    <value>사전 설정 이름 수정하기 (Enter를 눌러야 적용됩니다)</value>
   </data>
   <data name="HookPresets" xml:space="preserve">
-    <value>Hook Presets</value>
+    <value>낚아채기 사전 설정</value>
   </data>
   <data name="AddNewPreset" xml:space="preserve">
-    <value>Add New Preset</value>
+    <value>새로운 사전 설정 추가</value>
   </data>
   <data name="TabPresets_DrawHeader_TabDescription" xml:space="preserve">
-    <value>Here you can customize which hook to use based on the current bait or mooch.
-If a bait/mooch is not specified, the default behavior (General Tab) will be used instead.</value>
+    <value>여기서 현재 미끼를 바탕으로 사용 할 낚아채기를 지정 할 수 있습니다.
+먹이/생미끼가 지정되지 않은 경우 대신 기본 설정 (일반 탭) 이 사용됩니다.</value>
   </data>
   <data name="NewPreset" xml:space="preserve">
-    <value>New Preset</value>
+    <value>새로운 사전 설정</value>
   </data>
   <data name="TabNameCustomPresets" xml:space="preserve">
-    <value>Custom Presets</value>
+    <value>커스텀 설정</value>
   </data>
   <data name="TabNameGPConfig" xml:space="preserve">
-    <value>GP Config</value>
+    <value>GP 설정</value>
   </data>
   <data name="TabGPConfig_TabDescription" xml:space="preserve">
-    <value>Here you can customize the GP Threshold for the actions and items used by the AutoCast feature.</value>
+    <value>자동 낚시 기능에서 사용자가 설정한 GP값에 따라 낚시 스킬과 아이템 사용이 가능합니다.</value>
   </data>
   <data name="GP" xml:space="preserve">
     <value>GP</value>
   </data>
   <data name="Above" xml:space="preserve">
-    <value>Above</value>
+    <value>이상</value>
   </data>
   <data name="Below" xml:space="preserve">
-    <value>Below</value>
+    <value>이하</value>
   </data>
   <data name="WillBeUsedWhenYourGPIsEqualOr" xml:space="preserve">
-    <value>will be used when your GP is Equal or</value>
+    <value>는 GP가 같거나 부족할 때 사용됩니다.</value>
     <comment>Action will be used when your GP is Equal or Above/Below</comment>
   </data>
   <data name="None" xml:space="preserve">
-    <value>None</value>
+    <value>없음</value>
   </data>
   <data name="TabnameGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>일반</value>
   </data>
   <data name="DrawHeader_GeneralSettings" xml:space="preserve">
-    <value>General Settings</value>
+    <value>기본 설정</value>
   </data>
   <data name="DrawHeader_CheckChangelog" xml:space="preserve">
-    <value>Check the new changes in the Changelog below</value>
+    <value>아래의 변경 내역에서 새로운 변경 사항을 확인하세요</value>
   </data>
   <data name="DrawHeader_ClickToReportAnIssue" xml:space="preserve">
-    <value>Click here to report an issue or make a suggestion</value>
+    <value>여기를 클릭해 문제 보고하거나 건의하기</value>
   </data>
   <data name="UseDefaultCast" xml:space="preserve">
-    <value>Use Default Cast</value>
+    <value>낚싯대 던지기 사용하기</value>
   </data>
   <data name="UseDefaultMooch" xml:space="preserve">
-    <value>Use Default Mooch</value>
+    <value>생미끼 낚시 사용하기</value>
   </data>
   <data name="DefaultHookingBehavior" xml:space="preserve">
-    <value>This is the default hooking behavior if no Custom Preset is found.</value>
+    <value>커스텀 설정을 찾을 수 없는 경우 사용 될 기본 낚아채기 동작입니다.</value>
   </data>
   <data name="DefaultMoochingBehavior" xml:space="preserve">
-    <value>This is the default mooching behavior if no Preset is found.</value>
+    <value>커스텀 설정을 찾을 수 없는 경우 사용 될 기본 생미끼 낚시 동작입니다.</value>
   </data>
   <data name="Changelog" xml:space="preserve">
-    <value>Changelog</value>
+    <value>변경 내역</value>
   </data>
   <data name="DefaultCast" xml:space="preserve">
-    <value>Default Cast</value>
+    <value>낚싯대 던지기</value>
   </data>
   <data name="DefaultMooch" xml:space="preserve">
-    <value>Default Mooch</value>
+    <value>생미끼 낚시</value>
   </data>
   <data name="HookWeakExclamation" xml:space="preserve">
-    <value>Hook Weak (!)</value>
+    <value>소형 낚기 (!)</value>
   </data>
   <data name="HookStrongExclamation" xml:space="preserve">
-    <value>Hook Strong (!!)</value>
+    <value>중형 낚기 (!!)</value>
   </data>
   <data name="HookLegendaryExclamation" xml:space="preserve">
-    <value>Hook Legendary (!!!)</value>
+    <value>대형/대물 낚기 (!!!)</value>
   </data>
   <data name="HookWillBeUsedIfPatienceIsNotUp" xml:space="preserve">
-    <value>"Hook" will be used if Patience is not up</value>
+    <value>"인내" 스킬이 없을 시 "낚싯대 던지기" 가 사용됩니다.</value>
   </data>
   <data name="PrecisionHookset" xml:space="preserve">
-    <value>Precision Hookset</value>
+    <value>섬세한 낚아채기</value>
   </data>
   <data name="PowerfulHookset" xml:space="preserve">
-    <value>Powerful Hookset</value>
+    <value>강력한 낚아채기</value>
   </data>
   <data name="MoochBaitName" xml:space="preserve">
-    <value>Mooch/Bait Name</value>
+    <value>미끼/생미끼 이름</value>
   </data>
   <data name="BaitAlreadyExists" xml:space="preserve">
-    <value>Bait already exists</value>
+    <value>해당 미끼는 이미 존재합니다</value>
   </data>
   <data name="MaxWait" xml:space="preserve">
-    <value>Max. Wait</value>
+    <value>최대 대기 시간</value>
     <comment>Maximum time to wait</comment>
   </data>
   <data name="HelpMarkerMaxWaitTimer" xml:space="preserve">
-    <value>Hook will be used after the defined amount of time has passed
-Min. time: 2s (because of animation lock)
-
-Set Zero (0) to disable, and dont make this lower than the Min. Wait</value>
+    <value>설정한 시간 값에 도달하면 낚아채기가 발동됩니다.
+애니메이션 락에 의해 최소 대기 시간 값은 2초입니다.
+0으로 설정하면 비활성화 되며, 최소 대기 시간 값은 2초보다 낮을 수 없습니다.</value>
   </data>
   <data name="MinWait" xml:space="preserve">
-    <value>Min. Wait</value>
+    <value>최소 대기 시간</value>
   </data>
   <data name="HelpMarkerMinWaitTimer" xml:space="preserve">
-    <value>Hook will NOT be used until the minimum time has passed.
+    <value>최소 시간이 지날 때까지 낚아채기가 사용되지 않습니다.
 
-Ex: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked
+예: 14초로 설정 시 8초에 입질이 온다면, 해당 물고기는 낚이지 않습니다.
 
-Set Zero (0) to disable</value>
+0초 (0) 로 설정 시 비활성화</value>
   </data>
   <data name="StopFishingAfter" xml:space="preserve">
-    <value>Stop fishing after...</value>
+    <value>~ 이후 낚시 그만두기</value>
   </data>
   <data name="StopFishing" xml:space="preserve">
-    <value>Stop fishing</value>
+    <value>낚시 중단하기</value>
   </data>
   <data name="AfterBeingCaught" xml:space="preserve">
-    <value>After being caught...</value>
+    <value>낚았을 시에...</value>
   </data>
   <data name="AfterBeingCaughtDescription" xml:space="preserve">
-    <value>- If this config is a bait: Stops fishing after X amount of fish is caught
-- If this config is a fish: Stops fishing after it being caught X amount of times</value>
+    <value>- 미끼로 설정되어 있는 경우: 물고기가 X마리 잡히면 낚시를 그만둡니다
+- 물고기로 설정되어 있는 경우: 해당 물고기가 X번 잡히면 낚시를 그만둡니다</value>
   </data>
   <data name="TimeS" xml:space="preserve">
-    <value>Time(s)</value>
+    <value>시간(초)</value>
     <comment>Quantity, example: 5 Time(s) </comment>
   </data>
   <data name="SurfaceSlapIdenticalCast" xml:space="preserve">
-    <value>Surface Slap &amp; Identical Cast</value>
+    <value>교환 방생 &amp; 한결같은 챔질</value>
   </data>
   <data name="OverridesIdenticalCast" xml:space="preserve">
-    <value>Overrides Identical Cast</value>
+    <value>한결같은 챔질이 사라집니다</value>
   </data>
   <data name="OverridesSurfaceSlap" xml:space="preserve">
-    <value>Overrides Surface Slap</value>
+    <value>교환 방생이 사라집니다</value>
   </data>
   <data name="UseSurfaceSlap" xml:space="preserve">
-    <value>Use Surface Slap</value>
+    <value>교환 방생 사용하기</value>
   </data>
   <data name="UseIdenticalCast" xml:space="preserve">
-    <value>Use Identical Cast</value>
+    <value>한결같은 챔질 사용하기</value>
   </data>
   <data name="UseMoochII" xml:space="preserve">
-    <value>Use Mooch II</value>
+    <value>생미끼 낚시 2 사용하기</value>
   </data>
   <data name="OnlyUseWhenFisherSIntutionIsActive" xml:space="preserve">
-    <value>Only use when Fisher's Intuition is active</value>
+    <value>어부의 직감이 발동 중일때만 사용합니다</value>
   </data>
   <data name="AutoMoochPresetDescription" xml:space="preserve">
-    <value>- If this is a Bait (Ex: Versatile Lure), all fish caught by this bait will be mooched
-- If this is a Fish/Mooch (Ex: Harbor Herring), it'll be mooched when caught
-- If this option is disabled, the fish will NOT be mooched even if Auto Mooch is also enabled in the general tab</value>
+    <value>- 미끼로 설정되어 있는 경우, 이 미끼로 잡은 물고기는 모두 생미끼 낚시로 사용합니다.
+- 물고기/생미끼 낚시로 설정되어 있는 경우, 낚였을 때 생미끼 낚시로 사용합니다.
+- 비활성화 시, 일반 탭에 생미끼 낚시가 활성화 되어도 생미끼 낚시에 사용되지 않습니다.</value>
   </data>
   <data name="AutoMoochPresetHelpMarker" xml:space="preserve">
-    <value>This option takes priority over the Auto Cast Line</value>
+    <value>이 옵션은 자동 낚싯대 던지기보다 우선순위 입니다.</value>
   </data>
   <data name="FisherSIntuitionSettings" xml:space="preserve">
-    <value>Fisher's Intuition Settings</value>
+    <value>어부의 직감 설정</value>
   </data>
   <data name="FisherSIntuitionSettingsHelpMarker" xml:space="preserve">
-    <value>Enable Custom Hooks when Fisher's Intuition is detected</value>
+    <value>어부의 직감이 발동 되었을 시에 해당 커스텀 낚아채기를 사용합니다</value>
   </data>
   <data name="HoldShiftBothDHTH" xml:space="preserve">
-    <value>Hold SHIFT to select both Double and Triple Hook (not recommended)</value>
+    <value>SHIFT를 눌러 이중 낚아채기와 삼중 낚아채기 모두 선택하기 (비추천)</value>
   </data>
   <data name="UseDoubleHookIfGp400" xml:space="preserve">
     <value>Use Double Hook (If gp &gt; 400)</value>
   </data>
   <data name="UseTripleHookIfGp700" xml:space="preserve">
-    <value>Use Triple Hook (If gp &gt; 700)</value>
+    <value>삼중 낚아채기 사용하기 (gp &gt; 700)</value>
   </data>
   <data name="UseWhenPatienceIsActiveNotRecommended" xml:space="preserve">
-    <value>Use when Patience is active (not recommended)</value>
+    <value>인내 사용 중 일 때 사용하기 (비추천)</value>
   </data>
   <data name="DHTHPatienceHelpMarker" xml:space="preserve">
-    <value>Important!!!
+    <value>중요!!!
 
-If disabled, Precision/Powerful hook will be used instead when Patience is up.</value>
+비활성화 시, 인내 중 섬세한/강력한 낚아채기가 사용됩니다.</value>
   </data>
   <data name="LetTheFishEscape" xml:space="preserve">
-    <value>Let the fish escape if GP is below the required</value>
+    <value>GP 부족 시 물고기 도망가게 하기</value>
   </data>
   <data name="OnlyUseWhenIdenticalCastIsActive" xml:space="preserve">
-    <value>Only use when Identical Cast is active</value>
+    <value>한결같은 챔질이 사용 중일 때만 사용하기</value>
   </data>
   <data name="DoubleTripleHookSettings" xml:space="preserve">
-    <value>Double/Triple Hook Settings</value>
+    <value>이중/삼중 낚아채기 설정</value>
   </data>
   <data name="EnabledConfigArrow" xml:space="preserve">
-    <value>Enabled Config -&gt;</value>
+    <value>활성화 된 설정 -&gt;</value>
   </data>
   <data name="EnabledConfigArrowhelpMarker" xml:space="preserve">
-    <value>Important!!!
+    <value>중요!!!
 
-If disabled, the fish will NOT be hooked or Mooched.
-To use the default behavior (General Tab), please delete this configuration.</value>
+비활성화 시, 물고기를 낚아채거나 생미끼가 되지 않습니다.
+기본 동작 (일반 탭) 으로 사용하려면, 이 설정을 삭제하세요.</value>
   </data>
   <data name="ChumTimer" xml:space="preserve">
-    <value>Chum Timer</value>
+    <value>밑밥 타이머</value>
   </data>
   <data name="EnableChumTimers" xml:space="preserve">
-    <value>Enable Chum Timers</value>
+    <value>밑밥 타이머 켜기</value>
   </data>
   <data name="EnableChumTimersHelpMarker" xml:space="preserve">
-    <value>Enable Min/Max times when under the effect of Chum</value>
+    <value>밑밥 던지기 활성 시 최소/최대 시간 설정하기</value>
   </data>
   <data name="Enable" xml:space="preserve">
-    <value>Enable</value>
+    <value>활성화</value>
   </data>
   <data name="TabNameAutoGig" xml:space="preserve">
-    <value>AutoGig</value>
+    <value>자동 작살질</value>
   </data>
   <data name="TabAutoGigDescription" xml:space="preserve">
-    <value>This is an experimental feature and it might miss the fish. If you find it missing too much, try adjusting the SpearFishing window scale to something different</value>
+    <value>이것은 실험적인 기능이며 물고기를 놓칠 가능성이 있습니다. 만약 너무 많이 놓친다면, 작살질 창 배율을 조절해 보세요.</value>
   </data>
   <data name="EnableAutoGig" xml:space="preserve">
-    <value>Enable AutoGig</value>
+    <value>자동 작살질 활성화 하기</value>
   </data>
   <data name="HideOverlayDuringSpearfishing" xml:space="preserve">
-    <value>Hide overlay during Spearfishing</value>
+    <value>작살질 하는 동안 오버레이 숨기기</value>
   </data>
   <data name="AutoGigHideOverlayHelpMarker" xml:space="preserve">
-    <value>It'll only hide if the AutoGig option is disabled</value>
+    <value>자동 작살질이 비활성화 되었을때만 숨깁니다</value>
   </data>
   <data name="DrawFishHitbox" xml:space="preserve">
-    <value>Draw fish hitbox</value>
+    <value>물고기 히트박스 보이기</value>
   </data>
   <data name="DrawFishHitboxHelpMarker" xml:space="preserve">
-    <value>The hitbox its only available for the fish of the Size and Speed selected</value>
+    <value>선택한 크기와 속도의 물고기에만 히트박스가 적용됩니다.</value>
   </data>
   <data name="DrawGigHitbox" xml:space="preserve">
-    <value>Draw gig hitbox</value>
+    <value>물고기 히트박스 보이기</value>
   </data>
   <data name="SelectTheSizeAndSpeed" xml:space="preserve">
-    <value>Select the Size and Speed of the fish you want (Gatherbuddy's Spearfishing overlay helps a lot)</value>
+    <value>물고기의 크기와 속도를 선택하세요. (Gatherbuddy의 작살질 오버레이가 많은 도움이 됩니다.)</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>Size</value>
+    <value>크기</value>
   </data>
   <data name="Speed" xml:space="preserve">
-    <value>Speed</value>
+    <value>속도</value>
   </data>
   <data name="AutoCastCordialPriority" xml:space="preserve">
-    <value>Change Priority: Watered-Cordial &gt; Cordial &gt; HI-Cordials</value>
+    <value>우선 순위 변경하기: 희석된 강장제 &gt; 강장제 &gt; 고성능 강장제</value>
   </data>
   <data name="AutoCastCordialPriorityHelpMarker" xml:space="preserve">
-    <value>If theres no Cordials, Hi-Cordials will be used instead</value>
+    <value>고성능 강장제가 없을 경우, 강장제 사용하기</value>
   </data>
   <data name="AutoCastUseCordial" xml:space="preserve">
-    <value>Use Cordials (Hi-Cordial First)</value>
+    <value>강장제 사용하기 (고성능 강장제 우선)</value>
   </data>
   <data name="AutoCastUseCordialHelpMarker" xml:space="preserve">
-    <value>If theres no Hi-Cordials, Cordials will be used instead</value>
+    <value>고성능 강장제가 없을 경우, 강장제 사용하기</value>
   </data>
   <data name="AutoCastUseFishEyes" xml:space="preserve">
-    <value>Use Fish Eyes</value>
+    <value>물고기의 눈 사용하기</value>
   </data>
   <data name="CancelsCurrentMooch" xml:space="preserve">
-    <value>Cancels Current Mooch</value>
+    <value>현재 생미끼 취소하기</value>
   </data>
   <data name="AutoCastUseChum" xml:space="preserve">
-    <value>Use Chum</value>
+    <value>밑밥 사용하기</value>
   </data>
   <data name="AutoCastExtraOptionPrizeCatch" xml:space="preserve">
-    <value>Only use when Mooch II is on NOT available - READ &gt;&gt;&gt;</value>
+    <value>생미끼 낚시 2가 안 될 때만 사용하기 - 읽어보세요 &gt;&gt;&gt;</value>
   </data>
   <data name="ExtraOptionPrizeCatchHelpMarker" xml:space="preserve">
-    <value>&gt;Make sure 'Use Mooch II' is enabled or else it wont work&lt;
-This could save you 100gp if going only for mooches</value>
+    <value>&gt;'생미끼 낚시 2 사용하기' 가 활성화 되어있는지 확인하세요. 아니면 작동하지 않습니다.&lt;
+이걸로 생미끼 낚시에만 100 GP를 아낄 수 있습니다.</value>
   </data>
   <data name="Test" xml:space="preserve">
     <value>.</value>
   </data>
   <data name="Enable_AutoHook" xml:space="preserve">
-    <value>Enable AutoHook</value>
+    <value>자동 낚시 활성화</value>
   </data>
   <data name="Plugin_Enabled" xml:space="preserve">
-    <value>Plugin Enabled</value>
+    <value>플러그인 활성화 됨</value>
   </data>
   <data name="Plugin_Disabled" xml:space="preserve">
-    <value>Plugin Disabled</value>
+    <value>플러그인 비활성화 됨</value>
   </data>
   <data name="Plugin_Name_Settings" xml:space="preserve">
-    <value>{0} Settings</value>
+    <value>{0} 설정</value>
   </data>
   <data name="PluginUi_Draw_Enables_Disables" xml:space="preserve">
-    <value>Enables/Disables the plugin for you</value>
+    <value>플러그인을 활성화/비활성화 합니다.</value>
   </data>
   <data name="Using_Chum_Timer" xml:space="preserve">
-    <value>Using Chum timer</value>
+    <value>밑밥 시간 설정하기</value>
   </data>
   <data name="Disables_AutoHook" xml:space="preserve">
-    <value>Disables AutoHook</value>
+    <value>자동 낚시 비활성화</value>
   </data>
   <data name="AutoHook_Disabled" xml:space="preserve">
-    <value>AutoHook Disabled</value>
+    <value>자동 낚시 비활성화됨</value>
   </data>
   <data name="AutoHook_Enabled" xml:space="preserve">
-    <value>AutoHook Enabled</value>
+    <value>자동 낚시 활성화됨</value>
   </data>
   <data name="Enables_AutoHook" xml:space="preserve">
-    <value>Enables AutoHook</value>
+    <value>자동 낚시 활성화 하기</value>
   </data>
   <data name="Opens_Config_Window" xml:space="preserve">
-    <value>Opens Config Window</value>
+    <value>설정 메뉴 열기</value>
   </data>
   <data name="TabAutoCasts_When_Stack_Equals" xml:space="preserve">
-    <value>When Stacks = </value>
+    <value>월척 낚시꾼 스택 = </value>
   </data>
   <data name="Use_Prize_Catch" xml:space="preserve">
-    <value>Use Prize Catch</value>
+    <value>대물 낚시 사용하기</value>
   </data>
   <data name="Use_Prize_Catch_HelpText" xml:space="preserve">
-    <value>Cancels Current Mooch. Patience and Makeshift Bait will not be used when Prize Catch active</value>
+    <value>현재 생미끼 낚시가 중단됩니다. 대물 낚시가 발동 중에는 인내와 숙련 낚시꾼이 사용 되지 않습니다.</value>
   </data>
   <data name="Toggles_AutoHook_On_Off" xml:space="preserve">
-    <value>Toggles AutoHook On/Off</value>
+    <value>자동 낚시 토글 On/Off</value>
   </data>
   <data name="Triple_Hook" xml:space="preserve">
-    <value>Triple Hook</value>
+    <value>삼중 낚아채기</value>
   </data>
   <data name="Watered_Cordial" xml:space="preserve">
-    <value>Watered Cordial</value>
+    <value>희석된 강장제</value>
   </data>
   <data name="Cordial" xml:space="preserve">
-    <value>Cordial</value>
+    <value>강장제</value>
   </data>
   <data name="HQ_Cordial" xml:space="preserve">
-    <value>HQ Cordial</value>
+    <value>강장제 HQ</value>
   </data>
   <data name="HQ_Watered_Cordial" xml:space="preserve">
-    <value>HQ Watered Cordial</value>
+    <value>희석된 강장제 HQ</value>
   </data>
   <data name="Double_Hook" xml:space="preserve">
-    <value>Double Hook</value>
+    <value>이중 낚아채기</value>
   </data>
   <data name="Patience_II" xml:space="preserve">
-    <value>Patience II</value>
+    <value>인내 2</value>
   </data>
   <data name="Hi_Cordial" xml:space="preserve">
-    <value>Hi-Cordial</value>
+    <value>고성능 강장제</value>
   </data>
   <data name="Patience_I" xml:space="preserve">
-    <value>Patience I</value>
+    <value>인내</value>
   </data>
   <data name="Prize_Catch" xml:space="preserve">
-    <value>Prize Catch</value>
+    <value>대물 낚시</value>
   </data>
   <data name="Surface_Slap" xml:space="preserve">
-    <value>Surface Slap</value>
+    <value>교환 방생</value>
   </data>
   <data name="Identical_Cast" xml:space="preserve">
-    <value>Identical Cast</value>
+    <value>한결같은 챔질</value>
   </data>
   <data name="Fish_Eyes" xml:space="preserve">
-    <value>Fish Eyes</value>
+    <value>물고기의 눈</value>
   </data>
   <data name="Chum" xml:space="preserve">
-    <value>Chum</value>
+    <value>밑밥</value>
   </data>
   <data name="Thaliaks_Favor" xml:space="preserve">
-    <value>Thaliak's Favor</value>
+    <value>살리아크의 은총</value>
   </data>
   <data name="MakeShift_Bait" xml:space="preserve">
-    <value>MakeShift Bait</value>
+    <value>숙련 낚시꾼</value>
   </data>
   <data name="BaitName_Default" xml:space="preserve">
-    <value>Default</value>
+    <value>기본값</value>
   </data>
   <data name="DecompressString_Invalid_Import" xml:space="preserve">
-    <value>This is not a valid import.</value>
+    <value>불러오기가 유효하지 않습니다.</value>
   </data>
   <data name="New_Preset" xml:space="preserve">
-    <value>New Preset</value>
+    <value>새로운 프리셋</value>
   </data>
   <data name="Auto_Casts" xml:space="preserve">
-    <value>Auto Casts</value>
+    <value>자동 낚싯대 던지기</value>
   </data>
   <data name="TabAutoCasts_DrawAutoCast_HelpText" xml:space="preserve">
-    <value>Cast (FSH Action) will be used after a bite
+    <value>입질이 오면 낚싯대 던지기 (어부 기술) 가 사용됩니다.
 
-IMPORTANT!!!
-If Auto Mooch (Global or Custom Preset) is not enabled, the line will be casted normally and you'll lose your mooch opportunity (If available)</value>
+중요!!
+자동 생미끼 낚시 (전체 혹은 커스텀 설정) 비활성화 시, 낚싯대가 던져져 생미끼 낚시 기회를 놓칠 수 있습니다. (사용 가능 시)</value>
   </data>
   <data name="Global_Auto_Cast_Line" xml:space="preserve">
-    <value>Global Auto Cast Line</value>
+    <value>전체 자동 낚싯대 던지기</value>
   </data>
   <data name="Use_Thaliaks_Favor" xml:space="preserve">
-    <value>Use Thaliak's Favor</value>
+    <value>살리아크의 은총 사용하기</value>
   </data>
   <data name="Use_Natures_Bounty" xml:space="preserve">
-    <value>Use Nature's Bounty</value>
+    <value>자연의 은총 사용하기</value>
   </data>
   <data name="Enable_AutoGig" xml:space="preserve">
-    <value>Enable AutoGig</value>
+    <value>자동 작살질 활성화 하기</value>
   </data>
   <data name="Hitbox" xml:space="preserve">
-    <value>Hitbox</value>
+    <value>히트 박스</value>
   </data>
   <data name="Use_Makeshift_Bait" xml:space="preserve">
-    <value>Use Makeshift Bait</value>
+    <value>숙련 낚시꾼 사용하기</value>
   </data>
   <data name="TabAutoCasts_DrawMakeShiftBait_HelpText" xml:space="preserve">
-    <value>This might conflict with Auto Thaliak's Favor</value>
+    <value>살리아크의 은총과 충돌이 있을 수 있습니다</value>
   </data>
   <data name="TabAutoCasts_DrawExtraOptionsThaliaksFavor_" xml:space="preserve">
-    <value>When Stacks =</value>
+    <value>월척 낚시꾼 스택 =</value>
   </data>
   <data name="TabAutoCasts_DrawThaliaksFavor_HelpText" xml:space="preserve">
-    <value>This might conflict with Auto MakeShift Bait</value>
+    <value>숙련 낚시꾼과 충돌 할 수 있습니다.</value>
   </data>
   <data name="Use_Patience_I_II" xml:space="preserve">
-    <value>Use Patience I/II</value>
+    <value>인내/인내 2 사용하기</value>
   </data>
   <data name="TabAutoCasts_DrawPatience_HelpText" xml:space="preserve">
-    <value>Patience I/II will be used when your current GP is equal (or higher) to the action cost +20 (Ex: 220 for I, 580 for II), this helps to avoid not having GP for the hooksets</value>
+    <value>인내 1/2는 현재 GP가 기술 요구 GP와 같거나 (그 이상) +20일 때 사용됩니다.
+(예: 220은 인내, 580은 인내 2), 낚아채기 사용 시 GP 부족을 방지합니다.</value>
   </data>
   <data name="TabAutoCasts_DrawExtraOptionsPatience" xml:space="preserve">
-    <value>Use when Makeshift Bait is active</value>
+    <value>숙련 낚시꾼 활성화 시 사용</value>
   </data>
   <data name="Enable_Auto_Casts" xml:space="preserve">
-    <value>Enable Auto Casts</value>
+    <value>자동 낚싯대 던지기 활성화 하기</value>
   </data>
   <data name="Dont_Cancel_Mooch" xml:space="preserve">
-    <value>Don't Cancel Mooch</value>
+    <value>생미끼 낚시 취소하지 않기</value>
   </data>
   <data name="TabAutoCasts_DrawHeader_HelpText" xml:space="preserve">
-    <value>Actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)</value>
+    <value>생미끼 낚시 취소하는 기술 사용하지 않기 (예: 밑밥, 물고기의 눈, 대물 낚시)</value>
   </data>
   <data name="TabAutoCasts_DrawExtraOptionsAutoMooch_Extra_Only_Active" xml:space="preserve">
-    <value>Only use when Fisher's Intuition is active</value>
+    <value>어부의 직감이 발동 중일때만 사용합니다</value>
   </data>
   <data name="Use_Mooch_II" xml:space="preserve">
-    <value>Use Mooch II</value>
+    <value>생미끼 낚시 2 사용하기</value>
   </data>
   <data name="Global_Auto_Mooch" xml:space="preserve">
-    <value>Global Auto Mooch</value>
+    <value>전체 자동 낚싯대 던지기</value>
   </data>
   <data name="TabAutoCasts_DrawHeader_Guide_Collectables" xml:space="preserve">
-    <value>Guide: How to auto accept Collectables</value>
+    <value>가이드: 자동으로 소장품 낚시 하는 법</value>
   </data>
   <data name="TabAutoCasts_DrawAutoMooch_HelpText" xml:space="preserve">
-    <value>This option have priority over Auto Cast Line
+    <value>본 옵션은 자동 낚싯대 던지기보다 우선입니다.
 
-If you want to Auto Mooch only a specific fish and ignore others, disable this option and create a Custom Preset.</value>
+특정 물고기만 자동 생미끼 낚시 되길 원한다면 본 옵션을 비활성화하고 커스텀 설정을 만드세요.</value>
   </data>
   <data name="Support_me_on_Ko_fi" xml:space="preserve">
-    <value>Support me on Ko-fi</value>
+    <value>Ko-fi를 통해 후원하기</value>
   </data>
   <data name="Complete" xml:space="preserve">
-    <value>Complete</value>
+    <value>완료</value>
   </data>
   <data name="Incomplete" xml:space="preserve">
-    <value>Incomplete</value>
+    <value>미완료</value>
   </data>
   <data name="AutoHook" xml:space="preserve">
-    <value>AutoHook</value>
+    <value>자동 낚아채기</value>
   </data>
 </root>

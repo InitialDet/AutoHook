@@ -1,6 +1,3 @@
-using System;
-using Dalamud;
-using Dalamud.Data;
 using Lumina.Text;
 
 namespace AutoHook.Utils;

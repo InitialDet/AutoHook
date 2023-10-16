@@ -1,6 +1,4 @@
-using System;
-
-namespace GatherBuddy.Enums;
+namespace AutoHook.Spearfishing.Enums;
 
 public enum SpearfishSpeed : ushort
 {

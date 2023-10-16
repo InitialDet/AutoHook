@@ -6,11 +6,16 @@ using AutoHook.Spearfishing;
 using AutoHook.Utils;
 using Dalamud.Game.Command;
 using Dalamud.Plugin;
-using SeFunctions;
+
 namespace AutoHook;
 
 public class AutoHook : IDalamudPlugin
 {
+    
+    /*
+     todo: autofood (not yet)
+     todo: Add Guides
+     */
     public string Name => UIStrings.AutoHook;
 
     private const string CmdAhCfg = "/ahcfg";
@@ -31,15 +36,15 @@ public class AutoHook : IDalamudPlugin
     {
         Service.Initialize(pluginInterface);
         Service.EventFramework = new EventFramework(Service.SigScanner);
-        Service.CurrentBait = new CurrentBait(Service.SigScanner);
+        Service.EquipedBait = new CurrentBait(Service.SigScanner);
         Service.TugType = new SeTugType(Service.SigScanner);
         Service.PluginInterface.UiBuilder.Draw += Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi += OnOpenConfigUi;
-        Service.Configuration = Configuration.Load();
         Service.Language = Service.ClientState.ClientLanguage;
-
         _playerResources = new PlayerResources();
         _playerResources.Initialize();
+
+        Service.Configuration = Configuration.Load();
         UIStrings.Culture = new CultureInfo(Service.Configuration.CurrentLanguage);
         _pluginUi = new PluginUi();
         _autoGig = new AutoGig();
@@ -73,8 +78,6 @@ public class AutoHook : IDalamudPlugin
 
 #if (DEBUG)
         OnOpenConfigUi();
-        
-        
 #endif
     }
 
@@ -111,7 +114,7 @@ public class AutoHook : IDalamudPlugin
         _autoGig.Dispose();
         _hookManager.Dispose();
         _playerResources.Dispose();
-        Service.Configuration.Save();
+        Service.Save();
         Service.PluginInterface.UiBuilder.Draw -= Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
         Service.Commands.RemoveHandler(CmdAhCfg);

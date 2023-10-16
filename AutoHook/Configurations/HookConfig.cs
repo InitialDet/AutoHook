@@ -1,17 +1,18 @@
 using System;
+using AutoHook.Classes;
 using AutoHook.Data;
 using AutoHook.Enums;
-using AutoHook.Resources.Localization;
 using AutoHook.Utils;
-using Dalamud.Logging;
 
 namespace AutoHook.Configurations;
 
-public class BaitConfig
+public class HookConfig
 {
     public bool Enabled = true;
 
-    public string BaitName = UIStrings.BaitName_Default;
+    //public string BaitName = UIStrings.BaitName_Default;
+
+    public BaitFishClass BaitFish = new();
 
     public bool HookWeakEnabled = true;
     public bool HookWeakIntuitionEnabled = true;
@@ -33,13 +34,13 @@ public class BaitConfig
 
     public bool UseCustomIntuitionHook = false;
 
-    public bool UseAutoMooch = true;
+    /*public bool UseAutoMooch = true;
     public bool UseAutoMooch2 = false;
-    public bool OnlyMoochIntuition = false;
+    public bool OnlyMoochIntuition = false;*/
 
-    public bool UseSurfaceSlap = false;
-    public bool UseIdenticalCast = false;
-
+    /*public bool UseSurfaceSlap = false;
+    public bool UseIdenticalCast = false;*/
+    
     public bool UseDoubleHook = false;
     public bool UseTripleHook = false;
     public bool UseDHTHPatience = false;
@@ -55,10 +56,17 @@ public class BaitConfig
 
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
+    
+    public CatchSteps StopFishingStep = CatchSteps.None;
 
-    public BaitConfig(string bait)
+    /*public HookConfig(string bait)
     {
         BaitName = bait;
+    }*/
+    
+    public HookConfig(BaitFishClass baitFish)
+    {
+        BaitFish = baitFish;
     }
 
     public HookType? GetHook(BiteType bite)
@@ -102,20 +110,17 @@ public class BaitConfig
     public bool CheckHookEnabled(BiteType bite) =>
         bite == BiteType.Weak ? HookWeakEnabled :
         bite == BiteType.Strong ? HookStrongEnabled :
-        bite == BiteType.Legendary ? HookLegendaryEnabled :
-        false;
+        bite == BiteType.Legendary ? HookLegendaryEnabled : false;
 
     public bool CheckHookIntuitionEnabled(BiteType bite) =>
         bite == BiteType.Weak ? HookWeakIntuitionEnabled :
         bite == BiteType.Strong ? HookStrongIntuitionEnabled :
-        bite == BiteType.Legendary ? HookLegendaryIntuitionEnabled :
-        false;
+        bite == BiteType.Legendary ? HookLegendaryIntuitionEnabled : false;
 
     public bool CheckHookDHTHEnabled(BiteType bite) =>
         bite == BiteType.Weak ? HookWeakDHTHEnabled :
         bite == BiteType.Strong ? HookStrongDHTHEnabled :
-        bite == BiteType.Legendary ? HookLegendaryDHTHEnabled :
-        false;
+        bite == BiteType.Legendary ? HookLegendaryDHTHEnabled : false;
 
 
     private HookType GetPatienceHook(BiteType bite) => bite switch
@@ -159,12 +164,12 @@ public class BaitConfig
 
     public override bool Equals(object? obj)
     {
-        return obj is BaitConfig settings &&
-               BaitName == settings.BaitName;
+        return obj is HookConfig settings &&
+               BaitFish == settings.BaitFish;
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(BaitName + @"a");
+        return HashCode.Combine(BaitFish?.Name + @"a");
     }
 }
