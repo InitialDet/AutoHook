@@ -1,6 +1,6 @@
 using System;
 
-namespace GatherBuddy.Enums;
+namespace AutoHook.Spearfishing.Enums;
 
 public enum SpearfishSize : byte
 {

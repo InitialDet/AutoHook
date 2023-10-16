@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using Dalamud.Game;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Interface.Windowing;
 using AutoHook.SeFunctions;
-using SeFunctions;
 using Dalamud.Plugin.Services;
 using Dalamud;
 using AutoHook.Configurations;
@@ -25,11 +25,41 @@ public class Service
     [PluginService] public static IFramework Framework { get; private set; } = null!;
     [PluginService] public static IGameGui GameGui { get; private set; } = null!;
     [PluginService] public static IGameInteropProvider GameInteropProvider { get; private set; } = null!;
+    [PluginService] public static IPluginLog  PluginLog { get; private set; } = null!;
 
     public static EventFramework EventFramework { get; set; } = null!;
-    public static CurrentBait CurrentBait { get; set; } = null!;
+    public static CurrentBait EquipedBait { get; set; } = null!;
     public static Configuration Configuration { get; set; } = null!;
     public static WindowSystem WindowSystem { get; } = new(PluginName);
     public static SeTugType TugType { get; set; } = null!;
     public static ClientLanguage Language { get; set; }
+
+    public static string Status = @"-";
+
+    public static void Save()
+    {
+        Configuration.Save();
+    }
+
+    private const int MaxLogSize = 50;
+    public static Queue<string> LogMessages = new();
+    public static bool OpenConsole;
+    public static void PrintDebug(string msg)
+    {
+        if (LogMessages.Count >= MaxLogSize)
+        {
+            LogMessages.Dequeue(); 
+        }
+       
+        LogMessages.Enqueue(msg);
+        PluginLog.Debug(msg);
+    }
+    
+    public static void PrintChat(string msg)
+    {
+        PrintDebug(msg);
+
+        if (Configuration.ShowChatLogs)
+            Chat.Print(msg);
+    }
 }

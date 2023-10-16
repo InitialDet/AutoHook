@@ -1,6 +1,6 @@
 namespace AutoHook.Enums;
 
-internal enum CatchSteps
+public enum CatchSteps
 {
     None,
     BeganFishing,
@@ -8,6 +8,8 @@ internal enum CatchSteps
     FishBit,
     Hooking,
     FishCaught,
+    BaitSwapped,
+    PresetSwapped,
     FishReeled,
     TimeOut,
     Quitting

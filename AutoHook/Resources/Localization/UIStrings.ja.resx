@@ -118,536 +118,534 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DrawHeader_Testing" xml:space="preserve">
-    <value>Testing</value>
+    <value>テスト中</value>
+    <comment>Just a test field - Not being used
+</comment>
   </data>
   <data name="default" xml:space="preserve">
-    <value>Default</value>
+    <value>デフォルト</value>
   </data>
   <data name="DrawImportExport_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>キャンセル</value>
   </data>
   <data name="ImportStackFromClipboard" xml:space="preserve">
-    <value>Import stack from clipboard.</value>
+    <value>クリップボードから取り込む</value>
   </data>
   <data name="Import" xml:space="preserve">
-    <value>Import</value>
+    <value>インポート</value>
   </data>
   <data name="PresetName" xml:space="preserve">
-    <value>Preset Name</value>
+    <value>プリセット名</value>
   </data>
   <data name="ImportThisPreset" xml:space="preserve">
-    <value>Import this preset?</value>
+    <value>このプリセットをインポートしますか？</value>
   </data>
   <data name="AutoMooch" xml:space="preserve">
-    <value>Auto Mooch</value>
+    <value>自動泳がせ釣り</value>
   </data>
   <data name="AddLastCatch" xml:space="preserve">
-    <value>Add Last Catch:</value>
+    <value>最後に釣った魚を追加：</value>
   </data>
   <data name="ExportPresetToClipboard" xml:space="preserve">
-    <value>Export preset to clipboard.</value>
+    <value>プリセットをクリップボードにエクスポート</value>
   </data>
   <data name="PresetExportedToTheClipboard" xml:space="preserve">
-    <value>Preset exported to the clipboard</value>
+    <value>プリセットをクリップボードにエクスポートしました</value>
   </data>
   <data name="APresetWithTheSameNameAlreadyExists" xml:space="preserve">
-    <value>A preset with the same name already exists</value>
+    <value>この名前のプリセットはすでに存在します。</value>
   </data>
   <data name="PresetAlreadyExist" xml:space="preserve">
-    <value>A preset with the same name already exists</value>
+    <value>この名前のプリセットはすでに存在します。</value>
   </data>
   <data name="CurrentBaitMooch" xml:space="preserve">
-    <value>Current bait/mooch:</value>
+    <value>現在の餌：</value>
   </data>
   <data name="AddCurrentBaitMooch" xml:space="preserve">
-    <value>Add Current Bait/Mooch</value>
+    <value>現在の餌を追加</value>
   </data>
   <data name="TabPresets_DrawHeader_IsEnabledByDefault" xml:space="preserve">
-    <value>is enabled by default when new bait/mooch is added </value>
+    <value>新しい餌が追加されたときにデフォルトで有効になります </value>
   </data>
   <data name="TabPresets_DrawHeader_CorrectlyEditTheBaitMoochName" xml:space="preserve">
-    <value>Make sure to correctly edit the bait/mooch name like displayed in-game (Ex: Versatile Lure)</value>
+    <value>ゲーム内で表示されるように、餌/泳がせ釣り用の魚名を正しく編集してください。(例：万能ルアー)</value>
   </data>
   <data name="NewBaitMooch" xml:space="preserve">
-    <value>New bait/mooch</value>
+    <value>新しい餌</value>
   </data>
   <data name="EditMe" xml:space="preserve">
     <value>EditMe</value>
+    <comment>Context: Temporary name displayed to the user telling them to edit the field with the wanted Bait or Fish name</comment>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>Add</value>
+    <value>追加</value>
   </data>
   <data name="HoldShiftToDelete" xml:space="preserve">
-    <value>Hold SHIFT to delete.</value>
+    <value>Shiftキーを押しながらDeleteキーを押す</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
+    <value>閉じる</value>
   </data>
   <data name="RightClickToRename" xml:space="preserve">
-    <value>Right-click to rename</value>
+    <value>右クリックで名前を変更</value>
   </data>
   <data name="TabPresets_DrawHeader_EditPresetNamePressEnterToConfirm" xml:space="preserve">
-    <value>Edit Preset name (press Enter to confirm)</value>
+    <value>プリセット名を編集(Enterキーを押して確定)</value>
   </data>
   <data name="HookPresets" xml:space="preserve">
-    <value>Hook Presets</value>
+    <value>使用するプリセット</value>
   </data>
   <data name="AddNewPreset" xml:space="preserve">
-    <value>Add New Preset</value>
+    <value>新規プリセットの追加</value>
   </data>
   <data name="TabPresets_DrawHeader_TabDescription" xml:space="preserve">
-    <value>Here you can customize which hook to use based on the current bait or mooch.
-If a bait/mooch is not specified, the default behavior (General Tab) will be used instead.</value>
+    <value>ここでは、現在の餌に基づいて使用するフッキングをカスタマイズすることができます。
+餌/生き餌が指定されていない場合、代わりにデフォルトの設定 (全般タブ) が使用されます。</value>
   </data>
   <data name="NewPreset" xml:space="preserve">
-    <value>New Preset</value>
+    <value>新規プリセット</value>
   </data>
   <data name="TabNameCustomPresets" xml:space="preserve">
-    <value>Custom Presets</value>
+    <value>カスタムプリセット</value>
   </data>
   <data name="TabNameGPConfig" xml:space="preserve">
-    <value>GP Config</value>
+    <value>GP設定</value>
   </data>
   <data name="TabGPConfig_TabDescription" xml:space="preserve">
-    <value>Here you can customize the GP Threshold for the actions and items used by the AutoCast feature.</value>
+    <value>ここでは、自動キャスト機能で使用されるアクションとアイテムのGP閾値をカスタマイズできます。</value>
   </data>
   <data name="GP" xml:space="preserve">
     <value>GP</value>
   </data>
   <data name="Above" xml:space="preserve">
-    <value>Above</value>
+    <value>以上</value>
   </data>
   <data name="Below" xml:space="preserve">
-    <value>Below</value>
+    <value>以下</value>
   </data>
   <data name="WillBeUsedWhenYourGPIsEqualOr" xml:space="preserve">
-    <value>will be used when your GP is Equal or</value>
+    <value>はGPが足りている場合のみ使用されます。</value>
     <comment>Action will be used when your GP is Equal or Above/Below</comment>
   </data>
   <data name="None" xml:space="preserve">
-    <value>None</value>
+    <value>未設定</value>
   </data>
   <data name="TabnameGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>全般</value>
   </data>
   <data name="DrawHeader_GeneralSettings" xml:space="preserve">
-    <value>General Settings</value>
+    <value>一般設定</value>
   </data>
   <data name="DrawHeader_CheckChangelog" xml:space="preserve">
-    <value>Check the new changes in the Changelog below</value>
+    <value>変更履歴から変更点を確認してください</value>
   </data>
   <data name="DrawHeader_ClickToReportAnIssue" xml:space="preserve">
-    <value>Click here to report an issue or make a suggestion</value>
+    <value>ここをクリックして問題を報告または提案をする</value>
   </data>
   <data name="UseDefaultCast" xml:space="preserve">
-    <value>Use Default Cast</value>
+    <value>自動キャストを有効にする</value>
   </data>
   <data name="UseDefaultMooch" xml:space="preserve">
-    <value>Use Default Mooch</value>
+    <value>自動泳がせ釣りを有効にする</value>
   </data>
   <data name="DefaultHookingBehavior" xml:space="preserve">
-    <value>This is the default hooking behavior if no Custom Preset is found.</value>
+    <value>カスタムプリセットが見つからない場合、デフォルトのフッキング設定を使用します。</value>
   </data>
   <data name="DefaultMoochingBehavior" xml:space="preserve">
-    <value>This is the default mooching behavior if no Preset is found.</value>
+    <value>カスタムプリセットが見つからない場合、デフォルトの泳がせ釣り設定を使用します。</value>
   </data>
   <data name="Changelog" xml:space="preserve">
-    <value>Changelog</value>
+    <value>変更履歴</value>
   </data>
   <data name="DefaultCast" xml:space="preserve">
-    <value>Default Cast</value>
+    <value>自動キャスト</value>
   </data>
   <data name="DefaultMooch" xml:space="preserve">
-    <value>Default Mooch</value>
+    <value>自動泳がせ釣り</value>
   </data>
   <data name="HookWeakExclamation" xml:space="preserve">
-    <value>Hook Weak (!)</value>
+    <value>弱震(!)</value>
   </data>
   <data name="HookStrongExclamation" xml:space="preserve">
-    <value>Hook Strong (!!)</value>
+    <value>強震(!!)</value>
   </data>
   <data name="HookLegendaryExclamation" xml:space="preserve">
-    <value>Hook Legendary (!!!)</value>
+    <value>激震(!!!)</value>
   </data>
   <data name="HookWillBeUsedIfPatienceIsNotUp" xml:space="preserve">
-    <value>"Hook" will be used if Patience is not up</value>
+    <value>GPが足りていない場合、通常のフッキングが使用されます</value>
   </data>
   <data name="PrecisionHookset" xml:space="preserve">
-    <value>Precision Hookset</value>
+    <value>プレシジョンフッキング</value>
   </data>
   <data name="PowerfulHookset" xml:space="preserve">
-    <value>Powerful Hookset</value>
+    <value>ストロングフッキング</value>
   </data>
   <data name="MoochBaitName" xml:space="preserve">
-    <value>Mooch/Bait Name</value>
+    <value>泳がせ釣り/餌の名前</value>
   </data>
   <data name="BaitAlreadyExists" xml:space="preserve">
-    <value>Bait already exists</value>
+    <value>餌はすでに存在しています</value>
   </data>
   <data name="MaxWait" xml:space="preserve">
-    <value>Max. Wait</value>
+    <value>最大待ち時間</value>
     <comment>Maximum time to wait</comment>
   </data>
   <data name="HelpMarkerMaxWaitTimer" xml:space="preserve">
-    <value>Hook will be used after the defined amount of time has passed
-Min. time: 2s (because of animation lock)
-
-Set Zero (0) to disable, and dont make this lower than the Min. Wait</value>
+    <value>設定された時間が経過した場合のみ、フッキングが使用されます。
+※最小時間：2秒
+無効にする場合は、0を設定してください。</value>
   </data>
   <data name="MinWait" xml:space="preserve">
-    <value>Min. Wait</value>
+    <value>最低待ち時間</value>
   </data>
   <data name="HelpMarkerMinWaitTimer" xml:space="preserve">
-    <value>Hook will NOT be used until the minimum time has passed.
-
-Ex: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked
-
-Set Zero (0) to disable</value>
+    <value>最低待ち時間が経過するまでフッキングは使用されません。
+例：14秒と設定し、8秒後に食いついた場合、フッキングせず見逃します。
+0秒に設定すると無効になります。</value>
   </data>
   <data name="StopFishingAfter" xml:space="preserve">
-    <value>Stop fishing after...</value>
+    <value>釣りを中止後：</value>
   </data>
   <data name="StopFishing" xml:space="preserve">
-    <value>Stop fishing</value>
+    <value>釣りを停止</value>
   </data>
   <data name="AfterBeingCaught" xml:space="preserve">
-    <value>After being caught...</value>
+    <value>獲得後：</value>
   </data>
   <data name="AfterBeingCaughtDescription" xml:space="preserve">
-    <value>- If this config is a bait: Stops fishing after X amount of fish is caught
-- If this config is a fish: Stops fishing after it being caught X amount of times</value>
+    <value>・餌が設定されている場合：魚がX匹釣れたら釣りをやめる
+・魚が設定されている場合：指定した魚がX回釣れたら釣りをやめる</value>
   </data>
   <data name="TimeS" xml:space="preserve">
-    <value>Time(s)</value>
+    <value>回</value>
     <comment>Quantity, example: 5 Time(s) </comment>
   </data>
   <data name="SurfaceSlapIdenticalCast" xml:space="preserve">
-    <value>Surface Slap &amp; Identical Cast</value>
+    <value>トレードリリース＆セイムキャスト</value>
   </data>
   <data name="OverridesIdenticalCast" xml:space="preserve">
-    <value>Overrides Identical Cast</value>
+    <value>セイムキャストを上書きする</value>
   </data>
   <data name="OverridesSurfaceSlap" xml:space="preserve">
-    <value>Overrides Surface Slap</value>
+    <value>トレードリリースを上書きする</value>
   </data>
   <data name="UseSurfaceSlap" xml:space="preserve">
-    <value>Use Surface Slap</value>
+    <value>トレードリリースを使用</value>
   </data>
   <data name="UseIdenticalCast" xml:space="preserve">
-    <value>Use Identical Cast</value>
+    <value>セイムキャストを使用</value>
   </data>
   <data name="UseMoochII" xml:space="preserve">
-    <value>Use Mooch II</value>
+    <value>泳がせ釣りIIを使用</value>
   </data>
   <data name="OnlyUseWhenFisherSIntutionIsActive" xml:space="preserve">
-    <value>Only use when Fisher's Intuition is active</value>
+    <value>漁師の直感が有効な場合にのみ使用</value>
   </data>
   <data name="AutoMoochPresetDescription" xml:space="preserve">
-    <value>- If this is a Bait (Ex: Versatile Lure), all fish caught by this bait will be mooched
-- If this is a Fish/Mooch (Ex: Harbor Herring), it'll be mooched when caught
-- If this option is disabled, the fish will NOT be mooched even if Auto Mooch is also enabled in the general tab</value>
+    <value>・餌が設定されている場合、この餌で釣った魚はすべて泳がせ釣りに使用されます。
+・魚が設定されている場合、釣れた時に泳がせ釣りに使用されます。
+・設定が無効の場合、一般タブで泳がせ釣りが有効になっていても泳がせ釣りに使用されません。</value>
   </data>
   <data name="AutoMoochPresetHelpMarker" xml:space="preserve">
-    <value>This option takes priority over the Auto Cast Line</value>
+    <value>このオプションは自動キャスティングより優先されます</value>
   </data>
   <data name="FisherSIntuitionSettings" xml:space="preserve">
-    <value>Fisher's Intuition Settings</value>
+    <value>漁師の直感 について設定</value>
   </data>
   <data name="FisherSIntuitionSettingsHelpMarker" xml:space="preserve">
-    <value>Enable Custom Hooks when Fisher's Intuition is detected</value>
+    <value>漁師の直観が発動中のみカスタムフックを有効にする</value>
   </data>
   <data name="HoldShiftBothDHTH" xml:space="preserve">
-    <value>Hold SHIFT to select both Double and Triple Hook (not recommended)</value>
+    <value>Shiftキーを押しながら選択すると、ダブルフックとトリプルフックの両方を選択します (非推奨)</value>
   </data>
   <data name="UseDoubleHookIfGp400" xml:space="preserve">
-    <value>Use Double Hook (If gp &gt; 400)</value>
+    <value>ダブルフッキングを使用（GP &gt; 400の場合）</value>
   </data>
   <data name="UseTripleHookIfGp700" xml:space="preserve">
-    <value>Use Triple Hook (If gp &gt; 700)</value>
+    <value>トリプルフッキングを使用（GP &gt; 700の場合）</value>
   </data>
   <data name="UseWhenPatienceIsActiveNotRecommended" xml:space="preserve">
-    <value>Use when Patience is active (not recommended)</value>
+    <value>ペーシェンスが有効な場合も使用する (非推奨)</value>
   </data>
   <data name="DHTHPatienceHelpMarker" xml:space="preserve">
-    <value>Important!!!
-
-If disabled, Precision/Powerful hook will be used instead when Patience is up.</value>
+    <value>※注意※
+無効にすると、GPが回復した場合にプレシジョン/ストロングフッキングが使用されます。</value>
   </data>
   <data name="LetTheFishEscape" xml:space="preserve">
-    <value>Let the fish escape if GP is below the required</value>
+    <value>GPが足りていない場合、魚をリリースします</value>
   </data>
   <data name="OnlyUseWhenIdenticalCastIsActive" xml:space="preserve">
-    <value>Only use when Identical Cast is active</value>
+    <value>セイムキャストがアクティブな場合にのみ使用</value>
   </data>
   <data name="DoubleTripleHookSettings" xml:space="preserve">
-    <value>Double/Triple Hook Settings</value>
+    <value>ダブル/トリプルフッキング設定</value>
   </data>
   <data name="EnabledConfigArrow" xml:space="preserve">
-    <value>Enabled Config -&gt;</value>
+    <value>設定を有効にしました -&gt;</value>
   </data>
   <data name="EnabledConfigArrowhelpMarker" xml:space="preserve">
-    <value>Important!!!
+    <value>重要!!!
 
-If disabled, the fish will NOT be hooked or Mooched.
-To use the default behavior (General Tab), please delete this configuration.</value>
+無効にした場合、魚はフッキング・泳がせ釣りされません。
+デフォルトの動作（一般タブ）を使用するには、この設定を削除してください。</value>
   </data>
   <data name="ChumTimer" xml:space="preserve">
-    <value>Chum Timer</value>
+    <value>撒き餌タイマー</value>
   </data>
   <data name="EnableChumTimers" xml:space="preserve">
-    <value>Enable Chum Timers</value>
+    <value>撒き餌タイマーを有効にする</value>
   </data>
   <data name="EnableChumTimersHelpMarker" xml:space="preserve">
-    <value>Enable Min/Max times when under the effect of Chum</value>
+    <value>撒き餌の効果時間内の最小/最大時間を有効にする</value>
   </data>
   <data name="Enable" xml:space="preserve">
-    <value>Enable</value>
+    <value>有効</value>
   </data>
   <data name="TabNameAutoGig" xml:space="preserve">
-    <value>AutoGig</value>
+    <value>自動ギギング</value>
   </data>
   <data name="TabAutoGigDescription" xml:space="preserve">
-    <value>This is an experimental feature and it might miss the fish. If you find it missing too much, try adjusting the SpearFishing window scale to something different</value>
+    <value>これは実験的な機能であり、魚を見逃す可能性があります。 あまりにも魚が釣れない場合は、刺突画面のウィンドウ倍率を調整してみてください。</value>
   </data>
   <data name="EnableAutoGig" xml:space="preserve">
-    <value>Enable AutoGig</value>
+    <value>自動ギギングを有効にする</value>
   </data>
   <data name="HideOverlayDuringSpearfishing" xml:space="preserve">
-    <value>Hide overlay during Spearfishing</value>
+    <value>刺突漁中にオーバーレイを隠す</value>
   </data>
   <data name="AutoGigHideOverlayHelpMarker" xml:space="preserve">
-    <value>It'll only hide if the AutoGig option is disabled</value>
+    <value>自動刺突オプションが無効の場合にのみ非表示になります</value>
   </data>
   <data name="DrawFishHitbox" xml:space="preserve">
-    <value>Draw fish hitbox</value>
+    <value>魚のヒットボックスを表示</value>
   </data>
   <data name="DrawFishHitboxHelpMarker" xml:space="preserve">
-    <value>The hitbox its only available for the fish of the Size and Speed selected</value>
+    <value>ヒットボックスは、選択されたサイズとスピードの魚にのみ利用可能です</value>
   </data>
   <data name="DrawGigHitbox" xml:space="preserve">
-    <value>Draw gig hitbox</value>
+    <value>銛のヒットボックスを表示</value>
   </data>
   <data name="SelectTheSizeAndSpeed" xml:space="preserve">
-    <value>Select the Size and Speed of the fish you want (Gatherbuddy's Spearfishing overlay helps a lot)</value>
+    <value>目的の魚のサイズとスピードを選択してください。(【Gather Buddy】の刺突オーバーレイが便利です)</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>Size</value>
+    <value>サイズ</value>
   </data>
   <data name="Speed" xml:space="preserve">
-    <value>Speed</value>
+    <value>速度</value>
   </data>
   <data name="AutoCastCordialPriority" xml:space="preserve">
-    <value>Change Priority: Watered-Cordial &gt; Cordial &gt; HI-Cordials</value>
+    <value>優先度を変更: ライトコーディアル &gt; コーディアル &gt; ハイコーディアル</value>
   </data>
   <data name="AutoCastCordialPriorityHelpMarker" xml:space="preserve">
-    <value>If theres no Cordials, Hi-Cordials will be used instead</value>
+    <value>コーディアルがない場合、代わりにハイコーディアルが使用されます</value>
   </data>
   <data name="AutoCastUseCordial" xml:space="preserve">
-    <value>Use Cordials (Hi-Cordial First)</value>
+    <value>コーディアルを使用（ハイコーディアルが優先）</value>
   </data>
   <data name="AutoCastUseCordialHelpMarker" xml:space="preserve">
-    <value>If theres no Hi-Cordials, Cordials will be used instead</value>
+    <value>ハイコーディアルがない場合、代わりにコーディアルが使用されます</value>
   </data>
   <data name="AutoCastUseFishEyes" xml:space="preserve">
-    <value>Use Fish Eyes</value>
+    <value>フィッシュアイを使用</value>
   </data>
   <data name="CancelsCurrentMooch" xml:space="preserve">
-    <value>Cancels Current Mooch</value>
+    <value>現在の泳がせ釣りをキャンセル</value>
   </data>
   <data name="AutoCastUseChum" xml:space="preserve">
-    <value>Use Chum</value>
+    <value>撒き餌を使用</value>
   </data>
   <data name="AutoCastExtraOptionPrizeCatch" xml:space="preserve">
-    <value>Only use when Mooch II is on NOT available - READ &gt;&gt;&gt;</value>
+    <value>泳がせ釣りⅡが有効の時のみ使用可能です。 &gt;&gt;&gt;</value>
   </data>
   <data name="ExtraOptionPrizeCatchHelpMarker" xml:space="preserve">
-    <value>&gt;Make sure 'Use Mooch II' is enabled or else it wont work&lt;
-This could save you 100gp if going only for mooches</value>
+    <value>”泳がせ釣りII”が有効になっていないと機能しません。”泳がせ釣り”のみを行う場合は100GP節約出来るかもしれません。</value>
   </data>
   <data name="Test" xml:space="preserve">
     <value>.</value>
   </data>
   <data name="Enable_AutoHook" xml:space="preserve">
-    <value>Enable AutoHook</value>
+    <value>AutoHookを有効にする</value>
   </data>
   <data name="Plugin_Enabled" xml:space="preserve">
-    <value>Plugin Enabled</value>
+    <value>プラグインが有効化されました</value>
   </data>
   <data name="Plugin_Disabled" xml:space="preserve">
-    <value>Plugin Disabled</value>
+    <value>プラグインが無効化されました</value>
   </data>
   <data name="Plugin_Name_Settings" xml:space="preserve">
-    <value>{0} Settings</value>
+    <value>{0}: 設定</value>
   </data>
   <data name="PluginUi_Draw_Enables_Disables" xml:space="preserve">
-    <value>Enables/Disables the plugin for you</value>
+    <value>プラグインを有効/無効にする</value>
   </data>
   <data name="Using_Chum_Timer" xml:space="preserve">
-    <value>Using Chum timer</value>
+    <value>撒き餌タイマーを使用</value>
   </data>
   <data name="Disables_AutoHook" xml:space="preserve">
-    <value>Disables AutoHook</value>
+    <value>自動フッキングを無効にする</value>
   </data>
   <data name="AutoHook_Disabled" xml:space="preserve">
-    <value>AutoHook Disabled</value>
+    <value>自動フッキング無効</value>
   </data>
   <data name="AutoHook_Enabled" xml:space="preserve">
-    <value>AutoHook Enabled</value>
+    <value>自動フッキング有効</value>
   </data>
   <data name="Enables_AutoHook" xml:space="preserve">
-    <value>Enables AutoHook</value>
+    <value>自動フッキングを有効にする</value>
   </data>
   <data name="Opens_Config_Window" xml:space="preserve">
-    <value>Opens Config Window</value>
+    <value>設定ウィンドウを開く</value>
   </data>
   <data name="TabAutoCasts_When_Stack_Equals" xml:space="preserve">
-    <value>When Stacks = </value>
+    <value>スタック時 = </value>
   </data>
   <data name="Use_Prize_Catch" xml:space="preserve">
-    <value>Use Prize Catch</value>
+    <value>大物狙いを使用</value>
   </data>
   <data name="Use_Prize_Catch_HelpText" xml:space="preserve">
-    <value>Cancels Current Mooch. Patience and Makeshift Bait will not be used when Prize Catch active</value>
+    <value>泳がせ釣りをキャンセルする。大物狙いが有効な場合ペーシェンスと熟漁の技を使用しません。</value>
   </data>
   <data name="Toggles_AutoHook_On_Off" xml:space="preserve">
-    <value>Toggles AutoHook On/Off</value>
+    <value>自動フッキングの有効/無効を切り替える</value>
   </data>
   <data name="Triple_Hook" xml:space="preserve">
-    <value>Triple Hook</value>
+    <value>トリプルフッキング</value>
   </data>
   <data name="Watered_Cordial" xml:space="preserve">
-    <value>Watered Cordial</value>
+    <value>ライトコーディアル</value>
   </data>
   <data name="Cordial" xml:space="preserve">
-    <value>Cordial</value>
+    <value>コーディアル</value>
   </data>
   <data name="HQ_Cordial" xml:space="preserve">
-    <value>HQ Cordial</value>
+    <value>コーディアルHQ</value>
   </data>
   <data name="HQ_Watered_Cordial" xml:space="preserve">
-    <value>HQ Watered Cordial</value>
+    <value>ライトコーディアルHQ</value>
   </data>
   <data name="Double_Hook" xml:space="preserve">
-    <value>Double Hook</value>
+    <value>ダブルフッキング</value>
   </data>
   <data name="Patience_II" xml:space="preserve">
-    <value>Patience II</value>
+    <value>ペーシェンスII</value>
   </data>
   <data name="Hi_Cordial" xml:space="preserve">
-    <value>Hi-Cordial</value>
+    <value>ハイコーディアル</value>
   </data>
   <data name="Patience_I" xml:space="preserve">
-    <value>Patience I</value>
+    <value>ペーシェンス</value>
   </data>
   <data name="Prize_Catch" xml:space="preserve">
-    <value>Prize Catch</value>
+    <value>大物狙い</value>
   </data>
   <data name="Surface_Slap" xml:space="preserve">
-    <value>Surface Slap</value>
+    <value>トレードリリース</value>
   </data>
   <data name="Identical_Cast" xml:space="preserve">
-    <value>Identical Cast</value>
+    <value>セイムキャスト</value>
   </data>
   <data name="Fish_Eyes" xml:space="preserve">
-    <value>Fish Eyes</value>
+    <value>フィッシュアイ</value>
   </data>
   <data name="Chum" xml:space="preserve">
-    <value>Chum</value>
+    <value>撒き餌</value>
   </data>
   <data name="Thaliaks_Favor" xml:space="preserve">
-    <value>Thaliak's Favor</value>
+    <value>サリャクの恩寵</value>
   </data>
   <data name="MakeShift_Bait" xml:space="preserve">
-    <value>MakeShift Bait</value>
+    <value>熟漁の技</value>
   </data>
   <data name="BaitName_Default" xml:space="preserve">
     <value>Default</value>
   </data>
   <data name="DecompressString_Invalid_Import" xml:space="preserve">
-    <value>This is not a valid import.</value>
+    <value>無効なコードです</value>
   </data>
   <data name="New_Preset" xml:space="preserve">
-    <value>New Preset</value>
+    <value>新規プリセット</value>
   </data>
   <data name="Auto_Casts" xml:space="preserve">
-    <value>Auto Casts</value>
+    <value>自動キャスティング</value>
   </data>
   <data name="TabAutoCasts_DrawAutoCast_HelpText" xml:space="preserve">
-    <value>Cast (FSH Action) will be used after a bite
+    <value>魚が釣れた後キャスティングをします。
 
-IMPORTANT!!!
-If Auto Mooch (Global or Custom Preset) is not enabled, the line will be casted normally and you'll lose your mooch opportunity (If available)</value>
+注意!!!
+自動泳がせ釣りが有効に(グローバル・カスタムプリセットどちらも) なっていない場合、通常のキャスティングを行います（泳がせ釣りの機会を失う可能性があります）。</value>
   </data>
   <data name="Global_Auto_Cast_Line" xml:space="preserve">
-    <value>Global Auto Cast Line</value>
+    <value>グローバル自動キャスティング</value>
   </data>
   <data name="Use_Thaliaks_Favor" xml:space="preserve">
-    <value>Use Thaliak's Favor</value>
+    <value>サリャクの恩寵を使用</value>
   </data>
   <data name="Use_Natures_Bounty" xml:space="preserve">
-    <value>Use Nature's Bounty</value>
+    <value>ネイチャーバウンティを使用</value>
   </data>
   <data name="Enable_AutoGig" xml:space="preserve">
-    <value>Enable AutoGig</value>
+    <value>自動ギギングを有効にする</value>
   </data>
   <data name="Hitbox" xml:space="preserve">
-    <value>Hitbox</value>
+    <value>ヒットボックス</value>
   </data>
   <data name="Use_Makeshift_Bait" xml:space="preserve">
-    <value>Use Makeshift Bait</value>
+    <value>熟漁の技を使用</value>
   </data>
   <data name="TabAutoCasts_DrawMakeShiftBait_HelpText" xml:space="preserve">
-    <value>This might conflict with Auto Thaliak's Favor</value>
+    <value>自動サリャクの恩寵と競合する可能性があります</value>
   </data>
   <data name="TabAutoCasts_DrawExtraOptionsThaliaksFavor_" xml:space="preserve">
-    <value>When Stacks =</value>
+    <value>スタック時 =</value>
   </data>
   <data name="TabAutoCasts_DrawThaliaksFavor_HelpText" xml:space="preserve">
-    <value>This might conflict with Auto MakeShift Bait</value>
+    <value>自動熟漁の技と競合する可能性があります</value>
   </data>
   <data name="Use_Patience_I_II" xml:space="preserve">
-    <value>Use Patience I/II</value>
+    <value>ペーシェンスI/IIを使用</value>
   </data>
   <data name="TabAutoCasts_DrawPatience_HelpText" xml:space="preserve">
-    <value>Patience I/II will be used when your current GP is equal (or higher) to the action cost +20 (Ex: 220 for I, 580 for II), this helps to avoid not having GP for the hooksets</value>
+    <value>ペーシェンスI/IIは、現在のGPがアクションコスト+20に等しい(またはそれ以上) 場合に使用されます （ペーシェンスIは220、ペーシェンスIIは580）。この設定は、フッキングのGP不足を回避します</value>
   </data>
   <data name="TabAutoCasts_DrawExtraOptionsPatience" xml:space="preserve">
-    <value>Use when Makeshift Bait is active</value>
+    <value>熟漁の技が有効な場合に使用</value>
   </data>
   <data name="Enable_Auto_Casts" xml:space="preserve">
-    <value>Enable Auto Casts</value>
+    <value>自動キャスティングを有効にする</value>
   </data>
   <data name="Dont_Cancel_Mooch" xml:space="preserve">
-    <value>Don't Cancel Mooch</value>
+    <value>泳がせ釣りをキャンセルしない</value>
   </data>
   <data name="TabAutoCasts_DrawHeader_HelpText" xml:space="preserve">
-    <value>Actions that cancel mooch wont be used (e.g. Chum, Fish Eyes, Prize Catch etc.)</value>
+    <value>泳がせ釣りチャンスをキャンセルするアクションは使用されません（例：撒き餌、フィッシュアイ、大物狙いなど）</value>
   </data>
   <data name="TabAutoCasts_DrawExtraOptionsAutoMooch_Extra_Only_Active" xml:space="preserve">
-    <value>Only use when Fisher's Intuition is active</value>
+    <value>漁師の直感が有効な場合にのみ使用</value>
   </data>
   <data name="Use_Mooch_II" xml:space="preserve">
-    <value>Use Mooch II</value>
+    <value>泳がせ釣りII を使用</value>
   </data>
   <data name="Global_Auto_Mooch" xml:space="preserve">
-    <value>Global Auto Mooch</value>
+    <value>自動泳がせ釣り（グローバル）</value>
   </data>
   <data name="TabAutoCasts_DrawHeader_Guide_Collectables" xml:space="preserve">
-    <value>Guide: How to auto accept Collectables</value>
+    <value>ガイド：収集品を自動的に受け取る方法</value>
   </data>
   <data name="TabAutoCasts_DrawAutoMooch_HelpText" xml:space="preserve">
-    <value>This option have priority over Auto Cast Line
+    <value>このオプションは自動キャスティングより優先されます。
 
-If you want to Auto Mooch only a specific fish and ignore others, disable this option and create a Custom Preset.</value>
+特定の魚のみを自動で泳がせ釣りし、他の魚を無視したい場合はこのオプションを無効にしてカスタムプリセットを作成してください。</value>
   </data>
   <data name="Support_me_on_Ko_fi" xml:space="preserve">
-    <value>Support me on Ko-fi</value>
+    <value>Ko-Fiでサポート</value>
   </data>
   <data name="Complete" xml:space="preserve">
-    <value>Complete</value>
+    <value>完了</value>
   </data>
   <data name="Incomplete" xml:space="preserve">
-    <value>Incomplete</value>
+    <value>未完了</value>
   </data>
   <data name="AutoHook" xml:space="preserve">
     <value>AutoHook</value>
