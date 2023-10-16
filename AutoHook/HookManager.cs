@@ -182,7 +182,7 @@ public class HookingManager : IDisposable
     private void UseAutoCasts()
     {
         // if _lastStep is FishBit but currentState is FishingState.PoleReady, it case means that the fish was hooked, but it escaped.
-        if (_lastStep is CatchSteps.None or CatchSteps.BeganFishing or CatchSteps.BeganMooching or CatchSteps.FishBit)
+        if (_lastStep is CatchSteps.None or CatchSteps.BeganFishing or CatchSteps.BeganMooching)
             return;
 
         if (!_recastTimer.IsRunning)
