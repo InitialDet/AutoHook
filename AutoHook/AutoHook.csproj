@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <Authors>Det</Authors>
-        <Version>2.5.0.1</Version>
+        <Version>3.0.0.0</Version>
         <Description>Auto hooks for you</Description>
         <PackageProjectUrl>https://github.com/InitialDet/AutoHook</PackageProjectUrl>
         <Configurations>Release;Debug</Configurations>
