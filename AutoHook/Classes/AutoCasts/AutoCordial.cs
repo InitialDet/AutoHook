@@ -21,6 +21,9 @@ public class AutoCordial : BaseActionCast
         GpThreshold = 1;
     }
     
+    public override string GetName()
+        => Name = UIStrings.Cordial;
+    
     public override bool CastCondition()
     {
         var cordialList = new List<(uint, bool, uint)>

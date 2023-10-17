@@ -312,14 +312,18 @@ public class PluginUi : Window, IDisposable
             {
                 MainChanges =
                 {
-                    "I honestly forgot what i added or change tbh i got lost in the sauce so yeah report bugs and stuff",
-                    "Major plugin rewrite to try and support complex conditions",
+                    "Major plugin rework to try and support complex conditions",
                     "AutoCasts are now preset based, you can now have multiple presets with different AutoCasts",
                     "Merged AutoCast and Gp Config into a single tab",
                     "Bait and Mooch hook configs are now separated into different tabs for better organization",
                     "Added a new 'Fish' Tab, which contains new options related to fish caught",
                     "Its now possible to change the current bait (or preset) when a fish is caught X times",
-                    "I really forgor"
+                    "Localization Updates"
+                },
+                MinorChanges =
+                {
+                    "Fixed localization issues",
+                    "Fixed AutoCast not working if not hooking after a bite"
                 }
             },
             new Version("2.5.0.0")
