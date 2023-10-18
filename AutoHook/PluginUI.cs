@@ -130,13 +130,14 @@ public class PluginUi : Window, IDisposable
         ImGui.PopID();
     }
 
-    private static void TestButtons()
+    private static unsafe void TestButtons()
     {
         if (ImGui.Button(@"Check"))
         {  
             Service.PrintChat("-----------------");
             Service.PrintChat("Cordial Available: " + PlayerResources.ActionTypeAvailable(IDs.Item.HiCordial, ActionType.Item));
             Service.PrintChat("Cast Available: " + PlayerResources.ActionTypeAvailable(IDs.Actions.Cast));
+            Service.PrintChat("Quant. Available: " + InventoryManager.Instance()->GetInventoryItemCount(IDs.Item.HiCordial));
 
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using AutoHook.Classes;
 using AutoHook.Data;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.GeneratedSheets;
 using LuminaAction = Lumina.Excel.GeneratedSheets.Action;
 using Task = System.Threading.Tasks.Task;
@@ -139,14 +140,22 @@ public class PlayerResources : IDisposable
         => _actionManager->GetActionStatus(actionType, id);
 
     public static unsafe bool CastAction(uint id, ActionType actionType = ActionType.Action)
-        => _actionManager->UseAction(actionType, id);
+    {
+        if (_actionManager == null)
+            _actionManager = ActionManager.Instance();
+        
+        return _actionManager->UseAction(actionType, id);
+    }
+    
 
     public static unsafe int GetRecastGroups(uint id, ActionType actionType = ActionType.Action)
         => _actionManager->GetRecastGroup((int)actionType, id);
 
     public static unsafe void UseItems(uint id)
-        => _actionManager->UseAction(ActionType.Item, id, a4: 65535);
-
+    {
+        if (InventoryManager.Instance()->GetInventoryItemCount(id) > 0)
+            AgentInventoryContext.Instance()->UseItem(id);
+    }
 
     // RecastGroup 68 = Cordial pots
     public static unsafe bool IsPotOffCooldown()

@@ -37,7 +37,6 @@ public class AutoCordial : BaseActionCast
         
         foreach (var (id, recovery) in cordialList)
         {
-
             if (!PlayerResources.HaveCordialInInventory(id, out bool isHq))
                 continue;
             
@@ -49,7 +48,7 @@ public class AutoCordial : BaseActionCast
             Id = id;
 
             var notOvercaped = PlayerResources.GetCurrentGp() + cordialRecovery < PlayerResources.GetMaxGp();
-            return notOvercaped && PlayerResources.IsPotOffCooldown();
+            return notOvercaped;
         }
 
         return false;
