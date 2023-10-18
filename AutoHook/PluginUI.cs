@@ -135,9 +135,9 @@ public class PluginUi : Window, IDisposable
         if (ImGui.Button(@"Check"))
         {  
             Service.PrintChat("-----------------");
-            Service.PrintChat("Cordial Available: " + PlayerResources.ActionTypeAvailable(IDs.Item.HiCordial, ActionType.Item));
-            Service.PrintChat("Cast Available: " + PlayerResources.ActionTypeAvailable(IDs.Actions.Cast));
-            Service.PrintChat("Quant. Available: " + InventoryManager.Instance()->GetInventoryItemCount(IDs.Item.HiCordial));
+            Service.PrintChat("Watered Available: " + InventoryManager.Instance()->GetInventoryItemCount(IDs.Item.WateredCordial));
+            Service.PrintChat("HQ Watered Available: " + InventoryManager.Instance()->GetInventoryItemCount(IDs.Item.HQWateredCordial));
+
 
         }
     }

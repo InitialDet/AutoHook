@@ -153,8 +153,7 @@ public class PlayerResources : IDisposable
 
     public static unsafe void UseItems(uint id)
     {
-        if (InventoryManager.Instance()->GetInventoryItemCount(id) > 0)
-            AgentInventoryContext.Instance()->UseItem(id);
+        AgentInventoryContext.Instance()->UseItem(id);
     }
 
     // RecastGroup 68 = Cordial pots
@@ -187,17 +186,9 @@ public class PlayerResources : IDisposable
     public static unsafe bool HaveItemInInventory(uint id, bool isHQ = false)
         => InventoryManager.Instance()->GetInventoryItemCount(id, isHQ) > 0;
 
-    public static unsafe bool HaveCordialInInventory(uint id, out bool isHq)
+    public static unsafe bool HaveCordialInInventory(uint id)
     {
-        isHq = false;
-        
-        if (InventoryManager.Instance()->GetInventoryItemCount(id, true) > 0)
-        {
-            isHq = true;
-            return true;
-        }
-        
-        return InventoryManager.Instance()->GetInventoryItemCount(id, false) > 0;
+        return InventoryManager.Instance()->GetInventoryItemCount(id) > 0;
     }
     
 

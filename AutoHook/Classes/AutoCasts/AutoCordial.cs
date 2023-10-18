@@ -9,10 +9,30 @@ namespace AutoHook.Classes.AutoCasts;
 public class AutoCordial : BaseActionCast
 {
     private const uint CordialHiRecovery = 400;
+    private const uint CordialHqRecovery = 350;
     private const uint CordialRecovery = 300;
+    private const uint CordialHqWateredRecovery = 200;
     private const uint CordialWateredRecovery = 150;
 
     public bool InvertCordialPriority;
+    
+    private readonly List<(uint, uint)> _cordialList = new()
+    {
+        (IDs.Item.HiCordial,        CordialHiRecovery),
+        (IDs.Item.HQCordial,        CordialHqRecovery),
+        (IDs.Item.Cordial,          CordialRecovery),
+        (IDs.Item.HQWateredCordial, CordialHqWateredRecovery), 
+        (IDs.Item.WateredCordial,   CordialWateredRecovery)
+    };
+    
+    private readonly List<(uint, uint)> _invertedList = new()
+    {
+        (IDs.Item.HQWateredCordial, CordialHqWateredRecovery), 
+        (IDs.Item.WateredCordial,   CordialWateredRecovery),
+        (IDs.Item.HQCordial,        CordialHqRecovery),
+        (IDs.Item.Cordial,          CordialRecovery),
+        (IDs.Item.HiCordial,        CordialHiRecovery)
+    };
 
     public AutoCordial() : base(UIStrings.Cordial, IDs.Item.Cordial, ActionType.Item)
     {
@@ -24,30 +44,19 @@ public class AutoCordial : BaseActionCast
     
     public override bool CastCondition()
     {
-        var cordialList = new List<(uint, uint)>
-        {
-            (IDs.Item.HiCordial, CordialHiRecovery),
-            (IDs.Item.Cordial, CordialRecovery),
-            (IDs.Item.WateredCordial, CordialWateredRecovery)
-        };
+        var cordialList = _cordialList;
         
-
         if (InvertCordialPriority)
-            cordialList.Reverse();
+            cordialList = _invertedList;
         
         foreach (var (id, recovery) in cordialList)
         {
-            if (!PlayerResources.HaveCordialInInventory(id, out bool isHq))
+            if (!PlayerResources.HaveCordialInInventory(id))
                 continue;
-            
-            var cordialRecovery = recovery;
-
-            if (isHq)
-                cordialRecovery += 50; // yep hardcoded (thumbsup emoji)
             
             Id = id;
 
-            var notOvercaped = PlayerResources.GetCurrentGp() + cordialRecovery < PlayerResources.GetMaxGp();
+            var notOvercaped = PlayerResources.GetCurrentGp() + recovery < PlayerResources.GetMaxGp();
             return notOvercaped;
         }
 
