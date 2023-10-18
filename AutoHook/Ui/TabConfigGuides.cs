@@ -110,7 +110,6 @@ public class TabConfigGuides : BaseTab
         {
             Service.Save();
         }
-        
     }
 
     private void DrawGuides()

@@ -9,12 +9,10 @@ namespace AutoHook.Classes.AutoCasts;
 public class AutoCordial : BaseActionCast
 {
     private const uint CordialHiRecovery = 400;
-    private const uint CordialHqRecovery = 350;
     private const uint CordialRecovery = 300;
-    private const uint CordialHqWateredRecovery = 200;
     private const uint CordialWateredRecovery = 150;
 
-    private bool _invertCordialPriority;
+    public bool InvertCordialPriority;
 
     public AutoCordial() : base(UIStrings.Cordial, IDs.Item.Cordial, ActionType.Item)
     {
@@ -26,26 +24,31 @@ public class AutoCordial : BaseActionCast
     
     public override bool CastCondition()
     {
-        var cordialList = new List<(uint, bool, uint)>
+        var cordialList = new List<(uint, uint)>
         {
-            (IDs.Item.HiCordial, false, CordialHiRecovery),
-            (IDs.Item.Cordial, true, CordialHqRecovery), //Hq
-            (IDs.Item.Cordial, false, CordialRecovery),
-            (IDs.Item.WateredCordial, true, CordialHqWateredRecovery), // Hq
-            (IDs.Item.WateredCordial, false, CordialWateredRecovery)
+            (IDs.Item.HiCordial, CordialHiRecovery),
+            (IDs.Item.Cordial, CordialRecovery),
+            (IDs.Item.WateredCordial, CordialWateredRecovery)
         };
+        
 
-        if (_invertCordialPriority)
+        if (InvertCordialPriority)
             cordialList.Reverse();
-
-        foreach (var (id, hq, recovery) in cordialList)
+        
+        foreach (var (id, recovery) in cordialList)
         {
-            if (!PlayerResources.HaveItemInInventory(id, hq))
-                continue;
 
+            if (!PlayerResources.HaveCordialInInventory(id, out bool isHq))
+                continue;
+            
+            var cordialRecovery = recovery;
+
+            if (isHq)
+                cordialRecovery += 50; // yep hardcoded (thumbsup emoji)
+            
             Id = id;
 
-            var notOvercaped = PlayerResources.GetCurrentGp() + recovery < PlayerResources.GetMaxGp();
+            var notOvercaped = PlayerResources.GetCurrentGp() + cordialRecovery < PlayerResources.GetMaxGp();
             return notOvercaped && PlayerResources.IsPotOffCooldown();
         }
 
@@ -62,7 +65,7 @@ public class AutoCordial : BaseActionCast
 
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
-        if (DrawUtil.Checkbox(UIStrings.AutoCastCordialPriority, ref _invertCordialPriority))
+        if (DrawUtil.Checkbox(UIStrings.AutoCastCordialPriority, ref InvertCordialPriority))
         {
             Service.Save();
         }

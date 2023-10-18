@@ -4,9 +4,9 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace AutoHook.Classes.AutoCasts;
 
-public class AutoFood : BaseActionCast
+public class AutoFood : BaseActionCast //todo
 {
-    private float _secondsRemaining = 0;
+    public float SecondsRemaining = 0;
 
     public AutoFood() : base(UIStrings.Food_Buff, 0, ActionType.Item)
     {
@@ -17,7 +17,7 @@ public class AutoFood : BaseActionCast
 
     public override bool CastCondition()
     {
-        if (PlayerResources.CheckFoodBuff() > _secondsRemaining)
+        if (PlayerResources.GetStatusTime() > SecondsRemaining)
         {
             return false;
         }

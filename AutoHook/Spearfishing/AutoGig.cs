@@ -115,10 +115,8 @@ internal class AutoGig : Window, IDisposable
                 Service.Configuration.GigSpacing[currentKey] = 25;
             Service.PrintDebug($"[AutoGig] {ex.Message}");
         }
-
-        ImGui.SameLine();
-
-        ShowKofi();
+        
+        PluginUi.ShowKofi();
 
         ImGui.SetNextItemWidth(130);
         if (ImGui.BeginCombo(UIStrings.Size, Service.Configuration.CurrentSize.ToName()))

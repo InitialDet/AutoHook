@@ -31,7 +31,7 @@ public class AutoMooch : BaseActionCast
             return true;
         }
 
-        if (PlayerResources.ActionAvailable(IDs.Actions.Mooch))
+        if (PlayerResources.ActionTypeAvailable(IDs.Actions.Mooch))
         {
             Service.PrintDebug(@$"Mooch Available, casting normal mooch");
             Id = IDs.Actions.Mooch;

@@ -415,7 +415,7 @@ public class HookingManager : IDisposable
         if (hook is null or HookType.None)
             return;
 
-        if (PlayerResources.ActionAvailable((uint)hook)) // Check if Powerful/Precision is available
+        if (PlayerResources.ActionTypeAvailable((uint)hook)) // Check if Powerful/Precision is available
         {
             Service.PrintDebug(@$"[HookManager] Using {hook.ToString()} hook.");
             PlayerResources.CastActionDelayed((uint)hook, ActionType.Action, @$"{hook.ToString()}");
@@ -501,7 +501,7 @@ public class HookingManager : IDisposable
     private bool OnUseAction(IntPtr manager, ActionType actionType, uint actionId, GameObjectID targetId, uint a4,
         uint a5, uint a6, IntPtr a7)
     {
-        if (actionType == ActionType.Action && PlayerResources.ActionAvailable(actionId))
+        if (actionType == ActionType.Action && PlayerResources.ActionTypeAvailable(actionId))
             switch (actionId)
             {
                 case IDs.Actions.Cast:

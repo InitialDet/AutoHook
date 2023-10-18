@@ -44,7 +44,6 @@ public class Configuration : IPluginConfiguration
     public int DelayBetweenCastsMax = 1000;
 
     public bool ShowStatusHeader = true;
-
     
     // old config
     public List<BaitPresetConfig> BaitPresetList = new List<BaitPresetConfig>()!;

@@ -119,8 +119,6 @@
   </resheader>
   <data name="DrawHeader_Testing" xml:space="preserve">
     <value>テスト中</value>
-    <comment>Just a test field - Not being used
-</comment>
   </data>
   <data name="default" xml:space="preserve">
     <value>デフォルト</value>
@@ -175,7 +173,6 @@
   </data>
   <data name="EditMe" xml:space="preserve">
     <value>EditMe</value>
-    <comment>Context: Temporary name displayed to the user telling them to edit the field with the wanted Bait or Fish name</comment>
   </data>
   <data name="Add" xml:space="preserve">
     <value>追加</value>
@@ -199,6 +196,10 @@
     <value>新規プリセットの追加</value>
   </data>
   <data name="TabPresets_DrawHeader_TabDescription" xml:space="preserve">
+    <value>ここでは、現在の餌に基づいて使用するフッキングをカスタマイズすることができます。
+餌/生き餌が指定されていない場合、代わりにデフォルトの設定 (全般タブ) が使用されます。</value>
+  </data>
+  <data name="TabPresets_DrawHeader_NewTabDescription" xml:space="preserve">
     <value>ここでは、現在の餌に基づいて使用するフッキングをカスタマイズすることができます。
 餌/生き餌が指定されていない場合、代わりにデフォルトの設定 (全般タブ) が使用されます。</value>
   </data>
@@ -354,7 +355,7 @@
     <value>漁師の直感 について設定</value>
   </data>
   <data name="FisherSIntuitionSettingsHelpMarker" xml:space="preserve">
-    <value>漁師の直観が発動中のみカスタムフックを有効にする</value>
+    <value>漁師の直感が発動中のみカスタムフッキングを有効にする</value>
   </data>
   <data name="HoldShiftBothDHTH" xml:space="preserve">
     <value>Shiftキーを押しながら選択すると、ダブルフックとトリプルフックの両方を選択します (非推奨)</value>
@@ -649,5 +650,172 @@
   </data>
   <data name="AutoHook" xml:space="preserve">
     <value>AutoHook</value>
+  </data>
+  <data name="PluginUi_Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="TabGeneral_DrawHeader_Localization_Help" xml:space="preserve">
+    <value>プラグインの翻訳を支援する (Crowdin)</value>
+  </data>
+  <data name="Add_new_bait" xml:space="preserve">
+    <value>新しい餌を追加</value>
+  </data>
+  <data name="Add_new_mooch" xml:space="preserve">
+    <value>新しい生き餌を追加</value>
+  </data>
+  <data name="Presets_Hook" xml:space="preserve">
+    <value>フッキング</value>
+  </data>
+  <data name="Mooch" xml:space="preserve">
+    <value>泳がせ釣り</value>
+  </data>
+  <data name="AutoCastLine_Auto_Cast_Line" xml:space="preserve">
+    <value>自動キャスティング</value>
+  </data>
+  <data name="AutoMooch_HelpText" xml:space="preserve">
+    <value>このオプションは自動キャスティングより優先されます</value>
+  </data>
+  <data name="Normal_Hook" xml:space="preserve">
+    <value>フッキング</value>
+  </data>
+  <data name="TabName_Default_Preset" xml:space="preserve">
+    <value>デフォルトプリセット</value>
+  </data>
+  <data name="Bait" xml:space="preserve">
+    <value>エサ</value>
+  </data>
+  <data name="All_Baits" xml:space="preserve">
+    <value>すべてのエサ</value>
+  </data>
+  <data name="All_Mooches" xml:space="preserve">
+    <value>全ての生き餌</value>
+  </data>
+  <data name="AutoPatience_Patience" xml:space="preserve">
+    <value>ペーシェンス</value>
+  </data>
+  <data name="Fish" xml:space="preserve">
+    <value>魚</value>
+  </data>
+  <data name="Add_new_fish" xml:space="preserve">
+    <value>新しい魚を追加</value>
+  </data>
+  <data name="Cast_Line" xml:space="preserve">
+    <value>キャスティング</value>
+    <comment>Cast (fisher action)</comment>
+  </data>
+  <data name="Mooch_II" xml:space="preserve">
+    <value>泳がせ釣りII</value>
+  </data>
+  <data name="Never_Mooch" xml:space="preserve">
+    <value>Never Mooch</value>
+  </data>
+  <data name="Mooch_Setting" xml:space="preserve">
+    <value>泳がせ釣り設定</value>
+  </data>
+  <data name="Swap_Preset" xml:space="preserve">
+    <value>Swap Preset</value>
+  </data>
+  <data name="Swap_Bait" xml:space="preserve">
+    <value>エサの切替え</value>
+  </data>
+  <data name="IdenticalCast_HelpText" xml:space="preserve">
+    <value>無効にした場合泳がせ釣りをしません</value>
+  </data>
+  <data name="Always_Mooch" xml:space="preserve">
+    <value>常に泳がせ釣りをする</value>
+  </data>
+  <data name="Caught_Counter" xml:space="preserve">
+    <value>釣った魚の数をカウントします。例:”取得数: 5”</value>
+    <comment>It'll shows how many times the fish was caught. Example: Caught: 5x</comment>
+  </data>
+  <data name="Hooked_Counter" xml:space="preserve">
+    <value>釣った魚の数をカウントします。例:”フッキング: 5”</value>
+    <comment>It'll shows how many times the fish was caught. Example: Hooked: 5x</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>有効</value>
+  </data>
+  <data name="StopFishing_After_hooking" xml:space="preserve">
+    <value>釣った後…</value>
+  </data>
+  <data name="Hooking_Limited_Reached_Chat_Message" xml:space="preserve">
+    <value>フッキング回数の上限に達した為停止します。({0})</value>
+  </data>
+  <data name="Caught_Limited_Reached_Chat_Message" xml:space="preserve">
+    <value>捕獲数上限に達した為停止します。（{0}）</value>
+  </data>
+  <data name="Stop_Casting" xml:space="preserve">
+    <value>キャスティングを停止</value>
+  </data>
+  <data name="Auto_Cast_Stopped" xml:space="preserve">
+    <value>自動キャスティングは停止されますが、釣りは終了しません</value>
+  </data>
+  <data name="Quit_Fishing" xml:space="preserve">
+    <value>釣りを終了する</value>
+  </data>
+  <data name="Quit_Action_HelpText" xml:space="preserve">
+    <value>釣りを終了する</value>
+  </data>
+  <data name="Tab_Description" xml:space="preserve">
+    <value>備考</value>
+  </data>
+  <data name="TabDefaultPreset_Description" xml:space="preserve">
+    <value>デフォルトプリセットは、カスタムベイト/生き餌/魚/オートキャストが検出されない場合に使用されます。 ここでは、カスタムプリセットが作成されない限り、デフォルトで使用されるフック動作を設定できます。 
+ガイドタブをチェックしてください。</value>
+  </data>
+  <data name="Old_Preset_Warning" xml:space="preserve">
+    <value>これは旧バージョンからのインポートです。いくつか設定がありません。</value>
+  </data>
+  <data name="Show_Chat_Logs" xml:space="preserve">
+    <value>チャットログを表示する</value>
+  </data>
+  <data name="Show_Current_Status_Header" xml:space="preserve">
+    <value>現在のステータスをヘッダーに表示する</value>
+  </data>
+  <data name="DrawConfigs_Max_" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="DrawConfigs_Min_" xml:space="preserve">
+    <value>最小</value>
+  </data>
+  <data name="Delay_Between_Casts" xml:space="preserve">
+    <value>キャスティングのディレイ(ms):</value>
+  </data>
+  <data name="Show_Debug_Console" xml:space="preserve">
+    <value>デバッグコンソールを表示</value>
+  </data>
+  <data name="Show_Chat_Logs_HelpText" xml:space="preserve">
+    <value>「プリセットの切替え」のようなメッセージをチャットに表示する</value>
+  </data>
+  <data name="TabName_Config_Guides" xml:space="preserve">
+    <value>設定 / ガイド</value>
+  </data>
+  <data name="Open_Console" xml:space="preserve">
+    <value>コンソールを開く</value>
+  </data>
+  <data name="SubAuto_Disabled" xml:space="preserve">
+    <value>自動キャスティング：無効</value>
+  </data>
+  <data name="Default_AutoCast_Being_Used" xml:space="preserve">
+    <value>[Default] 自動キャスティングが使用されます</value>
+  </data>
+  <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
+    <value>Custom preset [{0}] Auto cast is being used instead</value>
+  </data>
+  <data name="Auto_Cast_Alert_Manual_Hook" xml:space="preserve">
+    <value>Important! Auto Casts wont be used if you hook manually.</value>
+  </data>
+  <data name="Food_Buff" xml:space="preserve">
+    <value>Food Buff</value>
+  </data>
+  <data name="Only_When_Patience_Active" xml:space="preserve">
+    <value>Only use when patience is active</value>
+  </data>
+  <data name="Stop_After_Caught" xml:space="preserve">
+    <value>Stop After Caught</value>
+  </data>
+  <data name="Search_Hint" xml:space="preserve">
+    <value>Search...</value>
+    <comment>Hint Text for search bar</comment>
   </data>
 </root>

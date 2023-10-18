@@ -33,7 +33,7 @@ public class AutoMakeShiftBait : BaseActionCast
             return false;
 
 
-        bool available = PlayerResources.ActionAvailable(IDs.Actions.MakeshiftBait);
+        bool available = PlayerResources.ActionTypeAvailable(IDs.Actions.MakeshiftBait);
         bool hasStacks = PlayerResources.HasAnglersArtStacks(MakeshiftBaitStacks);
 
         return hasStacks && available;

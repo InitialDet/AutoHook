@@ -25,7 +25,7 @@ public class AutoPrizeCatch : BaseActionCast
         if (!Enabled)
             return false;
 
-        if (UseWhenMoochIIOnCD && PlayerResources.ActionAvailable(IDs.Actions.Mooch2))
+        if (UseWhenMoochIIOnCD && PlayerResources.ActionTypeAvailable(IDs.Actions.Mooch2))
             return false;
 
         if (UseOnlyWithIdenticalCast && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
@@ -40,7 +40,7 @@ public class AutoPrizeCatch : BaseActionCast
         if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
             return false;
 
-        return PlayerResources.ActionAvailable(IDs.Actions.PrizeCatch);
+        return PlayerResources.ActionTypeAvailable(IDs.Actions.PrizeCatch);
     }
 
     protected override DrawOptionsDelegate DrawOptions => () =>

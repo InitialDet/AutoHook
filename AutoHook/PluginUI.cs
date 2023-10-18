@@ -9,8 +9,10 @@ using System.Numerics;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using AutoHook.Data;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
+using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace AutoHook;
 
@@ -54,25 +56,21 @@ public class PluginUi : Window, IDisposable
         ImGui.Spacing();
         DrawUtil.Checkbox(UIStrings.Enable_AutoHook, ref Service.Configuration.PluginEnabled,
             UIStrings.PluginUi_Draw_Enables_Disables);
-        ShowKofi();
-        ImGui.SameLine();
-        ShowPaypal();
 
+        
+        ShowKofi();
+        ShowPaypal();
+        
         ImGui.Indent();
 
         if (Service.Configuration.PluginEnabled)
-        {
             ImGui.TextColored(ImGuiColors.HealerGreen, UIStrings.Plugin_Enabled);
-        }
         else
-        {
             ImGui.TextColored(ImGuiColors.DalamudRed, UIStrings.Plugin_Disabled);
-        }
 
         ImGui.Unindent();
         ImGui.Spacing();
-
-
+        
         DrawChangelog();
         ImGui.SameLine();
         DrawLanguageSelector();
@@ -86,9 +84,10 @@ public class PluginUi : Window, IDisposable
             }
 
             ImGui.SameLine();
-
-            //TestButtons();
-
+#if DEBUG
+            TestButtons();
+#endif
+            
             Debug();
             
             ImGui.Spacing();
@@ -134,7 +133,11 @@ public class PluginUi : Window, IDisposable
     private static void TestButtons()
     {
         if (ImGui.Button(@"Check"))
-        {
+        {  
+            Service.PrintChat("-----------------");
+            Service.PrintChat("Cordial Available: " + PlayerResources.ActionTypeAvailable(IDs.Item.HiCordial, ActionType.Item));
+            Service.PrintChat("Cast Available: " + PlayerResources.ActionTypeAvailable(IDs.Actions.Cast));
+
         }
     }
 
@@ -170,10 +173,11 @@ public class PluginUi : Window, IDisposable
         Service.Save();
     }
 
-    private static void ShowKofi()
+    public static void ShowKofi()
     {
-        string buttonText = UIStrings.Support_me_on_Ko_fi;
+        
         ImGui.SameLine();
+        string buttonText = UIStrings.Support_me_on_Ko_fi;
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
@@ -186,8 +190,10 @@ public class PluginUi : Window, IDisposable
         ImGui.PopStyleColor(3);
     }
 
-    private static void ShowPaypal()
+    public static void ShowPaypal()
     {
+        
+        ImGui.SameLine();
         string buttonText = @"PayPal";
         ImGui.SameLine();
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFFA06020);
@@ -243,7 +249,7 @@ public class PluginUi : Window, IDisposable
             return;
 
         ImGui.SetNextWindowSize(new Vector2(400, 0));
-        if (ImGui.Begin($"{UIStrings.Changelog}", ref _openChangelog, ImGuiWindowFlags.AlwaysAutoResize))
+        if (ImGui.Begin($"{UIStrings.Changelog}", ref _openChangelog))
         {
             var changes = PluginChangeLog.Versions;
 

@@ -44,10 +44,10 @@ public class PlayerResources : IDisposable
 
     public static bool IsMoochAvailable()
     {
-        if (ActionAvailable(IDs.Actions.Mooch))
+        if (ActionTypeAvailable(IDs.Actions.Mooch))
             return true;
 
-        else if (ActionAvailable(IDs.Actions.Mooch2))
+        else if (ActionTypeAvailable(IDs.Actions.Mooch2))
             return true;
 
         return false;
@@ -97,7 +97,7 @@ public class PlayerResources : IDisposable
         return false;
     }
     
-    public static float CheckFoodBuff()
+    public static float GetStatusTime()
     {
         if (Service.ClientState.LocalPlayer?.StatusList == null)
             return 0;
@@ -113,11 +113,8 @@ public class PlayerResources : IDisposable
 
     // status 0 == available to cast? not sure but it seems to be
     // Also make sure its the skill is not on cooldown (mainly for mooch2)
-    public static unsafe bool ActionAvailable(uint id, ActionType actionType = ActionType.Action)
+    public static unsafe bool ActionTypeAvailable(uint id, ActionType actionType = ActionType.Action)
     {
-        if (actionType == ActionType.Item)
-            return true;
-
         return ActionStatus(id, actionType) == 0 && !ActionOnCoolDown(id, actionType);
     }
     
@@ -155,7 +152,7 @@ public class PlayerResources : IDisposable
     public static unsafe bool IsPotOffCooldown()
     {
         var recast = _actionManager->GetRecastGroupDetail(68);
-        return recast->Total - recast->Elapsed == 0;
+        return recast->Total - recast->Elapsed == 0; 
     }
 
     public static unsafe uint CastActionCost(uint id, ActionType actionType = ActionType.Action)
@@ -181,6 +178,20 @@ public class PlayerResources : IDisposable
     public static unsafe bool HaveItemInInventory(uint id, bool isHQ = false)
         => InventoryManager.Instance()->GetInventoryItemCount(id, isHQ) > 0;
 
+    public static unsafe bool HaveCordialInInventory(uint id, out bool isHq)
+    {
+        isHq = false;
+        
+        if (InventoryManager.Instance()->GetInventoryItemCount(id, true) > 0)
+        {
+            isHq = true;
+            return true;
+        }
+        
+        return InventoryManager.Instance()->GetInventoryItemCount(id, false) > 0;
+    }
+    
+
     private static bool _blockCasting = false;
     
     public static void CastActionDelayed(uint actionId, ActionType actionType = ActionType.Action, string actionName = "")
@@ -190,17 +201,17 @@ public class PlayerResources : IDisposable
         
         if (actionType == ActionType.Action)
         {
-            if (!ActionAvailable(actionId, actionType))
+            if (!ActionTypeAvailable(actionId, actionType))
                 return;
             _blockCasting = true;
-            Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}");
+            Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}, Id: {actionId}");
             CastAction(actionId, actionType);
             DelayNextCast(actionId);
         }
         else if (actionType == ActionType.Item)
         {
             _blockCasting = true;
-            Service.PrintDebug(@$"[PlayerResources] Casting Item: {actionName}");
+            Service.PrintDebug(@$"[PlayerResources] Using Item: {actionName}, Id: {actionId}");
             UseItems(actionId);
             DelayNextCast(actionId);
         }
@@ -217,7 +228,7 @@ public class PlayerResources : IDisposable
         _blockActionNoDelay = true;
         if (actionType == ActionType.Action)
         {
-            if (ActionAvailable(id, actionType))
+            if (ActionTypeAvailable(id, actionType))
             {
                 Service.PrintDebug(@$"[PlayerResources] Casting {id}");
                 CastAction(id, actionType);
