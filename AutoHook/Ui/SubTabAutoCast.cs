@@ -29,6 +29,7 @@ public class SubTabAutoCast
             acCfg.CastMakeShiftBait,
             acCfg.CastPatience,
             acCfg.CastPrizeCatch,
+            //acCfg.CastReleaseFish,
             //acCfg.CastSurfaceSlap,
             acCfg.CastThaliaksFavor,
         };

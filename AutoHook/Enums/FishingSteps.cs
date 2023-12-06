@@ -1,6 +1,9 @@
+using System;
+
 namespace AutoHook.Enums;
 
-public enum CatchSteps
+[Flags]
+public enum FishingSteps
 {
     None,
     BeganFishing,

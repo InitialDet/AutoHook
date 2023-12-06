@@ -22,6 +22,7 @@ public class TabCustomPresets : BaseTab
     private SubTabBaitMooch _subTabBaitMooch = new();
     private SubTabAutoCast _subTabAutoCast = new();
     private SubTabFish _subTabFish = new();
+    private SubTabExtra _subTabExtra = new();
     
     private bool _showDescription;
 
@@ -87,11 +88,16 @@ public class TabCustomPresets : BaseTab
                 _subTabFish.DrawFishTab(_hookPresets.SelectedPreset);
                 ImGui.EndTabItem();
             }
+            
+            if (ImGui.BeginTabItem(UIStrings.Extra))
+            {
+                _subTabExtra.DrawExtraTab(_hookPresets.SelectedPreset.ExtraCfg);
+                ImGui.EndTabItem();
+            }
 
             if (ImGui.BeginTabItem(UIStrings.Auto_Casts))
             {
                 _subTabAutoCast.DrawAutoCastTab(_hookPresets.SelectedPreset.AutoCastsCfg);
-
                 ImGui.EndTabItem();
             }
 
@@ -146,6 +152,7 @@ public class TabCustomPresets : BaseTab
                 ImGui.CloseCurrentPopup();
                 Service.Save();
             }
+            
 
             ImGui.EndPopup();
         }

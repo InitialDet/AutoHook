@@ -13,16 +13,13 @@ namespace AutoHook.Utils;
 
 public class PlayerResources : IDisposable
 {
-    private static unsafe ActionManager* _actionManager = ActionManager.Instance();
-
     public static List<BaitFishClass> Baits { get; set; } = new();
     public static List<BaitFishClass> Fishes { get; set; } = new();
 
     public void Initialize()
     {
-        Service.GameInteropProvider.InitializeFromAttributes(this);
+        //Service.GameInteropProvider.InitializeFromAttributes(this);
         
-
         Baits = Service.DataManager.GetExcelSheet<Item>()?
                     .Where(i => i.ItemSearchCategory.Row == BaitFishClass.FishingTackleRow)
                     .Select(b => new BaitFishClass(b))
@@ -48,7 +45,7 @@ public class PlayerResources : IDisposable
         if (ActionTypeAvailable(IDs.Actions.Mooch))
             return true;
 
-        else if (ActionTypeAvailable(IDs.Actions.Mooch2))
+        if (ActionTypeAvailable(IDs.Actions.Mooch2))
             return true;
 
         return false;
@@ -131,25 +128,26 @@ public class PlayerResources : IDisposable
         if (group == -1) // Im assuming -1 recast group has no CD
             return false;
 
-        var recastDetail = _actionManager->GetRecastGroupDetail(group);
+        var recastDetail = ActionManager.Instance()->GetRecastGroupDetail(group);
 
         return recastDetail->Total - recastDetail->Elapsed > 0;
     }
 
     public static unsafe uint ActionStatus(uint id, ActionType actionType = ActionType.Action)
-        => _actionManager->GetActionStatus(actionType, id);
+    {
+        return ActionManager.Instance()->GetActionStatus(actionType, id);
+    }
 
     public static unsafe bool CastAction(uint id, ActionType actionType = ActionType.Action)
     {
-        if (_actionManager == null)
-            _actionManager = ActionManager.Instance();
-        
-        return _actionManager->UseAction(actionType, id);
+        return ActionManager.Instance()->UseAction(actionType, id);
     }
     
 
     public static unsafe int GetRecastGroups(uint id, ActionType actionType = ActionType.Action)
-        => _actionManager->GetRecastGroup((int)actionType, id);
+    {
+        return ActionManager.Instance()->GetRecastGroup((int)actionType, id);
+    }
 
     public static unsafe void UseItems(uint id)
     {
@@ -159,15 +157,12 @@ public class PlayerResources : IDisposable
     // RecastGroup 68 = Cordial pots
     public static unsafe bool IsPotOffCooldown()
     {
-        var recast = _actionManager->GetRecastGroupDetail(68);
+        var recast = ActionManager.Instance()->GetRecastGroupDetail(68);
         return recast->Total - recast->Elapsed == 0; 
     }
 
     public static unsafe uint CastActionCost(uint id, ActionType actionType = ActionType.Action)
     {
-        if (_actionManager == null)
-            _actionManager = ActionManager.Instance();
-
         return (uint)ActionManager.GetActionCost(actionType, id, 0, 0, 0, 0);
     }
 
@@ -178,7 +173,7 @@ public class PlayerResources : IDisposable
         if (group == -1) // Im assuming -1 recast group has no CD
             return 0;
 
-        var recast = _actionManager->GetRecastGroupDetail(group);
+        var recast = ActionManager.Instance()->GetRecastGroupDetail(group);
 
         return recast->Total - recast->Elapsed;
     }

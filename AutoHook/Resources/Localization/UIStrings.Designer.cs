@@ -522,6 +522,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom preset [{0}] Extra config is being used instead.
+        /// </summary>
+        internal static string Custom_Extra_Being_Used {
+            get {
+                return ResourceManager.GetString("Custom_Extra_Being_Used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is not a valid import..
         /// </summary>
         internal static string DecompressString_Invalid_Import {
@@ -536,6 +545,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Default_AutoCast_Being_Used {
             get {
                 return ResourceManager.GetString("Default_AutoCast_Being_Used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Default] Extra config is being used instead.
+        /// </summary>
+        internal static string Default_Extra_Being_Used {
+            get {
+                return ResourceManager.GetString("Default_Extra_Being_Used", resourceCulture);
             }
         }
         
@@ -585,6 +603,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delay when hooking.
+        /// </summary>
+        internal static string Delay_when_hooking {
+            get {
+                return ResourceManager.GetString("Delay_when_hooking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Important!!!
         ///
         ///If disabled, Precision/Powerful hook will be used instead when Patience is up..
@@ -628,6 +655,24 @@ namespace AutoHook.Resources.Localization {
         internal static string DoubleTripleHookSettings {
             get {
                 return ResourceManager.GetString("DoubleTripleHookSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configs.
+        /// </summary>
+        internal static string Draw_Configs {
+            get {
+                return ResourceManager.GetString("Draw_Configs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Guides.
+        /// </summary>
+        internal static string Draw_Guides {
+            get {
+                return ResourceManager.GetString("Draw_Guides", resourceCulture);
             }
         }
         
@@ -767,6 +812,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Extra Configs.
+        /// </summary>
+        internal static string Enable_Extra_Configs {
+            get {
+                return ResourceManager.GetString("Enable_Extra_Configs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable AutoGig.
         /// </summary>
         internal static string EnableAutoGig {
@@ -838,6 +892,15 @@ namespace AutoHook.Resources.Localization {
         internal static string ExportPresetToClipboard {
             get {
                 return ResourceManager.GetString("ExportPresetToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extra.
+        /// </summary>
+        internal static string Extra {
+            get {
+                return ResourceManager.GetString("Extra", resourceCulture);
             }
         }
         
@@ -1210,6 +1273,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Never Release.
+        /// </summary>
+        internal static string NeverRelease {
+            get {
+                return ResourceManager.GetString("NeverRelease", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This fish won&apos;t be released if &apos;Release All Fish&apos; is enabled in the Auto Cast tab.
+        /// </summary>
+        internal static string NeverReleaseHelptext {
+            get {
+                return ResourceManager.GetString("NeverReleaseHelptext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Preset.
         /// </summary>
         internal static string New_Preset {
@@ -1471,6 +1552,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Release All Fish.
+        /// </summary>
+        internal static string ReleaseAllFish {
+            get {
+                return ResourceManager.GetString("ReleaseAllFish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you dont want to release a specific fish, add it to a preset and select &quot;Never Release&quot;.
+        /// </summary>
+        internal static string ReleaseAllFishHelpText {
+            get {
+                return ResourceManager.GetString("ReleaseAllFishHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Right-click to rename.
         /// </summary>
         internal static string RightClickToRename {
@@ -1602,6 +1701,15 @@ namespace AutoHook.Resources.Localization {
         internal static string SubAuto_Disabled {
             get {
                 return ResourceManager.GetString("SubAuto_Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extra options disabled.
+        /// </summary>
+        internal static string SubExtra_Disabled {
+            get {
+                return ResourceManager.GetString("SubExtra_Disabled", resourceCulture);
             }
         }
         
@@ -2096,6 +2204,24 @@ namespace AutoHook.Resources.Localization {
         internal static string Watered_Cordial {
             get {
                 return ResourceManager.GetString("Watered_Cordial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When gaining fisher&apos;s intuition....
+        /// </summary>
+        internal static string When_gaining_fishers_intuition {
+            get {
+                return ResourceManager.GetString("When_gaining_fishers_intuition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When losing fisher&apos;s intuition....
+        /// </summary>
+        internal static string When_losing_fishers_intuition {
+            get {
+                return ResourceManager.GetString("When_losing_fishers_intuition", resourceCulture);
             }
         }
         

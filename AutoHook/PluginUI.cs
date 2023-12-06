@@ -52,7 +52,7 @@ public class PluginUi : Window, IDisposable
         if (!IsOpen)
             return;
         
-        ImGui.TextColored(ImGuiColors.DalamudYellow, "Major plugin rework!!! Please, recheck all of your presets");
+        //ImGui.TextColored(ImGuiColors.DalamudYellow, "Major plugin rework!!! Please, recheck all of your presets");
         ImGui.Spacing();
         DrawUtil.Checkbox(UIStrings.Enable_AutoHook, ref Service.Configuration.PluginEnabled,
             UIStrings.PluginUi_Draw_Enables_Disables);
@@ -133,12 +133,7 @@ public class PluginUi : Window, IDisposable
     private static unsafe void TestButtons()
     {
         if (ImGui.Button(@"Check"))
-        {  
-            Service.PrintChat("-----------------");
-            Service.PrintChat("Watered Available: " + InventoryManager.Instance()->GetInventoryItemCount(IDs.Item.WateredCordial));
-            Service.PrintChat("HQ Watered Available: " + InventoryManager.Instance()->GetInventoryItemCount(IDs.Item.HQWateredCordial));
-
-
+        {
         }
     }
 
@@ -293,7 +288,7 @@ public class PluginUi : Window, IDisposable
                         if (changes[i].MinorChanges.Count > 0)
                         {
                             ImGui.Spacing();
-                            ImGui.TextWrapped("Bug Fixes");
+                            ImGui.TextWrapped("Minor Changes");
 
                             foreach (var minorChange in changes[i].MinorChanges)
                                 ImGui.TextWrapped($"- {minorChange}");
@@ -315,6 +310,21 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("3.0.1.0")
+            {
+                MainChanges =
+                {
+                    "Added new subtab 'Extra' for extra options",
+                    "Added options to change bait/presets when gaining/losing intuition",
+                    "(Config) Added optional delay for hooking or auto casting",
+                },
+                MinorChanges =
+                {
+                    "Pantience I/II has priority over MakeShift Bait if both options are enabled",
+                    "Added a new command to open the plugin menu",
+                    "Minor text changes"
+                }
+            },
             new Version("3.0.0.0")
             {
                 MainChanges =

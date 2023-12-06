@@ -1,4 +1,5 @@
-﻿using AutoHook.Classes;
+﻿using System;
+using AutoHook.Classes;
 using AutoHook.Classes.AutoCasts;
 using AutoHook.Enums;
 using AutoHook.Resources.Localization;
@@ -7,6 +8,7 @@ namespace AutoHook.Configurations;
 
 public class FishConfig
 {
+    private Guid _uniqueId;
     public bool Enabled = true;
 
     public BaitFishClass Fish;
@@ -28,12 +30,24 @@ public class FishConfig
     
     public bool NeverMooch = false;
     
-    public CatchSteps StopFishingStep = CatchSteps.None;
+    public bool NeverRelease = false;
+    
+    public FishingSteps StopFishingStep = FishingSteps.None;
 
     public FishConfig(BaitFishClass fish)
     {
         Fish = fish;
         // ok this is not the best way, but im tired and it works for now so be nice to me
         Mooch.Name = UIStrings.Always_Mooch; 
+        
+        _uniqueId = Guid.NewGuid();
+    }
+    
+    public Guid GetUniqueId()
+    {
+        if (_uniqueId == Guid.Empty)
+            _uniqueId = Guid.NewGuid();
+        
+        return _uniqueId;
     }
 }

@@ -15,6 +15,8 @@ public class PresetConfig
     public List<FishConfig> ListOfFish { get; set; } = new();
 
     public AutoCastsConfig AutoCastsCfg = new();
+    
+    public ExtraConfig ExtraCfg = new();
 
     public PresetConfig(string presetName)
     {

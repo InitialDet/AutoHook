@@ -29,11 +29,11 @@ public abstract class BaseActionCast
 
     public uint Id { get; set; }
 
-    public int GpThreshold = 1;
+    public int GpThreshold = 0;
 
     public bool GpThresholdAbove { get; set; } = true;
 
-    public bool DoesCancelMooch { get; init; }
+    public bool DoesCancelMooch { get; set; }
 
     public bool DontCancelMooch  = true;
 
@@ -45,7 +45,7 @@ public abstract class BaseActionCast
     {
         var actionCost = (int) PlayerResources.CastActionCost(Id, ActionType);
 
-        GpThreshold = (newCost < 1) ? 1 : Math.Max(newCost, actionCost);
+        GpThreshold = (newCost < 0) ? 0 : Math.Max(newCost, actionCost);
 
         Service.Save();
     }
@@ -159,7 +159,7 @@ public abstract class BaseActionCast
                 ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
                 if (ImGui.InputInt(UIStrings.GP, ref GpThreshold, 1, 1))
                 {
-                    GpThreshold = Math.Max(GpThreshold, 1);
+                    GpThreshold = Math.Max(GpThreshold, 0);
                     SetThreshold(GpThreshold);
                     Service.Save();
                 }

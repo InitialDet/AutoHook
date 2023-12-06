@@ -119,8 +119,6 @@
   </resheader>
   <data name="DrawHeader_Testing" xml:space="preserve">
     <value>Test</value>
-    <comment>Just a test field - Not being used
-</comment>
   </data>
   <data name="default" xml:space="preserve">
     <value>Standard</value>
@@ -175,7 +173,6 @@
   </data>
   <data name="EditMe" xml:space="preserve">
     <value>EditMe</value>
-    <comment>Context: Temporary name displayed to the user telling them to edit the field with the wanted Bait or Fish name</comment>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Hinzufügen</value>
@@ -199,7 +196,12 @@
     <value>Neues Preset hinzufügen</value>
   </data>
   <data name="TabPresets_DrawHeader_TabDescription" xml:space="preserve">
-    <value>Hier kannst du einstellen, welcher Angelschlag für den aktuellen Köder oder Naturköder verwendet werden soll. Wenn kein Köder/Naturköder angegeben ist, wir die Standardeinstellung (General Tab) verwendet.</value>
+    <value>Here you can customize which hook to use based on the current bait or mooch.
+If a bait/mooch is not specified, the Default Preset will be used instead.</value>
+  </data>
+  <data name="TabPresets_DrawHeader_NewTabDescription" xml:space="preserve">
+    <value>Here you can customize which hook to use based on the current bait or mooch.
+If a bait/mooch is not specified, the Default Preset will be used instead.</value>
   </data>
   <data name="NewPreset" xml:space="preserve">
     <value>Neues Preset</value>
@@ -653,5 +655,172 @@ Möchtest du Auto-Naturköder für einen spezifischen Fisch verwenden, und ander
   </data>
   <data name="AutoHook" xml:space="preserve">
     <value>AutoHook</value>
+  </data>
+  <data name="PluginUi_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="TabGeneral_DrawHeader_Localization_Help" xml:space="preserve">
+    <value>Help with the plugin localization (Crowdin)</value>
+  </data>
+  <data name="Add_new_bait" xml:space="preserve">
+    <value>Add new bait</value>
+  </data>
+  <data name="Add_new_mooch" xml:space="preserve">
+    <value>Add new mooch</value>
+  </data>
+  <data name="Presets_Hook" xml:space="preserve">
+    <value>Hook</value>
+  </data>
+  <data name="Mooch" xml:space="preserve">
+    <value>Mooch</value>
+  </data>
+  <data name="AutoCastLine_Auto_Cast_Line" xml:space="preserve">
+    <value>Auto Cast Line</value>
+  </data>
+  <data name="AutoMooch_HelpText" xml:space="preserve">
+    <value>This option have priority over Auto Cast Line</value>
+  </data>
+  <data name="Normal_Hook" xml:space="preserve">
+    <value>Normal Hook</value>
+  </data>
+  <data name="TabName_Default_Preset" xml:space="preserve">
+    <value>Default Preset</value>
+  </data>
+  <data name="Bait" xml:space="preserve">
+    <value>Bait</value>
+  </data>
+  <data name="All_Baits" xml:space="preserve">
+    <value>All Baits</value>
+  </data>
+  <data name="All_Mooches" xml:space="preserve">
+    <value>All Mooches</value>
+  </data>
+  <data name="AutoPatience_Patience" xml:space="preserve">
+    <value>Patience</value>
+  </data>
+  <data name="Fish" xml:space="preserve">
+    <value>Fish</value>
+  </data>
+  <data name="Add_new_fish" xml:space="preserve">
+    <value>Add new fish</value>
+  </data>
+  <data name="Cast_Line" xml:space="preserve">
+    <value>Cast Line</value>
+    <comment>Cast (fisher action)</comment>
+  </data>
+  <data name="Mooch_II" xml:space="preserve">
+    <value>Mooch II</value>
+  </data>
+  <data name="Never_Mooch" xml:space="preserve">
+    <value>Never Mooch</value>
+  </data>
+  <data name="Mooch_Setting" xml:space="preserve">
+    <value>Mooch Setting</value>
+  </data>
+  <data name="Swap_Preset" xml:space="preserve">
+    <value>Swap Preset</value>
+  </data>
+  <data name="Swap_Bait" xml:space="preserve">
+    <value>Swap Bait</value>
+  </data>
+  <data name="IdenticalCast_HelpText" xml:space="preserve">
+    <value>If disabled, mooching opportunity will be lost</value>
+  </data>
+  <data name="Always_Mooch" xml:space="preserve">
+    <value>Always Mooch</value>
+  </data>
+  <data name="Caught_Counter" xml:space="preserve">
+    <value>Caught:</value>
+    <comment>It'll shows how many times the fish was caught. Example: Caught: 5x</comment>
+  </data>
+  <data name="Hooked_Counter" xml:space="preserve">
+    <value>Hooked:</value>
+    <comment>It'll shows how many times the fish was caught. Example: Hooked: 5x</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="StopFishing_After_hooking" xml:space="preserve">
+    <value>After hooking...</value>
+  </data>
+  <data name="Hooking_Limited_Reached_Chat_Message" xml:space="preserve">
+    <value>Hooking limit reached ({0}). Stopping fishing.</value>
+  </data>
+  <data name="Caught_Limited_Reached_Chat_Message" xml:space="preserve">
+    <value>Caught limit reached ({0}). Stopping fishing.</value>
+  </data>
+  <data name="Stop_Casting" xml:space="preserve">
+    <value>Stop Casting</value>
+  </data>
+  <data name="Auto_Cast_Stopped" xml:space="preserve">
+    <value>Auto casting will be stopped, but won't quit fishing</value>
+  </data>
+  <data name="Quit_Fishing" xml:space="preserve">
+    <value>Quit Fishing</value>
+  </data>
+  <data name="Quit_Action_HelpText" xml:space="preserve">
+    <value>Quit action will be used and completely stop fishing</value>
+  </data>
+  <data name="Tab_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="TabDefaultPreset_Description" xml:space="preserve">
+    <value>The default preset is used when no custom bait/mooch/fish/autocast is detected. Here you can set the hooking behavior that will be used for all baits and mooches unless a custom preset is created. 
+Check the Guide Tab for Guides.</value>
+  </data>
+  <data name="Old_Preset_Warning" xml:space="preserve">
+    <value>This is an old import, some settings might be missing.</value>
+  </data>
+  <data name="Show_Chat_Logs" xml:space="preserve">
+    <value>Show Chat Logs</value>
+  </data>
+  <data name="Show_Current_Status_Header" xml:space="preserve">
+    <value>Show Current Status Header</value>
+  </data>
+  <data name="DrawConfigs_Max_" xml:space="preserve">
+    <value>Max.</value>
+  </data>
+  <data name="DrawConfigs_Min_" xml:space="preserve">
+    <value>Min.</value>
+  </data>
+  <data name="Delay_Between_Casts" xml:space="preserve">
+    <value>Delay Between Casts (in ms):</value>
+  </data>
+  <data name="Show_Debug_Console" xml:space="preserve">
+    <value>Show Debug Console</value>
+  </data>
+  <data name="Show_Chat_Logs_HelpText" xml:space="preserve">
+    <value>Show messages like "Preset Swapped" in chat</value>
+  </data>
+  <data name="TabName_Config_Guides" xml:space="preserve">
+    <value>Config / Guides</value>
+  </data>
+  <data name="Open_Console" xml:space="preserve">
+    <value>Open Console</value>
+  </data>
+  <data name="SubAuto_Disabled" xml:space="preserve">
+    <value>Auto cast is disabled</value>
+  </data>
+  <data name="Default_AutoCast_Being_Used" xml:space="preserve">
+    <value>[Default] auto cast is being used instead</value>
+  </data>
+  <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
+    <value>Custom preset [{0}] Auto cast is being used instead</value>
+  </data>
+  <data name="Auto_Cast_Alert_Manual_Hook" xml:space="preserve">
+    <value>Important! Auto Casts wont be used if you hook manually.</value>
+  </data>
+  <data name="Food_Buff" xml:space="preserve">
+    <value>Food Buff</value>
+  </data>
+  <data name="Only_When_Patience_Active" xml:space="preserve">
+    <value>Only use when patience is active</value>
+  </data>
+  <data name="Stop_After_Caught" xml:space="preserve">
+    <value>Stop After Caught</value>
+  </data>
+  <data name="Search_Hint" xml:space="preserve">
+    <value>Search...</value>
+    <comment>Hint Text for search bar</comment>
   </data>
 </root>

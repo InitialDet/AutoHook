@@ -72,24 +72,6 @@ public static class DrawUtil
         return clicked;
     }
 
-
-    public static void CompleteIncomplete(bool complete)
-    {
-        ConditionalText(complete, UIStrings.Complete, UIStrings.Incomplete);
-    }
-
-    public static void ConditionalText(bool condition, string trueString, string falseString)
-    {
-        if (condition)
-        {
-            ImGui.TextColored(new Vector4(0, 255, 0, 0.8f), trueString);
-        }
-        else
-        {
-            ImGui.TextColored(new Vector4(185, 0, 0, 0.8f), falseString);
-        }
-    }
-
     public static void DrawWordWrappedString(string message)
     {
         var words = message.Split(' ');
@@ -194,5 +176,12 @@ public static class DrawUtil
             ImGui.Separator();
             ImGui.TreePop();
         }
+    }
+
+    public static void SpacingSeparator()
+    {
+        ImGui.Spacing();
+        ImGui.Separator();
+        ImGui.Spacing();
     }
 }

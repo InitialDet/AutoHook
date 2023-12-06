@@ -1,4 +1,5 @@
 using System;
+using System.Xml;
 using AutoHook.Classes;
 using AutoHook.Data;
 using AutoHook.Enums;
@@ -10,8 +11,8 @@ public class HookConfig
 {
     public bool Enabled = true;
 
-    //public string BaitName = UIStrings.BaitName_Default;
-
+    private Guid _uniqueId;
+    
     public BaitFishClass BaitFish = new();
 
     public bool HookWeakEnabled = true;
@@ -57,7 +58,7 @@ public class HookConfig
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
     
-    public CatchSteps StopFishingStep = CatchSteps.None;
+    public FishingSteps StopFishingStep = FishingSteps.None;
 
     /*public HookConfig(string bait)
     {
@@ -67,6 +68,7 @@ public class HookConfig
     public HookConfig(BaitFishClass baitFish)
     {
         BaitFish = baitFish;
+        _uniqueId = Guid.NewGuid();
     }
 
     public HookType? GetHook(BiteType bite)
@@ -121,8 +123,7 @@ public class HookConfig
         bite == BiteType.Weak ? HookWeakDHTHEnabled :
         bite == BiteType.Strong ? HookStrongDHTHEnabled :
         bite == BiteType.Legendary ? HookLegendaryDHTHEnabled : false;
-
-
+    
     private HookType GetPatienceHook(BiteType bite) => bite switch
     {
         BiteType.Weak => HookTypeWeak,
@@ -161,7 +162,16 @@ public class HookConfig
 
         return HookType.None;
     }
-
+    
+    
+    public Guid GetUniqueId()
+    {
+        if (_uniqueId == Guid.Empty)
+            _uniqueId = Guid.NewGuid();
+        
+        return _uniqueId;
+    }
+    
     public override bool Equals(object? obj)
     {
         return obj is HookConfig settings &&

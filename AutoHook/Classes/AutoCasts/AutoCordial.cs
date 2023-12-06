@@ -36,7 +36,7 @@ public class AutoCordial : BaseActionCast
 
     public AutoCordial() : base(UIStrings.Cordial, IDs.Item.Cordial, ActionType.Item)
     {
-        GpThreshold = 1;
+       
     }
     
     public override string GetName()
@@ -65,8 +65,8 @@ public class AutoCordial : BaseActionCast
 
     public override void SetThreshold(int newCost)
     {
-        if (newCost <= 1)
-            GpThreshold = 1;
+        if (newCost <= 0)
+            GpThreshold = 0;
         else
             GpThreshold = newCost;
     }

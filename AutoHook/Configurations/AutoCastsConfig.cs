@@ -22,14 +22,16 @@ public class AutoCastsConfig
     //public AutoSurfaceSlap CastSurfaceSlap = new();
     public AutoThaliaksFavor CastThaliaksFavor = new();
     
+    //public AutoReleaseFish CastReleaseFish = new(); 
+    
     public List<BaseActionCast> GetAutoActions()
-    {
+    { 
         return new List<BaseActionCast>
         {
             CastThaliaksFavor,
-            CastMakeShiftBait,
             CastCordial,
             CastPatience,
+            CastMakeShiftBait,
             CastChum,
             CastFishEyes,
             CastPrizeCatch,

@@ -36,7 +36,7 @@ public class SubTabFish
             var fish = _listOfFish[idx];
             ImGui.PushID($"fishTab###{idx}");
 
-            var count = HookingManager.FishingCounter.GetCount($"{fish.Fish.Name} {presetCfg.PresetName}");
+            var count = HookingManager.FishingCounter.GetCount(fish.GetUniqueId());
             var fishCount = count > 0 ? $"({UIStrings.Caught_Counter} {count})" : "";
             if (ImGui.CollapsingHeader($"{fish.Fish.Name} {fishCount}###a{idx}"))
             {
@@ -47,9 +47,7 @@ public class SubTabFish
                 ImGui.Indent();
 
                 DrawFishSearchBar(fish);
-                ImGui.Spacing();
-                ImGui.Separator();
-                ImGui.Spacing();
+                DrawUtil.SpacingSeparator();
 
                 DrawSurfaceSlapIdenticalCast(fish);
                 ImGui.Spacing();
@@ -57,7 +55,7 @@ public class SubTabFish
                 DrawMooch(fish);
                 ImGui.Spacing();
 
-                DrawSwapToBait(fish);
+                DrawSwapBait(fish);
                 ImGui.Spacing();
 
                 DrawSwapPreset(fish);
@@ -65,6 +63,9 @@ public class SubTabFish
 
                 DrawStopAfter(fish);
                 ImGui.Spacing();
+                
+                /*DrawNeverRelease(fish);
+                ImGui.Spacing();*/
 
                 ImGui.Unindent();
             }
@@ -90,17 +91,18 @@ public class SubTabFish
         ImGui.SameLine();
         ImGui.Text($"{UIStrings.Add_new_fish} ({list.Count})");
         ImGui.SameLine();
-
-        var lastCatch = HookingManager.LastCatch;
+        
         ImGui.SameLine();
 
-        if (ImGui.Button($"{UIStrings.AddLastCatch} {lastCatch.Name ?? "-"}"))
+        if (ImGui.Button($"{UIStrings.AddLastCatch} {Service.LastCatch.Name ?? "-"}"))
         {
-            if (list.All(x => x.Fish.Id != lastCatch.Id))
-            {
-                list.Add(new FishConfig(lastCatch));
-                Service.Save();
-            }
+            if (Service.LastCatch.Id == 0 || Service.LastCatch.Id == -1)
+                return;
+            if (list.Any(x => x.Fish.Id == Service.LastCatch.Id))
+                return;
+            
+            list.Add(new FishConfig(Service.LastCatch));
+            Service.Save();
         }
     }
 
@@ -172,9 +174,9 @@ public class SubTabFish
         ImGui.PopID();
     }
 
-    private void DrawSwapToBait(FishConfig fishConfig)
+    private void DrawSwapBait(FishConfig fishConfig)
     {
-        ImGui.PushID("DrawSwapToBait");
+        ImGui.PushID("DrawSwapBait");
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref fishConfig.SwapBait,
             () =>
             {
@@ -238,7 +240,8 @@ public class SubTabFish
     private void DrawStopAfter(FishConfig fishConfig)
     {
         ImGui.PushID("DrawStopAfter");
-        DrawUtil.Checkbox("", ref fishConfig.StopAfterCaught);
+        if (DrawUtil.Checkbox("", ref fishConfig.StopAfterCaught))
+            Service.Save();
 
         ImGui.SameLine();
         if (ImGui.TreeNodeEx(UIStrings.Stop_After_Caught, ImGuiTreeNodeFlags.FramePadding))
@@ -253,18 +256,18 @@ public class SubTabFish
                 Service.Save();
             }
             
-            if (ImGui.RadioButton(UIStrings.Stop_Casting, fishConfig.StopFishingStep == CatchSteps.None))
+            if (ImGui.RadioButton(UIStrings.Stop_Casting, fishConfig.StopFishingStep == FishingSteps.None))
             {
-                fishConfig.StopFishingStep = CatchSteps.None;
+                fishConfig.StopFishingStep = FishingSteps.None;
                 Service.Save();
             }
             
             ImGui.SameLine();
             ImGuiComponents.HelpMarker(UIStrings.Auto_Cast_Stopped);
             
-            if (ImGui.RadioButton(UIStrings.Quit_Fishing, fishConfig.StopFishingStep == CatchSteps.Quitting))
+            if (ImGui.RadioButton(UIStrings.Quit_Fishing, fishConfig.StopFishingStep == FishingSteps.Quitting))
             {
-                fishConfig.StopFishingStep = CatchSteps.Quitting;
+                fishConfig.StopFishingStep = FishingSteps.Quitting;
                 Service.Save();
             }
             
@@ -279,5 +282,17 @@ public class SubTabFish
         ImGui.PopID();
     }
 
+    private void DrawNeverRelease(FishConfig fishConfig)
+    {
+        ImGui.PushID("DrawNeverRelease");
+        
+        if (DrawUtil.Checkbox(UIStrings.NeverRelease, ref fishConfig.NeverRelease, UIStrings.NeverReleaseHelptext))
+        {
+            Service.Save();
+        }
+         
+        ImGui.PopID();
+    }
+    
     public bool IsDefault { get; set; }
 }

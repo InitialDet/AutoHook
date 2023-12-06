@@ -7,6 +7,7 @@ namespace AutoHook.Data
             public const uint
                 Cast = 289,
                 Quit = 299,
+                Release = 300,
                 Gig = 7632,
                 NaturesBounty = 7909,
                 Mooch = 297,

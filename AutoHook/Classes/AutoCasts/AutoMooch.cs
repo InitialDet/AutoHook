@@ -21,7 +21,7 @@ public class AutoMooch : BaseActionCast
 
     public override bool CastCondition()
     {
-        if (OnlyMoochIntuition && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+        if (OnlyMoochIntuition && !PlayerResources.HasStatus(IDs.Status.FishersIntuition))
             return false;
 
         if (Mooch2.IsAvailableToCast())
@@ -38,7 +38,7 @@ public class AutoMooch : BaseActionCast
             return true;
         }
 
-        return true;
+        return false;
     }
 
     protected override DrawOptionsDelegate DrawOptions => () =>

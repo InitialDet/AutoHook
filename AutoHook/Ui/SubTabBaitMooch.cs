@@ -48,7 +48,7 @@ public class SubTabBaitMooch
             ImGui.PushID($"id###{idx}");
             ImGui.Spacing();
             
-            var count = HookingManager.FishingCounter.GetCount($"{bait.BaitFish.Name} {presetCfg.PresetName}");
+            var count = HookingManager.FishingCounter.GetCount(bait.GetUniqueId());
             var hookCounter = count > 0 ? $"({UIStrings.Hooked_Counter} {count})" : "";
             if (ImGui.CollapsingHeader($"{bait.BaitFish.Name} {hookCounter}###{idx}"))
             {
@@ -432,18 +432,18 @@ public class SubTabBaitMooch
                 ImGui.Unindent();
             }
             
-            if (ImGui.RadioButton(UIStrings.Stop_Casting, hookConfig.StopFishingStep == CatchSteps.None))
+            if (ImGui.RadioButton(UIStrings.Stop_Casting, hookConfig.StopFishingStep == FishingSteps.None))
             {
-                hookConfig.StopFishingStep = CatchSteps.None;
+                hookConfig.StopFishingStep = FishingSteps.None;
                 Service.Save();
             }
             
             ImGui.SameLine();
             ImGuiComponents.HelpMarker(UIStrings.Auto_Cast_Stopped);
             
-            if (ImGui.RadioButton(UIStrings.Quit_Fishing, hookConfig.StopFishingStep == CatchSteps.Quitting))
+            if (ImGui.RadioButton(UIStrings.Quit_Fishing, hookConfig.StopFishingStep == FishingSteps.Quitting))
             {
-                hookConfig.StopFishingStep = CatchSteps.Quitting;
+                hookConfig.StopFishingStep = FishingSteps.Quitting;
                 Service.Save();
             }
             ImGui.SameLine();

@@ -40,8 +40,10 @@ public class Configuration : IPluginConfiguration
     public bool ShowChatLogs = true;
 
     public int DelayBetweenCastsMin = 600;
-    
     public int DelayBetweenCastsMax = 1000;
+    
+    public int DelayBetweenHookMin = 0;
+    public int DelayBetweenHookMax = 0;
 
     public bool ShowStatusHeader = true;
     

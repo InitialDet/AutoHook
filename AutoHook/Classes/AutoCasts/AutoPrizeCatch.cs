@@ -25,7 +25,7 @@ public class AutoPrizeCatch : BaseActionCast
         if (!Enabled)
             return false;
 
-        if (UseWhenMoochIIOnCD && PlayerResources.ActionTypeAvailable(IDs.Actions.Mooch2))
+        if (UseWhenMoochIIOnCD && !PlayerResources.ActionOnCoolDown(IDs.Actions.Mooch2))
             return false;
 
         if (UseOnlyWithIdenticalCast && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))

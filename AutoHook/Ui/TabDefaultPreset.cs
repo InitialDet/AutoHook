@@ -11,6 +11,7 @@ internal class TabDefaultPreset : BaseTab
     private SubTabBaitMooch _subTabBaitMooch = new();
     private SubTabAutoCast _subTabAutoCast = new();
     private SubTabFish _subTabFish = new();
+    private SubTabExtra _subTabExtra = new();
 
     private bool _showDescription = true;
 
@@ -66,6 +67,13 @@ internal class TabDefaultPreset : BaseTab
             if (ImGui.BeginTabItem(UIStrings.Fish))
             {
                 _subTabFish.DrawFishTab(preset);
+                ImGui.EndTabItem();
+            }
+            
+            if (ImGui.BeginTabItem(UIStrings.Extra))
+            {
+                _subTabExtra.IsDefaultPreset = true;
+                _subTabExtra.DrawExtraTab(preset.ExtraCfg);
                 ImGui.EndTabItem();
             }
 

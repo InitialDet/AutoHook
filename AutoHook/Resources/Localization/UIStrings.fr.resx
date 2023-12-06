@@ -119,8 +119,6 @@
   </resheader>
   <data name="DrawHeader_Testing" xml:space="preserve">
     <value>Tests en cours</value>
-    <comment>Just a test field - Not being used
-</comment>
   </data>
   <data name="default" xml:space="preserve">
     <value>Défaut</value>
@@ -175,7 +173,6 @@
   </data>
   <data name="EditMe" xml:space="preserve">
     <value>EditMe</value>
-    <comment>Context: Temporary name displayed to the user telling them to edit the field with the wanted Bait or Fish name</comment>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Ajouter</value>
@@ -199,8 +196,12 @@
     <value>Ajouter un nouveau préréglage</value>
   </data>
   <data name="TabPresets_DrawHeader_TabDescription" xml:space="preserve">
-    <value>Ici, vous pouvez personnaliser l’appât à utiliser en fonction de l’appât actuel ou pêche au vif.
-Si un appât/pêche au vif n’est pas spécifié, le comportement par défaut (onglet général) sera utilisé à la place.</value>
+    <value>Ici, vous pouvez personnaliser l'hameçon à utiliser en fonction de l’appât actuel ou pêche au vif.
+Si aucun appât/pêche au vif n'est spécifié, le préréglage par défaut sera utilisé à la place.</value>
+  </data>
+  <data name="TabPresets_DrawHeader_NewTabDescription" xml:space="preserve">
+    <value>Ici, vous pouvez personnaliser l'hameçon à utiliser en fonction de l’appât actuel ou pêche au vif.
+Si aucun appât/pêche au vif n'est spécifié, le préréglage par défaut sera utilisé à la place.</value>
   </data>
   <data name="NewPreset" xml:space="preserve">
     <value>Nouveau Préréglage</value>
@@ -653,5 +654,172 @@ Si vous voulez lancer Pêche Au vif automatiquement seulement sur un poisson sp�
   </data>
   <data name="AutoHook" xml:space="preserve">
     <value>AutoHook</value>
+  </data>
+  <data name="PluginUi_Language" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="TabGeneral_DrawHeader_Localization_Help" xml:space="preserve">
+    <value>Aide à la localisation du plugin (Crowdin)</value>
+  </data>
+  <data name="Add_new_bait" xml:space="preserve">
+    <value>Ajouter un nouvel appât</value>
+  </data>
+  <data name="Add_new_mooch" xml:space="preserve">
+    <value>Ajouter une nouvelle pêche au vif</value>
+  </data>
+  <data name="Presets_Hook" xml:space="preserve">
+    <value>Hameçon</value>
+  </data>
+  <data name="Mooch" xml:space="preserve">
+    <value>Pêche au vif</value>
+  </data>
+  <data name="AutoCastLine_Auto_Cast_Line" xml:space="preserve">
+    <value>Lancé automatiquement</value>
+  </data>
+  <data name="AutoMooch_HelpText" xml:space="preserve">
+    <value>Cette option prend priorité sur le lancer de ligne automatique</value>
+  </data>
+  <data name="Normal_Hook" xml:space="preserve">
+    <value>Hameçon normal</value>
+  </data>
+  <data name="TabName_Default_Preset" xml:space="preserve">
+    <value>Préréglages par défaut</value>
+  </data>
+  <data name="Bait" xml:space="preserve">
+    <value>Appât</value>
+  </data>
+  <data name="All_Baits" xml:space="preserve">
+    <value>Tous les appâts</value>
+  </data>
+  <data name="All_Mooches" xml:space="preserve">
+    <value>Toutes les pêches au vif</value>
+  </data>
+  <data name="AutoPatience_Patience" xml:space="preserve">
+    <value>Patience</value>
+  </data>
+  <data name="Fish" xml:space="preserve">
+    <value>Poisson</value>
+  </data>
+  <data name="Add_new_fish" xml:space="preserve">
+    <value>Ajouter un nouveau poisson</value>
+  </data>
+  <data name="Cast_Line" xml:space="preserve">
+    <value>Lancer de ligne</value>
+    <comment>Cast (fisher action)</comment>
+  </data>
+  <data name="Mooch_II" xml:space="preserve">
+    <value>Pêche au vif II</value>
+  </data>
+  <data name="Never_Mooch" xml:space="preserve">
+    <value>Ne jamais faire de pêche au vif</value>
+  </data>
+  <data name="Mooch_Setting" xml:space="preserve">
+    <value>Réglage de la pêche au vif</value>
+  </data>
+  <data name="Swap_Preset" xml:space="preserve">
+    <value>Changer de préréglage</value>
+  </data>
+  <data name="Swap_Bait" xml:space="preserve">
+    <value>Changer d'appât</value>
+  </data>
+  <data name="IdenticalCast_HelpText" xml:space="preserve">
+    <value>Si désactivé, l'opportunité de pêche au vif sera perdue</value>
+  </data>
+  <data name="Always_Mooch" xml:space="preserve">
+    <value>Toujours faire de la pêche au vif</value>
+  </data>
+  <data name="Caught_Counter" xml:space="preserve">
+    <value>Attrapés:</value>
+    <comment>It'll shows how many times the fish was caught. Example: Caught: 5x</comment>
+  </data>
+  <data name="Hooked_Counter" xml:space="preserve">
+    <value>Ferrés:</value>
+    <comment>It'll shows how many times the fish was caught. Example: Hooked: 5x</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Activé</value>
+  </data>
+  <data name="StopFishing_After_hooking" xml:space="preserve">
+    <value>Après l'hameçonnage...</value>
+  </data>
+  <data name="Hooking_Limited_Reached_Chat_Message" xml:space="preserve">
+    <value>Limite d'hameçonnage atteint ({0}). Arrêt de la pêche.</value>
+  </data>
+  <data name="Caught_Limited_Reached_Chat_Message" xml:space="preserve">
+    <value>Limite de capture atteinte ({0}). Arrêt de la pêche.</value>
+  </data>
+  <data name="Stop_Casting" xml:space="preserve">
+    <value>Arrêter le lancé</value>
+  </data>
+  <data name="Auto_Cast_Stopped" xml:space="preserve">
+    <value>Le lancé automatique sera arrêté, mais ne quittera pas la pêche</value>
+  </data>
+  <data name="Quit_Fishing" xml:space="preserve">
+    <value>Quitter la pêche</value>
+  </data>
+  <data name="Quit_Action_HelpText" xml:space="preserve">
+    <value>L'action de fermeture sera utilisée et arrêtera complètement la pêche</value>
+  </data>
+  <data name="Tab_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="TabDefaultPreset_Description" xml:space="preserve">
+    <value>Le préréglage par défaut est utilisé quand aucun appât/pêche au vif/poisson/ferrage automatique personnalisé n'est détecté. Ici, vous pouvez définir le comportement d'hameçonnage qui sera utilisé pour tous les appâts et pêches au vif à moins qu'un préréglage personnalisé ne soit créé. 
+Consultez l’onglet Guide pour trouver des guides.</value>
+  </data>
+  <data name="Old_Preset_Warning" xml:space="preserve">
+    <value>Il s'agit d'une ancienne importation, certains paramètres peuvent être manquants.</value>
+  </data>
+  <data name="Show_Chat_Logs" xml:space="preserve">
+    <value>Afficher les journaux de discussion</value>
+  </data>
+  <data name="Show_Current_Status_Header" xml:space="preserve">
+    <value>Afficher l'en-tête de statut actuel</value>
+  </data>
+  <data name="DrawConfigs_Max_" xml:space="preserve">
+    <value>Max.</value>
+  </data>
+  <data name="DrawConfigs_Min_" xml:space="preserve">
+    <value>Min.</value>
+  </data>
+  <data name="Delay_Between_Casts" xml:space="preserve">
+    <value>Délai entre les lancés (en ms) :</value>
+  </data>
+  <data name="Show_Debug_Console" xml:space="preserve">
+    <value>Afficher la console de débogage</value>
+  </data>
+  <data name="Show_Chat_Logs_HelpText" xml:space="preserve">
+    <value>Afficher les messages comme "Préréglage Changé" dans le chat</value>
+  </data>
+  <data name="TabName_Config_Guides" xml:space="preserve">
+    <value>Configuration / Tutoriels</value>
+  </data>
+  <data name="Open_Console" xml:space="preserve">
+    <value>Ouvrir la console</value>
+  </data>
+  <data name="SubAuto_Disabled" xml:space="preserve">
+    <value>Le lancé auto est désactivé</value>
+  </data>
+  <data name="Default_AutoCast_Being_Used" xml:space="preserve">
+    <value>[Default] lancé auto est utilisé à la place</value>
+  </data>
+  <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
+    <value>Préréglage personnalisé [{0}] Le lancer auto est utilisé à la place</value>
+  </data>
+  <data name="Auto_Cast_Alert_Manual_Hook" xml:space="preserve">
+    <value>Important ! Les lancés automatiques ne seront pas utilisés si vous hameçonnez manuellement.</value>
+  </data>
+  <data name="Food_Buff" xml:space="preserve">
+    <value>Buff de repas</value>
+  </data>
+  <data name="Only_When_Patience_Active" xml:space="preserve">
+    <value>Utiliser uniquement lorsque patience est actif</value>
+  </data>
+  <data name="Stop_After_Caught" xml:space="preserve">
+    <value>Arrêter après une prise</value>
+  </data>
+  <data name="Search_Hint" xml:space="preserve">
+    <value>Rechercher...</value>
+    <comment>Hint Text for search bar</comment>
   </data>
 </root>

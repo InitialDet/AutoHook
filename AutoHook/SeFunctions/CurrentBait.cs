@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoHook.Classes;
 using AutoHook.Utils;
 using Dalamud.Game;
 using Dalamud.Utility.Signatures;
@@ -44,16 +45,29 @@ public sealed class CurrentBait : SeAddressBase
         if (HasItem(baitId) <= 0)
             return ChangeBaitReturn.NotInInventory;
         
-        
         return _executeCommand(701, 4, baitId, 0, 0) == 1 ? ChangeBaitReturn.Success : ChangeBaitReturn.UnknownError;
     }
     
-    public ChangeBaitReturn ChangeBait(string baitName) {
-        var result = PlayerResources.Baits.FirstOrDefault(b => b.Name == baitName);
-
-        if (result == null)
-            return ChangeBaitReturn.InvalidBait;
+    public ChangeBaitReturn ChangeBait(BaitFishClass bait) {
         
-        return ChangeBait((uint)result.Id);
+        if (bait.Id == Current)
+        {
+            Service.PrintChat($"Bait \"{bait.Name}\" is already equipped.");
+            return ChangeBaitReturn.AlreadyEquipped;
+        }
+
+        if (bait.Id == 0 || PlayerResources.Baits.All(b => b.Id != bait.Id))
+        {
+            Service.PrintChat($"Bait \"{bait.Name}\" is not a valid bait.");
+            return ChangeBaitReturn.InvalidBait;
+        }
+
+        if (HasItem((uint)bait.Id) <= 0)
+        {
+            Service.PrintChat($"Bait \"{bait.Name}\" is not in your inventory.");
+            return ChangeBaitReturn.NotInInventory;
+        }
+
+        return _executeCommand(701, 4, (uint)bait.Id, 0, 0) == 1 ? ChangeBaitReturn.Success : ChangeBaitReturn.UnknownError;
     }
 }

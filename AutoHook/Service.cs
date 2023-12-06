@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AutoHook.Classes;
 using Dalamud.Game;
 using Dalamud.IoC;
 using Dalamud.Plugin;
@@ -35,7 +36,9 @@ public class Service
     public static ClientLanguage Language { get; set; }
 
     public static string Status = @"-";
-
+    
+    public static BaitFishClass LastCatch { get; set; } = new(@"-", -1); 
+    
     public static void Save()
     {
         Configuration.Save();
