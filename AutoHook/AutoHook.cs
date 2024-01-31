@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using AutoHook.Configurations;
+using AutoHook.IPC;
 using AutoHook.Resources.Localization;
 using AutoHook.SeFunctions;
 using AutoHook.Spearfishing;
@@ -35,6 +36,7 @@ public class AutoHook : IDalamudPlugin
     public AutoHook(DalamudPluginInterface pluginInterface)
     {
         Service.Initialize(pluginInterface);
+        AutoHookIPC.Init();
         Service.EventFramework = new EventFramework(Service.SigScanner);
         Service.EquipedBait = new CurrentBait(Service.SigScanner);
         Service.TugType = new SeTugType(Service.SigScanner);
@@ -119,6 +121,7 @@ public class AutoHook : IDalamudPlugin
         _autoGig.Dispose();
         _hookManager.Dispose();
         _playerResources.Dispose();
+        AutoHookIPC.Dispose();
         Service.Save();
         Service.PluginInterface.UiBuilder.Draw -= Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
