@@ -1382,6 +1382,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only use when Surface Slap is not active.
+        /// </summary>
+        internal static string OnlyUseWhenNOTActiveSurfaceSlap {
+            get {
+                return ResourceManager.GetString("OnlyUseWhenNOTActiveSurfaceSlap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Console.
         /// </summary>
         internal static string Open_Console {

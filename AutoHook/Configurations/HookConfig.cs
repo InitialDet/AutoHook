@@ -19,6 +19,7 @@ public class HookConfig
     public bool HookWeakIntuitionEnabled = true;
     public bool HookWeakDHTHEnabled = true;
     public bool HookWeakOnlyWhenActiveSlap = false;
+    public bool HookWeakOnlyWhenNOTActiveSlap = false;
     public HookType HookTypeWeak = HookType.Precision;
     public HookType HookTypeWeakIntuition = HookType.Precision;
 
@@ -26,6 +27,7 @@ public class HookConfig
     public bool HookStrongIntuitionEnabled = true;
     public bool HookStrongDHTHEnabled = true;
     public bool HookStrongOnlyWhenActiveSlap = false;
+    public bool HookStrongOnlyWhenNOTActiveSlap = false;
     public HookType HookTypeStrong = HookType.Powerful;
     public HookType HookTypeStrongIntuition = HookType.Powerful;
 
@@ -33,6 +35,7 @@ public class HookConfig
     public bool HookLegendaryIntuitionEnabled = true;
     public bool HookLegendaryDHTHEnabled = true;
     public bool HookLegendaryOnlyWhenActiveSlap = false;
+    public bool HookLegendaryOnlyWhenNOTActiveSlap = false;
     public HookType HookTypeLegendary = HookType.Powerful;
     public HookType HookTypeLegendaryIntuition = HookType.Powerful;
 
@@ -90,6 +93,9 @@ public class HookConfig
         if (CheckHookSurfaceSlapEnabled(bite) && !PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
             return HookType.None;
 
+        if (CheckHookSurfaceSlapNOTEnabled(bite) && PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
+            return HookType.None;
+
         var hook = GetDoubleTripleHook(bite);
 
         if (hook != HookType.None)
@@ -130,6 +136,11 @@ public class HookConfig
         bite == BiteType.Weak ? HookWeakOnlyWhenActiveSlap :
         bite == BiteType.Strong ? HookStrongOnlyWhenActiveSlap :
         bite == BiteType.Legendary ? HookLegendaryOnlyWhenActiveSlap : false;
+
+    public bool CheckHookSurfaceSlapNOTEnabled(BiteType bite) =>
+        bite == BiteType.Weak ? HookWeakOnlyWhenNOTActiveSlap :
+        bite == BiteType.Strong ? HookStrongOnlyWhenNOTActiveSlap :
+        bite == BiteType.Legendary ? HookLegendaryOnlyWhenNOTActiveSlap : false;
 
     public bool CheckHookDHTHEnabled(BiteType bite) =>
         bite == BiteType.Weak ? HookWeakDHTHEnabled :
