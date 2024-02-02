@@ -9,6 +9,7 @@ namespace AutoHook.Classes.AutoCasts;
 public class AutoMakeShiftBait : BaseActionCast
 {
     public int MakeshiftBaitStacks = 5;
+    private bool _onlyUseWithIntuition;
 
     public AutoMakeShiftBait() : base(UIStrings.MakeShift_Bait, IDs.Actions.MakeshiftBait, ActionType.Action)
     {
@@ -32,6 +33,9 @@ public class AutoMakeShiftBait : BaseActionCast
         if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
             return false;
 
+        if (!PlayerResources.HasStatus(IDs.Status.FishersIntuition) && _onlyUseWithIntuition)
+            return false;
+
 
         bool available = PlayerResources.ActionTypeAvailable(IDs.Actions.MakeshiftBait);
         bool hasStacks = PlayerResources.HasAnglersArtStacks(MakeshiftBaitStacks);
@@ -46,6 +50,11 @@ public class AutoMakeShiftBait : BaseActionCast
         {
             // value has to be between 5 and 10
             MakeshiftBaitStacks = Math.Max(5, Math.Min(stack, 10));
+            Service.Save();
+        }
+
+        if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenFisherSIntutionIsActive, ref _onlyUseWithIntuition))
+        {
             Service.Save();
         }
     };
