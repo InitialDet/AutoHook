@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using AutoHook.Configurations;
 using AutoHook.IPC;
 using AutoHook.Resources.Localization;
@@ -12,7 +14,6 @@ namespace AutoHook;
 
 public class AutoHook : IDalamudPlugin
 {
-    
     /*
      todo: autofood (not yet)
      todo: Add Guides
@@ -24,7 +25,18 @@ public class AutoHook : IDalamudPlugin
     private const string CmdAhOn = "/ahon";
     private const string CmdAhOff = "/ahoff";
     private const string CmdAhtg = "/ahtg";
-
+    private const string CmdAhPreset = "/ahpreset";
+    
+    private static readonly Dictionary<string, string> CommandHelp = new()
+    {
+        {CmdAhOff, UIStrings.Disables_AutoHook},
+        {CmdAhOn, UIStrings.Enables_AutoHook},
+        {CmdAhCfg, UIStrings.Opens_Config_Window},
+        {CmdAh, UIStrings.Opens_Config_Window},
+        {CmdAhtg, UIStrings.Toggles_AutoHook_On_Off},
+        {CmdAhPreset, UIStrings.Set_preset_command}
+    };
+    
     private static PluginUi _pluginUi = null!;
 
     private static AutoGig _autoGig = null!;
@@ -50,37 +62,15 @@ public class AutoHook : IDalamudPlugin
         UIStrings.Culture = new CultureInfo(Service.Configuration.CurrentLanguage);
         _pluginUi = new PluginUi();
         _autoGig = new AutoGig();
-
-        Service.Commands.AddHandler(CmdAhOff, new CommandInfo(OnCommand)
-        {
-            HelpMessage = UIStrings.Disables_AutoHook
-        });
-
-        Service.Commands.AddHandler(CmdAhOn, new CommandInfo(OnCommand)
-        {
-            HelpMessage = UIStrings.Enables_AutoHook
-        });
-
-        Service.Commands.AddHandler(CmdAhCfg, new CommandInfo(OnCommand)
-        {
-            HelpMessage = UIStrings.Opens_Config_Window
-        });
         
-        Service.Commands.AddHandler(CmdAh, new CommandInfo(OnCommand)
+        foreach (var (command, help) in CommandHelp)
         {
-            HelpMessage = UIStrings.Opens_Config_Window
-        });
-
-        /*Service.Commands.AddHandler(CmdAh, new CommandInfo(OnCommand)
-        {
-            HelpMessage = UIStrings.Opens_Config_Window
-        });*/
-
-        Service.Commands.AddHandler(CmdAhtg, new CommandInfo(OnCommand)
-        {
-            HelpMessage = UIStrings.Toggles_AutoHook_On_Off
-        });
-
+            Service.Commands.AddHandler(command, new CommandInfo(OnCommand)
+            {
+                HelpMessage = help
+            });
+        }
+        
         _hookManager = new HookingManager();
 
 #if (DEBUG)
@@ -112,7 +102,24 @@ public class AutoHook : IDalamudPlugin
                 Service.Chat.Print(UIStrings.AutoHook_Enabled);
                 Service.Configuration.PluginEnabled = true;
                 break;
+            case CmdAhPreset:
+                SetPreset(args);
+                break;
         }
+    }
+    
+    private static void SetPreset(string presetName)
+    {
+        var preset = Service.Configuration.HookPresets.CustomPresets.FirstOrDefault(x => x.PresetName == presetName);
+        if (preset == null)
+        {
+            Service.Chat.Print(UIStrings.Preset_not_found);
+            return;
+        }
+         
+        Service.Configuration.HookPresets.SelectedPreset = preset;
+        Service.Chat.Print(@$"{UIStrings.Preset_set_to_} {preset.PresetName}");
+        Service.Save();
     }
 
     public void Dispose()
@@ -125,11 +132,11 @@ public class AutoHook : IDalamudPlugin
         Service.Save();
         Service.PluginInterface.UiBuilder.Draw -= Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
-        Service.Commands.RemoveHandler(CmdAh);
-        Service.Commands.RemoveHandler(CmdAhCfg);
-        Service.Commands.RemoveHandler(CmdAhOn);
-        Service.Commands.RemoveHandler(CmdAhOff);
-        Service.Commands.RemoveHandler(CmdAhtg);
+        
+        foreach (var (command, _) in CommandHelp)
+        {
+            Service.Commands.RemoveHandler(command);
+        }
     }
 
     private static void OnOpenConfigUi() => _pluginUi.Toggle();

@@ -707,13 +707,13 @@
     <value>泳がせ釣りII</value>
   </data>
   <data name="Never_Mooch" xml:space="preserve">
-    <value>Never Mooch</value>
+    <value>泳がせ釣りをしない</value>
   </data>
   <data name="Mooch_Setting" xml:space="preserve">
     <value>泳がせ釣り設定</value>
   </data>
   <data name="Swap_Preset" xml:space="preserve">
-    <value>Swap Preset</value>
+    <value>プリセットの切替え</value>
   </data>
   <data name="Swap_Bait" xml:space="preserve">
     <value>エサの切替え</value>
@@ -796,11 +796,20 @@
   <data name="SubAuto_Disabled" xml:space="preserve">
     <value>自動キャスティング：無効</value>
   </data>
+  <data name="SubExtra_Disabled" xml:space="preserve">
+    <value>Extra options disabled</value>
+  </data>
   <data name="Default_AutoCast_Being_Used" xml:space="preserve">
     <value>[Default] 自動キャスティングが使用されます</value>
   </data>
   <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
     <value>Custom preset [{0}] Auto cast is being used instead</value>
+  </data>
+  <data name="Default_Extra_Being_Used" xml:space="preserve">
+    <value>[Default] Extra config is being used instead</value>
+  </data>
+  <data name="Custom_Extra_Being_Used" xml:space="preserve">
+    <value>Custom preset [{0}] Extra config is being used instead</value>
   </data>
   <data name="Auto_Cast_Alert_Manual_Hook" xml:space="preserve">
     <value>Important! Auto Casts wont be used if you hook manually.</value>
@@ -809,13 +818,46 @@
     <value>Food Buff</value>
   </data>
   <data name="Only_When_Patience_Active" xml:space="preserve">
-    <value>Only use when patience is active</value>
+    <value>ペーシェンス中のみ使用する</value>
   </data>
   <data name="Stop_After_Caught" xml:space="preserve">
-    <value>Stop After Caught</value>
+    <value>釣り上げ後に停止</value>
   </data>
   <data name="Search_Hint" xml:space="preserve">
     <value>Search...</value>
     <comment>Hint Text for search bar</comment>
+  </data>
+  <data name="Extra" xml:space="preserve">
+    <value>Extra</value>
+  </data>
+  <data name="NeverReleaseHelptext" xml:space="preserve">
+    <value>This fish won't be released if 'Release All Fish' is enabled in the Auto Cast tab</value>
+  </data>
+  <data name="NeverRelease" xml:space="preserve">
+    <value>Never Release</value>
+  </data>
+  <data name="ReleaseAllFish" xml:space="preserve">
+    <value>Release All Fish</value>
+  </data>
+  <data name="ReleaseAllFishHelpText" xml:space="preserve">
+    <value>If you dont want to release a specific fish, add it to a preset and select "Never Release"</value>
+  </data>
+  <data name="Enable_Extra_Configs" xml:space="preserve">
+    <value>Enable Extra Configs</value>
+  </data>
+  <data name="When_gaining_fishers_intuition" xml:space="preserve">
+    <value>When gaining fisher's intuition...</value>
+  </data>
+  <data name="When_losing_fishers_intuition" xml:space="preserve">
+    <value>When losing fisher's intuition...</value>
+  </data>
+  <data name="Draw_Configs" xml:space="preserve">
+    <value>Configs</value>
+  </data>
+  <data name="Draw_Guides" xml:space="preserve">
+    <value>Guides</value>
+  </data>
+  <data name="Delay_when_hooking" xml:space="preserve">
+    <value>Delay when hooking</value>
   </data>
 </root>

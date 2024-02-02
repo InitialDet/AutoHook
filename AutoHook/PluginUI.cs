@@ -266,7 +266,7 @@ public class PluginUi : Window, IDisposable
 
                 if (changes[0].MinorChanges.Count > 0)
                 {
-                    ImGui.TextWrapped("Bug Fixes");
+                    ImGui.TextWrapped("Minor Changes");
                     foreach (var minorChange in changes[0].MinorChanges)
                     {
                         ImGui.TextWrapped($"- {minorChange}");
@@ -310,6 +310,18 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("3.0.2.0")
+            {
+                MainChanges =
+                {
+                    "(by Jaksuhn) Added IPC",
+                    "(by Jaksuhn) Added makeshift bait only under intuition option"
+                },
+                MinorChanges =
+                {
+                    "Added a new command to change the current preset"
+                }
+            },
             new Version("3.0.1.0")
             {
                 MainChanges =

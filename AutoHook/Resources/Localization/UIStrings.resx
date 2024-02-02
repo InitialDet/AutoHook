@@ -865,4 +865,13 @@ Check the Guide Tab for Guides.</value>
   <data name="Delay_when_hooking" xml:space="preserve">
     <value>Delay when hooking</value>
   </data>
+  <data name="Preset_not_found" xml:space="preserve">
+    <value>Preset not found</value>
+  </data>
+  <data name="Set_preset_command" xml:space="preserve">
+    <value>Set custom preset by chat command -&gt; /ahpreset presetName</value>
+  </data>
+  <data name="Preset_set_to_" xml:space="preserve">
+    <value>Preset set to:</value>
+  </data>
 </root>

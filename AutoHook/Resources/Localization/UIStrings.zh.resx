@@ -800,10 +800,19 @@
   <data name="SubAuto_Disabled" xml:space="preserve">
     <value>自动抛竿已关闭</value>
   </data>
+  <data name="SubExtra_Disabled" xml:space="preserve">
+    <value/>
+  </data>
   <data name="Default_AutoCast_Being_Used" xml:space="preserve">
     <value>[默认] 正在使用自动抛竿</value>
   </data>
   <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
+    <value>正在使用自定义预设 [{0}] 进行自动抛竿。</value>
+  </data>
+  <data name="Default_Extra_Being_Used" xml:space="preserve">
+    <value/>
+  </data>
+  <data name="Custom_Extra_Being_Used" xml:space="preserve">
     <value>正在使用自定义预设 [{0}] 进行自动抛竿。</value>
   </data>
   <data name="Auto_Cast_Alert_Manual_Hook" xml:space="preserve">
@@ -821,5 +830,38 @@
   <data name="Search_Hint" xml:space="preserve">
     <value>搜索...</value>
     <comment>Hint Text for search bar</comment>
+  </data>
+  <data name="Extra" xml:space="preserve">
+    <value>额外</value>
+  </data>
+  <data name="NeverReleaseHelptext" xml:space="preserve">
+    <value>This fish won't be released if 'Release All Fish' is enabled in the Auto Cast tab</value>
+  </data>
+  <data name="NeverRelease" xml:space="preserve">
+    <value>Never Release</value>
+  </data>
+  <data name="ReleaseAllFish" xml:space="preserve">
+    <value>Release All Fish</value>
+  </data>
+  <data name="ReleaseAllFishHelpText" xml:space="preserve">
+    <value>If you dont want to release a specific fish, add it to a preset and select "Never Release"</value>
+  </data>
+  <data name="Enable_Extra_Configs" xml:space="preserve">
+    <value>启用额外配置</value>
+  </data>
+  <data name="When_gaining_fishers_intuition" xml:space="preserve">
+    <value>当获得捕鱼人之识时</value>
+  </data>
+  <data name="When_losing_fishers_intuition" xml:space="preserve">
+    <value>当失去捕鱼人之识时</value>
+  </data>
+  <data name="Draw_Configs" xml:space="preserve">
+    <value>配置</value>
+  </data>
+  <data name="Draw_Guides" xml:space="preserve">
+    <value>指南</value>
+  </data>
+  <data name="Delay_when_hooking" xml:space="preserve">
+    <value>延迟提勾</value>
   </data>
 </root>

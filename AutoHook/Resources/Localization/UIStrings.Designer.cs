@@ -1489,6 +1489,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preset not found.
+        /// </summary>
+        internal static string Preset_not_found {
+            get {
+                return ResourceManager.GetString("Preset_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preset set to:.
+        /// </summary>
+        internal static string Preset_set_to_ {
+            get {
+                return ResourceManager.GetString("Preset_set_to_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A preset with the same name already exists.
         /// </summary>
         internal static string PresetAlreadyExist {
@@ -1593,6 +1611,15 @@ namespace AutoHook.Resources.Localization {
         internal static string SelectTheSizeAndSpeed {
             get {
                 return ResourceManager.GetString("SelectTheSizeAndSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set custom preset by chat command -&gt; /ahpreset presetName.
+        /// </summary>
+        internal static string Set_preset_command {
+            get {
+                return ResourceManager.GetString("Set_preset_command", resourceCulture);
             }
         }
         

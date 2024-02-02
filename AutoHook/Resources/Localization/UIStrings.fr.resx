@@ -800,11 +800,20 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   <data name="SubAuto_Disabled" xml:space="preserve">
     <value>Le lancé auto est désactivé</value>
   </data>
+  <data name="SubExtra_Disabled" xml:space="preserve">
+    <value>Plus d'options désactivées</value>
+  </data>
   <data name="Default_AutoCast_Being_Used" xml:space="preserve">
     <value>[Default] lancé auto est utilisé à la place</value>
   </data>
   <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
     <value>Préréglage personnalisé [{0}] Le lancer auto est utilisé à la place</value>
+  </data>
+  <data name="Default_Extra_Being_Used" xml:space="preserve">
+    <value>[Default] Configuration supplémentaire sera utilisée à la place</value>
+  </data>
+  <data name="Custom_Extra_Being_Used" xml:space="preserve">
+    <value>Préréglage personnalisé [{0}] La configuration supplémentaire est utilisée à la place</value>
   </data>
   <data name="Auto_Cast_Alert_Manual_Hook" xml:space="preserve">
     <value>Important ! Les lancés automatiques ne seront pas utilisés si vous hameçonnez manuellement.</value>
@@ -821,5 +830,38 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   <data name="Search_Hint" xml:space="preserve">
     <value>Rechercher...</value>
     <comment>Hint Text for search bar</comment>
+  </data>
+  <data name="Extra" xml:space="preserve">
+    <value>Supplémentaire</value>
+  </data>
+  <data name="NeverReleaseHelptext" xml:space="preserve">
+    <value>Ce poisson ne sera pas libéré si 'Relâcher tous les poissons' est activé dans l'onglet Action Automatique</value>
+  </data>
+  <data name="NeverRelease" xml:space="preserve">
+    <value>Ne jamais relâcher</value>
+  </data>
+  <data name="ReleaseAllFish" xml:space="preserve">
+    <value>Libérer tous les poissons</value>
+  </data>
+  <data name="ReleaseAllFishHelpText" xml:space="preserve">
+    <value>Si vous ne voulez pas libérer un poisson spécifique, ajoutez-le à un préréglage et sélectionnez "Jamais Capturée"</value>
+  </data>
+  <data name="Enable_Extra_Configs" xml:space="preserve">
+    <value>Activée Configuration Supplémentaire</value>
+  </data>
+  <data name="When_gaining_fishers_intuition" xml:space="preserve">
+    <value>Quand l'instinct de pêcheurs est actif...</value>
+  </data>
+  <data name="When_losing_fishers_intuition" xml:space="preserve">
+    <value>En perdant l'instinct de pêcheurs...</value>
+  </data>
+  <data name="Draw_Configs" xml:space="preserve">
+    <value>Configurations</value>
+  </data>
+  <data name="Draw_Guides" xml:space="preserve">
+    <value>Manuels</value>
+  </data>
+  <data name="Delay_when_hooking" xml:space="preserve">
+    <value>Temps pour Amorçage</value>
   </data>
 </root>
