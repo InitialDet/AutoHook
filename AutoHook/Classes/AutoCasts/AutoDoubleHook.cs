@@ -1,6 +1,4 @@
-﻿using AutoHook.Data;
-using AutoHook.Resources.Localization;
-using AutoHook.Utils;
+﻿using AutoHook.Resources.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace AutoHook.Classes.AutoCasts;
@@ -19,7 +17,8 @@ public class AutoDoubleHook : BaseActionCast
         return true;
     }
 
-    //protected override DrawOptionsDelegate DrawOptions => () =>
-    //{
-    //};
+    /*protected override DrawOptionsDelegate DrawOptions => () =>
+    {
+
+    };*/
 }
