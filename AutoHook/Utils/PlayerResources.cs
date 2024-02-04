@@ -109,6 +109,20 @@ public class PlayerResources : IDisposable
         return 0;
     }
 
+    public static float GetIntuitionTimeRemaining()
+    {
+        if (Service.ClientState.LocalPlayer?.StatusList == null)
+            return 0;
+
+        foreach (var buff in Service.ClientState.LocalPlayer.StatusList)
+        {
+            if (buff.StatusId == IDs.Status.FishersIntuition)
+                return buff.RemainingTime;
+        }
+
+        return 0;
+    }
+
     // status 0 == available to cast? not sure but it seems to be
     // Also make sure its the skill is not on cooldown (mainly for mooch2)
     public static unsafe bool ActionTypeAvailable(uint id, ActionType actionType = ActionType.Action)

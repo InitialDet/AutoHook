@@ -38,7 +38,7 @@ public static class DrawUtil
 
     public static bool EditNumberField(string label, float fieldWidth, ref int refValue, string helpText = "")
     {
-        ImGui.Text(label);
+        TextV(label);
 
         ImGui.SameLine();
 
@@ -52,6 +52,17 @@ public static class DrawUtil
         }
 
         return clicked;
+    }
+
+    public static void TextV(string s)
+    {
+        var cur = ImGui.GetCursorPos();
+        ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0);
+        ImGui.Button("");
+        ImGui.PopStyleVar();
+        ImGui.SameLine();
+        ImGui.SetCursorPos(cur);
+        ImGui.TextUnformatted(s);
     }
 
     public static bool Checkbox(string label, ref bool refValue, string helpText = "", bool hoverHelpText = false)

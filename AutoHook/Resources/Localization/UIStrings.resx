@@ -874,6 +874,9 @@ Check the Guide Tab for Guides.</value>
   <data name="Preset_set_to_" xml:space="preserve">
     <value>Preset set to:</value>
   </data>
+  <data name="UseWhenIntuitionTimeIsEqualOrGreaterThan" xml:space="preserve">
+    <value>Use while time remaining on intuition exceeds (seconds)</value>
+  </data>
   <data name="OnlyUseWhenActiveSurfaceSlap" xml:space="preserve">
     <value>Only use when Surface Slap is active</value>
   </data>
