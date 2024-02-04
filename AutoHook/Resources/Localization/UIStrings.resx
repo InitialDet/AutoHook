@@ -874,4 +874,10 @@ Check the Guide Tab for Guides.</value>
   <data name="Preset_set_to_" xml:space="preserve">
     <value>Preset set to:</value>
   </data>
+  <data name="When_gaining_spectral_current" xml:space="preserve">
+    <value>When a spectral current becomes active...</value>
+  </data>
+  <data name="When_losing_spectral_current" xml:space="preserve">
+    <value>When a spectral current becomes inactive...</value>
+  </data>
 </root>

@@ -4,6 +4,7 @@ using System.Linq;
 using AutoHook.Classes;
 using AutoHook.Data;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.GeneratedSheets;
 using LuminaAction = Lumina.Excel.GeneratedSheets.Action;
@@ -64,6 +65,8 @@ public class PlayerResources : IDisposable
 
         return false;
     }
+
+    public unsafe static bool IsInActiveSpectralCurrent() => EventFramework.Instance()->GetInstanceContentOceanFishing()->SpectralCurrentActive;
 
     public static uint GetCurrentGp()
     {

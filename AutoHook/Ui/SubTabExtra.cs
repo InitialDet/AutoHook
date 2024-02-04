@@ -73,8 +73,37 @@ public class SubTabExtra
         DrawUtil.SpacingSeparator();
         
         ImGui.EndGroup();
+
+        ImGui.BeginGroup();
+        ImGui.Spacing();
+        if (ImGui.TreeNodeEx(UIStrings.When_gaining_spectral_current, ImGuiTreeNodeFlags.FramePadding))
+        {
+            ImGui.PushID("gaining_spectral");
+            ImGui.Spacing();
+            DrawSwapPresetSpectralGain(config);
+            DrawSwapBaitSpectralGain(config);
+            ImGui.PopID();
+            ImGui.TreePop();
+        }
+
+        DrawUtil.SpacingSeparator();
+
+        if (ImGui.TreeNodeEx(UIStrings.When_losing_spectral_current, ImGuiTreeNodeFlags.FramePadding))
+        {
+            ImGui.PushID("losing_spectral");
+            ImGui.Spacing();
+            DrawSwapPresetSpectralLost(config);
+            DrawSwapBaitSpectralLost(config);
+            ImGui.PopID();
+            ImGui.TreePop();
+        }
+
+        DrawUtil.SpacingSeparator();
+
+        ImGui.EndGroup();
     }
-    
+
+    #region Fishers Intuition
     private void DrawSwapPresetIntuitionGain(ExtraConfig config)
     {
         ImGui.PushID("DrawSwapPresetIntuitionGain");
@@ -140,4 +169,73 @@ public class SubTabExtra
 
         ImGui.PopID();
     }
+    #endregion
+
+    #region Spectral Current
+    private void DrawSwapPresetSpectralGain(ExtraConfig config)
+    {
+        ImGui.PushID($"{nameof(DrawSwapPresetSpectralGain)}");
+        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetSpectralCurrentGain,
+            () =>
+            {
+                DrawUtil.DrawComboSelector(
+                    Service.Configuration.HookPresets.CustomPresets,
+                    preset => preset.PresetName,
+                    config.PresetToSwapSpectralCurrentGain,
+                    preset => config.PresetToSwapSpectralCurrentGain = preset.PresetName);
+            }
+        );
+        ImGui.PopID();
+    }
+
+    private void DrawSwapBaitSpectralGain(ExtraConfig config)
+    {
+        ImGui.PushID($"{nameof(DrawSwapBaitSpectralGain)}");
+        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitSpectralCurrentGain,
+            () =>
+            {
+                DrawUtil.DrawComboSelector(
+                    PlayerResources.Baits,
+                    bait => bait.Name,
+                    config.BaitToSwapSpectralCurrentGain.Name,
+                    bait => config.BaitToSwapSpectralCurrentGain = bait);
+            }
+        );
+
+        ImGui.PopID();
+    }
+
+    private void DrawSwapPresetSpectralLost(ExtraConfig config)
+    {
+        ImGui.PushID($"{nameof(DrawSwapPresetSpectralLost)}");
+        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetSpectralCurrentLost,
+            () =>
+            {
+                DrawUtil.DrawComboSelector(
+                    Service.Configuration.HookPresets.CustomPresets,
+                    preset => preset.PresetName,
+                    config.PresetToSwapSpectralCurrentLost,
+                    preset => config.PresetToSwapSpectralCurrentLost = preset.PresetName);
+            }
+        );
+        ImGui.PopID();
+    }
+
+    private void DrawSwapBaitSpectralLost(ExtraConfig config)
+    {
+        ImGui.PushID($"{nameof(DrawSwapBaitSpectralLost)}");
+        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitSpectralCurrentLost,
+            () =>
+            {
+                DrawUtil.DrawComboSelector(
+                    PlayerResources.Baits,
+                    bait => bait.Name,
+                    config.BaitToSwapSpectralCurrentLost.Name,
+                    bait => config.BaitToSwapSpectralCurrentLost = bait);
+            }
+        );
+
+        ImGui.PopID();
+    }
+    #endregion
 }
