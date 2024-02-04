@@ -1355,6 +1355,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only use when Surface Slap is active.
+        /// </summary>
+        internal static string OnlyUseWhenActiveSurfaceSlap {
+            get {
+                return ResourceManager.GetString("OnlyUseWhenActiveSurfaceSlap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only use when Fisher&apos;s Intuition is active.
         /// </summary>
         internal static string OnlyUseWhenFisherSIntutionIsActive {
@@ -1369,6 +1378,15 @@ namespace AutoHook.Resources.Localization {
         internal static string OnlyUseWhenIdenticalCastIsActive {
             get {
                 return ResourceManager.GetString("OnlyUseWhenIdenticalCastIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only use when Surface Slap is not active.
+        /// </summary>
+        internal static string OnlyUseWhenNOTActiveSurfaceSlap {
+            get {
+                return ResourceManager.GetString("OnlyUseWhenNOTActiveSurfaceSlap", resourceCulture);
             }
         }
         
