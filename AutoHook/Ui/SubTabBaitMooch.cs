@@ -22,6 +22,7 @@ public class SubTabBaitMooch
     private static string StrHookWeak => UIStrings.HookWeakExclamation;
     private static string StrHookStrong => UIStrings.HookStrongExclamation;
     private static string StrHookLegendary => UIStrings.HookLegendaryExclamation;
+    private static string StrHookWhenActiveSlap => UIStrings.OnlyUseWhenActiveSurfaceSlap;
 
     //private PresetConfig _selectedPreset;
     private List<HookConfig> _listOfHooks = new();
@@ -124,12 +125,12 @@ public class SubTabBaitMooch
 
     private void DrawHookCheckboxes(HookConfig hookConfig)
     {
-        DrawSelectTugs(StrHookWeak, ref hookConfig.HookWeakEnabled, ref hookConfig.HookTypeWeak);
-        DrawSelectTugs(StrHookStrong, ref hookConfig.HookStrongEnabled, ref hookConfig.HookTypeStrong);
-        DrawSelectTugs(StrHookLegendary, ref hookConfig.HookLegendaryEnabled, ref hookConfig.HookTypeLegendary);
+        DrawSelectTugs(StrHookWeak, ref hookConfig.HookWeakEnabled, ref hookConfig.HookTypeWeak, ref hookConfig.HookWeakOnlyWhenActiveSlap, ref hookConfig.HookWeakOnlyWhenNOTActiveSlap);
+        DrawSelectTugs(StrHookStrong, ref hookConfig.HookStrongEnabled, ref hookConfig.HookTypeStrong, ref hookConfig.HookStrongOnlyWhenActiveSlap, ref hookConfig.HookStrongOnlyWhenNOTActiveSlap);
+        DrawSelectTugs(StrHookLegendary, ref hookConfig.HookLegendaryEnabled, ref hookConfig.HookTypeLegendary, ref hookConfig.HookLegendaryOnlyWhenActiveSlap, ref hookConfig.HookLegendaryOnlyWhenNOTActiveSlap);
     }
 
-    private void DrawSelectTugs(string hook, ref bool enabled, ref HookType type)
+    private void DrawSelectTugs(string hook, ref bool enabled, ref HookType type, ref bool hookOnlyWhenActiveSlap, ref bool hookOnlyWhenNOTActiveSlap)
     {
         ImGui.PushID($"{hook}");
         if(ImGui.Checkbox($"", ref enabled))
@@ -158,6 +159,20 @@ public class SubTabBaitMooch
             if (ImGui.RadioButton(UIStrings.PowerfulHookset, type == HookType.Powerful))
             {
                 type = HookType.Powerful;
+                Service.Save();
+            }
+
+            ImGui.Spacing();
+
+            if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenActiveSurfaceSlap, ref hookOnlyWhenActiveSlap))
+            {
+                hookOnlyWhenNOTActiveSlap = false;
+                Service.Save();
+            }
+
+            if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenNOTActiveSurfaceSlap, ref hookOnlyWhenNOTActiveSlap))
+            {
+                hookOnlyWhenActiveSlap = false;
                 Service.Save();
             }
 
@@ -306,8 +321,12 @@ public class SubTabBaitMooch
             ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.DoubleTripleHookSettings);
             ImGui.Spacing();
 
-            if (ImGui.Checkbox($"{UIStrings.OnlyUseWhenIdenticalCastIsActive}##surface_slap",
-                    ref hookConfig.UseDHTHOnlySurfaceSlap))
+            if (ImGui.Checkbox($"{UIStrings.OnlyUseWhenIdenticalCastIsActive}##identical_cast", ref hookConfig.UseDHTHOnlyIdenticalCast))
+            {
+                Service.Save();
+            }
+
+            if (ImGui.Checkbox($"{UIStrings.OnlyUseWhenActiveSurfaceSlap}##surface_slap", ref hookConfig.UseDHTHOnlySurfaceSlap))
             {
                 Service.Save();
             }
@@ -393,9 +412,9 @@ public class SubTabBaitMooch
 
             ImGui.Separator();
 
-            DrawSelectTugs(StrHookWeak, ref cfg.HookWeakIntuitionEnabled, ref cfg.HookTypeWeakIntuition);
-            DrawSelectTugs(StrHookStrong, ref cfg.HookStrongIntuitionEnabled, ref cfg.HookTypeStrongIntuition);
-            DrawSelectTugs(StrHookLegendary, ref cfg.HookLegendaryIntuitionEnabled, ref cfg.HookTypeLegendaryIntuition);
+            DrawSelectTugs(StrHookWeak, ref cfg.HookWeakIntuitionEnabled, ref cfg.HookTypeWeakIntuition, ref cfg.HookWeakOnlyWhenActiveSlap, ref cfg.HookWeakOnlyWhenNOTActiveSlap);
+            DrawSelectTugs(StrHookStrong, ref cfg.HookStrongIntuitionEnabled, ref cfg.HookTypeStrongIntuition, ref cfg.HookStrongOnlyWhenActiveSlap, ref cfg.HookStrongOnlyWhenNOTActiveSlap);
+            DrawSelectTugs(StrHookLegendary, ref cfg.HookLegendaryIntuitionEnabled, ref cfg.HookTypeLegendaryIntuition, ref cfg.HookLegendaryOnlyWhenActiveSlap, ref cfg.HookLegendaryOnlyWhenNOTActiveSlap);
 
             ImGui.EndPopup();
         }
