@@ -259,7 +259,7 @@ public class HookingManager : IDisposable
             {
                 var result = Service.EquipedBait.ChangeBait(lastFishCatchCfg.BaitToSwap);
 
-                _lastStep |= FishingSteps.BaitSwapped; // one try per catch
+                _lastStep = FishingSteps.BaitSwapped; // one try per catch
 
                 if (result == CurrentBait.ChangeBaitReturn.Success)
                 {
@@ -276,7 +276,7 @@ public class HookingManager : IDisposable
             {
                 var preset =
                     Presets.CustomPresets.FirstOrDefault(preset => preset.PresetName == lastFishCatchCfg.PresetToSwap);
-                _lastStep |= FishingSteps.PresetSwapped; // one try per catch
+                _lastStep = FishingSteps.PresetSwapped; // one try per catch
 
                 if (preset != null)
                 {
