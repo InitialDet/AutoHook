@@ -1,4 +1,5 @@
-﻿using AutoHook.Resources.Localization;
+﻿using AutoHook.Data;
+using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
@@ -17,7 +18,7 @@ public class AutoFood : BaseActionCast //todo
 
     public override bool CastCondition()
     {
-        if (PlayerResources.GetStatusTime() > SecondsRemaining)
+        if (PlayerResources.GetStatusTime(IDs.Status.FoodBuff) > SecondsRemaining)
         {
             return false;
         }
