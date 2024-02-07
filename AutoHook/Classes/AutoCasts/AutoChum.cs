@@ -25,7 +25,7 @@ public class AutoChum : BaseActionCast
         if (!hasIntuition && _onlyUseWithIntuition)
             return false;
 
-        if (hasIntuition && _onlyUseWithIntuition && PlayerResources.GetIntuitionTimeRemaining() <= _useWhenIntuitionExceeds)
+        if (hasIntuition && _onlyUseWithIntuition && PlayerResources.GetStatusTime(IDs.Status.FishersIntuition) <= _useWhenIntuitionExceeds)
             return false;
 
         return true;

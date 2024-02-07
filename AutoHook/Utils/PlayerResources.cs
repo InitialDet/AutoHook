@@ -98,28 +98,14 @@ public class PlayerResources : IDisposable
         return false;
     }
     
-    public static float GetStatusTime()
+    public static float GetStatusTime(uint statusId)
     {
         if (Service.ClientState.LocalPlayer?.StatusList == null)
             return 0;
 
         foreach (var buff in Service.ClientState.LocalPlayer.StatusList)
         {
-            if (buff.StatusId == IDs.Status.FoodBuff)
-                return buff.RemainingTime;
-        }
-
-        return 0;
-    }
-
-    public static float GetIntuitionTimeRemaining()
-    {
-        if (Service.ClientState.LocalPlayer?.StatusList == null)
-            return 0;
-
-        foreach (var buff in Service.ClientState.LocalPlayer.StatusList)
-        {
-            if (buff.StatusId == IDs.Status.FishersIntuition)
+            if (buff.StatusId == statusId)
                 return buff.RemainingTime;
         }
 

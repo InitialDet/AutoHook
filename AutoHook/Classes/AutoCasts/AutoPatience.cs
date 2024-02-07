@@ -23,7 +23,7 @@ public class AutoPatience : BaseActionCast
 
     public override bool CastCondition()
     {
-        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
+        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && PlayerResources.GetStatusTime(IDs.Status.AnglersFortune) > RefreshEarlyTime)
             return false;
 
         if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
