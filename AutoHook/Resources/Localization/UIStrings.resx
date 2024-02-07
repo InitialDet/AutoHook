@@ -549,6 +549,9 @@ This could save you 100gp if going only for mooches</value>
   <data name="Surface_Slap" xml:space="preserve">
     <value>Surface Slap</value>
   </data>
+  <data name="Surface_Slap_Options" xml:space="preserve">
+    <value>Surface Slap Options</value>
+  </data>
   <data name="Identical_Cast" xml:space="preserve">
     <value>Identical Cast</value>
   </data>
@@ -891,5 +894,8 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Collect" xml:space="preserve">
     <value>Collect</value>
+  </data>
+  <data name="RefreshWhenTimeIsLessThanOrEqual" xml:space="preserve">
+    <value>Refresh when buff timer is less than or equal to</value>
   </data>
 </root>

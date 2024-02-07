@@ -310,6 +310,20 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("3.0.3.0")
+            {
+                MainChanges =
+                {
+                    "(by Jaksuhn) Added swap preset/bait on Spectral Currents",
+                    "(by Jaksuhn) Added more Surface Slap options",
+                    "(by Jaksuhn) Added option to chum only when intution duration is greater than x seconds",
+                },
+                MinorChanges =
+                {
+                    "Fixed an issue with swapping both preset and bait at the same time",
+                    "More IPC options"
+                }
+            },
             new Version("3.0.2.0")
             {
                 MainChanges =
