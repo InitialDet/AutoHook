@@ -310,6 +310,14 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("3.0.4.0")
+            {
+                MainChanges =
+                {
+                    "(by Jaksuhn) Added auto cast collector's glove",
+                    "(by Jaksuhn) Added option to refresh Patience early",
+                }
+            },
             new Version("3.0.3.0")
             {
                 MainChanges =
