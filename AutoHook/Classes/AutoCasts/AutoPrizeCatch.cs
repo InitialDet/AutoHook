@@ -11,6 +11,8 @@ public class AutoPrizeCatch : BaseActionCast
 
     public bool UseOnlyWithIdenticalCast = false;
 
+    public bool UseOnlyWithActiveSlap = false;
+
     public AutoPrizeCatch() : base(UIStrings.Prize_Catch, Data.IDs.Actions.PrizeCatch, ActionType.Action)
     {
         DoesCancelMooch = true;
@@ -29,6 +31,9 @@ public class AutoPrizeCatch : BaseActionCast
             return false;
 
         if (UseOnlyWithIdenticalCast && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+            return false;
+
+        if (UseOnlyWithActiveSlap && !PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
             return false;
 
         if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait))
@@ -53,6 +58,11 @@ public class AutoPrizeCatch : BaseActionCast
 
         if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenIdenticalCastIsActive,
                 ref UseOnlyWithIdenticalCast))
+        {
+            Service.Save();
+        }
+
+        if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenActiveSurfaceSlap, ref UseOnlyWithActiveSlap))
         {
             Service.Save();
         }

@@ -1,12 +1,14 @@
 ﻿using AutoHook.Data;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
+using System;
 
 namespace AutoHook.Classes.AutoCasts;
 
 public class AutoChum : BaseActionCast
 {
     private bool _onlyUseWithIntuition;
+    public int _useWhenIntuitionExceeds = 0;
 
     public AutoChum() : base(UIStrings.Chum, IDs.Actions.Chum)
     {
@@ -19,7 +21,11 @@ public class AutoChum : BaseActionCast
 
     public override bool CastCondition()
     {
-        if (!PlayerResources.HasStatus(IDs.Status.FishersIntuition) && _onlyUseWithIntuition)
+        var hasIntuition = PlayerResources.HasStatus(IDs.Status.FishersIntuition);
+        if (!hasIntuition && _onlyUseWithIntuition)
+            return false;
+
+        if (hasIntuition && _onlyUseWithIntuition && PlayerResources.GetIntuitionTimeRemaining() <= _useWhenIntuitionExceeds)
             return false;
 
         return true;
@@ -27,10 +33,19 @@ public class AutoChum : BaseActionCast
 
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
-        if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenFisherSIntutionIsActive,
-                ref _onlyUseWithIntuition))
+        if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenFisherSIntutionIsActive, ref _onlyUseWithIntuition))
         {
             Service.Save();
+        }
+
+        if (_onlyUseWithIntuition)
+        {
+            var time = _useWhenIntuitionExceeds;
+            if (DrawUtil.EditNumberField(UIStrings.UseWhenIntuitionTimeIsEqualOrGreaterThan, ref time))
+            {
+                _useWhenIntuitionExceeds = Math.Max(0, Math.Min(time, 999));
+                Service.Save();
+            }
         }
     };
 }
