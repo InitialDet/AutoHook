@@ -487,6 +487,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collect.
+        /// </summary>
+        internal static string Collect {
+            get {
+                return ResourceManager.GetString("Collect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Complete.
         /// </summary>
         internal static string Complete {

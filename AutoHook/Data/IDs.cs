@@ -26,6 +26,7 @@ namespace AutoHook.Data
                 PowerfulHS = 4103,
                 FishEyes = 4105,
                 Chum = 4104,
+                Collect = 4101,
                 None = 0;
         }
 
@@ -42,6 +43,7 @@ namespace AutoHook.Data
                 PrizeCatch = 2780,
                 NaturesBounty = 1171,
                 Chum = 763,
+                CollectorsGlove = 805,
                 None = 0;
         }
 

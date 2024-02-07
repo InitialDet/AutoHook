@@ -13,6 +13,7 @@ public class AutoCastsConfig
     public AutoCastLine CastLine = new();
     public AutoMooch CastMooch = new();
     public AutoChum CastChum = new();
+    public AutoCollect CastCollect = new();
     public AutoCordial CastCordial = new();
     public AutoFishEyes CastFishEyes = new();
     //public AutoIdenticalCast CastIdenticalCast = new();
@@ -35,6 +36,7 @@ public class AutoCastsConfig
             CastChum,
             CastFishEyes,
             CastPrizeCatch,
+            CastCollect,
         };
     }
     

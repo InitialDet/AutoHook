@@ -889,4 +889,7 @@ Check the Guide Tab for Guides.</value>
   <data name="OnlyUseWhenNOTActiveSurfaceSlap" xml:space="preserve">
     <value>Only use when Surface Slap is not active</value>
   </data>
+  <data name="Collect" xml:space="preserve">
+    <value>Collect</value>
+  </data>
 </root>
