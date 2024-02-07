@@ -17,4 +17,16 @@ public class ExtraConfig
     
     public bool SwapPresetIntuitionLost = false;
     public string PresetToSwapIntuitionLost = "-";
+
+    public bool SwapBaitSpectralCurrentGain = false;
+    public BaitFishClass BaitToSwapSpectralCurrentGain = new();
+
+    public bool SwapBaitSpectralCurrentLost = false;
+    public BaitFishClass BaitToSwapSpectralCurrentLost = new();
+
+    public bool SwapPresetSpectralCurrentGain = false;
+    public string PresetToSwapSpectralCurrentGain = "-";
+
+    public bool SwapPresetSpectralCurrentLost = false;
+    public string PresetToSwapSpectralCurrentLost = "-";
 }

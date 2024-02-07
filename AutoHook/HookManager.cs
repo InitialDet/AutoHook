@@ -43,6 +43,7 @@ public class HookingManager : IDisposable
     private BaitFishClass? _lastCatch;
 
     private IntuitionStatus _intuitionStatus = IntuitionStatus.NotActive;
+    private SpectralCurrentStatus _spectralCurrentStatus = SpectralCurrentStatus.NotActive;
 
     private delegate bool UseActionDelegate(IntPtr manager, ActionType actionType, uint actionId, GameObjectID targetId,
         uint a4, uint a5,
@@ -383,6 +384,85 @@ public class HookingManager : IDisposable
                 if (result == CurrentBait.ChangeBaitReturn.Success)
                 {
                     Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapIntuitionLost.Name}");
+                    Service.Save();
+                }
+            }
+        }
+
+        if (_spectralCurrentStatus == SpectralCurrentStatus.NotActive)
+        {
+            if (!PlayerResources.IsInActiveSpectralCurrent())
+                return;
+
+            _spectralCurrentStatus = SpectralCurrentStatus.Active; // only one try
+
+            var extraCfg = GetExtraCfg();
+
+            if (extraCfg.SwapPresetSpectralCurrentGain)
+            {
+                var preset =
+                    Presets.CustomPresets.FirstOrDefault(preset =>
+                        preset.PresetName == extraCfg.PresetToSwapSpectralCurrentGain);
+
+                if (preset != null)
+                {
+                    Presets.SelectedPreset = preset;
+                    Service.PrintChat(@$"[Extra] Swapping current preset to {extraCfg.PresetToSwapSpectralCurrentGain}");
+                    Service.Save();
+                }
+                else
+                    Service.PrintChat(@$"Preset {extraCfg.PresetToSwapSpectralCurrentGain} not found.");
+            }
+
+            if (extraCfg.SwapBaitSpectralCurrentGain)
+            {
+                var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapSpectralCurrentGain);
+
+                if (result == CurrentBait.ChangeBaitReturn.Success)
+                {
+                    Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapSpectralCurrentGain.Name}");
+                    _lastStep |= FishingSteps.BaitSwapped; // one try per catch
+                    Service.Save();
+                }
+            }
+        }
+
+        if (_spectralCurrentStatus == SpectralCurrentStatus.Active)
+        {
+            if (PlayerResources.IsInActiveSpectralCurrent())
+                return;
+
+            _spectralCurrentStatus = SpectralCurrentStatus.NotActive; // only one try
+
+            var extraCfg = GetExtraCfg();
+
+            if (extraCfg.SwapPresetSpectralCurrentLost)
+            {
+                var preset =
+                    Presets.CustomPresets.FirstOrDefault(preset =>
+                        preset.PresetName == extraCfg.PresetToSwapSpectralCurrentLost);
+
+                if (preset != null)
+                {
+                    // one try per catch
+                    _lastStep |= FishingSteps.PresetSwapped;
+                    Presets.SelectedPreset = preset;
+                    Service.PrintChat(@$"[Extra] Swapping current preset to {extraCfg.SwapPresetSpectralCurrentLost}");
+                    Service.Save();
+                }
+                else
+                    Service.PrintChat(@$"Preset {extraCfg.SwapPresetSpectralCurrentLost} not found.");
+            }
+
+            if (extraCfg.SwapBaitSpectralCurrentLost)
+            {
+                var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapSpectralCurrentLost);
+
+                // one try per catch
+                _lastStep |= FishingSteps.BaitSwapped;
+                if (result == CurrentBait.ChangeBaitReturn.Success)
+                {
+                    Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapSpectralCurrentLost.Name}");
                     Service.Save();
                 }
             }
