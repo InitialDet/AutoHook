@@ -163,19 +163,24 @@ public class SubTabBaitMooch
             }
 
             ImGui.Spacing();
-
-            if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenActiveSurfaceSlap, ref hookOnlyWhenActiveSlap))
+            
+            if (ImGui.TreeNodeEx(UIStrings.Surface_Slap_Options, ImGuiTreeNodeFlags.FramePadding))
             {
-                hookOnlyWhenNOTActiveSlap = false;
-                Service.Save();
-            }
+                if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenActiveSurfaceSlap, ref hookOnlyWhenActiveSlap))
+                {
+                    hookOnlyWhenNOTActiveSlap = false;
+                    Service.Save();
+                }
 
-            if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenNOTActiveSurfaceSlap, ref hookOnlyWhenNOTActiveSlap))
-            {
-                hookOnlyWhenActiveSlap = false;
-                Service.Save();
+                if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenNOTActiveSurfaceSlap, ref hookOnlyWhenNOTActiveSlap))
+                {
+                    hookOnlyWhenActiveSlap = false;
+                    Service.Save();
+                }
+            
+                ImGui.TreePop();
             }
-
+            
             ImGui.TreePop();
         }
 
@@ -238,65 +243,52 @@ public class SubTabBaitMooch
 
     private void DrawChumMinMaxTime(HookConfig hookConfig)
     {
-        if (ImGui.Button(UIStrings.ChumTimer))
-        {
-            ImGui.OpenPopup(str_id: "chum_timer");
-        }
-
-        if (ImGui.BeginPopup("chum_timer"))
-        {
-            ImGui.Spacing();
-            if (DrawUtil.Checkbox(UIStrings.EnableChumTimers, ref hookConfig.UseChumTimer,
-                    UIStrings.EnableChumTimersHelpMarker))
+        DrawUtil.DrawCheckboxTree(UIStrings.EnableChumTimers, ref hookConfig.UseChumTimer,
+            () =>
             {
-                Service.Save();
-            }
-
-            ImGui.Separator();
-
-            ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
-            if (ImGui.InputDouble(UIStrings.MinWait, ref hookConfig.MinChumTimeDelay, .1, 1, "%.1f%"))
-            {
-                switch (hookConfig.MinChumTimeDelay)
+                ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
+                if (ImGui.InputDouble(UIStrings.MinWait, ref hookConfig.MinChumTimeDelay, .1, 1, "%.1f%"))
                 {
-                    case <= 0:
-                        hookConfig.MinChumTimeDelay = 0;
-                        break;
-                    case > 99:
-                        hookConfig.MinChumTimeDelay = 99;
-                        break;
+                    switch (hookConfig.MinChumTimeDelay)
+                    {
+                        case <= 0:
+                            hookConfig.MinChumTimeDelay = 0;
+                            break;
+                        case > 99:
+                            hookConfig.MinChumTimeDelay = 99;
+                            break;
+                    }
+                    Service.Save();
                 }
-                Service.Save();
-            }
 
-            ImGui.SameLine();
-            ImGuiComponents.HelpMarker(UIStrings.HelpMarkerMinWaitTimer);
+                ImGui.SameLine();
+                ImGuiComponents.HelpMarker(UIStrings.HelpMarkerMinWaitTimer);
 
-            ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
-            if (ImGui.InputDouble(UIStrings.MaxWait, ref hookConfig.MaxChumTimeDelay, .1, 1, "%.1f%"))
-            {
-                switch (hookConfig.MaxChumTimeDelay)
+                ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
+                if (ImGui.InputDouble(UIStrings.MaxWait, ref hookConfig.MaxChumTimeDelay, .1, 1, "%.1f%"))
                 {
-                    case 0.1:
-                        hookConfig.MaxChumTimeDelay = 2;
-                        break;
-                    case <= 0:
-                    case <= 1.9: //This makes the option turn off if delay = 2 seconds when clicking the minus.
-                        hookConfig.MaxChumTimeDelay = 0;
-                        break;
-                    case > 99:
-                        hookConfig.MaxChumTimeDelay = 99;
-                        break;
+                    switch (hookConfig.MaxChumTimeDelay)
+                    {
+                        case 0.1:
+                            hookConfig.MaxChumTimeDelay = 2;
+                            break;
+                        case <= 0:
+                        case <= 1.9: //This makes the option turn off if delay = 2 seconds when clicking the minus.
+                            hookConfig.MaxChumTimeDelay = 0;
+                            break;
+                        case > 99:
+                            hookConfig.MaxChumTimeDelay = 99;
+                            break;
+                    }
+                    Service.Save();
                 }
-                Service.Save();
+
+                ImGui.SameLine();
+
+                ImGuiComponents.HelpMarker(UIStrings.HelpMarkerMaxWaitTimer);
             }
-
-            ImGui.SameLine();
-
-            ImGuiComponents.HelpMarker(UIStrings.HelpMarkerMaxWaitTimer);
-
-            ImGui.EndPopup();
-        }
+        , UIStrings.EnableChumTimersHelpMarker);
+        
     }
 
     private void DrawEnabledButtonCustomBait(HookConfig hookConfig)
