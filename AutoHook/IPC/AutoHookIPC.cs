@@ -1,5 +1,4 @@
 ﻿using AutoHook.Configurations;
-using System;
 using System.Linq;
 
 namespace AutoHook.IPC
@@ -40,7 +39,7 @@ namespace AutoHook.IPC
 
         private static void CreateAndSelectAnonymousPreset(string preset)
         {
-            var name = $"anon_{Guid.NewGuid()}";
+            var name = $"anon_{preset}";
             var _import = Configuration.ImportActionStack(preset);
             if (_import == null) return;
             _import.RenamePreset(name);
