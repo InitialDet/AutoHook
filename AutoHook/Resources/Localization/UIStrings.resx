@@ -889,4 +889,7 @@ Check the Guide Tab for Guides.</value>
   <data name="OnlyUseWhenNOTActiveSurfaceSlap" xml:space="preserve">
     <value>Only use when Surface Slap is not active</value>
   </data>
+  <data name="RefreshWhenTimeIsLessThanOrEqual" xml:space="preserve">
+    <value>Refresh when buff timer is less than or equal to</value>
+  </data>
 </root>

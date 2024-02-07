@@ -3,12 +3,14 @@ using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using ImGuiNET;
+using System;
 
 namespace AutoHook.Classes.AutoCasts;
 
 public class AutoPatience : BaseActionCast
 {
     public bool EnableMakeshiftPatience;
+    public int RefreshEarlyTime = 0;
 
     public AutoPatience() : base(UIStrings.AutoPatience_Patience, Data.IDs.Actions.Patience2, ActionType.Action)
     {
@@ -49,6 +51,13 @@ public class AutoPatience : BaseActionCast
         if (ImGui.RadioButton(UIStrings.Patience_II, Id == IDs.Actions.Patience2))
         {
             Id = IDs.Actions.Patience2;
+            Service.Save();
+        }
+
+        var time = RefreshEarlyTime;
+        if (DrawUtil.EditNumberField(UIStrings.RefreshWhenTimeIsLessThanOrEqual, ref time))
+        {
+            RefreshEarlyTime = Math.Max(0, Math.Min(time, 999));
             Service.Save();
         }
     };

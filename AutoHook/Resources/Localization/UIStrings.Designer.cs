@@ -1589,6 +1589,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refresh when buff timer is less than or equal to.
+        /// </summary>
+        internal static string RefreshWhenTimeIsLessThanOrEqual {
+            get {
+                return ResourceManager.GetString("RefreshWhenTimeIsLessThanOrEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Release All Fish.
         /// </summary>
         internal static string ReleaseAllFish {
