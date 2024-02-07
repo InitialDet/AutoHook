@@ -39,9 +39,9 @@ namespace AutoHook.IPC
 
         private static void CreateAndSelectAnonymousPreset(string preset)
         {
-            var name = $"anon_{preset}";
             var _import = Configuration.ImportActionStack(preset);
             if (_import == null) return;
+            var name = $"anon_{_import.PresetName}";
             _import.RenamePreset(name);
             Service.Configuration.HookPresets.AddPreset(_import);
             Service.Configuration.HookPresets.SelectedPreset = Service.Configuration.HookPresets.CustomPresets.FirstOrDefault(x => x.PresetName == name);
