@@ -23,6 +23,7 @@ public class SubTabAutoCast
             acCfg.CastLine,
             acCfg.CastMooch,
             acCfg.CastChum,
+            acCfg.CastCollect,
             acCfg.CastCordial,
             acCfg.CastFishEyes,
             //acCfg.CastIdenticalCast,
