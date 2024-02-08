@@ -3,9 +3,9 @@ Theres an amazing plugin by Daemitus called YesAlready that can help us with tha
 
 ## Installation
 
-https://github.com/daemitus/MyDalamudPlugins
+https://github.com/PunishXIV/YesAlready
 
-* Open Daemitus repo and copy the .json link
+* Open the repo and copy the .json link
 * Open your Plugin Installer Window and click Settings
 * Go to the Experimental Tab
 * Paste the link into the Custom Plugin Repositories, and click the + on the right to add it.
