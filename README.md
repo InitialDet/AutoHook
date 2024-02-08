@@ -4,11 +4,12 @@
 
 ![image](https://github.com/InitialDet/AutoHook/assets/13919114/b02052a7-db03-4c1f-a44c-dd84e713753a)
 
+New Repo
 ```
 https://love.puni.sh/ment.json
 ```
 
-# Autohook is now published by the [Puni.sh](https://puni.sh/)
+# Autohook is now published by [Puni.sh](https://puni.sh/)
 
 New updates will be released throught this new repository, so please make sure to update your repo settings.
 
