@@ -26,7 +26,10 @@ public class AutoHook : IDalamudPlugin
     private const string CmdAhOff = "/ahoff";
     private const string CmdAhtg = "/ahtg";
     private const string CmdAhPreset = "/ahpreset";
-    
+
+    public static string PunishRepo => "https://love.puni.sh/ment.json";
+
+
     private static readonly Dictionary<string, string> CommandHelp = new()
     {
         {CmdAhOff, UIStrings.Disables_AutoHook},

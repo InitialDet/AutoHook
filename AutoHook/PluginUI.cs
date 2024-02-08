@@ -1,18 +1,19 @@
-﻿using Dalamud.Interface.Windowing;
+﻿using AutoHook.Resources.Localization;
+using AutoHook.Ui;
+using AutoHook.Utils;
+using Dalamud.Interface.Colors;
+using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
+using Dalamud.Interface.Windowing;
+using Dalamud.Utility;
 using ImGuiNET;
 using System;
-using Dalamud.Interface.Colors;
 using System.Collections.Generic;
 using System.ComponentModel;
-using AutoHook.Ui;
-using System.Numerics;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using AutoHook.Data;
-using AutoHook.Resources.Localization;
-using AutoHook.Utils;
-using FFXIVClientStructs.FFXIV.Client.Game;
+using System.Numerics;
 
 namespace AutoHook;
 
@@ -47,20 +48,69 @@ public class PluginUi : Window, IDisposable
         Service.WindowSystem.RemoveWindow(this);
     }
 
+    private void DrawTransitionPopup()
+    {
+        var windowSize = new Vector2(1024 * ImGuiHelpers.GlobalScale,
+           ImGui.GetTextLineHeightWithSpacing() * 1 + 2 * ImGui.GetFrameHeightWithSpacing());
+
+        ImGui.SetNextWindowSize(windowSize);
+        ImGui.SetNextWindowPos((ImGui.GetIO().DisplaySize - windowSize) / 2);
+
+        var popup = ImRaii.Popup("TransitionPopup",
+    ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.Modal);
+
+        if (!popup)
+            return;
+
+        ImGui.TextWrapped($"Hello, thank you for updating AutoHook. This is a one-time message just to inform you that AutoHook has moved plugin repositories. This will be the last update on the current repository. You will have to transition to the new repository to recieve further updates.");
+
+        ImGui.SetCursorPosY(ImGui.GetWindowSize().Y - ImGui.GetFrameHeight() - ImGui.GetStyle().WindowPadding.Y);
+        if (ImGui.Button("Ok, I understand", new(ImGui.GetContentRegionAvail().X / 2, default)))
+        {
+            Service.Configuration.TransitionPopupViewed = true;
+            ImGui.CloseCurrentPopup();
+        }
+        ImGui.SameLine();
+        if (ImGui.Button("Give me more information!", new(ImGui.GetContentRegionAvail().X, default)))
+        {
+            Util.OpenLink($"https://github.com/InitialDet/AutoHook");
+        }
+
+    }
     public override void Draw()
     {
+        if (Service.PluginInterface.SourceRepository != AutoHook.PunishRepo && !Service.Configuration.TransitionPopupViewed)
+        {
+            ImGui.OpenPopup("TransitionPopup");
+        }
+
         if (!IsOpen)
             return;
-        
+
+        if (Service.PluginInterface.SourceRepository != AutoHook.PunishRepo)
+        {
+            ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudRed);
+            ImGui.GetIO().FontGlobalScale = 1.25f;
+            ImGui.PushFont(ImGui.GetFont());
+            ImGui.TextWrapped($"AutoHook has moved repositories! You will not recieve further updates until you uninstall and transition. Click here for more information!");
+            if (ImGui.IsItemClicked())
+            {
+                Util.OpenLink($"https://github.com/InitialDet/AutoHook");
+            }
+            ImGui.GetIO().FontGlobalScale = 1f;
+            ImGui.PopFont();
+            ImGui.PopStyleColor();
+        }
+
         //ImGui.TextColored(ImGuiColors.DalamudYellow, "Major plugin rework!!! Please, recheck all of your presets");
         ImGui.Spacing();
         DrawUtil.Checkbox(UIStrings.Enable_AutoHook, ref Service.Configuration.PluginEnabled,
             UIStrings.PluginUi_Draw_Enables_Disables);
 
-        
+
         ShowKofi();
         ShowPaypal();
-        
+
         ImGui.Indent();
 
         if (Service.Configuration.PluginEnabled)
@@ -70,14 +120,14 @@ public class PluginUi : Window, IDisposable
 
         ImGui.Unindent();
         ImGui.Spacing();
-        
+
         DrawChangelog();
         ImGui.SameLine();
         DrawLanguageSelector();
         ImGui.Spacing();
         if (Service.Configuration.ShowDebugConsole)
         {
-            
+
             if (ImGui.Button(UIStrings.Open_Console))
             {
                 Service.OpenConsole = !Service.OpenConsole;
@@ -87,16 +137,17 @@ public class PluginUi : Window, IDisposable
 #if DEBUG
             TestButtons();
 #endif
-            
+
             Debug();
-            
+
             ImGui.Spacing();
         }
 
         if (Service.Configuration.ShowStatusHeader)
             ImGui.TextColored(ImGuiColors.DalamudViolet, Service.Status);
-        
+
         DrawTabs();
+        DrawTransitionPopup();
     }
 
     private void Debug()
@@ -171,7 +222,7 @@ public class PluginUi : Window, IDisposable
 
     public static void ShowKofi()
     {
-        
+
         ImGui.SameLine();
         string buttonText = UIStrings.Support_me_on_Ko_fi;
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
@@ -188,7 +239,7 @@ public class PluginUi : Window, IDisposable
 
     public static void ShowPaypal()
     {
-        
+
         ImGui.SameLine();
         string buttonText = @"PayPal";
         ImGui.SameLine();
