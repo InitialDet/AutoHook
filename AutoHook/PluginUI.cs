@@ -51,7 +51,7 @@ public class PluginUi : Window, IDisposable
     private void DrawTransitionPopup()
     {
         var windowSize = new Vector2(1024 * ImGuiHelpers.GlobalScale,
-           ImGui.GetTextLineHeightWithSpacing() * 1 + 2 * ImGui.GetFrameHeightWithSpacing());
+           ImGui.GetTextLineHeightWithSpacing() * 4 + 2 * ImGui.GetFrameHeightWithSpacing());
 
         ImGui.SetNextWindowSize(windowSize);
         ImGui.SetNextWindowPos((ImGui.GetIO().DisplaySize - windowSize) / 2);
@@ -61,21 +61,42 @@ public class PluginUi : Window, IDisposable
 
         if (!popup)
             return;
+        
+        string hello = "Hello, thank you for updating AutoHook.";
+        // center the text
+        ImGui.SetCursorPosX((ImGui.GetWindowSize().X - ImGui.CalcTextSize(hello).X) / 2);
+        ImGui.TextColored(ImGuiColors.DalamudYellow, hello);
+       
+        ImGui.TextWrapped($"This is a one-time message just to inform you that AutoHook has moved plugin repositories.\nThis will be the last update on the current repository.");
 
-        ImGui.TextWrapped($"Hello, thank you for updating AutoHook. This is a one-time message just to inform you that AutoHook has moved plugin repositories. This will be the last update on the current repository. You will have to transition to the new repository to recieve further updates.");
-
+        string warning = "You will have to transition to the new repository to recieve further updates.";
+        
+        ImGui.GetIO().FontGlobalScale = 1.25f;
+        ImGui.PushFont(ImGui.GetFont());
+        ImGui.TextColored(ImGuiColors.HealerGreen, warning);
+        
+        ImGui.GetIO().FontGlobalScale = 1f;
+        ImGui.PopFont();
+        
         ImGui.SetCursorPosY(ImGui.GetWindowSize().Y - ImGui.GetFrameHeight() - ImGui.GetStyle().WindowPadding.Y);
-        if (ImGui.Button("Ok, I understand", new(ImGui.GetContentRegionAvail().X / 2, default)))
+        
+        ImGui.PushStyleColor(ImGuiCol.Button, 0xFFA06020);
+        ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
+        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
+        
+        if (ImGui.Button("(New Repo) Give me more information! ", new(ImGui.GetContentRegionAvail().X / 2, default)))
+        {
+            Util.OpenLink($"https://github.com/InitialDet/AutoHook");
+        }
+        
+        ImGui.PopStyleColor(3);
+        ImGui.SameLine();
+        
+        if (ImGui.Button("Ok, I understand", new(ImGui.GetContentRegionAvail().X, default)))
         {
             Service.Configuration.TransitionPopupViewed = true;
             ImGui.CloseCurrentPopup();
         }
-        ImGui.SameLine();
-        if (ImGui.Button("Give me more information!", new(ImGui.GetContentRegionAvail().X, default)))
-        {
-            Util.OpenLink($"https://github.com/InitialDet/AutoHook");
-        }
-
     }
     public override void Draw()
     {
@@ -185,6 +206,7 @@ public class PluginUi : Window, IDisposable
     {
         if (ImGui.Button(@"Check"))
         {
+            Service.Configuration.TransitionPopupViewed = false; 
         }
     }
 
@@ -361,6 +383,14 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("3.0.4.1")
+            {
+                MainChanges =
+                {
+                    "AutoHook has moved to a new repository",
+                    "Please, install the new version from https://love.puni.sh/ment.json",
+                }
+            },
             new Version("3.0.4.0")
             {
                 MainChanges =

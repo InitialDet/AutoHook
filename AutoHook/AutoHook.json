@@ -1,10 +1,10 @@
 {
   "Author": "Det",
-  "Name": "Auto Hook",
-  "Punchline": "Makes fishing less (or more) boring",
+  "Name": "(old) Auto Hook",
+  "Punchline": "New Repo: https://puni.sh/plugin/AutoHook",
   "Description": "It hooks the fish for you, can you believe it?",
   "InternalName": "AutoHook",
-  "RepoUrl": "https://github.com/InitialDet/AutoHook",
+  "RepoUrl": "https://puni.sh/plugin/AutoHook",
   "ApplicableVersion": "any",
   "Tags": [ "Gathering", "Fishing" ],
   "DalamudApiLevel": 9,
