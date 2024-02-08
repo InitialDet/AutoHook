@@ -17,6 +17,6 @@ New updates will be released throught this new repository, so please make sure t
 Visit https://puni.sh/plugin/AutoHook for more details
 
 ## Join the Discord
-If you have any suggestions or reports to, feel free to join the discord
+If you have any suggestions or reports to make, feel free to join the discord
 
 [![image](https://discordapp.com/api/guilds/1001823907193552978/embed.png?style=banner2)](https://discord.gg/Zzrcc8kmvy)
