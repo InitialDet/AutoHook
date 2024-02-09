@@ -69,7 +69,7 @@ public class PluginUi : Window, IDisposable
        
         ImGui.TextWrapped($"This is a one-time message just to inform you that AutoHook has moved plugin repositories.\nThis will be the last update on the current repository.");
 
-        string warning = "You will have to transition to the new repository to recieve further updates.";
+        string warning = "You will have to transition to the new repository to receive further updates. Your settings will be preserved!";
         
         ImGui.GetIO().FontGlobalScale = 1.25f;
         ImGui.PushFont(ImGui.GetFont());
